@@ -124,6 +124,24 @@ private:
     /** Handle fixture group selection */
     void fixtureGroupSelected(FixtureGroup* grp);
 
+    /** Handle folder selection */
+    void folderSelected(const QString& folderName);
+
+    /** Update group button context sensitivity */
+    void updateGroupButtonContext();
+
+    /** Update group menu with default content (all groups + new group) */
+    void updateGroupMenuDefault();
+
+    /** Update group menu for selected group (folder operations) */
+    void updateGroupMenuForGroup(quint32 groupId);
+
+    /** Update group menu for selected folder (folder management) */
+    void updateGroupMenuForFolder(const QString& folderName);
+
+    /** Create and populate the "Move to Folder" submenu */
+    QMenu* createMoveToFolderMenu();
+
     /** Create the text browser for displaying information */
     void createInfo();
 
@@ -206,6 +224,16 @@ private slots:
     void slotImport();
     void slotExport();
 
+    /** Folder management slots */
+    void slotMoveToFolder();
+    void slotMoveToExistingFolder();
+    void slotCreateNewFolder();
+    void slotRemoveFromFolder();
+    void slotRenameFolder();
+    void slotDeleteFolder();
+    void slotRenameGroup();
+    void slotDeleteGroup();
+
     /** Callback for right mouse button clicks over a fixture item */
     void slotContextMenuRequested(const QPoint& pos);
 
@@ -226,6 +254,15 @@ private:
     QAction* m_importAction;
     QAction* m_exportAction;
     QMenu* m_groupMenu;
+
+    // Folder management actions
+    QAction* m_moveToFolderAction;
+    QAction* m_createNewFolderAction;
+    QAction* m_removeFromFolderAction;
+    QAction* m_renameFolderAction;
+    QAction* m_deleteFolderAction;
+    QAction* m_renameGroupAction;
+    QAction* m_deleteGroupAction;
 };
 
 /** @} */

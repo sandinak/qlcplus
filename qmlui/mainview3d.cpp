@@ -43,6 +43,17 @@
 #include "qlcfile.h"
 #include "qlcconfig.h"
 #include "listmodel.h"
+
+// Mesh directory constant (missing from config when QMLUI not properly defined)
+#ifndef MESHESDIR
+#ifdef Q_OS_WIN
+#define MESHESDIR "Meshes"
+#elif defined(Q_OS_MAC)
+#define MESHESDIR "Resources/Meshes"
+#else
+#define MESHESDIR "share/qlcplus/meshes"
+#endif
+#endif
 #include "mainview3d.h"
 #include "fixtureutils.h"
 #include "qlccapability.h"

@@ -1,0 +1,87 @@
+@@ -653,6 +653,86 @@
+             }
+         }
+ 
++        // Autosave settings section
++        Rectangle
++        {
++            Layout.columnSpan: 4
++            Layout.fillWidth: true
++            height: 2
++            color: UISettings.bgLight
++        }
++
++        RobotoText
++        {
++            Layout.columnSpan: 4
++            height: origItemHeight
++            fontSize: origTextSizeDefault * 1.2
++            label: qsTr("Autosave Settings")
++            color: UISettings.sectionHeader
++        }
++
++        // Autosave enabled
++        RobotoText
++        {
++            height: origItemHeight
++            fontSize: origTextSizeDefault
++            label: qsTr("Enable autosave")
++        }
++        CustomCheckBox
++        {
++            implicitWidth: origIconMedium
++            implicitHeight: origIconMedium
++            checked: uiManager.autosaveEnabled()
++            onToggled: uiManager.setAutosaveEnabled(checked)
++        }
++
++        // Autosave interval
++        RobotoText
++        {
++            height: origItemHeight
++            fontSize: origTextSizeDefault
++            label: qsTr("Autosave interval (minutes)")
++        }
++        CustomSpinBox
++        {
++            Layout.fillWidth: true
++            from: 1
++            to: 60
++            value: uiManager.autosaveInterval()
++            onValueChanged: uiManager.setAutosaveInterval(value)
++        }
++
++        // Use backup files
++        RobotoText
++        {
++            height: origItemHeight
++            fontSize: origTextSizeDefault
++            label: qsTr("Create backup files")
++        }
++        CustomCheckBox
++        {
++            implicitWidth: origIconMedium
++            implicitHeight: origIconMedium
++            checked: uiManager.autosaveUseBackup()
++            onToggled: uiManager.setAutosaveUseBackup(checked)
++        }
++
++        // Max backup files
++        RobotoText
++        {
++            height: origItemHeight
++            fontSize: origTextSizeDefault
++            label: qsTr("Maximum backup files")
++        }
++        CustomSpinBox
++        {
++            Layout.fillWidth: true
++            from: 1
++            to: 10
++            value: uiManager.autosaveMaxBackups()
++            onValueChanged: uiManager.setAutosaveMaxBackups(value)
++        }
++
+         GenericButton
+         {
+             Layout.columnSpan: 4

@@ -62,6 +62,12 @@ QDir QLCModifiersCache::userTemplateDirectory()
                                   QStringList() << QString("*%1").arg(KExtModifierTemplate));
 }
 
+QDir QLCModifiersCache::workspaceTemplateDirectory(const QString& workspacePath)
+{
+    return QLCFile::workspaceDirectory(workspacePath, QString("modifierstemplates"),
+                                       QStringList() << QString("*%1").arg(KExtModifierTemplate));
+}
+
 bool QLCModifiersCache::load(const QDir& dir, bool systemTemplates)
 {
     qDebug() << Q_FUNC_INFO << dir.path();

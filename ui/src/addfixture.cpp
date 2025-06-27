@@ -28,6 +28,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QSpinBox>
+#include <vector>
 #include <QLabel>
 #include <QDebug>
 #include <QAction>
@@ -387,11 +388,10 @@ quint32 AddFixture::findAddress(quint32 universe, quint32 numChannels,
                                 QList<Fixture*> const& fixtures, quint32 currentFixture)
 {
     quint32 freeSpace = 0;
-    quint32 maxChannels = 512;
+    const quint32 maxChannels = 512;
 
     /* Construct a map of unallocated channels */
-    int map[maxChannels];
-    std::fill(map, map + maxChannels, 0);
+    std::vector<int> map(maxChannels, 0);
 
     QListIterator <Fixture*> fxit(fixtures);
     while (fxit.hasNext() == true)

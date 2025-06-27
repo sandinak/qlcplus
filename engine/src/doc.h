@@ -196,6 +196,7 @@ signals:
 protected:
     Mode m_mode;
     bool m_kiosk;
+    QString m_currentWorkspaceFile;
 
     /*********************************************************************
      * Modified status
@@ -219,6 +220,12 @@ public:
 
     /** Reset Doc's modified state (i.e. it is no longer in need of saving) */
     void resetModified();
+
+    /** Get the current workspace file path for autosave purposes */
+    QString currentWorkspaceFile() const { return m_currentWorkspaceFile; }
+
+    /** Set the current workspace file path */
+    void setCurrentWorkspaceFile(const QString& filePath) { m_currentWorkspaceFile = filePath; }
 
 signals:
     /** Signal that this Doc has been modified (or unmodified) */

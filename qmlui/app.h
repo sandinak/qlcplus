@@ -44,6 +44,7 @@ class NetworkManager;
 class VideoProvider;
 class FixtureEditor;
 class Tardis;
+class AutoSaveManager;
 
 #define KXMLQLCWorkspace QString("Workspace")
 
@@ -74,6 +75,7 @@ public:
         Pressed = 0,
         Released,
         Clicked,
+        RightClicked,
         DoubleClicked,
         DragStarted,
         DragFinished,
@@ -208,6 +210,7 @@ private:
     VideoProvider *m_videoProvider;
     NetworkManager *m_networkManager;
     Tardis *m_tardis;
+    AutoSaveManager *m_autoSaveManager;
 
     /*********************************************************************
      * Doc
@@ -233,6 +236,9 @@ public:
 
 private:
     void initDoc();
+
+    /** Load resources from workspace directory if available */
+    void loadWorkspaceResources();
 
 signals:
     void docLoadedChanged();
@@ -319,6 +325,10 @@ signals:
 
 public slots:
     void slotLoadDocFromMemory(QByteArray &xmlData);
+
+private slots:
+    void onAutosaveRequested(const QString& filePath);
+    void onAutosaveSettingsChanged();
 
 private:
     QString m_fileName;

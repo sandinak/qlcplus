@@ -24,6 +24,9 @@
 #include <QObject>
 #include <QDebug>
 #include <QList>
+
+// Include compatibility header before OLA headers for C++17 support
+#include "ola_compat.h"
 #include <ola/Logging.h>
 
 #include "qlcioplugin.h"

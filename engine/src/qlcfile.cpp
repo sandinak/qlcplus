@@ -239,6 +239,28 @@ QDir QLCFile::userDirectory(QString path, QString fallBackPath, QStringList exte
     return dir;
 }
 
+QDir QLCFile::workspaceDirectory(const QString& workspacePath, const QString& subPath, const QStringList& extensions)
+{
+    QDir dir;
+
+    if (workspacePath.isEmpty())
+    {
+        // Return an invalid directory if no workspace path is provided
+        dir.setPath("/invalid/workspace/path");
+        return dir;
+    }
+
+    // Create the full path to the workspace subdirectory
+    QString fullPath = QDir(workspacePath).absoluteFilePath(subPath);
+    dir.setPath(fullPath);
+
+    dir.setFilter(QDir::Files);
+    if (!extensions.isEmpty())
+        dir.setNameFilters(extensions);
+
+    return dir;
+}
+
 QString QLCFile::fileUrlPrefix()
 {
 #if defined(WIN32) || defined(Q_OS_WIN)

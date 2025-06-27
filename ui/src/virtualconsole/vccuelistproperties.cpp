@@ -122,6 +122,33 @@ VCCueListProperties::VCCueListProperties(VCCueList* cueList, Doc* doc)
     m_crossfadeInputWidget->show();
     m_crossFadeLayout->addWidget(m_crossfadeInputWidget);
 
+    /************************************************************************
+     * MIDI Cue page
+     ************************************************************************/
+
+    /* MIDI Step Selection settings */
+    m_midiStepSelectionEnabled->setChecked(m_cueList->midiStepSelectionEnabled());
+    m_midiTwoNoteMode->setChecked(m_cueList->midiTwoNoteMode());
+    m_midiTimeout->setValue(m_cueList->midiTimeout());
+
+    /* MIDI First Note Input */
+    m_midiFirstInputWidget = new InputSelectionWidget(m_doc, this);
+    m_midiFirstInputWidget->setTitle(tr("First Note Input"));
+    m_midiFirstInputWidget->setKeyInputVisibility(false);
+    m_midiFirstInputWidget->setInputSource(m_cueList->inputSource(VCCueList::stepSelectFirstInputSourceId));
+    m_midiFirstInputWidget->setWidgetPage(m_cueList->page());
+    m_midiFirstInputWidget->show();
+    m_midiFirstLayout->addWidget(m_midiFirstInputWidget);
+
+    /* MIDI Second Note Input */
+    m_midiSecondInputWidget = new InputSelectionWidget(m_doc, this);
+    m_midiSecondInputWidget->setTitle(tr("Second Note Input"));
+    m_midiSecondInputWidget->setKeyInputVisibility(false);
+    m_midiSecondInputWidget->setInputSource(m_cueList->inputSource(VCCueList::stepSelectSecondInputSourceId));
+    m_midiSecondInputWidget->setWidgetPage(m_cueList->page());
+    m_midiSecondInputWidget->show();
+    m_midiSecondLayout->addWidget(m_midiSecondInputWidget);
+
     /* Playback layout */
     connect(m_play_stop_pause, SIGNAL(clicked(bool)), this, SLOT(slotPlaybackLayoutChanged()));
     connect(m_play_pause_stop, SIGNAL(clicked(bool)), this, SLOT(slotPlaybackLayoutChanged()));
@@ -166,6 +193,13 @@ void VCCueListProperties::accept()
     m_cueList->setInputSource(m_stopInputWidget->inputSource(), VCCueList::stopInputSourceId);
     m_cueList->setInputSource(m_crossfadeInputWidget->inputSource(), VCCueList::sideFaderInputSourceId);
 
+    /* MIDI Step Selection */
+    m_cueList->setMidiStepSelectionEnabled(m_midiStepSelectionEnabled->isChecked());
+    m_cueList->setMidiTwoNoteMode(m_midiTwoNoteMode->isChecked());
+    m_cueList->setMidiTimeout(m_midiTimeout->value());
+    m_cueList->setInputSource(m_midiFirstInputWidget->inputSource(), VCCueList::stepSelectFirstInputSourceId);
+    m_cueList->setInputSource(m_midiSecondInputWidget->inputSource(), VCCueList::stepSelectSecondInputSourceId);
+
     if (m_noneRadio->isChecked())
         m_cueList->setSideFaderMode(VCCueList::None);
     else if (m_stepsRadio->isChecked())
@@ -184,6 +218,8 @@ void VCCueListProperties::slotTabChanged()
     m_prevInputWidget->stopAutoDetection();
 
     m_crossfadeInputWidget->stopAutoDetection();
+    m_midiFirstInputWidget->stopAutoDetection();
+    m_midiSecondInputWidget->stopAutoDetection();
 }
 
 /****************************************************************************

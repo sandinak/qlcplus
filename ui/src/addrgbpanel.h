@@ -68,6 +68,7 @@ public:
     Type type();
     Direction direction();
     Fixture::Components components();
+    bool skipIncompletePixels();
 
 private:
     /** Check if an address is available for contiguous channels.

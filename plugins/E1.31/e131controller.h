@@ -20,21 +20,21 @@
 #ifndef E131CONTROLLER_H
 #define E131CONTROLLER_H
 
-#if defined(ANDROID)
 #include <QScopedPointer>
 #include <QSharedPointer>
-#endif
 #include <QNetworkInterface>
 #include <QHostAddress>
 #include <QUdpSocket>
 #include <QMutex>
 #include <QTimer>
+#include <QMap>
+#include <QObject>
 
 #include "e131packetizer.h"
 
 #define E131_DEFAULT_PORT     5568
 
-typedef struct _uinfo
+struct UniverseInfo
 {
     bool inputMulticast;
     QHostAddress inputMcastAddress;
@@ -51,7 +51,48 @@ typedef struct _uinfo
     int outputPriority;
 
     int type;
-} UniverseInfo;
+
+    // Default constructor
+    UniverseInfo() : inputMulticast(true), inputUcastPort(0), inputUniverse(0),
+                     outputMulticast(true), outputUcastPort(0), outputUniverse(0),
+                     outputTransmissionMode(0), outputPriority(0), type(0) {}
+
+    // Copy constructor
+    UniverseInfo(const UniverseInfo& other)
+        : inputMulticast(other.inputMulticast)
+        , inputMcastAddress(other.inputMcastAddress)
+        , inputUcastPort(other.inputUcastPort)
+        , inputUniverse(other.inputUniverse)
+        , inputSocket(other.inputSocket)
+        , outputMulticast(other.outputMulticast)
+        , outputMcastAddress(other.outputMcastAddress)
+        , outputUcastAddress(other.outputUcastAddress)
+        , outputUcastPort(other.outputUcastPort)
+        , outputUniverse(other.outputUniverse)
+        , outputTransmissionMode(other.outputTransmissionMode)
+        , outputPriority(other.outputPriority)
+        , type(other.type) {}
+
+    // Assignment operator
+    UniverseInfo& operator=(const UniverseInfo& other) {
+        if (this != &other) {
+            inputMulticast = other.inputMulticast;
+            inputMcastAddress = other.inputMcastAddress;
+            inputUcastPort = other.inputUcastPort;
+            inputUniverse = other.inputUniverse;
+            inputSocket = other.inputSocket;
+            outputMulticast = other.outputMulticast;
+            outputMcastAddress = other.outputMcastAddress;
+            outputUcastAddress = other.outputUcastAddress;
+            outputUcastPort = other.outputUcastPort;
+            outputUniverse = other.outputUniverse;
+            outputTransmissionMode = other.outputTransmissionMode;
+            outputPriority = other.outputPriority;
+            type = other.type;
+        }
+        return *this;
+    }
+};
 
 class E131Controller : public QObject
 {

@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.2
+import QtQuick.Dialogs 1.2
 
 import org.qlcplus.classes 1.0
 import "."
@@ -46,6 +47,26 @@ Rectangle
 
         // update rename button
         renameButton.enabled = true
+
+        // update folder button - context sensitive
+        if (itemType === App.FixtureGroupDragItem)
+        {
+            folderButton.enabled = true
+            folderButton.tooltip = qsTr("Organize groups in folders")
+            folderButton.faSource = FontAwesome.fa_folder
+        }
+        else if (itemType === App.FixtureDragItem || itemType === App.HeadDragItem)
+        {
+            folderButton.enabled = true
+            folderButton.tooltip = qsTr("Add fixtures to group")
+            folderButton.faSource = FontAwesome.fa_object_group
+        }
+        else
+        {
+            folderButton.enabled = false
+            folderButton.tooltip = qsTr("Select fixtures or groups to organize")
+            folderButton.faSource = FontAwesome.fa_folder
+        }
 
         // update linked button
         if (fixtureManager.propertyEditEnabled === false)
@@ -249,6 +270,40 @@ Rectangle
                                 else if (item.itemType === App.FixtureGroupDragItem)
                                     fixtureManager.renameFixtureGroup(item.itemID, editText)
                             }
+                        }
+                    }
+                }
+
+                IconButton
+                {
+                    id: folderButton
+                    visible: allowEditing
+                    z: 2
+                    width: height
+                    height: topBar.height - 2
+                    faSource: FontAwesome.fa_folder
+                    faColor: "white"
+                    tooltip: qsTr("Organize groups in folders")
+                    enabled: false
+
+                    onClicked:
+                    {
+                        if (gfhcDragItem.itemsList.length === 0)
+                            return;
+
+                        var selectedItem = gfhcDragItem.itemsList[0]
+
+                        if (selectedItem.itemType === App.FixtureGroupDragItem)
+                        {
+                            // Organize group into folder
+                            folderPopup.groupID = selectedItem.cRef.id
+                            folderPopup.currentFolder = selectedItem.cRef.folder
+                            folderPopup.open()
+                        }
+                        else if (selectedItem.itemType === App.FixtureDragItem || selectedItem.itemType === App.HeadDragItem)
+                        {
+                            // Add fixtures to group
+                            contextManager.createFixtureGroup()
                         }
                     }
                 }
@@ -487,6 +542,20 @@ Rectangle
 
                                     updateButtons(qItem.itemType, itemID)
                                 break;
+                                case App.RightClicked:
+                                    if (qItem.itemType === App.FixtureGroupDragItem)
+                                    {
+                                        groupContextMenu.groupID = iID
+                                        groupContextMenu.groupName = qItem.cRef.name
+                                        groupContextMenu.currentFolder = qItem.cRef.folder
+                                        groupContextMenu.popup()
+                                    }
+                                    else if (qItem.itemType === App.FolderDragItem)
+                                    {
+                                        folderContextMenu.folderName = qItem.textLabel
+                                        folderContextMenu.popup()
+                                    }
+                                break;
                                 case App.DoubleClicked:
                                     if (allowEditing == false && qItem.itemType === App.FixtureDragItem)
                                         fgmContainer.doubleClicked(iID, qItem.itemType)
@@ -532,4 +601,554 @@ Rectangle
             }
         } // ListView
     } // ColumnLayout
+
+    CustomPopupDialog
+    {
+        id: folderPopup
+        title: qsTr("Set Fixture Group Folder")
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        property int groupID: -1
+        property string currentFolder: ""
+
+        onOpened:
+        {
+            folderTextInput.text = currentFolder
+            folderTextInput.selectAll()
+            folderTextInput.forceActiveFocus()
+        }
+
+        onAccepted:
+        {
+            if (groupID >= 0)
+            {
+                fixtureManager.setFixtureGroupFolder(groupID, folderTextInput.text)
+            }
+        }
+
+        contentItem:
+        Rectangle
+        {
+            implicitWidth: UISettings.bigItemHeight * 3
+            implicitHeight: UISettings.listItemHeight * 3
+            color: UISettings.bgMain
+            border.color: UISettings.bgLight
+            border.width: 2
+
+            Column
+            {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 10
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("Folder name:")
+                    wrapText: true
+                }
+
+                CustomTextEdit
+                {
+                    id: folderTextInput
+                    width: parent.width
+                    height: UISettings.listItemHeight
+                    text: folderPopup.currentFolder
+                    selectByMouse: true
+
+                    Keys.onPressed:
+                    {
+                        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
+                        {
+                            folderPopup.accept()
+                            event.accepted = true
+                        }
+                        else if (event.key === Qt.Key_Escape)
+                        {
+                            folderPopup.reject()
+                            event.accepted = true
+                        }
+                    }
+                }
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("Leave empty to remove from folder")
+                    fontSize: UISettings.textSizeDefault * 0.8
+                    color: UISettings.fgLight
+                    wrapText: true
+                }
+            }
+        }
+    }
+
+    // New folder creation popup
+    CustomPopupDialog
+    {
+        id: newFolderPopup
+        title: qsTr("Create New Folder")
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        property int groupID: -1
+
+        onOpened:
+        {
+            newFolderTextInput.text = ""
+            newFolderTextInput.forceActiveFocus()
+        }
+
+        onAccepted:
+        {
+            if (groupID >= 0 && newFolderTextInput.text.trim() !== "")
+            {
+                fixtureManager.setFixtureGroupFolder(groupID, newFolderTextInput.text.trim())
+            }
+        }
+
+        contentItem:
+        Rectangle
+        {
+            implicitWidth: UISettings.bigItemHeight * 3
+            implicitHeight: UISettings.listItemHeight * 3
+            color: UISettings.bgMain
+            border.color: UISettings.bgLight
+            border.width: 2
+
+            Column
+            {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 10
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("New folder name:")
+                    wrapText: true
+                }
+
+                CustomTextEdit
+                {
+                    id: newFolderTextInput
+                    width: parent.width
+                    height: UISettings.listItemHeight
+                    selectByMouse: true
+
+                    Keys.onPressed:
+                    {
+                        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
+                        {
+                            newFolderPopup.accept()
+                            event.accepted = true
+                        }
+                        else if (event.key === Qt.Key_Escape)
+                        {
+                            newFolderPopup.reject()
+                            event.accepted = true
+                        }
+                    }
+                }
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("The group will be moved to this new folder")
+                    fontSize: UISettings.textSizeDefault * 0.8
+                    color: UISettings.fgLight
+                    wrapText: true
+                }
+            }
+        }
+    }
+
+    // Context menu for fixture groups
+    CustomPopupDialog
+    {
+        id: groupContextMenu
+        title: qsTr("Fixture Group Options")
+        standardButtons: Dialog.NoButton
+
+        property int groupID: -1
+        property string groupName: ""
+        property string currentFolder: ""
+
+        contentItem: Column
+        {
+            spacing: 5
+
+            ContextMenuEntry
+            {
+                imgSource: "qrc:/folder.svg"
+                entryText: qsTr("Move to Folder")
+                onClicked:
+                {
+                    groupContextMenu.close()
+                    folderPopup.groupID = groupContextMenu.groupID
+                    folderPopup.currentFolder = groupContextMenu.currentFolder
+                    folderPopup.open()
+                }
+            }
+
+            ContextMenuEntry
+            {
+                imgSource: "qrc:/folder.svg"
+                entryText: qsTr("Create New Folder")
+                onClicked:
+                {
+                    groupContextMenu.close()
+                    newFolderPopup.groupID = groupContextMenu.groupID
+                    newFolderPopup.open()
+                }
+            }
+
+            ContextMenuEntry
+            {
+                imgSource: "qrc:/remove.svg"
+                entryText: qsTr("Remove from Folder")
+                enabled: groupContextMenu.currentFolder !== ""
+                onClicked:
+                {
+                    groupContextMenu.close()
+                    fixtureManager.setFixtureGroupFolder(groupContextMenu.groupID, "")
+                }
+            }
+
+            Rectangle
+            {
+                width: parent.width
+                height: 1
+                color: UISettings.bgLight
+            }
+
+            ContextMenuEntry
+            {
+                imgSource: "qrc:/edit.svg"
+                entryText: qsTr("Rename Group")
+                onClicked:
+                {
+                    groupContextMenu.close()
+                    renameGroupPopup.groupID = groupContextMenu.groupID
+                    renameGroupPopup.currentName = groupContextMenu.groupName
+                    renameGroupPopup.open()
+                }
+            }
+
+            ContextMenuEntry
+            {
+                imgSource: "qrc:/delete.svg"
+                entryText: qsTr("Delete Group")
+                onClicked:
+                {
+                    groupContextMenu.close()
+                    deleteGroupPopup.groupID = groupContextMenu.groupID
+                    deleteGroupPopup.groupName = groupContextMenu.groupName
+                    deleteGroupPopup.open()
+                }
+            }
+        }
+    }
+
+    // Rename group popup
+    CustomPopupDialog
+    {
+        id: renameGroupPopup
+        title: qsTr("Rename Fixture Group")
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        property int groupID: -1
+        property string currentName: ""
+
+        onOpened:
+        {
+            renameGroupTextInput.text = currentName
+            renameGroupTextInput.selectAll()
+            renameGroupTextInput.forceActiveFocus()
+        }
+
+        onAccepted:
+        {
+            if (groupID >= 0 && renameGroupTextInput.text.trim() !== "")
+            {
+                fixtureManager.renameFixtureGroup(groupID, renameGroupTextInput.text.trim())
+            }
+        }
+
+        contentItem:
+        Rectangle
+        {
+            implicitWidth: UISettings.bigItemHeight * 3
+            implicitHeight: UISettings.listItemHeight * 3
+            color: UISettings.bgMain
+            border.color: UISettings.bgLight
+            border.width: 2
+
+            Column
+            {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 10
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("Group name:")
+                    wrapText: true
+                }
+
+                CustomTextEdit
+                {
+                    id: renameGroupTextInput
+                    width: parent.width
+                    height: UISettings.listItemHeight
+                    selectByMouse: true
+
+                    Keys.onPressed:
+                    {
+                        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
+                        {
+                            renameGroupPopup.accept()
+                            event.accepted = true
+                        }
+                        else if (event.key === Qt.Key_Escape)
+                        {
+                            renameGroupPopup.reject()
+                            event.accepted = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Delete group confirmation popup
+    CustomPopupDialog
+    {
+        id: deleteGroupPopup
+        title: qsTr("Delete Fixture Group")
+        standardButtons: Dialog.Yes | Dialog.No
+
+        property int groupID: -1
+        property string groupName: ""
+
+        onAccepted:
+        {
+            if (groupID >= 0)
+            {
+                fixtureManager.deleteFixtureGroups([groupID])
+            }
+        }
+
+        contentItem:
+        Rectangle
+        {
+            implicitWidth: UISettings.bigItemHeight * 3
+            implicitHeight: UISettings.listItemHeight * 2.5
+            color: UISettings.bgMain
+            border.color: UISettings.bgLight
+            border.width: 2
+
+            Column
+            {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 10
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("Are you sure you want to delete the fixture group:")
+                    wrapText: true
+                }
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: "\"" + deleteGroupPopup.groupName + "\""
+                    fontSize: UISettings.textSizeDefault * 1.2
+                    fontBold: true
+                    wrapText: true
+                }
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("This action cannot be undone.")
+                    fontSize: UISettings.textSizeDefault * 0.8
+                    color: UISettings.fgLight
+                    wrapText: true
+                }
+            }
+        }
+    }
+
+    // Context menu for folders
+    CustomPopupDialog
+    {
+        id: folderContextMenu
+        title: qsTr("Folder Options")
+        standardButtons: Dialog.NoButton
+
+        property string folderName: ""
+
+        contentItem: Column
+        {
+            spacing: 5
+
+            ContextMenuEntry
+            {
+                imgSource: "qrc:/edit.svg"
+                entryText: qsTr("Rename Folder")
+                onClicked:
+                {
+                    folderContextMenu.close()
+                    renameFolderPopup.currentName = folderContextMenu.folderName
+                    renameFolderPopup.open()
+                }
+            }
+
+            ContextMenuEntry
+            {
+                imgSource: "qrc:/delete.svg"
+                entryText: qsTr("Delete Folder")
+                onClicked:
+                {
+                    folderContextMenu.close()
+                    deleteFolderPopup.folderName = folderContextMenu.folderName
+                    deleteFolderPopup.open()
+                }
+            }
+        }
+    }
+
+    // Rename folder popup
+    CustomPopupDialog
+    {
+        id: renameFolderPopup
+        title: qsTr("Rename Folder")
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        property string currentName: ""
+
+        onOpened:
+        {
+            renameFolderTextInput.text = currentName
+            renameFolderTextInput.selectAll()
+            renameFolderTextInput.forceActiveFocus()
+        }
+
+        onAccepted:
+        {
+            if (renameFolderTextInput.text.trim() !== "" && renameFolderTextInput.text.trim() !== currentName)
+            {
+                fixtureManager.renameFixtureGroupFolder(currentName, renameFolderTextInput.text.trim())
+            }
+        }
+
+        contentItem:
+        Rectangle
+        {
+            implicitWidth: UISettings.bigItemHeight * 3
+            implicitHeight: UISettings.listItemHeight * 3
+            color: UISettings.bgMain
+            border.color: UISettings.bgLight
+            border.width: 2
+
+            Column
+            {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 10
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("Folder name:")
+                    wrapText: true
+                }
+
+                CustomTextEdit
+                {
+                    id: renameFolderTextInput
+                    width: parent.width
+                    height: UISettings.listItemHeight
+                    selectByMouse: true
+
+                    Keys.onPressed:
+                    {
+                        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
+                        {
+                            renameFolderPopup.accept()
+                            event.accepted = true
+                        }
+                        else if (event.key === Qt.Key_Escape)
+                        {
+                            renameFolderPopup.reject()
+                            event.accepted = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Delete folder confirmation popup
+    CustomPopupDialog
+    {
+        id: deleteFolderPopup
+        title: qsTr("Delete Folder")
+        standardButtons: Dialog.Yes | Dialog.No
+
+        property string folderName: ""
+
+        onAccepted:
+        {
+            if (folderName !== "")
+            {
+                fixtureManager.deleteFixtureGroupFolder(folderName)
+            }
+        }
+
+        contentItem:
+        Rectangle
+        {
+            implicitWidth: UISettings.bigItemHeight * 3
+            implicitHeight: UISettings.listItemHeight * 3
+            color: UISettings.bgMain
+            border.color: UISettings.bgLight
+            border.width: 2
+
+            Column
+            {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 10
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("Are you sure you want to delete the folder:")
+                    wrapText: true
+                }
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: "\"" + deleteFolderPopup.folderName + "\""
+                    fontSize: UISettings.textSizeDefault * 1.2
+                    fontBold: true
+                    wrapText: true
+                }
+
+                RobotoText
+                {
+                    width: parent.width
+                    label: qsTr("All fixture groups in this folder will be moved to the root level.")
+                    fontSize: UISettings.textSizeDefault * 0.8
+                    color: UISettings.fgLight
+                    wrapText: true
+                }
+            }
+        }
+    }
 }

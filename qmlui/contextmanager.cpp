@@ -21,6 +21,7 @@
 #include <QQuickItem>
 #include <QDebug>
 #include <QtMath>
+#include <utility>
 
 #include "contextmanager.h"
 #include "monitorproperties.h"
@@ -709,7 +710,7 @@ void ContextManager::setRectangleSelection(qreal x, qreal y, qreal width, qreal 
     if (m_2DView->isEnabled())
         fxIDList = m_2DView->selectFixturesRect(QRectF(x, y, width, height));
 
-    for (quint32 itemID : qAsConst(fxIDList))
+    for (quint32 itemID : std::as_const(fxIDList))
         setFixtureSelection(itemID, -1, true);
 
     emit selectedFixturesChanged();

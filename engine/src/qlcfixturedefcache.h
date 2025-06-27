@@ -162,6 +162,15 @@ public:
      */
     static QDir userDefinitionDirectory();
 
+    /**
+     * Get the workspace fixture definition directory that contains
+     * fixture definitions stored alongside the workspace file.
+     *
+     * @param workspacePath The absolute path to the workspace directory
+     * @return Workspace fixture definition directory
+     */
+    static QDir workspaceDefinitionDirectory(const QString& workspacePath);
+
     /** Load a QLC native fixture definition from the file specified in $path */
     bool loadQXF(const QString& path, bool isUser = false);
 

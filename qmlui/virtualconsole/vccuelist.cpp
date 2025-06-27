@@ -27,12 +27,15 @@
 #include "chaser.h"
 #include "tardis.h"
 #include "qmath.h"
+#include "midistepcontroller.h"
 
 #define INPUT_NEXT_STEP_ID          0
 #define INPUT_PREVIOUS_STEP_ID      1
 #define INPUT_PLAY_PAUSE_ID         2
 #define INPUT_STOP_PAUSE_ID         3
 #define INPUT_SIDE_FADER_ID         4
+#define INPUT_STEP_SELECT_FIRST_ID  5
+#define INPUT_STEP_SELECT_SECOND_ID 6
 
 #define PROGRESS_INTERVAL           200
 
@@ -46,7 +49,14 @@ VCCueList::VCCueList(Doc *doc, QObject *parent)
     , m_primaryTop(true)
     , m_chaserID(Function::invalidId())
     , m_playbackIndex(-1)
-    , m_timer(new QTimer())
+    , m_timer(new QTimer(this))
+    , m_midiStepSelectionEnabled(false)
+    , m_midiTwoNoteMode(false)
+    , m_midiTimeout(500)
+    , m_midiStepTimer(nullptr) // Temporarily disable timer for debugging
+    , m_firstNoteValue(-1)
+    , m_waitingForSecondNote(false)
+    , m_midiStepController(new MidiStepController(this))
 {
     setType(VCWidget::CueListWidget);
 
@@ -55,6 +65,12 @@ VCCueList::VCCueList(Doc *doc, QObject *parent)
     registerExternalControl(INPUT_PLAY_PAUSE_ID, tr("Play/Stop/Pause"), true);
     registerExternalControl(INPUT_STOP_PAUSE_ID, tr("Stop/Pause"), true);
     registerExternalControl(INPUT_SIDE_FADER_ID, tr("Side Fader"), false);
+    registerExternalControl(INPUT_STEP_SELECT_FIRST_ID, tr("MIDI Step Selection (First Note)"), false);
+    registerExternalControl(INPUT_STEP_SELECT_SECOND_ID, tr("MIDI Step Selection (Second Note)"), false);
+
+    // Setup MIDI step selection timer - temporarily disabled for debugging
+    // m_midiStepTimer->setSingleShot(true);
+    // connect(m_midiStepTimer, &QTimer::timeout, this, &VCCueList::slotMidiStepTimeout);
 
     m_stepsList = new ListModel(this);
     QStringList listRoles;
@@ -71,6 +87,25 @@ VCCueList::VCCueList(Doc *doc, QObject *parent)
 
 VCCueList::~VCCueList()
 {
+    // Disconnect all signals to prevent use-after-free
+    disconnect();
+
+    // Stop and disconnect from chaser if attached
+    Chaser *ch = chaser();
+    if (ch != nullptr)
+    {
+        disconnect(ch, nullptr, this, nullptr);
+        if (ch->isRunning())
+            ch->stop(functionParent());
+    }
+
+    // Stop timers
+    if (m_timer)
+        m_timer->stop();
+    if (m_midiStepTimer)
+        m_midiStepTimer->stop();
+
+    // Clean up QML item
     if (m_item)
         delete m_item;
 }
@@ -519,14 +554,207 @@ void VCCueList::slotFunctionRemoved(quint32 fid)
 
 void VCCueList::slotStepChanged(int index)
 {
-    ChaserStep *step = chaser()->stepAt(index);
-    ChaserEditor::updateStepInListModel(m_doc, chaser(), m_stepsList, step, index);
+    // Safety check: ensure object is still valid
+    if (!this || !m_doc || !m_stepsList)
+        return;
+
+    Chaser *ch = chaser();
+    if (ch == nullptr)
+        return;
+
+    ChaserStep *step = ch->stepAt(index);
+    if (step == nullptr)
+        return;
+
+    ChaserEditor::updateStepInListModel(m_doc, ch, m_stepsList, step, index);
 }
 
 void VCCueList::slotFunctionNameChanged(quint32 fid)
 {
     if (fid == m_chaserID)
         emit chaserIDChanged(fid);
+}
+
+/*********************************************************************
+ * MIDI Step Selection
+ *********************************************************************/
+
+bool VCCueList::midiStepSelectionEnabled() const
+{
+    return m_midiStepController ? m_midiStepController->isEnabled() : false;
+}
+
+void VCCueList::setMidiStepSelectionEnabled(bool enabled)
+{
+    if (!m_midiStepController || m_midiStepController->isEnabled() == enabled)
+        return;
+
+    m_midiStepController->setEnabled(enabled);
+    emit midiStepSelectionEnabledChanged();
+}
+
+bool VCCueList::midiTwoNoteMode() const
+{
+    return m_midiStepController ? m_midiStepController->twoNoteMode() : false;
+}
+
+void VCCueList::setMidiTwoNoteMode(bool enabled)
+{
+    if (!m_midiStepController || m_midiStepController->twoNoteMode() == enabled)
+        return;
+
+    m_midiStepController->setTwoNoteMode(enabled);
+    emit midiTwoNoteModeChanged();
+}
+
+int VCCueList::midiTimeout() const
+{
+    return m_midiStepController ? m_midiStepController->timeout() : 500;
+}
+
+void VCCueList::setMidiTimeout(int timeoutMs)
+{
+    if (!m_midiStepController || m_midiStepController->timeout() == timeoutMs)
+        return;
+
+    m_midiStepController->setTimeout(timeoutMs);
+    emit midiTimeoutChanged();
+}
+
+int VCCueList::midiDebounceInterval() const
+{
+    return m_midiStepController ? m_midiStepController->debounceInterval() : 100;
+}
+
+void VCCueList::setMidiDebounceInterval(int intervalMs)
+{
+    if (!m_midiStepController || m_midiStepController->debounceInterval() == intervalMs)
+        return;
+
+    m_midiStepController->setDebounceInterval(intervalMs);
+    emit midiDebounceIntervalChanged();
+}
+
+void VCCueList::jumpToStep(int stepIndex)
+{
+    qDebug() << "VCCueList::jumpToStep: ENTRY - stepIndex=" << stepIndex;
+
+    qDebug() << "VCCueList::jumpToStep: Getting chaser";
+    Chaser *ch = chaser();
+    qDebug() << "VCCueList::jumpToStep: chaser pointer=" << ch;
+
+    if (ch == nullptr)
+    {
+        qWarning() << "VCCueList::jumpToStep: No chaser attached";
+        return;
+    }
+
+    qDebug() << "VCCueList::jumpToStep: chaser has" << ch->stepsCount() << "steps";
+
+    if (stepIndex < 0 || stepIndex >= ch->stepsCount())
+    {
+        qWarning() << "VCCueList::jumpToStep: Invalid step index" << stepIndex << "for chaser with" << ch->stepsCount() << "steps";
+        return;
+    }
+
+    qDebug() << "VCCueList::jumpToStep: Creating ChaserAction";
+    ChaserAction action;
+    action.m_action = ChaserSetStepIndex;
+    action.m_stepIndex = stepIndex;
+    action.m_masterIntensity = intensity();
+    action.m_stepIntensity = getPrimaryIntensity();
+    action.m_fadeMode = getFadeMode();
+
+    qDebug() << "VCCueList::jumpToStep: Checking if chaser is running";
+    if (ch->isRunning()) {
+        qDebug() << "VCCueList::jumpToStep: Chaser is running, setting action";
+        ch->setAction(action);
+    } else {
+        qDebug() << "VCCueList::jumpToStep: Chaser not running, starting chaser";
+        startChaser(stepIndex);
+    }
+
+    qDebug() << "VCCueList::jumpToStep: Setting playback index";
+    setPlaybackIndex(stepIndex);
+    qDebug() << "VCCueList::jumpToStep: EXIT";
+}
+
+void VCCueList::slotMidiStepTimeout()
+{
+    if (m_waitingForSecondNote && m_firstNoteValue >= 0)
+    {
+        // Timeout occurred, treat first note as direct step selection (0-127)
+        qDebug() << "VCCueList::slotMidiStepTimeout: Two-note timeout, using first note value" << m_firstNoteValue;
+        jumpToStep(m_firstNoteValue);
+        m_waitingForSecondNote = false;
+        m_firstNoteValue = -1;
+    }
+}
+
+void VCCueList::processMidiStepSelection(quint8 id, uchar value)
+{
+    qDebug() << "VCCueList::processMidiStepSelection: ENTRY - this=" << this << "id=" << id << "value=" << value;
+
+    // Check if this object is still valid
+    if (!this) {
+        qCritical() << "VCCueList::processMidiStepSelection: this pointer is null!";
+        return;
+    }
+
+    qDebug() << "VCCueList::processMidiStepSelection: enabled=" << m_midiStepSelectionEnabled;
+
+    if (!m_midiStepSelectionEnabled)
+    {
+        qDebug() << "VCCueList::processMidiStepSelection: MIDI step selection disabled, returning";
+        return;
+    }
+
+    qDebug() << "VCCueList::processMidiStepSelection: About to get chaser, m_chaserID=" << m_chaserID;
+    // Safety check: ensure we have a valid chaser
+    Chaser *ch = chaser();
+    qDebug() << "VCCueList::processMidiStepSelection: chaser pointer=" << ch;
+
+    if (ch == nullptr)
+    {
+        qWarning() << "VCCueList::processMidiStepSelection: No chaser attached";
+        return;
+    }
+
+    qDebug() << "VCCueList::processMidiStepSelection: chaser has" << ch->stepsCount() << "steps";
+
+    if (id == INPUT_STEP_SELECT_FIRST_ID)
+    {
+        qDebug() << "VCCueList::processMidiStepSelection: Processing first note, two-note mode=" << m_midiTwoNoteMode;
+        if (m_midiTwoNoteMode)
+        {
+            // Store first note and wait for second note
+            m_firstNoteValue = value;
+            m_waitingForSecondNote = true;
+            qDebug() << "VCCueList::processMidiStepSelection: Starting timer with timeout" << m_midiTimeout;
+            if (m_midiStepTimer)
+                m_midiStepTimer->start(m_midiTimeout);
+        }
+        else
+        {
+            // Single note mode: direct step selection (0-127)
+            qDebug() << "VCCueList::processMidiStepSelection: Single note mode, jumping to step" << value;
+            jumpToStep(value);
+        }
+    }
+    else if (id == INPUT_STEP_SELECT_SECOND_ID && m_midiTwoNoteMode && m_waitingForSecondNote)
+    {
+        qDebug() << "VCCueList::processMidiStepSelection: Processing second note";
+        // Second note received, calculate target step
+        if (m_midiStepTimer)
+            m_midiStepTimer->stop();
+        int targetStep = (m_firstNoteValue * 128) + value;
+        qDebug() << "VCCueList::processMidiStepSelection: Two-note mode, jumping to step" << targetStep;
+        jumpToStep(targetStep);
+        m_waitingForSecondNote = false;
+        m_firstNoteValue = -1;
+    }
+
+    qDebug() << "VCCueList::processMidiStepSelection: EXIT";
 }
 
 /*********************************************************************
@@ -588,6 +816,21 @@ int VCCueList::playbackIndex() const
 
 void VCCueList::setPlaybackIndex(int playbackIndex)
 {
+    // Use Qt's queued connection for thread safety instead of mutex
+    if (QThread::currentThread() != this->thread())
+    {
+        QMetaObject::invokeMethod(this, "setPlaybackIndex", Qt::QueuedConnection, Q_ARG(int, playbackIndex));
+        return;
+    }
+
+    // Rate limiting: prevent too rapid changes
+    QTime currentTime = QTime::currentTime();
+    if (m_lastChangeTime.isValid() && m_lastChangeTime.msecsTo(currentTime) < MIN_CHANGE_INTERVAL_MS)
+    {
+        return; // Skip this change if too soon
+    }
+    m_lastChangeTime = currentTime;
+
     if (m_playbackIndex == playbackIndex)
         return;
 
@@ -682,6 +925,14 @@ void VCCueList::slotInputValueChanged(quint8 id, uchar value)
             setSideFaderLevel(int(val));
         }
         break;
+        case INPUT_STEP_SELECT_FIRST_ID:
+            if (m_midiStepController)
+                m_midiStepController->handleFirstNote(value);
+        break;
+        case INPUT_STEP_SELECT_SECOND_ID:
+            if (m_midiStepController)
+                m_midiStepController->handleSecondNote(value);
+        break;
     }
 }
 
@@ -744,6 +995,10 @@ void VCCueList::stopClicked()
 
 void VCCueList::previousClicked()
 {
+    // Safety check: ensure object is still valid
+    if (!this || !m_doc)
+        return;
+
     Chaser *ch = chaser();
     if (ch == nullptr)
         return;
@@ -785,6 +1040,10 @@ void VCCueList::previousClicked()
 
 void VCCueList::nextClicked()
 {
+    // Safety check: ensure object is still valid
+    if (!this || !m_doc)
+        return;
+
     Chaser *ch = chaser();
     if (ch == nullptr)
         return;
@@ -849,6 +1108,10 @@ void VCCueList::playCurrentStep()
 
 void VCCueList::slotFunctionRunning(quint32 fid)
 {
+    // Safety check: ensure object is still valid
+    if (!this || !m_timer)
+        return;
+
     if (fid == m_chaserID)
     {
         emit playbackStatusChanged();
@@ -860,6 +1123,10 @@ void VCCueList::slotFunctionRunning(quint32 fid)
 
 void VCCueList::slotFunctionStopped(quint32 fid)
 {
+    // Safety check: ensure object is still valid
+    if (!this || !m_timer)
+        return;
+
     if (fid == m_chaserID)
     {
         emit playbackStatusChanged();
@@ -879,11 +1146,19 @@ void VCCueList::slotFunctionStopped(quint32 fid)
 
 void VCCueList::slotCurrentStepChanged(int stepNumber)
 {
+    // Safety check: ensure object is still valid
+    if (!this || !m_doc)
+        return;
+
     setPlaybackIndex(stepNumber);
 }
 
 void VCCueList::slotProgressTimeout()
 {
+    // Safety check: ensure object is still valid
+    if (!this || !m_doc)
+        return;
+
     Chaser *ch = chaser();
     if (ch == nullptr || !ch->isRunning() || m_item == nullptr)
         return;
@@ -1011,6 +1286,34 @@ bool VCCueList::loadXML(QXmlStreamReader &root)
         {
             root.skipCurrentElement();
         }
+        else if (root.name() == KXMLQLCVCCueListMidiStepSelection)
+        {
+            QXmlStreamAttributes attrs = root.attributes();
+            if (attrs.hasAttribute(KXMLQLCVCCueListMidiTwoNoteMode))
+                setMidiTwoNoteMode(attrs.value(KXMLQLCVCCueListMidiTwoNoteMode).toString() == "true");
+            if (attrs.hasAttribute(KXMLQLCVCCueListMidiTimeout))
+                setMidiTimeout(attrs.value(KXMLQLCVCCueListMidiTimeout).toInt());
+            if (attrs.hasAttribute(KXMLQLCVCCueListMidiDebounceInterval))
+                setMidiDebounceInterval(attrs.value(KXMLQLCVCCueListMidiDebounceInterval).toInt());
+
+            setMidiStepSelectionEnabled(true);
+
+            while (root.readNextStartElement())
+            {
+                if (root.name() == KXMLQLCVCCueListMidiStepFirst)
+                {
+                    loadXMLSources(root, INPUT_STEP_SELECT_FIRST_ID);
+                }
+                else if (root.name() == KXMLQLCVCCueListMidiStepSecond)
+                {
+                    loadXMLSources(root, INPUT_STEP_SELECT_SECOND_ID);
+                }
+                else
+                {
+                    root.skipCurrentElement();
+                }
+            }
+        }
         else
         {
             qWarning() << Q_FUNC_INFO << "Unknown VC Cue list tag:" << root.name().toString();
@@ -1057,6 +1360,20 @@ bool VCCueList::saveXML(QXmlStreamWriter *doc)
     saveXMLInputControl(doc, INPUT_PLAY_PAUSE_ID, KXMLQLCVCCueListPlayback);
     saveXMLInputControl(doc, INPUT_STOP_PAUSE_ID, KXMLQLCVCCueListStop);
     saveXMLInputControl(doc, INPUT_SIDE_FADER_ID, KXMLQLCVCCueListCrossfadeLeft);
+
+    /* MIDI Step Selection */
+    if (midiStepSelectionEnabled())
+    {
+        doc->writeStartElement(KXMLQLCVCCueListMidiStepSelection);
+        doc->writeAttribute(KXMLQLCVCCueListMidiTwoNoteMode, midiTwoNoteMode() ? "true" : "false");
+        doc->writeAttribute(KXMLQLCVCCueListMidiTimeout, QString::number(midiTimeout()));
+        doc->writeAttribute(KXMLQLCVCCueListMidiDebounceInterval, QString::number(midiDebounceInterval()));
+
+        saveXMLInputControl(doc, INPUT_STEP_SELECT_FIRST_ID, KXMLQLCVCCueListMidiStepFirst);
+        saveXMLInputControl(doc, INPUT_STEP_SELECT_SECOND_ID, KXMLQLCVCCueListMidiStepSecond);
+
+        doc->writeEndElement();
+    }
 
     /* End the <CueList> tag */
     doc->writeEndElement();

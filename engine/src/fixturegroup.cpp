@@ -30,6 +30,7 @@
 #define KXMLQLCFixtureGroupHead QString("Head")
 #define KXMLQLCFixtureGroupSize QString("Size")
 #define KXMLQLCFixtureGroupName QString("Name")
+#define KXMLQLCFixtureGroupFolder QString("Folder")
 
 /****************************************************************************
  * Initialization
@@ -99,6 +100,21 @@ void FixtureGroup::setName(const QString& name)
 QString FixtureGroup::name() const
 {
     return m_name;
+}
+
+void FixtureGroup::setFolder(const QString& folder)
+{
+    if (m_folder != folder)
+    {
+        m_folder = folder;
+        emit folderChanged();
+        emit changed(id());
+    }
+}
+
+QString FixtureGroup::folder() const
+{
+    return m_folder;
 }
 
 /****************************************************************************
@@ -349,6 +365,10 @@ bool FixtureGroup::loadXML(QXmlStreamReader &xmlDoc)
         {
             m_name = xmlDoc.readElementText();
         }
+        else if (xmlDoc.name() == KXMLQLCFixtureGroupFolder)
+        {
+            m_folder = xmlDoc.readElementText();
+        }
         else
         {
             qWarning() << Q_FUNC_INFO << "Unknown fixture group tag:" << xmlDoc.name();
@@ -369,6 +389,10 @@ bool FixtureGroup::saveXML(QXmlStreamWriter *doc)
 
     /* Name */
     doc->writeTextElement(KXMLQLCFixtureGroupName, name());
+
+    /* Folder */
+    if (!folder().isEmpty())
+        doc->writeTextElement(KXMLQLCFixtureGroupFolder, folder());
 
     /* Matrix size */
     doc->writeStartElement(KXMLQLCFixtureGroupSize);

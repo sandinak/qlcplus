@@ -73,6 +73,15 @@ public:
      */
     static QDir userScriptsDirectory();
 
+    /**
+     * Get the workspace RGB scripts directory that contains
+     * RGB scripts stored alongside the workspace file.
+     *
+     * @param workspacePath The absolute path to the workspace directory
+     * @return Workspace RGB scripts directory
+     */
+    static QDir workspaceScriptsDirectory(const QString& workspacePath);
+
 private:
     Doc* m_doc;
     QMap<QString, RGBScript*> m_scriptsMap; //! One instance of each script, filename-based map

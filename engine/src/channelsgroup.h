@@ -21,6 +21,7 @@
 #define CHANNELSGROUP_H
 
 #include <QObject>
+#include <QSharedPointer>
 
 #include "qlcinputsource.h"
 #include "scenevalue.h"
@@ -37,6 +38,7 @@ class Doc;
 class ChannelsGroup : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(ChannelsGroup)
 
     /************************************************************************
      * Initialization

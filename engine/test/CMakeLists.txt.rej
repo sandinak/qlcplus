@@ -1,0 +1,7 @@
+@@ -1,5 +1,6 @@
+ project(test)
+ 
++add_subdirectory(autosavemanager)
+ add_subdirectory(bus)
+ add_subdirectory(chaser)
+ add_subdirectory(chaserrunner)

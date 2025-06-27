@@ -122,7 +122,8 @@ HEADERS += \
     virtualconsole/vclabel.h \
     virtualconsole/vcslider.h \
     virtualconsole/vcclock.h \
-    virtualconsole/vccuelist.h
+    virtualconsole/vccuelist.h \
+    virtualconsole/midistepcontroller.h
 
 SOURCES += \
     virtualconsole/virtualconsole.cpp \
@@ -134,7 +135,8 @@ SOURCES += \
     virtualconsole/vclabel.cpp \
     virtualconsole/vcslider.cpp \
     virtualconsole/vcclock.cpp \
-    virtualconsole/vccuelist.cpp
+    virtualconsole/vccuelist.cpp \
+    virtualconsole/midistepcontroller.cpp
 
 #############################################
 #  Fixture Definition Editor
@@ -182,6 +184,9 @@ macx {
     # This must be after "TARGET = " and before target installation so that
     # install_name_tool can be run before target installation
     include(../platforms/macos/nametool.pri)
+
+    # Run install_name_tool immediately after linking
+    QMAKE_POST_LINK += install_name_tool -change libqlcplusengine.1.dylib @executable_path/../Frameworks/libqlcplusengine.1.dylib $$TARGET
 }
 
 # Installation

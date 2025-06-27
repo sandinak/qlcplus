@@ -41,6 +41,7 @@
 #define KXMLQLCRGBMatrixFixtureGroup    QString("FixtureGroup")
 #define KXMLQLCRGBMatrixDimmerControl   QString("DimmerControl")
 
+
 #define KXMLQLCRGBMatrixProperty        QString("Property")
 #define KXMLQLCRGBMatrixPropertyName    QString("Name")
 #define KXMLQLCRGBMatrixPropertyValue   QString("Value")
@@ -132,6 +133,8 @@ bool RGBMatrix::dimmerControl() const
 {
     return m_dimmerControl;
 }
+
+
 
 /****************************************************************************
  * Copying
@@ -426,6 +429,7 @@ bool RGBMatrix::loadXML(QXmlStreamReader &root)
         {
             setDimmerControl(root.readElementText().toInt());
         }
+
         else
         {
             qWarning() << Q_FUNC_INFO << "Unknown RGB matrix tag:" << root.name();
@@ -462,6 +466,8 @@ bool RGBMatrix::saveXML(QXmlStreamWriter *doc)
     /* LEGACY - Dimmer Control */
     if (dimmerControl())
         doc->writeTextElement(KXMLQLCRGBMatrixDimmerControl, QString::number(dimmerControl()));
+
+
 
     /* Start Color */
     doc->writeTextElement(KXMLQLCRGBMatrixStartColor, QString::number(startColor().rgb()));
@@ -721,6 +727,8 @@ void RGBMatrix::updateMapChannels(const RGBMap& map, const FixtureGroup *grp, QL
         if (fxi == NULL)
             continue;
 
+
+
         QLCFixtureHead head = fxi->head(grpHead.head);
 
         if (pt.y() >= map.count() || pt.x() >= map[pt.y()].count())
@@ -847,6 +855,8 @@ void RGBMatrix::updateMapChannels(const RGBMap& map, const FixtureGroup *grp, QL
         }
     }
 }
+
+
 
 uchar RGBMatrix::rgbToGrey(uint col)
 {

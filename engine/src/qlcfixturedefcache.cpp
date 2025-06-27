@@ -352,6 +352,15 @@ QDir QLCFixtureDefCache::userDefinitionDirectory()
     return QLCFile::userDirectory(QString(USERFIXTUREDIR), QString(FIXTUREDIR), filters);
 }
 
+QDir QLCFixtureDefCache::workspaceDefinitionDirectory(const QString& workspacePath)
+{
+    QStringList filters;
+    filters << QString("*%1").arg(KExtFixture);
+    filters << QString("*%1").arg(KExtAvolitesFixture);
+
+    return QLCFile::workspaceDirectory(workspacePath, QString("fixtures"), filters);
+}
+
 bool QLCFixtureDefCache::loadQXF(const QString& path, bool isUser)
 {
     QLCFixtureDef *fxi = new QLCFixtureDef();

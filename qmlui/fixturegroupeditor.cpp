@@ -21,6 +21,7 @@
 #include <QImage>
 #include <QDebug>
 #include <QQmlContext>
+#include <algorithm>
 
 #include "fixturegroupeditor.h"
 #include "fixturemanager.h"
@@ -52,7 +53,14 @@ QVariant FixtureGroupEditor::groupsListModel()
 {
     QVariantList groupsList;
 
-    foreach(FixtureGroup *grp, m_doc->fixtureGroups())
+    // Create a sorted list of fixture groups by name
+    QList<FixtureGroup*> sortedGroups = m_doc->fixtureGroups();
+    std::sort(sortedGroups.begin(), sortedGroups.end(),
+              [](const FixtureGroup* a, const FixtureGroup* b) {
+                  return a->name().toLower() < b->name().toLower();
+              });
+
+    foreach(FixtureGroup *grp, sortedGroups)
     {
         QVariantMap grpMap;
         grpMap.insert("mIcon", "qrc:/group.svg");
@@ -437,10 +445,10 @@ void FixtureGroupEditor::transformSelection(int transformation)
             trImage = matrix.transformed(transform);
         break;
         case HorizontalFlip:
-            trImage = matrix.mirrored(true, false);
+            trImage = matrix.flipped(Qt::Horizontal);
         break;
         case VerticalFlip:
-            trImage = matrix.mirrored(false, true);
+            trImage = matrix.flipped(Qt::Vertical);
         break;
     }
 

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Workspace>
+<Workspace xmlns="http://www.qlcplus.org/Workspace" CurrentWindow="FixtureManager">
+ <Creator>
+  <Name>Q Light Controller Plus</Name>
+  <Version>4.13.1</Version>
+  <Author>Test User</Author>
+ </Creator>
+ <Engine>
+  <InputOutputMap>
+   <Universe Name="Universe 1" ID="0"/>
+   <Universe Name="Universe 2" ID="1"/>
+   <Universe Name="Universe 3" ID="2"/>
+   <Universe Name="Universe 4" ID="3"/>
+  </InputOutputMap>
+  <Fixture>
+   <Manufacturer>Generic</Manufacturer>
+   <Model>Generic</Model>
+   <Mode>1 Channel</Mode>
+   <ID>0</ID>
+   <Name>Dimmer 1</Name>
+   <Universe>0</Universe>
+   <Address>0</Address>
+   <Channels>1</Channels>
+  </Fixture>
+  <Fixture>
+   <Manufacturer>Generic</Manufacturer>
+   <Model>Generic</Model>
+   <Mode>1 Channel</Mode>
+   <ID>1</ID>
+   <Name>Dimmer 2</Name>
+   <Universe>0</Universe>
+   <Address>1</Address>
+   <Channels>1</Channels>
+  </Fixture>
+  <Fixture>
+   <Manufacturer>Generic</Manufacturer>
+   <Model>Generic</Model>
+   <Mode>1 Channel</Mode>
+   <ID>2</ID>
+   <Name>Dimmer 3</Name>
+   <Universe>0</Universe>
+   <Address>2</Address>
+   <Channels>1</Channels>
+  </Fixture>
+  <Fixture>
+   <Manufacturer>Generic</Manufacturer>
+   <Model>Generic</Model>
+   <Mode>1 Channel</Mode>
+   <ID>3</ID>
+   <Name>Dimmer 4</Name>
+   <Universe>0</Universe>
+   <Address>3</Address>
+   <Channels>1</Channels>
+  </Fixture>
+  <FixtureGroup ID="0">
+   <Name>Stage Left</Name>
+   <Size X="2" Y="1"/>
+   <Head X="0" Y="0" Fixture="0"/>
+   <Head X="1" Y="0" Fixture="1"/>
+   <Folder>Stage Lighting</Folder>
+  </FixtureGroup>
+  <FixtureGroup ID="1">
+   <Name>Stage Right</Name>
+   <Size X="2" Y="1"/>
+   <Head X="0" Y="0" Fixture="2"/>
+   <Head X="1" Y="0" Fixture="3"/>
+   <Folder>Stage Lighting</Folder>
+  </FixtureGroup>
+  <FixtureGroup ID="2">
+   <Name>House Lights</Name>
+   <Size X="1" Y="1"/>
+   <Head X="0" Y="0" Fixture="0"/>
+   <Folder>House Lighting</Folder>
+  </FixtureGroup>
+  <FixtureGroup ID="3">
+   <Name>All Dimmers</Name>
+   <Size X="4" Y="1"/>
+   <Head X="0" Y="0" Fixture="0"/>
+   <Head X="1" Y="0" Fixture="1"/>
+   <Head X="2" Y="0" Fixture="2"/>
+   <Head X="3" Y="0" Fixture="3"/>
+  </FixtureGroup>
+ </Engine>
+ <VirtualConsole>
+  <Frame Caption="">
+   <Appearance>
+    <FrameStyle>None</FrameStyle>
+    <ForegroundColor>Default</ForegroundColor>
+    <BackgroundColor>Default</BackgroundColor>
+    <BackgroundImage>None</BackgroundImage>
+    <Font>Default</Font>
+   </Appearance>
+  </Frame>
+  <Properties>
+   <Size Width="1920" Height="1080"/>
+   <GrandMaster ChannelMode="Intensity" ValueMode="Reduce" SliderMode="Normal"/>
+  </Properties>
+ </VirtualConsole>
+ <SimpleDesk>
+  <Engine/>
+ </SimpleDesk>
+</Workspace>

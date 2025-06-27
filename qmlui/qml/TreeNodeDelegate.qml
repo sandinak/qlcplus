@@ -113,6 +113,7 @@ Column
             x: nodeCheckBox.visible ? nodeCheckBox.width : 0
             width: parent.width
             height: parent.height
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             property bool dragActive: drag.active
 
@@ -129,9 +130,17 @@ Column
                                                 nodeContainer, mouse.modifiers)
             onClicked:
             {
-                nodeLabel.forceActiveFocus()
-                nodeContainer.mouseEvent(App.Clicked, cRef ? cRef.id : -1, nodeContainer.itemType,
-                                         nodeContainer, mouse.modifiers)
+                if (mouse.button === Qt.RightButton)
+                {
+                    nodeContainer.mouseEvent(App.RightClicked, cRef ? cRef.id : -1, nodeContainer.itemType,
+                                             nodeContainer, mouse.modifiers)
+                }
+                else
+                {
+                    nodeLabel.forceActiveFocus()
+                    nodeContainer.mouseEvent(App.Clicked, cRef ? cRef.id : -1, nodeContainer.itemType,
+                                             nodeContainer, mouse.modifiers)
+                }
             }
             onDoubleClicked: isExpanded = !isExpanded
         }

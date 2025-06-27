@@ -25,6 +25,7 @@
 #include <QTreeWidget>
 #include <QScrollArea>
 #include <QMessageBox>
+#include <QInputDialog>
 #include <QToolButton>
 #include <QFileDialog>
 #include <QTabWidget>
@@ -555,9 +556,172 @@ void FixtureManager::createInfo()
     m_splitter->restoreState(state);
 }
 
+void FixtureManager::folderSelected(const QString& folderName)
+{
+    QByteArray state = m_splitter->saveState();
+
+    if (m_info != NULL)
+    {
+        delete m_info;
+        m_info = NULL;
+    }
+
+    if (m_groupEditor != NULL)
+    {
+        delete m_groupEditor;
+        m_groupEditor = NULL;
+    }
+
+    createInfo();
+
+    QString info = fixtureInfoStyleSheetHeader();
+    info += QString("<H1>📁 %1</H1>").arg(folderName);
+    info += QString("<P>%1</P>").arg(tr("Fixture group folder"));
+
+    // Count groups in this folder
+    int groupCount = 0;
+    foreach (FixtureGroup* grp, m_doc->fixtureGroups())
+    {
+        if (grp->folder() == folderName)
+            groupCount++;
+    }
+
+    info += QString("<P><B>%1:</B> %2</P>")
+            .arg(tr("Groups in folder"))
+            .arg(groupCount);
+
+    info += QString("<P>%1</P>")
+            .arg(tr("Right-click for folder management options."));
+
+    info += "</BODY></HTML>";
+
+    m_info->setText(info);
+
+    m_splitter->restoreState(state);
+}
+
+QMenu* FixtureManager::createMoveToFolderMenu()
+{
+    QMenu* moveMenu = new QMenu(tr("Move to Folder"), this);
+
+    // Get all existing folders
+    QStringList existingFolders;
+    foreach (FixtureGroup* grp, m_doc->fixtureGroups())
+    {
+        QString folder = grp->folder();
+        if (!folder.isEmpty() && !existingFolders.contains(folder))
+        {
+            existingFolders.append(folder);
+        }
+    }
+
+    // Sort folders alphabetically
+    existingFolders.sort();
+
+    // Add existing folders to menu
+    foreach (const QString& folder, existingFolders)
+    {
+        QAction* folderAction = moveMenu->addAction(QIcon(":/folder.png"), folder);
+        folderAction->setData(folder);
+        connect(folderAction, SIGNAL(triggered(bool)),
+                this, SLOT(slotMoveToExistingFolder()));
+    }
+
+    // Add separator if there are existing folders
+    if (!existingFolders.isEmpty())
+    {
+        moveMenu->addSeparator();
+    }
+
+    // Add "Create New Folder..." option
+    QAction* newFolderAction = moveMenu->addAction(QIcon(":/folder.png"), tr("Create New Folder..."));
+    connect(newFolderAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotCreateNewFolder()));
+
+    // Add "Remove from Folder" option if current group is in a folder
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+    if (item != nullptr)
+    {
+        quint32 id = item->data(KColumnName, PROP_ID).toUInt();
+        FixtureGroup* group = m_doc->fixtureGroup(id);
+        if (group != nullptr && !group->folder().isEmpty())
+        {
+            moveMenu->addSeparator();
+            QAction* removeAction = moveMenu->addAction(QIcon(":/edit_remove.png"), tr("Remove from Folder"));
+            connect(removeAction, SIGNAL(triggered(bool)),
+                    this, SLOT(slotRemoveFromFolder()));
+        }
+    }
+
+    return moveMenu;
+}
+
+void FixtureManager::updateGroupButtonContext()
+{
+    QList<QTreeWidgetItem*> selection = m_fixtures_tree->selectedItems();
+
+    if (selection.isEmpty())
+    {
+        // No selection - default behavior
+        m_groupAction->setText(tr("Add fixture to group..."));
+        m_groupAction->setToolTip(tr("Add selected fixtures to a group"));
+        updateGroupMenu();
+        return;
+    }
+
+    QTreeWidgetItem* item = selection.first();
+    QVariant fxivar = item->data(KColumnName, PROP_ID);
+    QVariant grpvar = item->data(KColumnName, PROP_GROUP);
+    QVariant foldervar = item->data(KColumnName, PROP_FOLDER);
+
+    if (fxivar.isValid())
+    {
+        // Fixture selected - default behavior
+        m_groupAction->setText(tr("Add fixture to group..."));
+        m_groupAction->setToolTip(tr("Add selected fixtures to a group"));
+    }
+    else if (grpvar.isValid())
+    {
+        // Group selected - context-sensitive for folder operations
+        FixtureGroup* grp = m_doc->fixtureGroup(grpvar.toUInt());
+        if (grp != NULL)
+        {
+            if (grp->folder().isEmpty())
+            {
+                m_groupAction->setText(tr("Add group to folder..."));
+                m_groupAction->setToolTip(tr("Move selected group to a folder"));
+            }
+            else
+            {
+                m_groupAction->setText(tr("Manage group folder..."));
+                m_groupAction->setToolTip(tr("Manage folder for selected group"));
+            }
+        }
+    }
+    else if (foldervar.isValid())
+    {
+        // Folder selected - folder management
+        m_groupAction->setText(tr("Manage folder..."));
+        m_groupAction->setToolTip(tr("Manage selected folder"));
+    }
+    else
+    {
+        // Unknown selection - default behavior
+        m_groupAction->setText(tr("Add fixture to group..."));
+        m_groupAction->setToolTip(tr("Add selected fixtures to a group"));
+    }
+
+    // Update the menu to match the context
+    updateGroupMenu();
+}
+
 void FixtureManager::slotSelectionChanged()
 {
     int selectedCount = m_fixtures_tree->selectedItems().size();
+
+    // Update group button context sensitivity
+    updateGroupButtonContext();
+
     if (selectedCount == 1)
     {
         QTreeWidgetItem* item = m_fixtures_tree->selectedItems().first();
@@ -566,6 +730,8 @@ void FixtureManager::slotSelectionChanged()
         // Set the text view's contents
         QVariant fxivar = item->data(KColumnName, PROP_ID);
         QVariant grpvar = item->data(KColumnName, PROP_GROUP);
+        QVariant foldervar = item->data(KColumnName, PROP_FOLDER);
+
         if (fxivar.isValid() == true)
         {
             // Selected a fixture
@@ -576,6 +742,11 @@ void FixtureManager::slotSelectionChanged()
             FixtureGroup* grp = m_doc->fixtureGroup(grpvar.toUInt());
             Q_ASSERT(grp != NULL);
             fixtureGroupSelected(grp);
+        }
+        else if (foldervar.isValid() == true)
+        {
+            // Selected a folder
+            folderSelected(foldervar.toString());
         }
         else
         {
@@ -936,6 +1107,41 @@ void FixtureManager::initActions()
                                tr("Remap fixtures..."), this);
     connect(m_remapAction, SIGNAL(triggered(bool)),
             this, SLOT(slotRemap()));
+
+    // Folder management actions
+    m_moveToFolderAction = new QAction(QIcon(":/folder.png"),
+                                      tr("Move to Folder"), this);
+    // Note: No direct connection - this action will have a submenu
+
+    m_createNewFolderAction = new QAction(QIcon(":/folder.png"),
+                                         tr("Create New Folder..."), this);
+    connect(m_createNewFolderAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotCreateNewFolder()));
+
+    m_removeFromFolderAction = new QAction(QIcon(":/edit_remove.png"),
+                                          tr("Remove from Folder"), this);
+    connect(m_removeFromFolderAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotRemoveFromFolder()));
+
+    m_renameFolderAction = new QAction(QIcon(":/edit.png"),
+                                      tr("Rename Folder..."), this);
+    connect(m_renameFolderAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotRenameFolder()));
+
+    m_deleteFolderAction = new QAction(QIcon(":/edit_remove.png"),
+                                      tr("Delete Folder..."), this);
+    connect(m_deleteFolderAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotDeleteFolder()));
+
+    m_renameGroupAction = new QAction(QIcon(":/edit.png"),
+                                     tr("Rename Group..."), this);
+    connect(m_renameGroupAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotRenameGroup()));
+
+    m_deleteGroupAction = new QAction(QIcon(":/edit_remove.png"),
+                                     tr("Delete Group..."), this);
+    connect(m_deleteGroupAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotDeleteGroup()));
 }
 
 void FixtureManager::updateGroupMenu()
@@ -950,6 +1156,47 @@ void FixtureManager::updateGroupMenu()
     foreach (QAction* a, m_groupMenu->actions())
         m_groupMenu->removeAction(a);
 
+    QList<QTreeWidgetItem*> selection = m_fixtures_tree->selectedItems();
+
+    if (selection.isEmpty())
+    {
+        // No selection - default behavior: show all groups + new group
+        updateGroupMenuDefault();
+        return;
+    }
+
+    QTreeWidgetItem* item = selection.first();
+    QVariant fxivar = item->data(KColumnName, PROP_ID);
+    QVariant grpvar = item->data(KColumnName, PROP_GROUP);
+    QVariant foldervar = item->data(KColumnName, PROP_FOLDER);
+
+    if (fxivar.isValid())
+    {
+        // Fixture selected - default behavior: show all groups + new group
+        updateGroupMenuDefault();
+    }
+    else if (grpvar.isValid())
+    {
+        // Group selected - show folder operations
+        updateGroupMenuForGroup(grpvar.toUInt());
+    }
+    else if (foldervar.isValid())
+    {
+        // Folder selected - show folder management
+        updateGroupMenuForFolder(foldervar.toString());
+    }
+    else
+    {
+        // Unknown selection - default behavior
+        updateGroupMenuDefault();
+    }
+
+    // Put the group menu to the group action
+    m_groupAction->setMenu(m_groupMenu);
+}
+
+void FixtureManager::updateGroupMenuDefault()
+{
     // Put all known fixture groups to the menu
     foreach (FixtureGroup* grp, m_doc->fixtureGroups())
     {
@@ -959,9 +1206,33 @@ void FixtureManager::updateGroupMenu()
 
     // Put a new group action to the group menu
     m_groupMenu->addAction(m_newGroupAction);
+}
 
-    // Put the group menu to the group action
-    m_groupAction->setMenu(m_groupMenu);
+void FixtureManager::updateGroupMenuForGroup(quint32 groupId)
+{
+    FixtureGroup* selectedGroup = m_doc->fixtureGroup(groupId);
+    if (selectedGroup == NULL)
+        return;
+
+    // Add "Move to Folder" submenu
+    QMenu* moveToFolderMenu = createMoveToFolderMenu();
+    m_groupMenu->addMenu(moveToFolderMenu);
+
+    if (!selectedGroup->folder().isEmpty())
+    {
+        // Group is in a folder - show additional folder management options
+        m_groupMenu->addSeparator();
+        m_groupMenu->addAction(m_renameFolderAction);
+        m_groupMenu->addAction(m_deleteFolderAction);
+    }
+}
+
+void FixtureManager::updateGroupMenuForFolder(const QString& folderName)
+{
+    Q_UNUSED(folderName);
+    // Folder selected - show folder management options
+    m_groupMenu->addAction(m_renameFolderAction);
+    m_groupMenu->addAction(m_deleteFolderAction);
 }
 
 void FixtureManager::initToolBar()
@@ -1141,8 +1412,7 @@ void FixtureManager::slotAddRGBPanel()
         	transpose = 1;
         }
 
-        QLCFixtureDef *rowDef = NULL;
-        QLCFixtureMode *rowMode = NULL;
+
         quint32 address = (quint32)rgb.address();
         int uniIndex = rgb.universeIndex();
         int currRow = 0;
@@ -1189,49 +1459,103 @@ void FixtureManager::slotAddRGBPanel()
 
         for (int i = 0; i < rows; i++)
         {
-            Fixture *fxi = new Fixture(m_doc);
-            Q_ASSERT(fxi != NULL);
-            fxi->setName(tr("%1 - Row %2").arg(rgb.name()).arg(i + 1));
-            if (rowDef == NULL)
-                rowDef = fxi->genericRGBPanelDef(columns, components);
-            if (rowMode == NULL)
-                rowMode = fxi->genericRGBPanelMode(rowDef, components, phyWidth, phyHeight);
-            fxi->setFixtureDefinition(rowDef, rowMode);
+            int channelsPerPixel = (components == Fixture::RGBW) ? 4 : 3;
+            int remainingColumns = columns;
+            int currentColumn = 0;
+            int segmentNumber = 1;
 
-            // Check universe span
-            if (address + fxi->channels() > 512)
+            while (remainingColumns > 0)
             {
-                uniIndex++;
-                if (m_doc->inputOutputMap()->getUniverseID(uniIndex) == m_doc->inputOutputMap()->invalidUniverse())
+                // Calculate how many pixels can fit in the remaining universe space
+                int availableChannels = 512 - address;
+                int maxPixelsInSegment = availableChannels / channelsPerPixel;
+
+                // Determine the actual number of pixels for this segment
+                int pixelsInSegment;
+                if (rgb.skipIncompletePixels())
                 {
-                    m_doc->inputOutputMap()->addUniverse();
-                    m_doc->inputOutputMap()->startUniverses();
+                    // Use as many complete pixels as possible, but don't exceed remaining columns
+                    pixelsInSegment = qMin(maxPixelsInSegment, remainingColumns);
+
+                    // If we can't fit any complete pixels, move to next universe
+                    if (pixelsInSegment == 0)
+                    {
+                        uniIndex++;
+                        if (m_doc->inputOutputMap()->getUniverseID(uniIndex) == m_doc->inputOutputMap()->invalidUniverse())
+                        {
+                            m_doc->inputOutputMap()->addUniverse();
+                            m_doc->inputOutputMap()->startUniverses();
+                        }
+                        address = 0;
+                        continue;
+                    }
+
+                    // Optimization: If we have very few pixels left and they would fit in the next universe,
+                    // consider moving to next universe to avoid creating tiny segments
+                    if (remainingColumns > pixelsInSegment && remainingColumns - pixelsInSegment <= 3 &&
+                        (remainingColumns - pixelsInSegment) * channelsPerPixel <= 512)
+                    {
+                        // Move to next universe to keep the remaining pixels together
+                        uniIndex++;
+                        if (m_doc->inputOutputMap()->getUniverseID(uniIndex) == m_doc->inputOutputMap()->invalidUniverse())
+                        {
+                            m_doc->inputOutputMap()->addUniverse();
+                            m_doc->inputOutputMap()->startUniverses();
+                        }
+                        address = 0;
+                        continue;
+                    }
                 }
-                address = 0;
-            }
-
-            fxi->setUniverse(m_doc->inputOutputMap()->getUniverseID(uniIndex));
-            fxi->setAddress(address);
-            address += fxi->channels();
-            m_doc->addFixture(fxi);
-
-            if (rgb.type() == AddRGBPanel::ZigZag)
-            {
-                int xPos = xPosStart;
-                for (int h = 0; h < fxi->heads(); h++)
+                else
                 {
-                	if (transpose)
-                		grp->assignHead(QLCPoint(currRow, xPos), GroupHead(fxi->id(), h));
-                	else
-                		grp->assignHead(QLCPoint(xPos, currRow), GroupHead(fxi->id(), h));
-                    xPos += xPosInc;
+                    // Original behavior: use all remaining columns even if they span universes
+                    pixelsInSegment = remainingColumns;
                 }
-            }
-            else if (rgb.type() == AddRGBPanel::Snake)
-            {
-                if (i%2 == 0)
+
+                // Create fixture for this segment
+                Fixture *fxi = new Fixture(m_doc);
+                Q_ASSERT(fxi != NULL);
+
+                QString segmentName;
+                if (pixelsInSegment == columns)
                 {
-                    int xPos = xPosStart;
+                    // Full row
+                    segmentName = tr("%1 - Row %2").arg(rgb.name()).arg(i + 1);
+                }
+                else
+                {
+                    // Partial row segment
+                    segmentName = tr("%1 - Row %2 Seg %3").arg(rgb.name()).arg(i + 1).arg(segmentNumber);
+                }
+                fxi->setName(segmentName);
+
+                // Create definition and mode for this segment
+                QLCFixtureDef *segmentDef = fxi->genericRGBPanelDef(pixelsInSegment, components);
+                QLCFixtureMode *segmentMode = fxi->genericRGBPanelMode(segmentDef, components,
+                    (phyWidth * pixelsInSegment) / columns, phyHeight);
+                fxi->setFixtureDefinition(segmentDef, segmentMode);
+
+                // Check if we need to move to next universe (for non-skip mode)
+                if (address + fxi->channels() > 512)
+                {
+                    uniIndex++;
+                    if (m_doc->inputOutputMap()->getUniverseID(uniIndex) == m_doc->inputOutputMap()->invalidUniverse())
+                    {
+                        m_doc->inputOutputMap()->addUniverse();
+                        m_doc->inputOutputMap()->startUniverses();
+                    }
+                    address = 0;
+                }
+
+                fxi->setUniverse(m_doc->inputOutputMap()->getUniverseID(uniIndex));
+                fxi->setAddress(address);
+                address += fxi->channels();
+                m_doc->addFixture(fxi);
+
+                // Assign heads for this segment
+                if (rgb.type() == AddRGBPanel::ZigZag)
+                {
+                    int xPos = (xPosInc > 0) ? (xPosStart + currentColumn) : (xPosStart - currentColumn);
                     for (int h = 0; h < fxi->heads(); h++)
                     {
                     	if (transpose)
@@ -1241,19 +1565,41 @@ void FixtureManager::slotAddRGBPanel()
                         xPos += xPosInc;
                     }
                 }
-                else
+                else if (rgb.type() == AddRGBPanel::Snake)
                 {
-                    int xPos = xPosEnd;
-                    for (int h = 0; h < fxi->heads(); h++)
+                    if (i%2 == 0)
                     {
-                    	if (transpose)
-                    		grp->assignHead(QLCPoint(currRow, xPos), GroupHead(fxi->id(), h));
-                    	else
-                    		grp->assignHead(QLCPoint(xPos, currRow), GroupHead(fxi->id(), h));
-                        xPos += (-xPosInc);
+                        int xPos = (xPosInc > 0) ? (xPosStart + currentColumn) : (xPosStart - currentColumn);
+                        for (int h = 0; h < fxi->heads(); h++)
+                        {
+                        	if (transpose)
+                        		grp->assignHead(QLCPoint(currRow, xPos), GroupHead(fxi->id(), h));
+                        	else
+                        		grp->assignHead(QLCPoint(xPos, currRow), GroupHead(fxi->id(), h));
+                            xPos += xPosInc;
+                        }
+                    }
+                    else
+                    {
+                        // For odd rows in snake pattern, start from the end and work backwards
+                        int xPos = (xPosInc > 0) ? (xPosEnd - currentColumn) : (xPosEnd + currentColumn);
+                        for (int h = 0; h < fxi->heads(); h++)
+                        {
+                        	if (transpose)
+                        		grp->assignHead(QLCPoint(currRow, xPos), GroupHead(fxi->id(), h));
+                        	else
+                        		grp->assignHead(QLCPoint(xPos, currRow), GroupHead(fxi->id(), h));
+                            xPos += (-xPosInc);
+                        }
                     }
                 }
+
+                // Update counters for next segment
+                remainingColumns -= pixelsInSegment;
+                currentColumn += pixelsInSegment;
+                segmentNumber++;
             }
+
             currRow += rowInc;
         }
 
@@ -1560,6 +1906,29 @@ void FixtureManager::slotUnGroup()
 
 void FixtureManager::slotGroupSelected(QAction* action)
 {
+    // Check if this is a folder management action
+    if (action == m_createNewFolderAction)
+    {
+        slotCreateNewFolder();
+        return;
+    }
+    else if (action == m_removeFromFolderAction)
+    {
+        slotRemoveFromFolder();
+        return;
+    }
+    else if (action == m_renameFolderAction)
+    {
+        slotRenameFolder();
+        return;
+    }
+    else if (action == m_deleteFolderAction)
+    {
+        slotDeleteFolder();
+        return;
+    }
+
+    // Handle regular group operations (existing behavior)
     FixtureGroup* grp = NULL;
 
     if (action->data().isValid() == true)
@@ -1797,12 +2166,245 @@ void FixtureManager::slotExport()
 void FixtureManager::slotContextMenuRequested(const QPoint&)
 {
     QMenu menu(this);
-    menu.addAction(m_addAction);
-    menu.addAction(m_addRGBAction);
-    menu.addAction(m_propertiesAction);
-    menu.addAction(m_removeAction);
-    menu.addSeparator();
-    menu.addAction(m_groupAction);
-    menu.addAction(m_unGroupAction);
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+
+    if (item != nullptr)
+    {
+        // Check if this is a fixture group
+        quint32 id = item->data(KColumnName, PROP_ID).toUInt();
+        FixtureGroup* group = m_doc->fixtureGroup(id);
+
+        if (group != nullptr)
+        {
+            // Context menu for fixture groups
+            QMenu* moveToFolderMenu = createMoveToFolderMenu();
+            menu.addMenu(moveToFolderMenu);
+
+            menu.addSeparator();
+            menu.addAction(m_renameGroupAction);
+            menu.addAction(m_deleteGroupAction);
+        }
+        else
+        {
+            // Check if this is a folder
+            QVariant folderVar = item->data(KColumnName, PROP_FOLDER);
+            if (folderVar.isValid())
+            {
+                // Context menu for folders
+                menu.addAction(m_renameFolderAction);
+                menu.addAction(m_deleteFolderAction);
+            }
+            else
+            {
+                // Default context menu for fixtures
+                menu.addAction(m_addAction);
+                menu.addAction(m_addRGBAction);
+                menu.addAction(m_propertiesAction);
+                menu.addAction(m_removeAction);
+                menu.addSeparator();
+                menu.addAction(m_groupAction);
+                menu.addAction(m_unGroupAction);
+            }
+        }
+    }
+    else
+    {
+        // Default context menu when no item is selected
+        menu.addAction(m_addAction);
+        menu.addAction(m_addRGBAction);
+    }
+
     menu.exec(QCursor::pos());
+}
+
+void FixtureManager::slotMoveToFolder()
+{
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+    if (item == nullptr)
+        return;
+
+    quint32 id = item->data(KColumnName, PROP_ID).toUInt();
+    FixtureGroup* group = m_doc->fixtureGroup(id);
+    if (group == nullptr)
+        return;
+
+    bool ok;
+    QString folderName = QInputDialog::getText(this, tr("Move to Folder"),
+                                              tr("Folder name:"), QLineEdit::Normal,
+                                              group->folder(), &ok);
+    if (ok)
+    {
+        group->setFolder(folderName);
+        m_fixtures_tree->updateTree();
+    }
+}
+
+void FixtureManager::slotMoveToExistingFolder()
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    if (action == nullptr)
+        return;
+
+    QString folderName = action->data().toString();
+
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+    if (item == nullptr)
+        return;
+
+    quint32 id = item->data(KColumnName, PROP_ID).toUInt();
+    FixtureGroup* group = m_doc->fixtureGroup(id);
+    if (group == nullptr)
+        return;
+
+    group->setFolder(folderName);
+    m_fixtures_tree->updateTree();
+}
+
+void FixtureManager::slotCreateNewFolder()
+{
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+    if (item == nullptr)
+        return;
+
+    quint32 id = item->data(KColumnName, PROP_ID).toUInt();
+    FixtureGroup* group = m_doc->fixtureGroup(id);
+    if (group == nullptr)
+        return;
+
+    bool ok;
+    QString folderName = QInputDialog::getText(this, tr("Create New Folder"),
+                                              tr("New folder name:"), QLineEdit::Normal,
+                                              "", &ok);
+    if (ok && !folderName.isEmpty())
+    {
+        group->setFolder(folderName);
+        m_fixtures_tree->updateTree();
+    }
+}
+
+void FixtureManager::slotRemoveFromFolder()
+{
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+    if (item == nullptr)
+        return;
+
+    quint32 id = item->data(KColumnName, PROP_ID).toUInt();
+    FixtureGroup* group = m_doc->fixtureGroup(id);
+    if (group == nullptr)
+        return;
+
+    group->setFolder("");
+    m_fixtures_tree->updateTree();
+}
+
+void FixtureManager::slotRenameFolder()
+{
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+    if (item == nullptr)
+        return;
+
+    QVariant folderVar = item->data(KColumnName, PROP_FOLDER);
+    if (!folderVar.isValid())
+        return;
+
+    QString oldFolderName = folderVar.toString();
+
+    bool ok;
+    QString newFolderName = QInputDialog::getText(this, tr("Rename Folder"),
+                                                 tr("Folder name:"), QLineEdit::Normal,
+                                                 oldFolderName, &ok);
+    if (ok && !newFolderName.isEmpty() && newFolderName != oldFolderName)
+    {
+        // Find all fixture groups in the old folder and move them to the new folder
+        QList<FixtureGroup*> groups = m_doc->fixtureGroups();
+        for (FixtureGroup* group : groups)
+        {
+            if (group->folder() == oldFolderName)
+            {
+                group->setFolder(newFolderName);
+            }
+        }
+        m_fixtures_tree->updateTree();
+    }
+}
+
+void FixtureManager::slotDeleteFolder()
+{
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+    if (item == nullptr)
+        return;
+
+    QVariant folderVar = item->data(KColumnName, PROP_FOLDER);
+    if (!folderVar.isValid())
+        return;
+
+    QString folderName = folderVar.toString();
+
+    int ret = QMessageBox::question(this, tr("Delete Folder"),
+                                   tr("Are you sure you want to delete the folder \"%1\"?\n\n"
+                                      "All fixture groups in this folder will be moved to the root level.")
+                                   .arg(folderName),
+                                   QMessageBox::Yes | QMessageBox::No,
+                                   QMessageBox::No);
+
+    if (ret == QMessageBox::Yes)
+    {
+        // Find all fixture groups in this folder and move them to root level
+        QList<FixtureGroup*> groups = m_doc->fixtureGroups();
+        for (FixtureGroup* group : groups)
+        {
+            if (group->folder() == folderName)
+            {
+                group->setFolder("");
+            }
+        }
+        m_fixtures_tree->updateTree();
+    }
+}
+
+void FixtureManager::slotRenameGroup()
+{
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+    if (item == nullptr)
+        return;
+
+    quint32 id = item->data(KColumnName, PROP_ID).toUInt();
+    FixtureGroup* group = m_doc->fixtureGroup(id);
+    if (group == nullptr)
+        return;
+
+    bool ok;
+    QString newName = QInputDialog::getText(this, tr("Rename Group"),
+                                           tr("Group name:"), QLineEdit::Normal,
+                                           group->name(), &ok);
+    if (ok && !newName.isEmpty())
+    {
+        group->setName(newName);
+        m_fixtures_tree->updateTree();
+    }
+}
+
+void FixtureManager::slotDeleteGroup()
+{
+    QTreeWidgetItem* item = m_fixtures_tree->currentItem();
+    if (item == nullptr)
+        return;
+
+    quint32 id = item->data(KColumnName, PROP_ID).toUInt();
+    FixtureGroup* group = m_doc->fixtureGroup(id);
+    if (group == nullptr)
+        return;
+
+    int ret = QMessageBox::question(this, tr("Delete Group"),
+                                   tr("Are you sure you want to delete the fixture group \"%1\"?\n\n"
+                                      "This action cannot be undone.")
+                                   .arg(group->name()),
+                                   QMessageBox::Yes | QMessageBox::No,
+                                   QMessageBox::No);
+
+    if (ret == QMessageBox::Yes)
+    {
+        m_doc->deleteFixtureGroup(id);
+        m_fixtures_tree->updateTree();
+    }
 }

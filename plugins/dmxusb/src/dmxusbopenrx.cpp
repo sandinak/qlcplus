@@ -56,7 +56,7 @@ DMXUSBOpenRx::DMXUSBOpenRx(DMXInterface *interface,
 
 // on macOS, QtSerialPort cannot handle an OpenDMX device
 // so, unfortunately, we need to switch back to libftdi
-#if defined(Q_OS_OSX) && defined(QTSERIAL) && (defined(LIBFTDI1) || defined(LIBFTDI))
+#if defined(Q_OS_MACOS) && defined(QTSERIAL) && (defined(LIBFTDI1) || defined(LIBFTDI))
     if (interface->type() == DMXInterface::QtSerial)
         forceInterfaceDriver(DMXInterface::libFTDI);
 #endif

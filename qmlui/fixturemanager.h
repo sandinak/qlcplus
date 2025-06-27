@@ -188,7 +188,7 @@ public:
 
     static void addFixtureGroupTreeNode(Doc *doc, TreeModel *treeModel, FixtureGroup *group,
                                         QString searchFilter = QString(), int showFlags = ShowGroups | ShowLinked | ShowHeads,
-                                        QList<SceneValue> checkedChannels = QList<SceneValue>());
+                                        QList<SceneValue> checkedChannels = QList<SceneValue>(), QString parentPath = QString());
 
     /** Update the tree of groups/fixtures/channels */
     static void updateGroupsTree(Doc *doc, TreeModel *treeModel, QString searchFilter = QString(),
@@ -271,6 +271,14 @@ public:
     Q_INVOKABLE void updateFixtureGroup(quint32 groupID, quint32 itemID, int headIdx);
 
     Q_INVOKABLE void renameFixtureGroup(quint32 groupID, QString newName);
+
+    Q_INVOKABLE void setFixtureGroupFolder(quint32 groupID, QString folderName);
+
+    /** Rename a fixture group folder */
+    Q_INVOKABLE void renameFixtureGroupFolder(QString oldFolderName, QString newFolderName);
+
+    /** Delete a fixture group folder and move all groups to root level */
+    Q_INVOKABLE void deleteFixtureGroupFolder(QString folderName);
 
     /** Delete some existing Fixture Groups with IDs provided by $IDList */
     Q_INVOKABLE bool deleteFixtureGroups(QVariantList IDList);

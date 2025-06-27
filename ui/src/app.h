@@ -41,6 +41,7 @@ class QPixmap;
 class QAction;
 class QLabel;
 class App;
+class AutoSaveManager;
 
 #if QT_VERSION >= 0x050000
 class VideoProvider;
@@ -131,6 +132,9 @@ private slots:
 private:
     void initDoc();
 
+    /** Load resources from workspace directory if available */
+    void loadWorkspaceResources();
+
 private:
     Doc* m_doc;
 
@@ -201,6 +205,7 @@ private:
     QAction* m_helpIndexAction;
     QAction* m_helpAboutAction;
     QAction* m_quitAction;
+    QAction* m_preferencesAction;
     QMenu* m_fileOpenMenu;
     QMenu* m_fadeAndStopMenu;
 
@@ -264,8 +269,13 @@ public slots:
 
     void slotSaveAutostart(QString fileName);
 
+private slots:
+    void onAutosaveRequested(const QString& filePath);
+    void slotPreferences();
+
 private:
     QString m_fileName;
+    AutoSaveManager* m_autoSaveManager;
 };
 
 /** @} */

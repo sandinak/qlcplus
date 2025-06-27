@@ -1,0 +1,98 @@
+@@ -87,6 +87,12 @@
+     setDefaultParameter("colors", "toolbarSelectionMain", m_uiStyle->property("toolbarSelectionMain"));
+     setDefaultParameter("colors", "toolbarSelectionSub", m_uiStyle->property("toolbarSelectionSub"));
+ 
++    // Autosave settings
++    setDefaultParameter("autosave", "enabled", false);
++    setDefaultParameter("autosave", "intervalMinutes", 5);
++    setDefaultParameter("autosave", "useBackupFiles", true);
++    setDefaultParameter("autosave", "maxBackupFiles", 3);
++
+     /** Then load (if available) the user configuration */
+     QFile jsonFile(userConfFilepath());
+     if (jsonFile.exists())
+@@ -205,3 +211,84 @@
+ 
+     return ret;
+ }
++
++void UiManager::loadSettings()
++{
++    QFile jsonFile(userConfFilepath());
++    if (jsonFile.exists() == false)
++        return;
++
++    if (jsonFile.open(QIODevice::ReadOnly) == false)
++        return;
++
++    QByteArray data = jsonFile.readAll();
++    jsonFile.close();
++
++    QJsonParseError error;
++    QJsonDocument doc = QJsonDocument::fromJson(data, &error);
++    if (error.error != QJsonParseError::NoError)
++        return;
++
++    QJsonObject root = doc.object();
++    QMapIterator<QString, UiProperty> it(m_parameterMap);
++    while (it.hasNext())
++    {
++        it.next();
++        QString paramName = it.key();
++        UiProperty prop = it.value();
++
++        if (root.contains(prop.m_category))
++        {
++            QJsonObject categoryObj = root[prop.m_category].toObject();
++            if (categoryObj.contains(paramName))
++            {
++                QVariant value = categoryObj[paramName].toVariant();
++                setParameter(prop.m_category, paramName, value);
++            }
++        }
++    }
++}
++
++bool UiManager::autosaveEnabled() const
++{
++    return getParameter("autosave", "enabled").toBool();
++}
++
++void UiManager::setAutosaveEnabled(bool enabled)
++{
++    setParameter("autosave", "enabled", enabled);
++    emit settingsChanged();
++}
++
++int UiManager::autosaveInterval() const
++{
++    return getParameter("autosave", "intervalMinutes").toInt();
++}
++
++void UiManager::setAutosaveInterval(int minutes)
++{
++    setParameter("autosave", "intervalMinutes", minutes);
++    emit settingsChanged();
++}
++
++bool UiManager::autosaveUseBackup() const
++{
++    return getParameter("autosave", "useBackupFiles").toBool();
++}
++
++void UiManager::setAutosaveUseBackup(bool useBackup)
++{
++    setParameter("autosave", "useBackupFiles", useBackup);
++    emit settingsChanged();
++}
++
++int UiManager::autosaveMaxBackups() const
++{
++    return getParameter("autosave", "maxBackupFiles").toInt();
++}
++
++void UiManager::setAutosaveMaxBackups(int maxBackups)
++{
++    setParameter("autosave", "maxBackupFiles", maxBackups);
++    emit settingsChanged();
++}

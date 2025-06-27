@@ -179,6 +179,11 @@ Fixture::Components AddRGBPanel::components()
     return Fixture::RGB;
 }
 
+bool AddRGBPanel::skipIncompletePixels()
+{
+    return m_skipIncompletePixelsCb->isChecked();
+}
+
 void AddRGBPanel::slotSizeChanged(int)
 {
     checkAddressAvailability();

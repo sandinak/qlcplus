@@ -59,6 +59,8 @@ protected:
     InputSelectionWidget *m_prevInputWidget;
 
     InputSelectionWidget *m_crossfadeInputWidget;
+    InputSelectionWidget *m_midiFirstInputWidget;
+    InputSelectionWidget *m_midiSecondInputWidget;
 
     /************************************************************************
      * Cues

@@ -74,6 +74,15 @@ public:
     static QDir userTemplateDirectory();
 
     /**
+     * Get the workspace modifiers templates directory that contains
+     * modifier templates stored alongside the workspace file.
+     *
+     * @param workspacePath The absolute path to the workspace directory
+     * @return Workspace modifiers templates directory
+     */
+    static QDir workspaceTemplateDirectory(const QString& workspacePath);
+
+    /**
      * Load channel modifiers templates from the given path. Ignores duplicates.
      * Returns true even if $dir doesn't contain any template,
      * if it is still accessible (and exists).

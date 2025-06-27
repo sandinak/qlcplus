@@ -19,6 +19,7 @@
 
 #include <QDebug>
 #include <QHeaderView>
+#include <algorithm>
 
 #include "fixturetreewidget.h"
 #include "qlcfixturedef.h"
@@ -428,10 +429,46 @@ void FixtureTreeWidget::updateTree()
 
     if (m_showGroups == true)
     {
+        // Organize groups by folder
+        QMap<QString, QList<FixtureGroup*>> groupsByFolder;
+
         foreach (FixtureGroup* grp, m_doc->fixtureGroups())
         {
-            QTreeWidgetItem* grpItem = new QTreeWidgetItem(this);
-            updateGroupItem(grpItem, grp);
+            QString folder = grp->folder().isEmpty() ? QString() : grp->folder();
+            groupsByFolder[folder].append(grp);
+        }
+
+        // Add groups organized by folders
+        QStringList folderKeys = groupsByFolder.keys();
+        std::sort(folderKeys.begin(), folderKeys.end());
+
+        foreach (const QString &folder, folderKeys)
+        {
+            if (folder.isEmpty())
+            {
+                // Add groups without folder directly to root
+                foreach (FixtureGroup* grp, groupsByFolder[folder])
+                {
+                    QTreeWidgetItem* grpItem = new QTreeWidgetItem(this);
+                    updateGroupItem(grpItem, grp);
+                }
+            }
+            else
+            {
+                // Create folder node
+                QTreeWidgetItem* folderItem = new QTreeWidgetItem(this);
+                folderItem->setText(KColumnName, folder);
+                folderItem->setIcon(KColumnName, QIcon(":/folder.png"));
+                folderItem->setData(KColumnName, PROP_FOLDER, folder);
+                folderItem->setExpanded(true); // Expand folders by default
+
+                // Add groups under this folder
+                foreach (FixtureGroup* grp, groupsByFolder[folder])
+                {
+                    QTreeWidgetItem* grpItem = new QTreeWidgetItem(folderItem);
+                    updateGroupItem(grpItem, grp);
+                }
+            }
         }
     }
 

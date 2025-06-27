@@ -62,6 +62,11 @@ class Doc;
 #define KXMLQLCVCCueListCrossfadeLeft   QString("CrossLeft")
 #define KXMLQLCVCCueListCrossfadeRight  QString("CrossRight")
 #define KXMLQLCVCCueListSlidersMode     QString("SlidersMode")
+#define KXMLQLCVCCueListMidiStepFirst   QString("MidiStepFirst")
+#define KXMLQLCVCCueListMidiStepSecond  QString("MidiStepSecond")
+#define KXMLQLCVCCueListMidiStepSelection QString("MidiStepSelection")
+#define KXMLQLCVCCueListMidiTwoNoteMode QString("TwoNoteMode")
+#define KXMLQLCVCCueListMidiTimeout     QString("Timeout")
 
 /**
  * VCCueList provides a \ref VirtualConsole widget to control cue lists.
@@ -82,6 +87,8 @@ public:
     static const quint8 playbackInputSourceId;
     static const quint8 stopInputSourceId;
     static const quint8 sideFaderInputSourceId;
+    static const quint8 stepSelectFirstInputSourceId;
+    static const quint8 stepSelectSecondInputSourceId;
 
     /*************************************************************************
      * Initialization
@@ -347,6 +354,40 @@ private:
     quint32 m_previousLatestValue;
     quint32 m_playbackLatestValue;
     quint32 m_stopLatestValue;
+
+    /*************************************************************************
+     * MIDI Step Selection
+     *************************************************************************/
+public:
+    /** Get/Set MIDI step selection enabled state */
+    bool midiStepSelectionEnabled() const;
+    void setMidiStepSelectionEnabled(bool enabled);
+
+    /** Get/Set two-note mode for extended step range */
+    bool midiTwoNoteMode() const;
+    void setMidiTwoNoteMode(bool enabled);
+
+    /** Get/Set timeout for two-note protocol in milliseconds */
+    int midiTimeout() const;
+    void setMidiTimeout(int timeoutMs);
+
+    /** Jump to specific step via MIDI input */
+    void jumpToStep(int stepIndex);
+
+private slots:
+    /** Handle MIDI step selection timeout */
+    void slotMidiStepTimeout();
+
+private:
+    /** Process MIDI step selection input */
+    void processMidiStepSelection(quint8 id, uchar value);
+
+    bool m_midiStepSelectionEnabled;
+    bool m_midiTwoNoteMode;
+    int m_midiTimeout;
+    QTimer *m_midiStepTimer;
+    int m_firstNoteValue;
+    bool m_waitingForSecondNote;
 
     /*************************************************************************
      * VCWidget-inherited

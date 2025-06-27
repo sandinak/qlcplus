@@ -37,6 +37,11 @@ macx {
     # This must be after "TARGET = " and before target installation so that
     # install_name_tool can be run before target installation
     include(../platforms/macos/nametool.pri)
+
+    # Run install_name_tool immediately after linking
+    QMAKE_POST_LINK += install_name_tool -change libqlcplusengine.1.dylib @executable_path/../Frameworks/libqlcplusengine.1.dylib $$TARGET &&
+    QMAKE_POST_LINK += install_name_tool -change libqlcplusui.1.dylib @executable_path/../Frameworks/libqlcplusui.1.dylib $$TARGET &&
+    QMAKE_POST_LINK += install_name_tool -change libqlcpluswebaccess.1.dylib @executable_path/../Frameworks/libqlcpluswebaccess.1.dylib $$TARGET
 }
 
 # Installation

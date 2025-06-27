@@ -211,5 +211,68 @@ Rectangle
                   }
               }
         }
+
+        SectionBox
+        {
+            sectionLabel: qsTr("MIDI Step Selection")
+
+            sectionContents:
+              GridLayout
+              {
+                  width: parent.width
+                  columns: 2
+                  columnSpacing: 5
+                  rowSpacing: 3
+
+                  // row 1
+                  RobotoText
+                  {
+                      height: gridItemsHeight
+                      Layout.fillWidth: true
+                      label: qsTr("Enable MIDI step selection")
+                  }
+
+                  CustomCheckBox
+                  {
+                      implicitWidth: UISettings.iconSizeMedium
+                      implicitHeight: implicitWidth
+                      checked: widgetRef ? widgetRef.midiStepSelectionEnabled : false
+                      onClicked: if (widgetRef) widgetRef.midiStepSelectionEnabled = checked
+                  }
+
+                  // row 2
+                  RobotoText
+                  {
+                      height: gridItemsHeight
+                      Layout.fillWidth: true
+                      label: qsTr("Two-note mode (up to 16,384 steps)")
+                  }
+
+                  CustomCheckBox
+                  {
+                      implicitWidth: UISettings.iconSizeMedium
+                      implicitHeight: implicitWidth
+                      checked: widgetRef ? widgetRef.midiTwoNoteMode : false
+                      onClicked: if (widgetRef) widgetRef.midiTwoNoteMode = checked
+                  }
+
+                  // row 3
+                  RobotoText
+                  {
+                      height: gridItemsHeight
+                      Layout.fillWidth: true
+                      label: qsTr("Timeout (ms)")
+                  }
+
+                  CustomSpinBox
+                  {
+                      Layout.fillWidth: true
+                      from: 100
+                      to: 5000
+                      value: widgetRef ? widgetRef.midiTimeout : 500
+                      onValueChanged: if (widgetRef) widgetRef.midiTimeout = value
+                  }
+              }
+        }
     } // Column
 }

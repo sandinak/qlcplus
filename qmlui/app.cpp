@@ -53,6 +53,7 @@
 
 #include "tardis.h"
 #include "networkmanager.h"
+#include "autosavemanager.h"
 
 #include "qlcfixturedefcache.h"
 #include "audioplugincache.h"
@@ -77,6 +78,7 @@ App::App()
     , m_showManager(nullptr)
     , m_simpleDesk(nullptr)
     , m_videoProvider(nullptr)
+    , m_autoSaveManager(nullptr)
     , m_doc(nullptr)
     , m_docLoaded(false)
     , m_printItem(nullptr)
@@ -101,6 +103,11 @@ App::App()
 
 App::~App()
 {
+    if (m_autoSaveManager != NULL)
+    {
+        m_autoSaveManager->stop();
+        delete m_autoSaveManager;
+    }
 }
 
 QString App::appName() const
@@ -386,6 +393,9 @@ void App::initDoc()
     m_doc->rgbScriptsCache()->load(RGBScriptsCache::systemScriptsDirectory());
     m_doc->rgbScriptsCache()->load(RGBScriptsCache::userScriptsDirectory());
 
+    /* Load workspace-relative resources if a workspace is loaded */
+    loadWorkspaceResources();
+
     /* Load plugins */
 #if defined Q_OS_ANDROID
     QString pluginsPath = QString("%1/../lib").arg(QDir::currentPath());
@@ -528,6 +538,18 @@ void App::slotItemReadyForPrinting()
 void App::setFileName(const QString &fileName)
 {
     m_fileName = fileName;
+
+    // Update the Doc with the current workspace file for autosave
+    if (m_doc)
+    {
+        m_doc->setCurrentWorkspaceFile(fileName);
+
+        // Start autosave if we have a valid file and autosave is enabled
+        if (!fileName.isEmpty() && m_autoSaveManager)
+        {
+            m_autoSaveManager->start();
+        }
+    }
 }
 
 QString App::fileName() const
@@ -804,6 +826,9 @@ bool App::loadXML(QXmlStreamReader &doc, bool goToConsole, bool fromMemory)
     // Perform post-load operations
     m_virtualConsole->postLoad();
 
+    // Load workspace-relative resources after the workspace is loaded
+    loadWorkspaceResources();
+
     if (m_doc->errorLog().isEmpty() == false &&
         fromMemory == false)
     {
@@ -985,5 +1010,80 @@ void App::closeFixtureEditor()
     QMetaObject::invokeMethod(rootObject(), "switchToContext",
                               Q_ARG(QVariant, "FIXANDFUNC"),
                               Q_ARG(QVariant, "qrc:/FixturesAndFunctions.qml"));
+}
+
+void App::onAutosaveRequested(const QString& filePath)
+{
+    qDebug() << "AutoSave: Performing autosave to" << filePath;
+
+    QFile::FileError result = saveXML(filePath);
+    bool success = (result == QFile::NoError);
+
+    if (success)
+    {
+        qDebug() << "AutoSave: Successfully saved to" << filePath;
+        // Don't reset the modified flag for autosave - only manual saves should do that
+        // So we need to restore the modified state
+        if (m_doc->isModified() == false)
+            m_doc->setModified();
+    }
+    else
+    {
+        qDebug() << "AutoSave: Failed to save to" << filePath << "Error:" << result;
+    }
+
+    // Report the result back to the AutoSaveManager
+    m_autoSaveManager->onAutosaveResult(success, filePath);
+}
+
+void App::onAutosaveSettingsChanged()
+{
+    if (m_autoSaveManager)
+    {
+        // TODO: Update autosave manager settings from QML UI
+        // For now, just save the current settings
+        m_autoSaveManager->saveSettings();
+    }
+}
+
+void App::loadWorkspaceResources()
+{
+    if (!m_doc || m_doc->getWorkspacePath().isEmpty())
+        return;
+
+    QString workspacePath = m_doc->getWorkspacePath();
+    qDebug() << "Loading workspace resources from:" << workspacePath;
+
+    /* Load workspace fixture definitions (highest priority after user) */
+    QDir workspaceFixturesDir = QLCFixtureDefCache::workspaceDefinitionDirectory(workspacePath);
+    if (workspaceFixturesDir.exists() && workspaceFixturesDir.isReadable())
+    {
+        qDebug() << "Loading workspace fixtures from:" << workspaceFixturesDir.path();
+        m_doc->fixtureDefCache()->load(workspaceFixturesDir);
+    }
+
+    /* Load workspace modifier templates */
+    QDir workspaceModifiersDir = QLCModifiersCache::workspaceTemplateDirectory(workspacePath);
+    if (workspaceModifiersDir.exists() && workspaceModifiersDir.isReadable())
+    {
+        qDebug() << "Loading workspace modifiers from:" << workspaceModifiersDir.path();
+        m_doc->modifiersCache()->load(workspaceModifiersDir);
+    }
+
+    /* Load workspace RGB scripts */
+    QDir workspaceScriptsDir = RGBScriptsCache::workspaceScriptsDirectory(workspacePath);
+    if (workspaceScriptsDir.exists() && workspaceScriptsDir.isReadable())
+    {
+        qDebug() << "Loading workspace RGB scripts from:" << workspaceScriptsDir.path();
+        m_doc->rgbScriptsCache()->load(workspaceScriptsDir);
+    }
+
+    /* Load workspace input profiles */
+    QDir workspaceProfilesDir = InputOutputMap::workspaceProfileDirectory(workspacePath);
+    if (workspaceProfilesDir.exists() && workspaceProfilesDir.isReadable())
+    {
+        qDebug() << "Loading workspace input profiles from:" << workspaceProfilesDir.path();
+        m_doc->inputOutputMap()->loadProfiles(workspaceProfilesDir);
+    }
 }
 

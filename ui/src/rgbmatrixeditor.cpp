@@ -28,6 +28,7 @@
 #include <QGradient>
 #include <QSettings>
 #include <QComboBox>
+#include <algorithm>
 #include <QSpinBox>
 #include <QLabel>
 #include <QTimer>
@@ -168,6 +169,8 @@ void RGBMatrixEditor::init()
     else
         m_intensityGroup->hide();
 
+
+
     fillPatternCombo();
     fillFixtureGroupCombo();
     fillAnimationCombo();
@@ -282,7 +285,14 @@ void RGBMatrixEditor::fillFixtureGroupCombo()
     m_fixtureGroupCombo->clear();
     m_fixtureGroupCombo->addItem(tr("None"));
 
-    QListIterator <FixtureGroup*> it(m_doc->fixtureGroups());
+    // Create a sorted list of fixture groups by name
+    QList<FixtureGroup*> sortedGroups = m_doc->fixtureGroups();
+    std::sort(sortedGroups.begin(), sortedGroups.end(),
+              [](const FixtureGroup* a, const FixtureGroup* b) {
+                  return a->name().toLower() < b->name().toLower();
+              });
+
+    QListIterator <FixtureGroup*> it(sortedGroups);
     while (it.hasNext() == true)
     {
         FixtureGroup* grp(it.next());
@@ -924,6 +934,8 @@ void RGBMatrixEditor::slotDimmerControlClicked()
     if (m_dimmerControlCb->isChecked() == false)
         m_dimmerControlCb->setEnabled(false);
 }
+
+
 
 void RGBMatrixEditor::slotFadeInChanged(int ms)
 {

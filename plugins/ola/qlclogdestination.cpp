@@ -19,6 +19,9 @@
 */
 
 #include <QDebug>
+
+// Include compatibility header before OLA headers for C++17 support
+#include "ola_compat.h"
 #include <ola/StringUtils.h>
 
 #include "qlclogdestination.h"

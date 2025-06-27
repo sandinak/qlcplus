@@ -1,0 +1,55 @@
+@@ -424,11 +424,53 @@
+             }
+         }
+ 
++        ContextMenuEntry
++        {
++            id: preferencesEntry
++            imgSource: "qrc:/configure.svg"
++            entryText: qsTr("Preferences")
++            onEntered: submenuItem = null
++            onClicked:
++            {
++                close()
++                preferencesDialog.open()
++            }
++
++            CustomPopupDialog
++            {
++                id: preferencesDialog
++                width: mainView.width / 2.5
++                height: mainView.height / 1.5
++                title: qsTr("QLC+ Preferences")
++                standardButtons: Dialog.Ok | Dialog.Cancel
++
++                onAccepted:
++                {
++                    // Settings are automatically saved through UiManager signals
++                    close()
++                }
++
++                onRejected:
++                {
++                    // Reload settings to revert changes
++                    uiManager.loadSettings()
++                    close()
++                }
++
++                contentItem:
++                    UISettingsEditor
++                    {
++                        anchors.fill: parent
++                        anchors.margins: 10
++                    }
++            }
++        }
++
+         ContextMenuEntry
+         {
+             id: uiConfig
+             imgSource: "qrc:/configure.svg"
+-            entryText: qsTr("UI Settings")
++            entryText: qsTr("UI Settings (Legacy)")
+             onEntered: submenuItem = null
+             onClicked:
+             {

@@ -124,6 +124,8 @@ public:
     /** Get the matrix ability to control the dimmer channel */
     bool dimmerControl() const;
 
+
+
 private:
     // LEGACY: replaced by ControlModeDimmer
     bool m_dimmerControl;
@@ -250,6 +252,8 @@ private:
 
     /** Update FadeChannels when $map has changed since last time */
     void updateMapChannels(const RGBMap& map, const FixtureGroup* grp, QList<Universe *> universes);
+
+
 
 public:
     /** Convert color values to fader value */

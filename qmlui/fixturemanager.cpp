@@ -35,6 +35,37 @@
 #include "treemodel.h"
 #include "qlcconfig.h"
 #include "qlcfile.h"
+
+// Color filter directory constants (missing from config when QMLUI not properly defined)
+#ifndef COLORFILTERSDIR
+#ifdef Q_OS_WIN
+#define COLORFILTERSDIR "ColorFilters"
+#elif defined(Q_OS_MAC)
+#define COLORFILTERSDIR "Resources/ColorFilters"
+#else
+#define COLORFILTERSDIR "share/qlcplus/colorfilters"
+#endif
+#endif
+
+#ifndef USERCOLORFILTERSDIR
+#ifdef Q_OS_WIN
+#define USERCOLORFILTERSDIR "QLC+/ColorFilters"
+#elif defined(Q_OS_MAC)
+#define USERCOLORFILTERSDIR "Library/Application Support/QLC+/ColorFilters"
+#else
+#define USERCOLORFILTERSDIR ".qlcplus/colorfilters"
+#endif
+#endif
+
+#ifndef MESHESDIR
+#ifdef Q_OS_WIN
+#define MESHESDIR "Meshes"
+#elif defined(Q_OS_MAC)
+#define MESHESDIR "Resources/Meshes"
+#else
+#define MESHESDIR "share/qlcplus/meshes"
+#endif
+#endif
 #include "fixture.h"
 #include "tardis.h"
 #include "doc.h"
@@ -695,7 +726,7 @@ void FixtureManager::addFixtureNode(Doc *doc, TreeModel *treeModel, Fixture *fix
 
 void FixtureManager::addFixtureGroupTreeNode(Doc *doc, TreeModel *treeModel, FixtureGroup *group,
                                              QString searchFilter, int showFlags,
-                                             QList<SceneValue> checkedChannels)
+                                             QList<SceneValue> checkedChannels, QString parentPath)
 {
     int matchMask = 0;
     QList<quint32> fixtureIDList;
@@ -716,7 +747,9 @@ void FixtureManager::addFixtureGroupTreeNode(Doc *doc, TreeModel *treeModel, Fix
 
             int fxMatchMask = 0;
 
-            addFixtureNode(doc, treeModel, fixture, group->name(), group->id(),
+            QString groupPath = parentPath.isEmpty() ? group->name() :
+                                QString("%1%2%3").arg(parentPath).arg(TreeModel::separator()).arg(group->name());
+            addFixtureNode(doc, treeModel, fixture, groupPath, group->id(),
                            fxMatchMask, searchFilter, showFlags, checkedChannels);
             if (fxMatchMask)
                 matchMask |= FixtureMatch;
@@ -733,7 +766,9 @@ void FixtureManager::addFixtureGroupTreeNode(Doc *doc, TreeModel *treeModel, Fix
             if (searchFilter.length() >= SEARCH_MIN_CHARS && fixture->name().toLower().contains(searchFilter) == false)
                 continue;
 
-            QString fxPath = QString("%1%2%3").arg(group->name()).arg(TreeModel::separator()).arg(fixture->name());
+            QString groupPath = parentPath.isEmpty() ? group->name() :
+                                QString("%1%2%3").arg(parentPath).arg(TreeModel::separator()).arg(group->name());
+            QString fxPath = QString("%1%2%3").arg(groupPath).arg(TreeModel::separator()).arg(fixture->name());
             quint32 itemID = FixtureUtils::fixtureItemID(fixture->id(), head.head, 0);
 
             QVariantList headParams;
@@ -773,7 +808,9 @@ void FixtureManager::addFixtureGroupTreeNode(Doc *doc, TreeModel *treeModel, Fix
         grpParams.append(0); // chIdx
         grpParams.append(true); // inGroup
 
-        treeModel->setPathData(group->name(), grpParams);
+        QString groupPath = parentPath.isEmpty() ? group->name() :
+                            QString("%1%2%3").arg(parentPath).arg(TreeModel::separator()).arg(group->name());
+        treeModel->setPathData(groupPath, grpParams);
     }
 }
 
@@ -795,30 +832,70 @@ void FixtureManager::updateGroupsTree(Doc *doc, TreeModel *treeModel, QString se
 
     if (showFlags & ShowGroups)
     {
-        // add Fixture Groups first
-        for (FixtureGroup *grp : doc->fixtureGroups()) // C++11
-            addFixtureGroupTreeNode(doc, treeModel, grp, searchFilter, showFlags, checkedChannels);
+        // add Fixture Groups first, organized by folders
+        QMap<QString, QList<FixtureGroup*>> groupsByFolder;
+
+        // Organize groups by folder
+        for (FixtureGroup *grp : doc->fixtureGroups())
+        {
+            QString folder = grp->folder().isEmpty() ? QString() : grp->folder();
+            groupsByFolder[folder].append(grp);
+        }
+
+        // Add groups organized by folders
+        QStringList folderKeys = groupsByFolder.keys();
+        std::sort(folderKeys.begin(), folderKeys.end());
+
+        for (const QString &folder : folderKeys)
+        {
+            if (folder.isEmpty())
+            {
+                // Add groups without folder directly to root
+                for (FixtureGroup *grp : groupsByFolder[folder])
+                    addFixtureGroupTreeNode(doc, treeModel, grp, searchFilter, showFlags, checkedChannels);
+            }
+            else
+            {
+                // Create folder node and add groups under it
+                QString folderPath = QString("FOLDER") + TreeModel::separator() + folder;
+                QVariantList folderParams;
+                folderParams.append(QVariant::fromValue(nullptr)); // classRef
+                folderParams.append(App::FolderDragItem); // type
+                folderParams.append(0); // id
+                folderParams.append(0); // subid
+                folderParams.append(0); // chIdx
+                folderParams.append(false); // inGroup
+
+                treeModel->addItem(folder, folderParams, folderPath);
+
+                // Add groups under this folder
+                for (FixtureGroup *grp : groupsByFolder[folder])
+                    addFixtureGroupTreeNode(doc, treeModel, grp, searchFilter, showFlags, checkedChannels, folderPath);
+            }
+        }
     }
 
     // sort the fixture list by address and not by ID
     std::sort(fixtureList.begin(), fixtureList.end(), compareFixtures);
 
-    // add the current universes as groups
+    // add the current universes as groups under "Universes" folder
+    QString universesFolder = tr("Universes");
     for (Fixture *fixture : fixtureList) // C++11
     {
         if (fixture->universe() >= (quint32)uniNames.count())
             continue;
 
         QString universeName = uniNames.at(fixture->universe());
+        QString universePathInFolder = QString("%1%2%3").arg(universesFolder).arg(TreeModel::separator()).arg(universeName);
         int matchMask = 0;
 
-        addFixtureNode(doc, treeModel, fixture, universeName, fixture->universe(),
+        addFixtureNode(doc, treeModel, fixture, universePathInFolder, fixture->universe(),
                        matchMask, searchFilter, showFlags, checkedChannels);
     }
 
     for (Universe *universe : doc->inputOutputMap()->universes())
     {
-        // add also the Universe node data
+        // add also the Universe node data under Universes folder
         QVariantList uniParams;
         uniParams.append(QVariant::fromValue(universe)); // classRef
         uniParams.append(App::UniverseDragItem); // type
@@ -827,7 +904,8 @@ void FixtureManager::updateGroupsTree(Doc *doc, TreeModel *treeModel, QString se
         uniParams.append(0); // chIdx
         uniParams.append(false); // inGroup
 
-        treeModel->setPathData(universe->name(), uniParams);
+        QString universePathInFolder = QString("%1%2%3").arg(universesFolder).arg(TreeModel::separator()).arg(universe->name());
+        treeModel->setPathData(universePathInFolder, uniParams);
     }
 
     //treeModel->printTree(); // enable for debug purposes
@@ -1138,6 +1216,56 @@ void FixtureManager::renameFixtureGroup(quint32 groupID, QString newName)
         return;
 
     group->setName(newName);
+
+    updateGroupsTree(m_doc, m_fixtureTree, m_searchFilter);
+    emit groupsTreeModelChanged();
+}
+
+void FixtureManager::setFixtureGroupFolder(quint32 groupID, QString folderName)
+{
+    FixtureGroup *group = m_doc->fixtureGroup(groupID);
+    if (group == nullptr)
+        return;
+
+    group->setFolder(folderName);
+
+    updateGroupsTree(m_doc, m_fixtureTree, m_searchFilter);
+    emit groupsTreeModelChanged();
+}
+
+void FixtureManager::renameFixtureGroupFolder(QString oldFolderName, QString newFolderName)
+{
+    if (oldFolderName.isEmpty() || newFolderName.isEmpty() || oldFolderName == newFolderName)
+        return;
+
+    // Find all fixture groups in the old folder and move them to the new folder
+    QList<FixtureGroup *> groups = m_doc->fixtureGroups();
+    for (FixtureGroup *group : groups)
+    {
+        if (group->folder() == oldFolderName)
+        {
+            group->setFolder(newFolderName);
+        }
+    }
+
+    updateGroupsTree(m_doc, m_fixtureTree, m_searchFilter);
+    emit groupsTreeModelChanged();
+}
+
+void FixtureManager::deleteFixtureGroupFolder(QString folderName)
+{
+    if (folderName.isEmpty())
+        return;
+
+    // Find all fixture groups in this folder and move them to root level (empty folder)
+    QList<FixtureGroup *> groups = m_doc->fixtureGroups();
+    for (FixtureGroup *group : groups)
+    {
+        if (group->folder() == folderName)
+        {
+            group->setFolder("");
+        }
+    }
 
     updateGroupsTree(m_doc, m_fixtureTree, m_searchFilter);
     emit groupsTreeModelChanged();

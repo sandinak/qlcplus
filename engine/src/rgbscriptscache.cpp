@@ -106,3 +106,9 @@ QDir RGBScriptsCache::userScriptsDirectory()
     return QLCFile::userDirectory(QString(USERRGBSCRIPTDIR), QString(RGBSCRIPTDIR),
             QStringList() << QString("*%1").arg(".js"));
 }
+
+QDir RGBScriptsCache::workspaceScriptsDirectory(const QString& workspacePath)
+{
+    return QLCFile::workspaceDirectory(workspacePath, QString("rgbscripts"),
+            QStringList() << QString("*%1").arg(".js"));
+}

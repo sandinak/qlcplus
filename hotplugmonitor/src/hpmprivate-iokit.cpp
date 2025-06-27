@@ -119,7 +119,11 @@ void HPMPrivate::run()
     io_iterator_t rawRemovedIter = 0;
 
     // Create an IOMasterPort for accessing IOKit
+    // Use kIOMainPortDefault for macOS 12.0+ to avoid deprecation warnings
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     kern_return_t kr = IOMasterPort(MACH_PORT_NULL, &masterPort);
+#pragma clang diagnostic pop
     if (kr || !masterPort)
     {
         qWarning() << Q_FUNC_INFO << "Unable to create a master I/O Kit port" << kr;
@@ -131,7 +135,9 @@ void HPMPrivate::run()
     if (!matchingDict)
     {
         qWarning() << Q_FUNC_INFO << "Unable to create a USB matching dictionary";
+#if !(defined(MAC_OS_VERSION_12_0) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_12_0)
         mach_port_deallocate(mach_task_self(), masterPort);
+#endif
         return;
     }
 
@@ -174,8 +180,10 @@ void HPMPrivate::run()
     // arm the notification.
     onHPMPrivateRawDeviceRemoved(this, rawRemovedIter);
 
-    // No longer needed
+    // No longer needed - only deallocate if we created it with IOMasterPort
+#if !(defined(MAC_OS_VERSION_12_0) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_12_0)
     mach_port_deallocate(mach_task_self(), masterPort);
+#endif
     masterPort = 0;
 
     // Start the run loop inside this thread. The thread "stops" here.

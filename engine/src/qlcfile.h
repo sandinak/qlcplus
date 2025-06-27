@@ -140,6 +140,16 @@ public:
      */
     static QDir userDirectory(QString path, QString fallBackPath, QStringList extensions);
 
+    /**
+     * @brief workspaceDirectory returns a QDir relative to the workspace directory
+     *        for loading resources that are stored alongside the workspace file
+     * @param workspacePath The absolute path to the workspace directory
+     * @param subPath The subdirectory name (e.g., "fixtures", "rgbscripts")
+     * @param extensions List of file extensions to filter
+     * @return QDir configured for the workspace subdirectory
+     */
+    static QDir workspaceDirectory(const QString& workspacePath, const QString& subPath, const QStringList& extensions);
+
     /** @brief Return a OS dependent prefix used for local file URLs.
       *        Linux and macOS needs "file://", while Windows needs "file:///" */
     static QString fileUrlPrefix();

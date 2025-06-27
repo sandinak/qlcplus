@@ -1,0 +1,8 @@
+@@ -214,6 +216,7 @@
+ private:
+     DmxDumpFactoryProperties *m_dumpProperties;
+     VideoProvider *m_videoProvider;
++    AutoSaveManager *m_autoSaveManager;
+ 
+     /*********************************************************************
+      * Load & Save

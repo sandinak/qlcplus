@@ -158,6 +158,16 @@ Rectangle
             }
             MenuBarEntry
             {
+                id: prefsEntry
+                Layout.alignment: Qt.AlignTop
+                imgSource: "qrc:/configure.svg"
+                entryText: qsTr("Preferences")
+                onPressed: preferencesDialog.open()
+                autoExclusive: false
+                checkable: false
+            }
+            MenuBarEntry
+            {
                 id: fnfEntry
                 property string ctxName: "FIXANDFUNC"
                 property string ctxRes: "qrc:/FixturesAndFunctions.qml"
@@ -384,6 +394,36 @@ Rectangle
         y: actEntry.height + 1
         visible: false
         z: visible ? 99 : 0
+    }
+
+    /** Preferences dialog */
+    CustomPopupDialog
+    {
+        id: preferencesDialog
+        width: mainView.width / 2.5
+        height: mainView.height / 1.5
+        title: qsTr("QLC+ Preferences")
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        onAccepted:
+        {
+            // Settings are automatically saved through UiManager signals
+            close()
+        }
+
+        onRejected:
+        {
+            // Reload settings to revert changes
+            uiManager.loadSettings()
+            close()
+        }
+
+        contentItem:
+            UISettingsEditor
+            {
+                anchors.fill: parent
+                anchors.margins: 10
+            }
     }
 
     /* Rectangle covering the whole window to

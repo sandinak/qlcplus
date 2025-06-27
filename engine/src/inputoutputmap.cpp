@@ -979,6 +979,12 @@ QDir InputOutputMap::userProfileDirectory()
                                   QStringList() << QString("*%1").arg(KExtInputProfile));
 }
 
+QDir InputOutputMap::workspaceProfileDirectory(const QString& workspacePath)
+{
+    return QLCFile::workspaceDirectory(workspacePath, QString("inputprofiles"),
+                                       QStringList() << QString("*%1").arg(KExtInputProfile));
+}
+
 /*********************************************************************
  * Beats
  *********************************************************************/

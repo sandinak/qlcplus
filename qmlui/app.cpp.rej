@@ -1,0 +1,20 @@
+@@ -138,6 +145,19 @@
+ 
+     m_uiManager = new UiManager(this, m_doc);
+     rootContext()->setContextProperty("uiManager", m_uiManager);
++
++    // Initialize AutoSave manager
++    m_autoSaveManager = new AutoSaveManager(m_doc, this);
++    connect(m_autoSaveManager, &AutoSaveManager::autosaveRequested,
++            this, &App::onAutosaveRequested);
++
++    // Connect UI settings changes to autosave manager
++    connect(m_uiManager, &UiManager::settingsChanged,
++            this, &App::onAutosaveSettingsChanged);
++
++    // Initialize autosave settings from UI manager
++    onAutosaveSettingsChanged();
++
+     m_ioManager = new InputOutputManager(this, m_doc);
+     m_fixtureBrowser = new FixtureBrowser(this, m_doc);
+     m_fixtureManager = new FixtureManager(this, m_doc);

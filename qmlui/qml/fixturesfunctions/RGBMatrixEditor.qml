@@ -547,6 +547,24 @@ Rectangle
 
                     } // GridLayout
             }
+
+            SectionBox
+            {
+                id: optionsSection
+                width: editorColumn.colWidth - 5
+                sectionLabel: qsTr("Options")
+                sectionContents:
+                    GridLayout
+                    {
+                        width: parent.width
+                        columns: 2
+                        columnSpacing: 4
+                        rowSpacing: 4
+
+
+
+                    } // GridLayout
+            }
         } // Column
         ScrollBar.vertical: CustomScrollBar { id: sbar }
     } // Flickable

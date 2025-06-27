@@ -21,6 +21,7 @@
 #define VCCUELIST_H
 
 #include <QTimer>
+#include <QTime>
 
 #include "vcwidget.h"
 
@@ -36,8 +37,15 @@
 #define KXMLQLCVCCueListSlidersMode         QString("SlidersMode")
 #define KXMLQLCVCCueListCrossfadeLeft       QString("CrossLeft")
 #define KXMLQLCVCCueListCrossfadeRight      QString("CrossRight")
+#define KXMLQLCVCCueListMidiStepFirst       QString("MidiStepFirst")
+#define KXMLQLCVCCueListMidiStepSecond      QString("MidiStepSecond")
+#define KXMLQLCVCCueListMidiStepSelection   QString("MidiStepSelection")
+#define KXMLQLCVCCueListMidiTwoNoteMode     QString("TwoNoteMode")
+#define KXMLQLCVCCueListMidiTimeout         QString("Timeout")
+#define KXMLQLCVCCueListMidiDebounceInterval QString("DebounceInterval")
 
 class ListModel;
+class MidiStepController;
 
 class VCCueList : public VCWidget
 {
@@ -56,6 +64,11 @@ class VCCueList : public VCWidget
 
     Q_PROPERTY(PlaybackStatus playbackStatus READ playbackStatus NOTIFY playbackStatusChanged)
     Q_PROPERTY(int playbackIndex READ playbackIndex WRITE setPlaybackIndex NOTIFY playbackIndexChanged)
+
+    Q_PROPERTY(bool midiStepSelectionEnabled READ midiStepSelectionEnabled WRITE setMidiStepSelectionEnabled NOTIFY midiStepSelectionEnabledChanged)
+    Q_PROPERTY(bool midiTwoNoteMode READ midiTwoNoteMode WRITE setMidiTwoNoteMode NOTIFY midiTwoNoteModeChanged)
+    Q_PROPERTY(int midiTimeout READ midiTimeout WRITE setMidiTimeout NOTIFY midiTimeoutChanged)
+    Q_PROPERTY(int midiDebounceInterval READ midiDebounceInterval WRITE setMidiDebounceInterval NOTIFY midiDebounceIntervalChanged)
 
     /*********************************************************************
      * Initialization
@@ -279,6 +292,57 @@ private:
     int m_playbackIndex;
 
     QTimer *m_timer;
+
+    /*********************************************************************
+     * MIDI Step Selection
+     *********************************************************************/
+public:
+    /** Get/Set MIDI step selection enabled state */
+    bool midiStepSelectionEnabled() const;
+    Q_INVOKABLE void setMidiStepSelectionEnabled(bool enabled);
+
+    /** Get/Set two-note mode for extended step range */
+    bool midiTwoNoteMode() const;
+    Q_INVOKABLE void setMidiTwoNoteMode(bool enabled);
+
+    /** Get/Set timeout for two-note protocol in milliseconds */
+    int midiTimeout() const;
+    Q_INVOKABLE void setMidiTimeout(int timeoutMs);
+
+    /** Get/Set debounce interval for MIDI rate limiting in milliseconds */
+    int midiDebounceInterval() const;
+    Q_INVOKABLE void setMidiDebounceInterval(int intervalMs);
+
+    /** Jump to specific step via MIDI input */
+    Q_INVOKABLE void jumpToStep(int stepIndex);
+
+private slots:
+    /** Handle MIDI step selection timeout */
+    void slotMidiStepTimeout();
+
+signals:
+    void midiStepSelectionEnabledChanged();
+    void midiTwoNoteModeChanged();
+    void midiTimeoutChanged();
+    void midiDebounceIntervalChanged();
+
+private:
+    /** Process MIDI step selection input */
+    void processMidiStepSelection(quint8 id, uchar value);
+
+    bool m_midiStepSelectionEnabled;
+    bool m_midiTwoNoteMode;
+    int m_midiTimeout;
+    QTimer *m_midiStepTimer;
+    int m_firstNoteValue;
+    bool m_waitingForSecondNote;
+
+    // Rate limiting for rapid changes
+    QTime m_lastChangeTime;
+    static const int MIN_CHANGE_INTERVAL_MS = 50; // Minimum 50ms between changes
+
+    // External MIDI step controller
+    MidiStepController* m_midiStepController;
 
     /*********************************************************************
      * External input

@@ -95,6 +95,7 @@ HEADERS += aboutbox.h \
            palettegenerator.h \
            playbackslider.h \
            positiontool.h \
+           preferencesdialog.h \
            rdmmanager.h \
            remapwidget.h \
            rgbmatrixeditor.h \
@@ -276,6 +277,7 @@ SOURCES += aboutbox.cpp \
            palettegenerator.cpp \
            playbackslider.cpp \
            positiontool.cpp \
+           preferencesdialog.cpp \
            rdmmanager.cpp \
            remapwidget.cpp \
            rgbmatrixeditor.cpp \
@@ -370,6 +372,9 @@ macx {
     # This must be after "TARGET = " and before target installation so that
     # install_name_tool can be run before target installation
     include(../../platforms/macos/nametool.pri)
+
+    # Set the install name for this library
+    QMAKE_POST_LINK += install_name_tool -id @executable_path/../Frameworks/libqlcplusui.1.dylib libqlcplusui.1.0.0.dylib
 }
 
 # Installation

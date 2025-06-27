@@ -59,7 +59,8 @@ HEADERS += avolitesd4parser.h \
            utils.h
 
 # Engine
-HEADERS += bus.h \
+HEADERS += autosavemanager.h \
+           bus.h \
            channelsgroup.h \
            channelmodifier.h \
            chaser.h \
@@ -138,7 +139,8 @@ SOURCES += avolitesd4parser.cpp \
            qlcphysical.cpp
 
 # Engine
-SOURCES += bus.cpp \
+SOURCES += autosavemanager.cpp \
+           bus.cpp \
            channelsgroup.cpp \
            channelmodifier.cpp \
            chaser.cpp \
@@ -218,6 +220,9 @@ macx {
     # This must be after "TARGET = " and before target installation so that
     # install_name_tool can be run before target installation
     include(../../platforms/macos/nametool.pri)
+
+    # Set the install name for this library
+    QMAKE_POST_LINK += install_name_tool -id @executable_path/../Frameworks/lib$$TARGET.1.dylib lib$$TARGET.1.dylib
 }
 
 target.path = $$INSTALLROOT/$$LIBSDIR

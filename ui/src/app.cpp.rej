@@ -1,0 +1,9 @@
+@@ -53,6 +53,8 @@
+ #include "qlcconfig.h"
+ #include "qlcfile.h"
+ #include "apputil.h"
++#include "autosavemanager.h"
++#include "preferencesdialog.h"
+ 
+ #if defined(WIN32) || defined(Q_OS_WIN)
+ #   include "hotplugmonitor.h"

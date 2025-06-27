@@ -46,6 +46,7 @@ class FixtureGroup : public QObject
 
     Q_PROPERTY(quint32 id READ id CONSTANT)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString folder READ folder WRITE setFolder NOTIFY folderChanged)
 
     /************************************************************************
      * Initialization
@@ -90,11 +91,19 @@ public:
     /** Get the name of a fixture group */
     QString name() const;
 
+    /** Set the folder path for a fixture group */
+    void setFolder(const QString& folder);
+
+    /** Get the folder path of a fixture group */
+    QString folder() const;
+
 signals:
     void nameChanged();
+    void folderChanged();
 
 private:
     QString m_name;
+    QString m_folder;
 
     /************************************************************************
      * Fixtures

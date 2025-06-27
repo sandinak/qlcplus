@@ -1,0 +1,21 @@
+@@ -50,6 +50,20 @@
+ 
+     Q_INVOKABLE QString userConfFilepath();
+     Q_INVOKABLE bool saveSettings();
++    Q_INVOKABLE void loadSettings();
++
++    // Autosave related methods
++    Q_INVOKABLE bool autosaveEnabled() const;
++    Q_INVOKABLE void setAutosaveEnabled(bool enabled);
++    Q_INVOKABLE int autosaveInterval() const;
++    Q_INVOKABLE void setAutosaveInterval(int minutes);
++    Q_INVOKABLE bool autosaveUseBackup() const;
++    Q_INVOKABLE void setAutosaveUseBackup(bool useBackup);
++    Q_INVOKABLE int autosaveMaxBackups() const;
++    Q_INVOKABLE void setAutosaveMaxBackups(int maxBackups);
++
++signals:
++    void settingsChanged();
+ 
+ private:
+     /** Reference to the QML view root */

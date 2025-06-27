@@ -568,6 +568,15 @@ public:
      */
     static QDir userProfileDirectory();
 
+    /**
+     * Get the workspace input profile directory that contains
+     * input profiles stored alongside the workspace file.
+     *
+     * @param workspacePath The absolute path to the workspace directory
+     * @return Workspace input profile directory
+     */
+    static QDir workspaceProfileDirectory(const QString& workspacePath);
+
 private:
     /** List that contains all available profiles */
     QList <QLCInputProfile*> m_profiles;

@@ -33,6 +33,7 @@ class Doc;
 #define PROP_GROUP    Qt::UserRole + 2
 #define PROP_HEAD     Qt::UserRole + 3
 #define PROP_CHANNEL  Qt::UserRole + 4
+#define PROP_FOLDER   Qt::UserRole + 5
 
 class FixtureTreeWidget : public QTreeWidget
 {

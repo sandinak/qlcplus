@@ -814,8 +814,10 @@ QLCFixtureDef::FixtureType AvolitesD4Parser::guessType(QLCFixtureDef *def) const
         return QLCFixtureDef::ColorChanger; // No pan/tilt/gobos, but RGB/CMY mixing or dichro
     else if (strobe > 0)
         return QLCFixtureDef::Strobe; // Duh.
-    else if (smoke > 0)
+    else if (smoke > 0 || haze > 0)
         return QLCFixtureDef::Smoke; // Duh.
+    else if (haze > 0)
+        return QLCFixtureDef::Hazer; // Duh.
     else if (nocol > 0)
         return QLCFixtureDef::Dimmer; // Kinda..mmmmh..
     else

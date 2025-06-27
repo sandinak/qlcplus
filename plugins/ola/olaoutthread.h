@@ -23,6 +23,8 @@
 
 #include <QThread>
 
+// Include compatibility header before OLA headers for C++17 support
+#include "ola_compat.h"
 #include <ola/DmxBuffer.h>
 #include <ola/OlaCallbackClient.h>
 #include <ola/io/Descriptor.h>
