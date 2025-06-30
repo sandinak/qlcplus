@@ -81,9 +81,6 @@ macx {
     # This must be after "TARGET = " and before target installation so that
     # install_name_tool can be run before target installation
     include(../../platforms/macos/nametool.pri)
-
-    # Set the install name for this library
-    QMAKE_POST_LINK += install_name_tool -id @executable_path/../Frameworks/lib$$TARGET.1.dylib lib$$TARGET.1.0.0.dylib
 }
 
 target.path = $$INSTALLROOT/$$LIBSDIR

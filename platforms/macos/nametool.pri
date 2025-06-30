@@ -5,8 +5,7 @@
 
 # Libraries
 contains(TEMPLATE, lib) {
-    OUTFILE = libTARGET.dylib
-    OUTFILE = $$replace(OUTFILE, TARGET, $$TARGET)
+    OUTFILE = lib$${TARGET}.1.0.0.dylib
 }
 
 # Executables
