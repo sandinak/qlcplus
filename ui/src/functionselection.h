@@ -178,6 +178,16 @@ protected:
     QList <quint32> m_selection;
 
     /*********************************************************************
+     * Edit Mode Safety
+     *********************************************************************/
+private:
+    /** Pause edit mode processing if available */
+    void pauseEditModeProcessing();
+
+    /** Resume edit mode processing if available */
+    void resumeEditModeProcessing();
+
+    /*********************************************************************
      * Internal
      *********************************************************************/
 protected:

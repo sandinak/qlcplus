@@ -43,6 +43,8 @@
 #include "scene.h"
 #include "efx.h"
 #include "doc.h"
+#include "app.h"
+#include "editmodemanager.h"
 
 #define KColumnName 0
 
@@ -227,14 +229,21 @@ void FunctionSelection::setMultiSelection(bool multi)
 
 void FunctionSelection::slotAllFunctionsChecked()
 {
+    // No need to pause for "All Functions" since we don't call isRunning()
     m_runningOnlyFlag = false;
     refillTree();
 }
 
 void FunctionSelection::slotRunningFunctionsChecked()
 {
+    // Pause edit mode processing before iterating through functions
+    pauseEditModeProcessing();
+
     m_runningOnlyFlag = true;
     refillTree();
+
+    // Resume edit mode processing after function iteration
+    resumeEditModeProcessing();
 }
 
 /*****************************************************************************
@@ -316,6 +325,12 @@ void FunctionSelection::refillTree()
     /* Fill the tree */
     foreach (Function* function, m_doc->functions())
     {
+        // Safety check: ensure function is still valid
+        if (!function) {
+            qWarning() << Q_FUNC_INFO << "Null function encountered during tree fill";
+            continue;
+        }
+
         if (m_runningOnlyFlag == true && !function->isRunning())
             continue;
 
@@ -462,3 +477,45 @@ void FunctionSelection::slotVideoChecked(bool state)
     refillTree();
 }
 #endif
+
+/*********************************************************************
+ * Edit Mode Safety
+ *********************************************************************/
+
+void FunctionSelection::pauseEditModeProcessing()
+{
+    // Try to get the App instance and pause edit mode processing
+    App* app = qobject_cast<App*>(parent());
+    if (!app) {
+        // If parent is not App, try to find it through the widget hierarchy
+        QWidget* widget = qobject_cast<QWidget*>(parent());
+        while (widget && !app) {
+            widget = widget->parentWidget();
+            app = qobject_cast<App*>(widget);
+        }
+    }
+
+    if (app && app->editModeManager()) {
+        app->editModeManager()->pauseProcessing();
+        qDebug() << Q_FUNC_INFO << "Paused edit mode processing for function selection";
+    }
+}
+
+void FunctionSelection::resumeEditModeProcessing()
+{
+    // Try to get the App instance and resume edit mode processing
+    App* app = qobject_cast<App*>(parent());
+    if (!app) {
+        // If parent is not App, try to find it through the widget hierarchy
+        QWidget* widget = qobject_cast<QWidget*>(parent());
+        while (widget && !app) {
+            widget = widget->parentWidget();
+            app = qobject_cast<App*>(widget);
+        }
+    }
+
+    if (app && app->editModeManager()) {
+        app->editModeManager()->resumeProcessing();
+        qDebug() << Q_FUNC_INFO << "Resumed edit mode processing for function selection";
+    }
+}

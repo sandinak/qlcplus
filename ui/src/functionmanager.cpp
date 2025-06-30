@@ -65,6 +65,7 @@
 #include "show.h"
 #include "doc.h"
 #include "efx.h"
+#include "editmodemanager.h"
 
 #define COL_NAME 0
 #define COL_PATH 1

@@ -117,6 +117,8 @@ AddVCButtonMatrix::FrameStyle AddVCButtonMatrix::frameStyle() const
 
 void AddVCButtonMatrix::slotAddClicked()
 {
+    // Note: FunctionSelection now has built-in edit mode safety for "Running Functions"
+    // so no additional pause/resume is needed here
     FunctionSelection fs(this, m_doc);
     fs.setDisabledFunctions(functions());
     if (fs.exec() == true)
