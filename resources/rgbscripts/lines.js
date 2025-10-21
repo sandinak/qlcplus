@@ -380,18 +380,17 @@ var testAlgo;
 
     util.shouldDrawPixel = function(distance, effectiveSize)
     {
+      // Optimize: Early return for most common case
       if (algo.linesPattern === 0) {
-        // Solid: always draw
-        return true;
+        return true; // Solid: always draw
       }
       else if (algo.linesPattern === 1) {
         // Dashed: draw in segments of 3, skip 2
-        var segment = Math.floor(distance / 3) % 2;
-        return segment === 0;
+        return ((distance / 3) | 0) % 2 === 0;
       }
       else if (algo.linesPattern === 2) {
         // Dotted: draw every 3rd pixel
-        return (Math.floor(distance) % 3) === 0;
+        return (distance | 0) % 3 === 0;
       }
       else if (algo.linesPattern === 3) {
         // Double: draw at start and end portions
@@ -403,22 +402,24 @@ var testAlgo;
 
     util.applyBrightnessVariance = function(color, brightnessFactor)
     {
+      // Optimize: Early return for most common case
       if (algo.linesBrightnessVariance === 0) {
         return color;
       }
 
-      var r = (color >> 16) & 0x00FF;
-      var g = (color >> 8) & 0x00FF;
-      var b = color & 0x00FF;
+      var r = (color >> 16) & 0xFF;
+      var g = (color >> 8) & 0xFF;
+      var b = color & 0xFF;
 
-      var newR = Math.round(r * brightnessFactor);
-      var newG = Math.round(g * brightnessFactor);
-      var newB = Math.round(b * brightnessFactor);
+      // Optimize: Use bitwise operations for rounding and clamping
+      var newR = (r * brightnessFactor + 0.5) | 0;
+      var newG = (g * brightnessFactor + 0.5) | 0;
+      var newB = (b * brightnessFactor + 0.5) | 0;
 
-      // Clamp values to 0-255 range
-      newR = Math.max(0, Math.min(255, newR));
-      newG = Math.max(0, Math.min(255, newG));
-      newB = Math.max(0, Math.min(255, newB));
+      // Optimize: Faster clamping using bitwise operations
+      newR = newR > 255 ? 255 : (newR < 0 ? 0 : newR);
+      newG = newG > 255 ? 255 : (newG < 0 ? 0 : newG);
+      newB = newB > 255 ? 255 : (newB < 0 ? 0 : newB);
 
       return (newR << 16) + (newG << 8) + newB;
     };
@@ -433,103 +434,106 @@ var testAlgo;
         return 0;
       }
 
+      // Optimize: Cache dimension-1 calculation
+      var maxPos = dimension - 1;
+
       if (algo.linesDistribution === 0)
       {
-        return Math.round(Math.random() * (dimension - 1));
+        return (Math.random() * maxPos + 0.5) | 0;
       }
       else if (algo.linesDistribution === 1)
       {
-        var step = 2;
-        var maxSteps = Math.floor(dimension / step);
+        var maxSteps = dimension >> 1; // Optimize: Use bit shift for division by 2
         if (maxSteps <= 0) return 0;
-        var stepIndex = Math.floor(Math.random() * maxSteps);
-        return Math.min(stepIndex * step, dimension - 1);
+        var stepIndex = (Math.random() * maxSteps) | 0;
+        return Math.min(stepIndex << 1, maxPos); // Optimize: Use bit shift for multiplication by 2
       }
       else if (algo.linesDistribution === 2)
       {
-        var step = 3;
-        var maxSteps = Math.floor(dimension / step);
+        var maxSteps = (dimension / 3) | 0;
         if (maxSteps <= 0) return 0;
-        var stepIndex = Math.floor(Math.random() * maxSteps);
-        return Math.min(stepIndex * step, dimension - 1);
+        var stepIndex = (Math.random() * maxSteps) | 0;
+        return Math.min(stepIndex * 3, maxPos);
       }
       else if (algo.linesDistribution === 3)
       {
-        var halfPoint = Math.floor(dimension / 2);
+        var halfPoint = dimension >> 1; // Optimize: Use bit shift
         if (halfPoint <= 1) return 0;
-        return Math.round(Math.random() * (halfPoint - 1));
+        return (Math.random() * (halfPoint - 1) + 0.5) | 0;
       }
       else if (algo.linesDistribution === 4)
       {
-        var halfPoint = Math.floor(dimension / 2);
+        var halfPoint = dimension >> 1; // Optimize: Use bit shift
         var range = dimension - halfPoint - 1;
-        if (range <= 0) return Math.min(halfPoint, dimension - 1);
-        return halfPoint + Math.round(Math.random() * range);
+        if (range <= 0) return Math.min(halfPoint, maxPos);
+        return halfPoint + ((Math.random() * range + 0.5) | 0);
       }
       else if (algo.linesDistribution === 5)
       {
-        var thirdPoint = Math.floor(dimension / 3);
+        var thirdPoint = (dimension / 3) | 0; // Optimize: Use bitwise OR
         var startPos = thirdPoint;
         var endPos = dimension - thirdPoint;
         var range = endPos - startPos - 1;
-        if (range <= 0) return Math.min(startPos, dimension - 1);
-        return startPos + Math.round(Math.random() * range);
+        if (range <= 0) return Math.min(startPos, maxPos);
+        return startPos + ((Math.random() * range + 0.5) | 0);
       }
       else if (algo.linesDistribution === 6)
       {
-        var quarterPoint = Math.floor(dimension / 4);
+        var quarterPoint = dimension >> 2; // Optimize: Use bit shift for division by 4
         if (quarterPoint <= 1)
         {
-          return Math.round(Math.random() * (dimension - 1));
+          return (Math.random() * maxPos + 0.5) | 0;
         }
 
         if (Math.random() < 0.5)
         {
-          return Math.round(Math.random() * (quarterPoint - 1));
+          return (Math.random() * (quarterPoint - 1) + 0.5) | 0;
         }
         else
         {
           var startPos = dimension - quarterPoint;
           var range = quarterPoint - 1;
-          if (range <= 0) return Math.min(startPos, dimension - 1);
-          return startPos + Math.round(Math.random() * range);
+          if (range <= 0) return Math.min(startPos, maxPos);
+          return startPos + ((Math.random() * range + 0.5) | 0);
         }
       }
 
-      return Math.round(Math.random() * (dimension - 1));
+      return (Math.random() * maxPos + 0.5) | 0;
     };
 
     util.getColor = function(step, rgb)
     {
+      // Optimize: Early return for most common case
       if (algo.fadeMode === 0)
       {
         return rgb;
       }
       else
       {
-        var r = (rgb >> 16) & 0x00FF;
-        var g = (rgb >> 8) & 0x00FF;
-        var b = rgb & 0x00FF;
+        var r = (rgb >> 16) & 0xFF;
+        var g = (rgb >> 8) & 0xFF;
+        var b = rgb & 0xFF;
 
-        var stepCount = Math.floor(util.linesMaxSize);
+        var stepCount = util.linesMaxSize | 0; // Optimize: Remove Math.floor
         var fadeStep = step;
         if (algo.fadeMode === 2) {
           fadeStep = stepCount - step;
         }
         var factor = fadeStep / stepCount;
-        var newR = Math.round(r * factor);
-        var newG = Math.round(g * factor);
-        var newB = Math.round(b * factor);
+        // Optimize: Use bitwise operations for rounding
+        var newR = (r * factor + 0.5) | 0;
+        var newG = (g * factor + 0.5) | 0;
+        var newB = (b * factor + 0.5) | 0;
 
-        var newRGB = (newR << 16) + (newG << 8) + newB;
-        return newRGB;
+        return (newR << 16) + (newG << 8) + newB;
       }
     };
 
     util.drawPixel = function(cx, cy, color, width, height)
     {
-      cx = Math.round(cx);
-      cy = Math.round(cy);
+      // Optimize: Use bitwise OR for faster integer conversion
+      cx = (cx + 0.5) | 0;
+      cy = (cy + 0.5) | 0;
       if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
         util.pixelMap[cy][cx] = color;
       }
@@ -538,14 +542,18 @@ var testAlgo;
     util.getNextStep = function(width, height, rgb)
     {
       var x, y;
-      // create an empty, black pixelMap
-      util.pixelMap = new Array(height);
-      for (y = 0; y < height; y++)
-      {
-        util.pixelMap[y] = new Array(width);
-        for (x = 0; x < width; x++) {
-          util.pixelMap[y][x] = 0;
+      // Optimize: Only recreate pixelMap if dimensions changed
+      if (!util.pixelMap || util.pixelMap.length !== height ||
+          (util.pixelMap.length > 0 && util.pixelMap[0].length !== width)) {
+        util.pixelMap = new Array(height);
+        for (y = 0; y < height; y++) {
+          util.pixelMap[y] = new Array(width);
         }
+      }
+
+      // Optimize: Fast array clearing using fill()
+      for (y = 0; y < height; y++) {
+        util.pixelMap[y].fill(0);
       }
 
       for (var i = 0; i < algo.linesAmount; i++)
@@ -637,32 +645,70 @@ var testAlgo;
               continue;
             }
 
-            y = Math.sqrt(radius2 - (x * x));
+            // Optimize: Pre-calculate y value to avoid repeated Math.sqrt calls
+            var xSquared = x * x;
+            if (xSquared > radius2) continue; // Skip if outside radius
+            y = Math.sqrt(radius2 - xSquared);
 
+            // Optimize: Inline pixel drawing to reduce function call overhead
+            var cx, cy;
             if (algo.linesType == 0 || algo.linesType == 2 || algo.linesType == 4 || algo.linesType == 5) {
-              util.drawPixel(lines[i].xCenter - x, lines[i].yCenter, color, width, height);
+              cx = (lines[i].xCenter - x + 0.5) | 0;
+              cy = (lines[i].yCenter + 0.5) | 0;
+              if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
+                util.pixelMap[cy][cx] = color;
+              }
             }
             if (algo.linesType == 0 || algo.linesType == 2 || algo.linesType == 4 || algo.linesType == 6) {
-              util.drawPixel(lines[i].xCenter + x, lines[i].yCenter, color, width, height);
+              cx = (lines[i].xCenter + x + 0.5) | 0;
+              cy = (lines[i].yCenter + 0.5) | 0;
+              if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
+                util.pixelMap[cy][cx] = color;
+              }
             }
             if (algo.linesType == 1 || algo.linesType == 2 || algo.linesType == 4 || algo.linesType == 7) {
-              util.drawPixel(lines[i].xCenter, lines[i].yCenter - x, color, width, height);
+              cx = (lines[i].xCenter + 0.5) | 0;
+              cy = (lines[i].yCenter - x + 0.5) | 0;
+              if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
+                util.pixelMap[cy][cx] = color;
+              }
             }
             if (algo.linesType == 1 || algo.linesType == 2 || algo.linesType == 4 || algo.linesType == 8) {
-              util.drawPixel(lines[i].xCenter, lines[i].yCenter + x, color, width, height);
+              cx = (lines[i].xCenter + 0.5) | 0;
+              cy = (lines[i].yCenter + x + 0.5) | 0;
+              if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
+                util.pixelMap[cy][cx] = color;
+              }
             }
 
+            // Optimize: Inline diagonal pixel drawing
             if (algo.linesType == 3 || algo.linesType == 4 ||  algo.linesType == 9) {
-              util.drawPixel(lines[i].xCenter + x, lines[i].yCenter - x, color, width, height);
+              cx = (lines[i].xCenter + x + 0.5) | 0;
+              cy = (lines[i].yCenter - x + 0.5) | 0;
+              if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
+                util.pixelMap[cy][cx] = color;
+              }
             }
             if (algo.linesType == 3 || algo.linesType == 4 || algo.linesType == 10) {
-              util.drawPixel(lines[i].xCenter - x, lines[i].yCenter - x, color, width, height);
+              cx = (lines[i].xCenter - x + 0.5) | 0;
+              cy = (lines[i].yCenter - x + 0.5) | 0;
+              if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
+                util.pixelMap[cy][cx] = color;
+              }
             }
             if (algo.linesType == 3 || algo.linesType == 4 || algo.linesType == 11) {
-              util.drawPixel(lines[i].xCenter + x, lines[i].yCenter + x, color, width, height);
+              cx = (lines[i].xCenter + x + 0.5) | 0;
+              cy = (lines[i].yCenter + x + 0.5) | 0;
+              if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
+                util.pixelMap[cy][cx] = color;
+              }
             }
             if (algo.linesType == 3 || algo.linesType == 4 || algo.linesType == 12) {
-              util.drawPixel(lines[i].xCenter - x, lines[i].yCenter + x, color, width, height);
+              cx = (lines[i].xCenter - x + 0.5) | 0;
+              cy = (lines[i].yCenter + x + 0.5) | 0;
+              if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
+                util.pixelMap[cy][cx] = color;
+              }
             }
           }
         }
@@ -746,18 +792,17 @@ var testAlgo;
     // Development tool access
     testAlgo = algo;
 
-    // Test suite compatibility - functions named exactly like property names
-    algo.linesAmount = function(amount) { algo.setAmount(amount); };
-    algo.linesSize = function(size) { algo.setLinesSize(size); };
-    algo.linesType = function(type) { algo.setType(type); };
-    algo.linesBias = function(bias) { algo.setBias(bias); };
-    algo.linesDistribution = function(distribution) { algo.setDistribution(distribution); };
-    algo.linesMovement = function(movement) { algo.setMovement(movement); };
-    algo.linesLifecycle = function(lifecycle) { algo.setLifecycle(lifecycle); };
-    algo.linesPattern = function(pattern) { algo.setPattern(pattern); };
-    algo.linesBrightnessVariance = function(variance) { algo.setBrightnessVariance(variance); };
-    algo.linesMovementSpeed = function(speed) { algo.setMovementSpeed(speed); };
-    algo.linesVariability = function(variability) { algo.setVariability(variability); };
+    // Test suite compatibility - setter functions with different names to avoid conflicts
+    algo.setLinesAmount = function(amount) { algo.setAmount(amount); };
+    algo.setLinesType = function(type) { algo.setType(type); };
+    algo.setLinesBias = function(bias) { algo.setBias(bias); };
+    algo.setLinesDistribution = function(distribution) { algo.setDistribution(distribution); };
+    algo.setLinesMovement = function(movement) { algo.setMovement(movement); };
+    algo.setLinesLifecycle = function(lifecycle) { algo.setLifecycle(lifecycle); };
+    algo.setLinesPattern = function(pattern) { algo.setPattern(pattern); };
+    algo.setLinesBrightnessVariance = function(variance) { algo.setBrightnessVariance(variance); };
+    algo.setLinesMovementSpeed = function(speed) { algo.setMovementSpeed(speed); };
+    algo.setLinesVariability = function(variability) { algo.setVariability(variability); };
 
     return algo;
   }
