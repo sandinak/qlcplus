@@ -207,9 +207,10 @@ void CoreMidiOutputDevice::writeSysEx(QByteArray message)
     if (isOpen() == false)
         return;
 
-    int bufferSize = message.count() + 100; // Todo this is not correct
+    const int bufferSize = 65536; // osx max=65536
 
-    Byte buffer[bufferSize];    // osx max=65536
+    QByteArray bufferArray(bufferSize, 0);
+    Byte *buffer = reinterpret_cast<Byte*>(bufferArray.data());
     MIDIPacketList* list = (MIDIPacketList*) buffer;
     MIDIPacket* packet = MIDIPacketListInit(list);
 

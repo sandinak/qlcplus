@@ -60,6 +60,13 @@ macx:CONFIG    -= app_bundle # Let QLC+ construct the .app bundle
 macx:QMAKE_STRIP = strip -x
 macx:QMAKE_LFLAGS += -Wl,-rpath,@executable_path/../Frameworks
 
+# Fix for modern macOS: AGL framework is deprecated and removed
+# Override Qt's default OpenGL libs to exclude AGL
+# This must be done in each .pro file after Qt modules are loaded
+# See: https://bugreports.qt.io/browse/QTBUG-XXXXX
+macx:QMAKE_LIBS_OPENGL = -framework OpenGL
+macx:LIBS -= -framework AGL
+
 # Produce build targets to the source directory
 win32:DESTDIR  = ./
 

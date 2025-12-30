@@ -20,16 +20,15 @@
 #ifndef ARTNETCONTROLLER_H
 #define ARTNETCONTROLLER_H
 
-#if defined(ANDROID)
 #include <QScopedPointer>
 #include <QSharedPointer>
-#endif
 #include <QNetworkInterface>
 #include <QHostAddress>
 #include <QUdpSocket>
 #include <QVariant>
 #include <QMutex>
 #include <QTimer>
+#include <QMap>
 
 #include "artnetpacketizer.h"
 

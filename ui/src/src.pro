@@ -52,6 +52,7 @@ HEADERS += aboutbox.h \
            addresstool.h \
            addrgbpanel.h \
            app.h \
+           appsettings.h \
            apputil.h \
            assignhotkey.h \
            audiobar.h \
@@ -233,6 +234,7 @@ SOURCES += aboutbox.cpp \
            addresstool.cpp \
            addrgbpanel.cpp \
            app.cpp \
+           appsettings.cpp \
            apputil.cpp \
            assignhotkey.cpp \
            audiobar.cpp \

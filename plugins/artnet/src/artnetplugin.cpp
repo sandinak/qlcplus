@@ -118,14 +118,12 @@ bool ArtNetPlugin::requestLine(quint32 line, int retries)
 QStringList ArtNetPlugin::outputs()
 {
     QStringList list;
-    int j = 0;
 
     init();
 
     foreach (ArtNetIO line, m_IOmapping)
     {
         list << line.address.ip().toString();
-        j++;
     }
     return list;
 }
@@ -229,14 +227,12 @@ void ArtNetPlugin::writeUniverse(quint32 universe, quint32 output, const QByteAr
 QStringList ArtNetPlugin::inputs()
 {
     QStringList list;
-    int j = 0;
 
     init();
 
     foreach (ArtNetIO line, m_IOmapping)
     {
         list << line.address.ip().toString();
-        j++;
     }
     return list;
 }

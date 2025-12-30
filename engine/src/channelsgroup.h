@@ -21,6 +21,7 @@
 #define CHANNELSGROUP_H
 
 #include <QObject>
+#include <QSharedPointer>
 
 #include "qlcinputsource.h"
 #include "scenevalue.h"

@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 SUBDIRS += aboutbox
 SUBDIRS += assignhotkey
 SUBDIRS += addfixture
+SUBDIRS += autosave
 SUBDIRS += efxpreviewarea
 SUBDIRS += functionselection
 SUBDIRS += monitorfixture

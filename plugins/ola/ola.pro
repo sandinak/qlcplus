@@ -15,6 +15,8 @@ macx: {
     #QMAKE_CXXFLAGS_X86_64 = -mmacosx-version-min=10.7
     QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
     QMAKE_CXXFLAGS_WARN_ON += -Wno-deprecated-declarations
+    # OLA library uses std::auto_ptr and std::binary_function which were removed in C++17
+    QMAKE_CXXFLAGS += -D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR -D_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION
 
     # Check for pkg-config and setup queries accordingly.
     # Otherwise, use MacPorts default paths.

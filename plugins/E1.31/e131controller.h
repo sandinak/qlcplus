@@ -20,15 +20,14 @@
 #ifndef E131CONTROLLER_H
 #define E131CONTROLLER_H
 
-#if defined(ANDROID)
 #include <QScopedPointer>
 #include <QSharedPointer>
-#endif
 #include <QNetworkInterface>
 #include <QHostAddress>
 #include <QUdpSocket>
 #include <QMutex>
 #include <QTimer>
+#include <QMap>
 
 #include "e131packetizer.h"
 

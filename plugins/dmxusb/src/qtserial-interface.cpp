@@ -121,7 +121,7 @@ QList<DMXInterface *> QtSerialInterface::interfaces(QList<DMXInterface *> discov
         if (validInterface(info.vendorIdentifier(), info.productIdentifier()) == false)
             continue;
 
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
         /* Qt 5.6+ reports the same device as "cu" and "tty". Only the first will be considered */
         if (info.portName().startsWith("tty"))
             continue;

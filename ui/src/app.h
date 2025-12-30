@@ -25,6 +25,7 @@
 #include <QString>
 #include <QList>
 #include <QFile>
+#include <QTimer>
 
 #include "dmxdumpfactoryproperties.h"
 #include "qlcfixturedefcache.h"
@@ -182,6 +183,8 @@ public slots:
 
     void slotRecentFileClicked(QAction *recent);
 
+    void slotAppSettings();
+
 private:
     QAction* m_fileNewAction;
     QAction* m_fileOpenAction;
@@ -197,6 +200,7 @@ private:
     QAction* m_dumpDmxAction;
     QAction* m_liveEditAction;
     QAction* m_liveEditVirtualConsoleAction;
+    QAction* m_appSettingsAction;
 
     QAction* m_helpIndexAction;
     QAction* m_helpAboutAction;
@@ -266,6 +270,44 @@ public slots:
 
 private:
     QString m_fileName;
+
+    /*********************************************************************
+     * Autosave
+     *********************************************************************/
+public:
+    /** Check if autosave is enabled */
+    bool isAutosaveEnabled() const;
+
+    /** Enable or disable autosave */
+    void setAutosaveEnabled(bool enable);
+
+    /** Get autosave interval in minutes */
+    int autosaveInterval() const;
+
+    /** Set autosave interval in minutes */
+    void setAutosaveInterval(int minutes);
+
+    /** Get the autosave file path for the current document */
+    QString autosaveFilePath() const;
+
+private slots:
+    /** Slot called by autosave timer to perform autosave */
+    void slotAutosave();
+
+private:
+    /** Initialize autosave system */
+    void initAutosave();
+
+    /** Check for autosave recovery file and offer to restore */
+    void checkAutosaveRecovery();
+
+    /** Remove autosave file for current document */
+    void removeAutosaveFile();
+
+private:
+    QTimer *m_autosaveTimer;
+    bool m_autosaveEnabled;
+    int m_autosaveInterval;  // in minutes
 };
 
 /** @} */
