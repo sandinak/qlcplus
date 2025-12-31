@@ -58,7 +58,15 @@ unix:OLA_GIT    = /usr/src/ola    # OLA directories
 #macx:CONFIG   += x86 ppc  # Build universal binaries (Leopard only)
 macx:CONFIG    -= app_bundle # Let QLC+ construct the .app bundle
 macx:QMAKE_STRIP = strip -x
+# rpath for installed app bundle
 macx:QMAKE_LFLAGS += -Wl,-rpath,@executable_path/../Frameworks
+# rpaths for running from build directory (development)
+macx:QMAKE_LFLAGS += -Wl,-rpath,@executable_path/../engine/src
+macx:QMAKE_LFLAGS += -Wl,-rpath,@executable_path/../ui/src
+macx:QMAKE_LFLAGS += -Wl,-rpath,@executable_path/../webaccess/src
+macx:QMAKE_LFLAGS += -Wl,-rpath,@executable_path/../plugins
+# Use @rpath for library install names so they work with rpath resolution
+macx:QMAKE_SONAME_PREFIX = @rpath
 
 # Fix for modern macOS: AGL framework is deprecated and removed
 # Override Qt's default OpenGL libs to exclude AGL
