@@ -201,13 +201,13 @@ void CoreMidiOutputDevice::writeFeedback(uchar cmd, uchar data1, uchar data2)
 
 void CoreMidiOutputDevice::writeSysEx(QByteArray message)
 {
-    if(message.isEmpty())
+    if (message.isEmpty())
         return;
 
     if (isOpen() == false)
         return;
 
-    const int bufferSize = 65536; // osx max=65536
+    int bufferSize = message.length() + 100; // Todo this is not correct
 
     QByteArray bufferArray(bufferSize, 0);
     Byte *buffer = reinterpret_cast<Byte*>(bufferArray.data());
@@ -215,7 +215,7 @@ void CoreMidiOutputDevice::writeSysEx(QByteArray message)
     MIDIPacket* packet = MIDIPacketListInit(list);
 
     /* Add the MIDI command to the packet list */
-    packet = MIDIPacketListAdd(list, bufferSize, packet, 0, message.count(), (Byte *)message.data());
+    packet = MIDIPacketListAdd(list, bufferSize, packet, 0, message.length(), (Byte *)message.data());
     if (packet == 0)
     {
         qWarning() << "MIDIOut buffer overflow";

@@ -17,6 +17,7 @@
   limitations under the License.
 */
 
+#include <QContextMenuEvent>
 #include <QDebug>
 #include <QApplication>
 #include <QMimeData>
@@ -24,10 +25,7 @@
 
 #include "functionstreewidget.h"
 #include "function.h"
-#include "chaser.h"
-#include "scene.h"
 #include "doc.h"
-#include <QContextMenuEvent>
 
 #define COL_NAME 0
 #define COL_PATH 1
@@ -286,7 +284,7 @@ QTreeWidgetItem *FunctionsTreeWidget::folderItem(QString name)
     int type = Function::Undefined;
     QString fullPath;
     QStringList levelsList = name.split("/");
-    foreach(QString level, levelsList)
+    foreach (QString level, levelsList)
     {
         // the first round is a category node. Just retrieve the item pointer
         // and the type, then skip it.

@@ -21,6 +21,8 @@
 #define E131CONTROLLER_H
 
 #include <QScopedPointer>
+#include <QByteArray>
+#include <QMap>
 #include <QSharedPointer>
 #include <QNetworkInterface>
 #include <QHostAddress>
@@ -52,7 +54,7 @@ typedef struct _uinfo
     int type;
 } UniverseInfo;
 
-class E131Controller : public QObject
+class E131Controller final : public QObject
 {
     Q_OBJECT
 
