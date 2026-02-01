@@ -10,8 +10,41 @@ add_subdirectory(osc)
 add_subdirectory(os2l)
 
 if(NOT ANDROID AND NOT IOS)
+    # Try pkg-config first, but it may fail due to protobuf/abseil dependency issues
     pkg_check_modules(LIBOLA IMPORTED_TARGET libola)
     pkg_check_modules(LIBOLASERVER IMPORTED_TARGET libolaserver)
+
+    # Fallback: manually detect OLA if pkg-config fails but libraries exist
+    # (pkg-config often fails due to protobuf/abseil dependency chain issues)
+    if(NOT LIBOLA_FOUND OR NOT LIBOLASERVER_FOUND)
+        find_library(OLA_LIBRARY NAMES ola PATHS /usr/local/lib /opt/local/lib)
+        find_library(OLACOMMON_LIBRARY NAMES olacommon PATHS /usr/local/lib /opt/local/lib)
+        find_library(OLASERVER_LIBRARY NAMES olaserver PATHS /usr/local/lib /opt/local/lib)
+        # Check for ola/DmxBuffer.h which is a main header in the ola directory
+        find_path(OLA_INCLUDE_DIR NAMES ola/DmxBuffer.h PATHS /usr/local/include /opt/local/include)
+
+        if(OLA_LIBRARY AND OLACOMMON_LIBRARY AND OLASERVER_LIBRARY AND OLA_INCLUDE_DIR)
+            message(STATUS "OLA found via fallback detection:")
+            message(STATUS "  OLA library: ${OLA_LIBRARY}")
+            message(STATUS "  OLA common: ${OLACOMMON_LIBRARY}")
+            message(STATUS "  OLA server: ${OLASERVER_LIBRARY}")
+            message(STATUS "  OLA include: ${OLA_INCLUDE_DIR}")
+            set(LIBOLA_FOUND TRUE)
+            set(LIBOLASERVER_FOUND TRUE)
+            set(LIBOLA_INCLUDE_DIRS ${OLA_INCLUDE_DIR})
+            set(LIBOLASERVER_INCLUDE_DIRS ${OLA_INCLUDE_DIR})
+            set(LIBOLA_LIBRARY_DIRS "/usr/local/lib")
+            set(LIBOLASERVER_LIBRARY_DIRS "/usr/local/lib")
+            set(LIBOLA_LIBRARIES ${OLA_LIBRARY} ${OLACOMMON_LIBRARY})
+            set(LIBOLASERVER_LIBRARIES ${OLASERVER_LIBRARY})
+        else()
+            message(STATUS "OLA fallback detection failed:")
+            message(STATUS "  OLA_LIBRARY: ${OLA_LIBRARY}")
+            message(STATUS "  OLACOMMON_LIBRARY: ${OLACOMMON_LIBRARY}")
+            message(STATUS "  OLASERVER_LIBRARY: ${OLASERVER_LIBRARY}")
+            message(STATUS "  OLA_INCLUDE_DIR: ${OLA_INCLUDE_DIR}")
+        endif()
+    endif()
 
     add_subdirectory(dmxusb)
     add_subdirectory(peperoni)
@@ -28,10 +61,11 @@ endif()
 if(NOT WIN32 AND NOT APPLE)
     add_subdirectory(spi)
 endif()
-# OLA plugin disabled - uses deprecated std::auto_ptr incompatible with C++17
-# if(UNIX AND ${LIBOLA_FOUND} AND ${LIBOLASERVER_FOUND})
-#     add_subdirectory(ola)
-# endif()
+# OLA plugin needs C++14 due to OLA library using deprecated std::auto_ptr
+# The CMakeLists.txt in ola/ sets CXX_STANDARD to 14 for this plugin only
+if(UNIX AND ${LIBOLA_FOUND} AND ${LIBOLASERVER_FOUND})
+    add_subdirectory(ola)
+endif()
 
 #    add_subdirectory(uart)
 #    add_subdirectory(gpio)

@@ -24,6 +24,13 @@ add_library(${module_name}
     ${QM_FILES}
 )
 
+# OLA library uses deprecated C++ features removed in C++17 (auto_ptr, binary_function, etc.)
+# Add compatibility defines to re-enable these features in libc++.
+target_compile_definitions(${module_name} PRIVATE
+    _LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR
+    _LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION
+)
+
 target_sources(${module_name} PRIVATE
     ../interfaces/qlcioplugin.cpp ../interfaces/qlcioplugin.h
     configureolaio.cpp configureolaio.h configureolaio.ui
@@ -45,16 +52,17 @@ if(APPLE)
     set_target_properties(${module_name} PROPERTIES
         MACOSX_BUNDLE FALSE
     )
-    if(${LIBOLASERVER_FOUND})
+    if(${LIBOLA_FOUND} AND ${LIBOLASERVER_FOUND})
         target_include_directories(${module_name} PRIVATE
-            ${LIBOLASERVER_INCLUDE_DIRS}
+            ${LIBOLA_INCLUDE_DIRS}
         )
 
         target_link_directories(${module_name} PRIVATE
-            ${LIBOLASERVER_LIBRARY_DIRS}
+            ${LIBOLA_LIBRARY_DIRS}
         )
 
         target_link_libraries(${module_name} PRIVATE
+            ${LIBOLA_LIBRARIES}
             ${LIBOLASERVER_LIBRARIES}
         )
     else()
