@@ -98,9 +98,6 @@ EFXEditor::EFXEditor(QWidget* parent, EFX* efx, Doc* doc)
     QVariant showDial = efx->uiStateValue(UI_STATE_SHOW_DIAL);
     if (showDial.isNull() == false && showDial.toBool() == true)
         m_speedDial->setChecked(true);
-
-    // Set focus to the editor
-    m_nameEdit->setFocus();
 }
 
 EFXEditor::~EFXEditor()
@@ -137,7 +134,6 @@ void EFXEditor::initGeneralPage()
 
     /* Set the EFX's name to the name field */
     m_nameEdit->setText(m_efx->name());
-    m_nameEdit->setSelection(0, m_nameEdit->text().length());
 
     /* Put all of the EFX's fixtures to the tree view */
     updateFixtureTree();

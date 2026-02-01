@@ -62,12 +62,8 @@ ShowEditor::ShowEditor(QWidget* parent, Show* show, Doc* doc)
     m_remove->setVisible(false);
 
     m_nameEdit->setText(m_show->name());
-    m_nameEdit->setSelection(0, m_nameEdit->text().length());
 
     updateFunctionList();
-
-    // Set focus to the editor
-    m_nameEdit->setFocus();
 }
 
 ShowEditor::~ShowEditor()

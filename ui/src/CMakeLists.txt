@@ -30,6 +30,7 @@ add_library(${module_name}
     addresstool.cpp addresstool.h addresstool.ui
     addrgbpanel.cpp addrgbpanel.h addrgbpanel.ui
     app.cpp app.h
+    appsettings.cpp appsettings.h
     apputil.cpp apputil.h
     assignhotkey.cpp assignhotkey.h assignhotkey.ui
     audiobar.cpp audiobar.h

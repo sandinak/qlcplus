@@ -28,9 +28,10 @@ endif()
 if(NOT WIN32 AND NOT APPLE)
     add_subdirectory(spi)
 endif()
-if(UNIX AND ${LIBOLA_FOUND} AND ${LIBOLASERVER_FOUND})
-    add_subdirectory(ola)
-endif()
+# OLA plugin disabled - uses deprecated std::auto_ptr incompatible with C++17
+# if(UNIX AND ${LIBOLA_FOUND} AND ${LIBOLASERVER_FOUND})
+#     add_subdirectory(ola)
+# endif()
 
 #    add_subdirectory(uart)
 #    add_subdirectory(gpio)

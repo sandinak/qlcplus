@@ -61,7 +61,6 @@ CollectionEditor::CollectionEditor(QWidget* parent, Collection* fc, Doc* doc)
             this, SLOT(slotTestClicked()));
 
     m_nameEdit->setText(m_collection->name());
-    m_nameEdit->setSelection(0, m_nameEdit->text().length());
 
     // Enable drag & drop on the function list
     m_tree->setAcceptDrops(true);
@@ -69,9 +68,6 @@ CollectionEditor::CollectionEditor(QWidget* parent, Collection* fc, Doc* doc)
     m_tree->viewport()->installEventFilter(this);
 
     updateFunctionList();
-
-    // Set focus to the editor
-    m_nameEdit->setFocus();
 }
 
 CollectionEditor::~CollectionEditor()
