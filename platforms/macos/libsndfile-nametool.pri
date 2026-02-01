@@ -5,7 +5,9 @@ LIBSNDFILE_FILEPATH = $$LIBSNDFILE_DIR/$$LIBSNDFILE_FILE
 LIBOGG_FILE = libogg.0.dylib
 LIBOGG_PATH = $$system("pkg-config --variable libdir ogg")
 LIBOGG_FILEPATH = $$LIBOGG_PATH/$$LIBOGG_FILE
-LIBFLAC_FILE = libFLAC.8.dylib
+# Check for newer FLAC versions - libFLAC.14.dylib in newer Homebrew
+LIBFLAC_FILE = $$system("ls $$system(pkg-config --variable libdir flac)/libFLAC.*.dylib 2>/dev/null | grep -v '++' | head -1 | xargs basename")
+isEmpty(LIBFLAC_FILE): LIBFLAC_FILE = libFLAC.8.dylib
 LIBFLAC_PATH = $$system("pkg-config --variable libdir flac")
 LIBFLAC_FILEPATH = $$LIBFLAC_PATH/$$LIBFLAC_FILE
 LIBVORBIS_FILE = libvorbis.0.dylib
@@ -40,12 +42,13 @@ contains(PKGCONFIG, sndfile) {
 }
 
 LIBSNDFILE.path   = $$INSTALLROOT/$$LIBSDIR
-LIBSNDFILE.files += $$LIBOGG_FILEPATH
-LIBSNDFILE.files += $$LIBFLAC_FILEPATH
-LIBSNDFILE.files += $$LIBVORBISENC_FILEPATH
-LIBSNDFILE.files += $$LIBVORBIS_FILEPATH
-LIBSNDFILE.files += $$LIBOPUS_FILEPATH
-LIBSNDFILE.files += $$LIBSNDFILE_FILEPATH
+# Use cp -L to resolve symlinks when copying libraries
+LIBSNDFILE.extra = cp -L $$LIBOGG_FILEPATH $$INSTALLROOT/$$LIBSDIR/$$LIBOGG_FILE && \
+                   cp -L $$LIBFLAC_FILEPATH $$INSTALLROOT/$$LIBSDIR/$$LIBFLAC_FILE && \
+                   cp -L $$LIBVORBISENC_FILEPATH $$INSTALLROOT/$$LIBSDIR/$$LIBVORBISENC_FILE && \
+                   cp -L $$LIBVORBIS_FILEPATH $$INSTALLROOT/$$LIBSDIR/$$LIBVORBIS_FILE && \
+                   cp -L $$LIBOPUS_FILEPATH $$INSTALLROOT/$$LIBSDIR/$$LIBOPUS_FILE && \
+                   cp -L $$LIBSNDFILE_FILEPATH $$INSTALLROOT/$$LIBSDIR/$$LIBSNDFILE_FILE
 
 LIBSNDFILE_INSTALL_NAME_TOOL_ID = install_name_tool -id @executable_path/../$$LIBSDIR/$$LIBSNDFILE_FILE \
                 $$INSTALLROOT/$$LIBSDIR/$$LIBSNDFILE_FILE

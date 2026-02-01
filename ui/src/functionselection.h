@@ -178,6 +178,23 @@ protected:
     QList <quint32> m_selection;
 
     /*********************************************************************
+     * Sticky/Drag mode for Collection Editor
+     *********************************************************************/
+public:
+    /**
+     * Enable sticky mode - dialog stays open and allows dragging functions.
+     * Used by CollectionEditor to enable drag-drop workflow.
+     */
+    void enableStickyMode();
+
+signals:
+    /** Emitted when functions are added via drag or double-click in sticky mode */
+    void functionsSelected(QList<quint32> ids);
+
+private:
+    bool m_stickyMode;
+
+    /*********************************************************************
      * Internal
      *********************************************************************/
 protected:

@@ -127,6 +127,9 @@ App::App()
     , m_autosaveTimer(NULL)
     , m_autosaveEnabled(true)
     , m_autosaveInterval(DEFAULT_AUTOSAVE_INTERVAL)
+
+    , m_statusModeLabel(NULL)
+    , m_statusAutosaveLabel(NULL)
 {
     QCoreApplication::setOrganizationName("qlcplus");
     QCoreApplication::setOrganizationDomain("sf.net");
@@ -347,6 +350,9 @@ void App::init()
     }
 
     m_videoProvider = new VideoProvider(m_doc, this);
+
+    // Initialize status bar
+    initStatusBar();
 
     // Initialize autosave
     initAutosave();
@@ -1630,8 +1636,11 @@ void App::setAutosaveEnabled(bool enable)
     else
     {
         m_autosaveTimer->stop();
+        m_lastAutosaveTime.clear();
         qDebug() << "[Autosave] Disabled";
     }
+
+    updateStatusBar();
 }
 
 int App::autosaveInterval() const
@@ -1746,6 +1755,10 @@ void App::slotAutosave()
         return;
     }
 
+    // Update last autosave time and status bar
+    m_lastAutosaveTime = QTime::currentTime().toString("hh:mm:ss");
+    updateStatusBar();
+
     qDebug() << "[Autosave] Successfully saved to" << autosavePath;
 }
 
@@ -1816,4 +1829,65 @@ void App::removeAutosaveFile()
         else
             qWarning() << "[Autosave] Failed to remove autosave file:" << autosavePath;
     }
+}
+
+/*****************************************************************************
+ * Status Bar
+ *****************************************************************************/
+
+void App::initStatusBar()
+{
+    QStatusBar* sb = statusBar();
+
+    // Create mode label (left side)
+    m_statusModeLabel = new QLabel(this);
+    m_statusModeLabel->setMinimumWidth(300);
+    sb->addWidget(m_statusModeLabel, 1);
+
+    // Create autosave label (right side)
+    m_statusAutosaveLabel = new QLabel(this);
+    m_statusAutosaveLabel->setAlignment(Qt::AlignRight);
+    sb->addPermanentWidget(m_statusAutosaveLabel);
+
+    updateStatusBar();
+}
+
+void App::updateStatusBar()
+{
+    // Update mode message
+    if (m_statusModeLabel != NULL)
+    {
+        if (m_statusMessage.isEmpty())
+            m_statusModeLabel->setText(tr("Ready"));
+        else
+            m_statusModeLabel->setText(m_statusMessage);
+    }
+
+    // Update autosave status
+    if (m_statusAutosaveLabel != NULL)
+    {
+        if (m_autosaveEnabled)
+        {
+            if (m_lastAutosaveTime.isEmpty())
+                m_statusAutosaveLabel->setText(tr("Autosave: Enabled"));
+            else
+                m_statusAutosaveLabel->setText(tr("Last autosave: %1").arg(m_lastAutosaveTime));
+        }
+        else
+        {
+            m_statusAutosaveLabel->setText(tr("Autosave: Disabled"));
+        }
+    }
+}
+
+void App::setStatusMessage(const QString& message)
+{
+    m_statusMessage = message;
+    updateStatusBar();
+}
+
+void App::clearStatusMessage()
+{
+    m_statusMessage.clear();
+    updateStatusBar();
 }

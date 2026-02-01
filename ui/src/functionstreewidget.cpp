@@ -18,6 +18,9 @@
 */
 
 #include <QDebug>
+#include <QApplication>
+#include <QMimeData>
+#include <QDrag>
 
 #include "functionstreewidget.h"
 #include "function.h"
@@ -29,9 +32,13 @@
 #define COL_NAME 0
 #define COL_PATH 1
 
+// MIME type for function drag/drop to external widgets
+static const char* FUNCTION_DRAG_MIME_TYPE = "application/x-qlcplus-functions";
+
 FunctionsTreeWidget::FunctionsTreeWidget(Doc *doc, QWidget *parent) :
     QTreeWidget(parent)
   , m_doc(doc)
+  , m_externalDragMode(false)
 {
     sortItems(COL_NAME, Qt::AscendingOrder);
 
@@ -369,13 +376,145 @@ void FunctionsTreeWidget::slotUpdateChildrenPath(QTreeWidgetItem *root)
     }
 }
 
+const char* FunctionsTreeWidget::functionDragMimeType()
+{
+    return FUNCTION_DRAG_MIME_TYPE;
+}
+
+void FunctionsTreeWidget::setExternalDragMode(bool enable)
+{
+    m_externalDragMode = enable;
+}
+
+QMimeData* FunctionsTreeWidget::mimeData(const QList<QTreeWidgetItem*> &items) const
+{
+    // If external drag mode is enabled, provide our custom MIME data
+    // This is used by Qt's built-in drag when setDragEnabled(true) is called
+    if (m_externalDragMode)
+    {
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+
+        int validCount = 0;
+        foreach (QTreeWidgetItem *item, items)
+        {
+            QVariant var = item->data(COL_NAME, Qt::UserRole);
+            if (var.isValid())
+            {
+                quint32 fid = var.toUInt();
+                if (fid != Function::invalidId())
+                {
+                    stream << fid;
+                    validCount++;
+                }
+            }
+        }
+
+        if (validCount > 0)
+        {
+            QMimeData *mimeData = new QMimeData();
+            mimeData->setData(FUNCTION_DRAG_MIME_TYPE, data);
+            return mimeData;
+        }
+    }
+
+    // Fall back to default behavior
+    return QTreeWidget::mimeData(items);
+}
+
 void FunctionsTreeWidget::mousePressEvent(QMouseEvent *event)
 {
     QTreeWidget::mousePressEvent(event);
 
-    m_draggedItems = selectedItems(); //itemAt(event->pos());
+    m_draggedItems = selectedItems();
+    m_dragStartPosition = event->pos();
 }
 
+void FunctionsTreeWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    // If external drag mode is enabled, let Qt handle the drag with our mimeData
+    if (m_externalDragMode)
+    {
+        QTreeWidget::mouseMoveEvent(event);
+        return;
+    }
+
+    // Check if this is a drag motion with sufficient distance
+    if (!(event->buttons() & Qt::LeftButton))
+    {
+        QTreeWidget::mouseMoveEvent(event);
+        return;
+    }
+
+    if ((event->pos() - m_dragStartPosition).manhattanLength() < QApplication::startDragDistance())
+    {
+        QTreeWidget::mouseMoveEvent(event);
+        return;
+    }
+
+    // Check if Ctrl (or Cmd on Mac) is held for external drag
+#ifdef Q_OS_MACOS
+    bool modifierPressed = event->modifiers() & Qt::MetaModifier;
+#else
+    bool modifierPressed = event->modifiers() & Qt::ControlModifier;
+#endif
+
+    if (modifierPressed && !m_draggedItems.isEmpty())
+    {
+        // Start external drag to other widgets (e.g., CollectionEditor)
+        startExternalDrag();
+    }
+    else
+    {
+        // Let Qt handle internal drag (folder reordering)
+        QTreeWidget::mouseMoveEvent(event);
+    }
+}
+
+void FunctionsTreeWidget::startExternalDrag()
+{
+    // Collect function IDs from selected items
+    QByteArray data;
+    QDataStream stream(&data, QIODevice::WriteOnly);
+
+    int validCount = 0;
+    foreach (QTreeWidgetItem *item, m_draggedItems)
+    {
+        QVariant var = item->data(COL_NAME, Qt::UserRole);
+        if (var.isValid())
+        {
+            quint32 fid = var.toUInt();
+            Function *func = m_doc->function(fid);
+            if (func != NULL)
+            {
+                stream << fid;
+                validCount++;
+            }
+        }
+    }
+
+    if (validCount == 0)
+        return;
+
+    // Create mime data with function IDs
+    QMimeData *mimeData = new QMimeData();
+    mimeData->setData(FUNCTION_DRAG_MIME_TYPE, data);
+
+    // Create and execute the drag
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+
+    // Set a visual hint - use the first function's icon
+    if (!m_draggedItems.isEmpty())
+    {
+        QTreeWidgetItem *firstItem = m_draggedItems.first();
+        QIcon icon = firstItem->icon(COL_NAME);
+        if (!icon.isNull())
+            drag->setPixmap(icon.pixmap(32, 32));
+    }
+
+    drag->exec(Qt::CopyAction);
+}
 
 void FunctionsTreeWidget::dropEvent(QDropEvent *event)
 {

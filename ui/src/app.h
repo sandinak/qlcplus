@@ -36,6 +36,7 @@ class QMessageBox;
 class QToolButton;
 class QFileDialog;
 class QTabWidget;
+class QStatusBar;
 class WebAccess;
 class QToolBar;
 class QPixmap;
@@ -308,6 +309,29 @@ private:
     QTimer *m_autosaveTimer;
     bool m_autosaveEnabled;
     int m_autosaveInterval;  // in minutes
+    QString m_lastAutosaveTime;
+
+    /*********************************************************************
+     * Status Bar
+     *********************************************************************/
+public:
+    /** Set the mode message shown in the status bar */
+    void setStatusMessage(const QString& message);
+
+    /** Clear the mode message from the status bar */
+    void clearStatusMessage();
+
+private:
+    /** Initialize the status bar */
+    void initStatusBar();
+
+    /** Update the status bar display */
+    void updateStatusBar();
+
+private:
+    QLabel* m_statusModeLabel;
+    QLabel* m_statusAutosaveLabel;
+    QString m_statusMessage;
 };
 
 /** @} */

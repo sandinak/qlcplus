@@ -28,6 +28,9 @@
 class FunctionSelection;
 class MasterTimer;
 class Collection;
+class QDragEnterEvent;
+class QDragMoveEvent;
+class QDropEvent;
 class Doc;
 
 /** @addtogroup ui_functions
@@ -43,6 +46,9 @@ public:
     CollectionEditor(QWidget* parent, Collection* fc, Doc* doc);
     ~CollectionEditor();
 
+    /** Open the function selection dialog (for auto-open on collection edit) */
+    void openFunctionSelection();
+
 private:
     Doc* m_doc;
     Collection* m_collection; // The Collection being edited
@@ -55,11 +61,36 @@ private slots:
     void slotMoveDown();
     void slotTestClicked();
 
+    /** Handle functions selected from sticky dialog */
+    void slotFunctionsSelected(QList<quint32> ids);
+
 private:
     FunctionParent functionParent() const;
 
 private:
     void updateFunctionList();
+
+    /** Sticky function selection dialog (stays open for drag-drop) */
+    FunctionSelection* m_functionSelection;
+
+    /*********************************************************************
+     * Drag & Drop
+     *********************************************************************/
+protected:
+    /** Check if the function can be added (no circular references) */
+    bool canAddFunction(quint32 fid) const;
+
+    /** Event filter to handle drag/drop on m_tree */
+    bool eventFilter(QObject* obj, QEvent* event) override;
+
+    /** Handle drag enter events */
+    void handleDragEnterEvent(QDragEnterEvent* event);
+
+    /** Handle drag move events */
+    void handleDragMoveEvent(QDragMoveEvent* event);
+
+    /** Handle drop events */
+    void handleDropEvent(QDropEvent* event);
 };
 
 /** @} */

@@ -65,6 +65,7 @@ FunctionSelection::FunctionSelection(QWidget* parent, Doc* doc)
                Function::ShowType | Function::AudioType | Function::VideoType)
     , m_disableFilters(0)
     , m_constFilter(false)
+    , m_stickyMode(false)
 {
     Q_ASSERT(doc != NULL);
 
@@ -368,7 +369,81 @@ void FunctionSelection::slotItemDoubleClicked(QTreeWidgetItem* item)
     if (m_buttonBox->button(QDialogButtonBox::Ok)->isEnabled() == false)
         return;
 
-    accept();
+    if (m_stickyMode)
+    {
+        // In sticky mode, emit signal instead of closing
+        if (!m_selection.isEmpty())
+            emit functionsSelected(m_selection);
+    }
+    else
+    {
+        accept();
+    }
+}
+
+void FunctionSelection::enableStickyMode()
+{
+    m_stickyMode = true;
+
+    // Make dialog non-modal so it stays open
+    setModal(false);
+
+    // Change window title to indicate sticky mode
+    setWindowTitle(tr("Select Functions - Drag to Collection"));
+
+    // Enable drag on the function tree with external MIME type
+    m_funcTree->setExternalDragMode(true);
+    m_funcTree->setDragEnabled(true);
+    m_funcTree->setDragDropMode(QAbstractItemView::DragOnly);
+
+    // Change OK button text to "Add"
+    m_buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Add"));
+
+    // Connect OK button to emit signal instead of closing
+    disconnect(m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(m_buttonBox, &QDialogButtonBox::accepted, this, [this]() {
+        if (!m_selection.isEmpty())
+            emit functionsSelected(m_selection);
+    });
+
+    // Do the initialization that exec() normally does
+    m_sceneCheck->setChecked(m_filter & Function::SceneType);
+    m_chaserCheck->setChecked(m_filter & Function::ChaserType);
+    m_sequenceCheck->setChecked(m_filter & Function::SequenceType);
+    m_efxCheck->setChecked(m_filter & Function::EFXType);
+    m_collectionCheck->setChecked(m_filter & Function::CollectionType);
+    m_scriptCheck->setChecked(m_filter & Function::ScriptType);
+    m_rgbMatrixCheck->setChecked(m_filter & Function::RGBMatrixType);
+    m_showCheck->setChecked(m_filter & Function::ShowType);
+    m_audioCheck->setChecked(m_filter & Function::AudioType);
+    m_videoCheck->setChecked(m_filter & Function::VideoType);
+
+    m_sceneCheck->setDisabled(m_disableFilters & Function::SceneType);
+    m_chaserCheck->setDisabled(m_disableFilters & Function::ChaserType);
+    m_sequenceCheck->setDisabled(m_disableFilters & Function::SequenceType);
+    m_efxCheck->setDisabled(m_disableFilters & Function::EFXType);
+    m_collectionCheck->setDisabled(m_disableFilters & Function::CollectionType);
+    m_scriptCheck->setDisabled(m_disableFilters & Function::ScriptType);
+    m_rgbMatrixCheck->setDisabled(m_disableFilters & Function::RGBMatrixType);
+    m_showCheck->setDisabled(m_disableFilters & Function::ShowType);
+    m_audioCheck->setDisabled(m_disableFilters & Function::AudioType);
+    m_videoCheck->setDisabled(m_disableFilters & Function::VideoType);
+
+    // Multiple selection for sticky mode
+    m_funcTree->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+    m_isInitializing = false;
+
+    // Fill the tree with functions
+    refillTree();
+
+    // Connect tree signals
+    connect(m_funcTree, SIGNAL(itemSelectionChanged()),
+            this, SLOT(slotItemSelectionChanged()));
+    connect(m_funcTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+            this, SLOT(slotItemDoubleClicked(QTreeWidgetItem*)));
+
+    slotItemSelectionChanged();
 }
 
 void FunctionSelection::slotSceneChecked(bool state)

@@ -38,11 +38,16 @@ defineReplace(systemLibTarget) {
     eval($${1}_INSTALL_NAME_TOOL = install_name_tool -change $$SYSLIB_DIR/$${2} @executable_path/../$$LIBSDIR/$${2})
     eval(export($${1}_INSTALL_NAME_TOOL))
 
-    # export the library install target
+    # Resolve symlinks to get the actual file, then copy and rename
+    # This handles cases where libftdi1.2.dylib -> libftdi1.2.5.0.dylib
+    SYSLIB_REAL = $$system("readlink -f $$SYSLIB_DIR/$${2}")
+    isEmpty(SYSLIB_REAL): SYSLIB_REAL = $$SYSLIB_DIR/$${2}
+
+    # export the library install target using custom commands to handle symlinks
     eval($${1}.path = $$INSTALLROOT/$$LIBSDIR)
-    eval($${1}.files = $$SYSLIB_DIR/$${2})
+    eval($${1}.extra = cp -L $$SYSLIB_DIR/$${2} $$INSTALLROOT/$$LIBSDIR/$${2})
     eval(export($${1}.path))
-    eval(export($${1}.files))
+    eval(export($${1}.extra))
 
     return($${1})
 }
@@ -51,9 +56,16 @@ defineReplace(systemLibTarget) {
 # $${1} : the target label
 # $${2} : the Qt framework basename
 #############################################################
+# Detect Qt version for framework path (Qt5 uses Versions/5, Qt6 uses Versions/A)
+greaterThan(QT_MAJOR_VERSION, 5) {
+    QT_FRAMEWORK_VERSION = A
+} else {
+    QT_FRAMEWORK_VERSION = 5
+}
+
 defineReplace(qt5LibTarget) {
     # export framework dir
-    QTFRAMEWORK_DIR = $${2}.framework/Versions/5
+    QTFRAMEWORK_DIR = $${2}.framework/Versions/$$QT_FRAMEWORK_VERSION
     eval($${1}_DIR = $$QTFRAMEWORK_DIR)
     eval(export($${1}_DIR))
 
@@ -75,7 +87,7 @@ defineReplace(qt5LibTarget) {
 # $${2} : the Qt framework basename
 #############################################################
 defineReplace(qt5LibTargetID) {
-    QTFRAMEWORK_DIR = $${2}.framework/Versions/5
+    QTFRAMEWORK_DIR = $${2}.framework/Versions/$$QT_FRAMEWORK_VERSION
 
     # export library file
     eval($${1}_FILE = $${2})

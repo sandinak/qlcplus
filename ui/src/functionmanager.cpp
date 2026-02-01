@@ -924,7 +924,10 @@ void FunctionManager::editFunction(Function* function)
     }
     else if (function->type() == Function::CollectionType)
     {
-        m_editor = new CollectionEditor(m_hsplitter->widget(1), qobject_cast<Collection*> (function), m_doc);
+        CollectionEditor* collEditor = new CollectionEditor(m_hsplitter->widget(1), qobject_cast<Collection*> (function), m_doc);
+        m_editor = collEditor;
+        // Auto-open the function selection dialog for easy drag-drop workflow
+        collEditor->openFunctionSelection();
     }
     else if (function->type() == Function::EFXType)
     {
