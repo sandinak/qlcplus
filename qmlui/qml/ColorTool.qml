@@ -22,7 +22,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import org.qlcplus.classes 1.0
-import "GenericHelpers.js" as Helpers
 import "."
 
 Rectangle
@@ -127,7 +126,7 @@ Rectangle
                     mFontSize: UISettings.textSizeDefault
                     onCheckedChanged:
                     {
-                        if (checked === true)
+                        if (checked == true)
                             colorToolQML = "qrc:/ColorToolBasic.qml"
                     }
                 }
@@ -142,7 +141,7 @@ Rectangle
                     mFontSize: UISettings.textSizeDefault
                     onCheckedChanged:
                     {
-                        if (checked === true)
+                        if (checked == true)
                             colorToolQML = "qrc:/ColorToolFull.qml"
                     }
                 }
@@ -156,7 +155,7 @@ Rectangle
                     mFontSize: UISettings.textSizeDefault
                     onCheckedChanged:
                     {
-                        if (checked === true)
+                        if (checked == true)
                             colorToolQML = "qrc:/ColorToolFilters.qml"
                     }
                 }
@@ -205,9 +204,7 @@ Rectangle
 
                 function onToolColorChanged(r, g, b, w, a, uv)
                 {
-                    var strRGB = Helpers.getHTMLColor(r * 255, g * 255, b * 255)
-                    var strWAUV = Helpers.getHTMLColor(w * 255, a * 255, uv * 255)
-                    paletteBox.updateValue(strRGB + strWAUV.substring(1))
+                    paletteBox.updateValue(Qt.rgba(r, g, b, 1.0))
 
                     if (paletteBox.checked && paletteBox.isPicking)
                     {

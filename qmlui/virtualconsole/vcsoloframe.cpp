@@ -21,8 +21,6 @@
 
 VCSoloFrame::VCSoloFrame(Doc *doc, VirtualConsole *vc, QObject *parent)
     : VCFrame(doc, vc, parent)
-    , m_soloframeMixing(false)
-    , m_excludeMonitored(false)
 {
     setType(VCWidget::SoloFrameWidget);
 }
@@ -31,7 +29,7 @@ VCSoloFrame::~VCSoloFrame()
 {
 }
 
-QString VCSoloFrame::defaultCaption() const
+QString VCSoloFrame::defaultCaption()
 {
     return tr("Solo Frame %1").arg(id() + 1);
 }
@@ -65,7 +63,7 @@ void VCSoloFrame::render(QQuickView *view, QQuickItem *parent)
     }
 }
 
-VCWidget *VCSoloFrame::createCopy(VCWidget *parent) const
+VCWidget *VCSoloFrame::createCopy(VCWidget *parent)
 {
     Q_ASSERT(parent != nullptr);
 
@@ -90,42 +88,6 @@ bool VCSoloFrame::copyFrom(const VCWidget *widget)
     return VCFrame::copyFrom(widget);
 }
 
-/*****************************************************************************
- * Properties
- *****************************************************************************/
-
-bool VCSoloFrame::soloframeMixing() const
-{
-    return m_soloframeMixing;
-}
-
-void VCSoloFrame::setSoloframeMixing(bool soloframeMixing)
-{
-    if (soloframeMixing == m_soloframeMixing)
-        return;
-
-    m_soloframeMixing = soloframeMixing;
-    setDocModified();
-
-    emit soloframeMixingChanged();
-}
-
-bool VCSoloFrame::excludeMonitoredFunctions() const
-{
-    return m_excludeMonitored;
-}
-
-void VCSoloFrame::setExcludeMonitoredFunctions(bool exclude)
-{
-    if (exclude == m_excludeMonitored)
-        return;
-
-    m_excludeMonitored = exclude;
-    setDocModified();
-
-    emit excludeMonitoredFunctionsChanged();
-}
-
 /*********************************************************************
  * Widget Function
  *********************************************************************/
@@ -133,15 +95,12 @@ void VCSoloFrame::setExcludeMonitoredFunctions(bool exclude)
 void VCSoloFrame::slotFunctionStarting(VCWidget *widget, quint32 fid, qreal intensity)
 {
     qDebug() << "[VCSoloFrame] requested to start a Function with ID:" << fid << intensity << widget->caption();
-
-    qreal wIntensity = soloframeMixing() ? intensity : 1.0;
-
-    for (VCWidget *child : children(true))
+    foreach (VCWidget *child, children(true))
     {
         if (child != widget)
-            child->notifyFunctionStarting(widget, fid, wIntensity, m_excludeMonitored);
+            child->notifyFunctionStarting(widget, fid, intensity);
     }
-    widget->notifyFunctionStarting(widget, fid, wIntensity, m_excludeMonitored);
+    widget->notifyFunctionStarting(widget, fid, intensity);
 }
 
 /*****************************************************************************

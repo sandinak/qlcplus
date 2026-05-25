@@ -28,7 +28,7 @@ class QLCFixtureMode;
 class QLCChannel;
 class ListModel;
 
-class ModeEdit final : public QObject
+class ModeEdit : public QObject
 {
     Q_OBJECT
 

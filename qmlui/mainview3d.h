@@ -47,7 +47,7 @@ using namespace Qt3DCore;
 using namespace Qt3DRender;
 using namespace Qt3DLogic;
 
-class GoboTextureImage final : public Qt3DRender::QPaintedTextureImage
+class GoboTextureImage : public Qt3DRender::QPaintedTextureImage
 {
 public:
     GoboTextureImage(int w, int h, QString filename);
@@ -57,7 +57,7 @@ public:
     void setSource(QString filename);
 
 protected:
-    void paint(QPainter *painter) override;
+    void paint(QPainter *painter);
 
 private:
     QSvgRenderer *m_renderer;
@@ -89,7 +89,7 @@ typedef struct
     GoboTextureImage *m_goboTexture;
 } SceneItem;
 
-class MainView3D final : public PreviewContext
+class MainView3D : public PreviewContext
 {
     Q_OBJECT
 
@@ -121,10 +121,10 @@ public:
     ~MainView3D();
 
     /** @reimp */
-    void enableContext(bool enable) override;
+    void enableContext(bool enable);
 
     /** @reimp */
-    void setUniverseFilter(quint32 universeFilter) override;
+    void setUniverseFilter(quint32 universeFilter);
 
     /** Cleanup all the items in the scene */
     void resetItems();
@@ -152,7 +152,7 @@ protected:
 
 public slots:
     /** @reimp */
-    void slotRefreshView() override;
+    void slotRefreshView();
 
 signals:
     void cameraPositionChanged();

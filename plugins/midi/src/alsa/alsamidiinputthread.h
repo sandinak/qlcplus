@@ -33,7 +33,7 @@ typedef snd_seq_addr snd_seq_addr_t;
 
 class AlsaMidiInputDevice;
 
-class AlsaMidiInputThread final : public QThread
+class AlsaMidiInputThread : public QThread
 {
     Q_OBJECT
 
@@ -73,7 +73,7 @@ public:
     void stop();
 
 private:
-    void run() override;
+    void run();
 
     void readEvent();
 

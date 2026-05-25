@@ -39,7 +39,7 @@ typedef struct
     int m_intensityId;
 } ChildFunction;
 
-class Collection final : public Function
+class Collection : public Function
 {
     Q_OBJECT
     Q_DISABLE_COPY(Collection)
@@ -52,20 +52,20 @@ public:
     virtual ~Collection();
 
     /** @reimp */
-    QIcon getIcon() const override;
+    QIcon getIcon() const;
 
     /** @reimp */
-    quint32 totalDuration() override;
+    quint32 totalDuration();
 
     /*********************************************************************
      * Copying
      *********************************************************************/
 public:
     /** @reimp */
-    Function* createCopy(Doc* doc, bool addToDoc = true) override;
+    Function* createCopy(Doc* doc, bool addToDoc = true);
 
     /** Copy the contents for this function from another function */
-    bool copyFrom(const Function* function) override;
+    bool copyFrom(const Function* function);
 
     /*********************************************************************
      * Contents
@@ -120,20 +120,20 @@ protected:
      *********************************************************************/
 public:
     /** Save function's contents to an XML document */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc);
 
     /** Load function's contents from an XML document */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    void postLoad() override;
+    void postLoad();
 
 public:
     /** @reimp */
-    bool contains(quint32 functionId) const override;
+    bool contains(quint32 functionId);
 
     /** @reimp */
-    QList<quint32> components() const override;
+    QList<quint32> components();
 
     /*********************************************************************
      * Running
@@ -143,16 +143,16 @@ private:
 
 public:
     /** @reimpl */
-    void preRun(MasterTimer* timer) override;
+    void preRun(MasterTimer* timer);
 
     /** @reimpl */
-    void setPause(bool enable) override;
+    void setPause(bool enable);
 
     /** @reimpl */
-    void write(MasterTimer* timer, QList<Universe *> universes) override;
+    void write(MasterTimer* timer, QList<Universe *> universes);
 
     /** @reimpl */
-    void postRun(MasterTimer* timer, QList<Universe *> universes) override;
+    void postRun(MasterTimer* timer, QList<Universe *> universes);
 
 protected slots:
     /** Called whenever one of this function's child functions stops */
@@ -171,14 +171,14 @@ protected:
      *************************************************************************/
 public:
     /** @reimp */
-    int adjustAttribute(qreal fraction, int attributeId) override;
+    int adjustAttribute(qreal fraction, int attributeId);
 
     /*************************************************************************
      * Blend mode
      *************************************************************************/
 public:
     /** @reimp */
-    void setBlendMode(Universe::BlendMode mode) override;
+    void setBlendMode(Universe::BlendMode mode);
 };
 
 /** @} */

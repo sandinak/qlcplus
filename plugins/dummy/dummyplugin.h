@@ -22,7 +22,7 @@
 
 #include "qlcioplugin.h"
 
-class DummyPlugin final : public QLCIOPlugin
+class DummyPlugin : public QLCIOPlugin
 {
     Q_OBJECT
     Q_INTERFACES(QLCIOPlugin)
@@ -33,19 +33,19 @@ class DummyPlugin final : public QLCIOPlugin
      *********************************************************************/
 public:
     /** @reimp */
-    virtual ~DummyPlugin() override;
+    virtual ~DummyPlugin();
 
     /** @reimp */
-    void init() override;
+    void init();
 
     /** @reimp */
-    QString name() const override;
+    QString name();
 
     /** @reimp */
-    int capabilities() const override;
+    int capabilities() const;
 
     /** @reimp */
-    QString pluginInfo() const override;
+    QString pluginInfo();
 
     /*********************************************************************
      * Outputs - If the plugin doesn't provide output
@@ -53,19 +53,19 @@ public:
      *********************************************************************/
 public:
     /** @reimp */
-    bool openOutput(quint32 output, quint32 universe) override;
+    bool openOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    void closeOutput(quint32 output, quint32 universe) override;
+    void closeOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    QStringList outputs() override;
+    QStringList outputs();
 
     /** @reimp */
-    QString outputInfo(quint32 output) override;
+    QString outputInfo(quint32 output);
 
     /** @reimp */
-    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged) override;
+    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged);
 
     /*************************************************************************
      * Inputs - If the plugin doesn't provide input
@@ -73,19 +73,19 @@ public:
      *************************************************************************/
 public:
     /** @reimp */
-    bool openInput(quint32 input, quint32 universe) override;
+    bool openInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    void closeInput(quint32 input, quint32 universe) override;
+    void closeInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    QStringList inputs() override;
+    QStringList inputs();
 
     /** @reimp */
-    QString inputInfo(quint32 input) override;
+    QString inputInfo(quint32 input);
 
     /** @reimp */
-    void sendFeedBack(quint32 universe, quint32 output, quint32 channel, uchar value, const QVariant &params) override;
+    void sendFeedBack(quint32 universe, quint32 output, quint32 channel, uchar value, const QVariant &params);
 
 protected:
     /** Place here the variables used by this plugin */
@@ -95,13 +95,13 @@ protected:
      *********************************************************************/
 public:
     /** @reimp */
-    void configure() override;
+    void configure();
 
     /** @reimp */
-    bool canConfigure() const override;
+    bool canConfigure();
 
     /** @reimp */
-    void setParameter(quint32 universe, quint32 line, Capability type, QString name, QVariant value) override;
+    void setParameter(quint32 universe, quint32 line, Capability type, QString name, QVariant value);
 };
 
 #endif

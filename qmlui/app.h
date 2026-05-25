@@ -50,7 +50,7 @@ class Tardis;
 
 #define KXMLQLCWorkspace QStringLiteral("Workspace")
 
-class App final : public QQuickView
+class App : public QQuickView
 {
     Q_OBJECT
     Q_DISABLE_COPY(App)
@@ -93,9 +93,8 @@ public:
     };
     Q_ENUM(FileDialogOpModes)
 
-    enum DragItemType
+    enum DragItemTypes
     {
-        NoDragItem,
         GenericDragItem,
         FolderDragItem,
         FunctionDragItem,
@@ -105,11 +104,9 @@ public:
         ChannelDragItem,
         PaletteDragItem,
         HeadDragItem,
-        ShowDragItem,
-        TrackDragItem,
         WidgetDragItem
     };
-    Q_ENUM(DragItemType)
+    Q_ENUM(DragItemTypes)
 
     enum ChannelType
     {
@@ -174,17 +171,16 @@ public:
 
     /** Get/Set the UI access mask */
     int defaultMask() const;
-    void setAccessMask(int mask);
     int accessMask() const;
 
     bool is3DSupported() const;
 
-protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
-
     Q_INVOKABLE void aboutQt();
 
-    Q_INVOKABLE void exit(bool force = false);
+    Q_INVOKABLE void exit();
+
+public slots:
+    void setAccessMask(int mask);
 
 protected:
     void keyPressEvent(QKeyEvent * e) override;
@@ -203,9 +199,6 @@ signals:
     void accessMaskChanged(int mask);
 
 private:
-    /** Flag to quit the application forcefully */
-    bool m_forceQuit = false;
-
     /** The number of pixels in one millimeter */
     qreal m_pixelDensity;
 
@@ -237,17 +230,8 @@ public:
     /** Return a reference to the Doc instance */
     Doc *doc();
 
-    /** Return the QML Virtual Console instance */
-    VirtualConsole *virtualConsole() const;
-
-    /** Return the QML Simple Desk instance */
-    SimpleDesk *simpleDesk() const;
-
     /** Return if the current Doc instance has been loaded */
     bool docLoaded();
-
-    /** Set the status of the doc loading state */
-    void setDocLoaded(bool loaded);
 
     /** Return the Doc instance modified flag */
     bool docModified() const;
@@ -358,7 +342,6 @@ signals:
 
 public slots:
     void slotLoadDocFromMemory(QByteArray &xmlData);
-    void slotSaveAutostart(QString fileName);
 
 private:
     QString m_fileName;

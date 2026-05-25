@@ -43,7 +43,7 @@ class Doc;
  * to automatically generate functions for their capabilities (color, gobo..)
  * for easy and quick initial setup.
  */
-class PaletteGenerator final : public QObject
+class PaletteGenerator: public QObject
 {
     Q_OBJECT
 

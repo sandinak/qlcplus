@@ -27,14 +27,14 @@
  * @{
  */
 
-class DmxDumpFactoryProperties final
+class DmxDumpFactoryProperties
 {
 public:
     DmxDumpFactoryProperties(int universes);
 
     /** Return if all the channels or only those
      *  in $m_channelsMask will be dumped */
-    bool dumpChannelsMode() const;
+    bool dumpChannelsMode();
 
     /** Set the dump channels mode.
      *  True means all channels will be dumped.
@@ -44,14 +44,14 @@ public:
 
     /** Return true if only non-zero values will be dumped.
      *  Otherwise false is returned (meaning any value) */
-    bool nonZeroValuesMode() const;
+    bool nonZeroValuesMode();
 
     /** Set a flag to dump only the channels with non zero values. */
     void setNonZeroValuesMode(bool mode);
 
     /** Return the current map of the selected DMX channels to dump.
      *  The array has size = universes * 512 */
-    QByteArray channelsMask() const;
+    QByteArray channelsMask();
 
     /** Set the map of DMX channels for dump, in the form
      *  of an array of 0/1 valued bytes.
@@ -92,7 +92,7 @@ public:
 
     /** Return true if a Chaser ID is selected in the
      *  dump process */
-    bool isChaserSelected(quint32 id) const;
+    bool isChaserSelected(quint32 id);
 
     /** Select the type of dump that will be performed.
      *  See TargetType. */
@@ -100,7 +100,7 @@ public:
 
     /** Return the current target that will be used in
      *  the dump process */
-    TargetType selectedTarget() const;
+    TargetType selectedTarget();
 
 private:
     /** Variable holding the type of dump going to

@@ -36,7 +36,7 @@ class QLCChannel;
  * @{
  */
 
-class EditMode final : public QDialog, public Ui_EditMode
+class EditMode : public QDialog, public Ui_EditMode
 {
     Q_OBJECT
 
@@ -117,7 +117,7 @@ private:
      * Accept
      *********************************************************************/
 protected slots:
-    void accept() override;
+    void accept();
 };
 
 /** @} */

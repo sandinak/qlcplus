@@ -33,7 +33,7 @@ class QString;
 class QByteArray;
 class Peperoni;
 
-class PeperoniDevice final : public QThread
+class PeperoniDevice : public QThread
 {
     Q_OBJECT
 
@@ -119,7 +119,7 @@ protected:
 
 private:
     /** @reimp */
-    void run() override;
+    void run();
 
 signals:
     /**

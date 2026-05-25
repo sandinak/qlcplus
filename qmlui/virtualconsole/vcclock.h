@@ -58,7 +58,7 @@ public:
 
     /** Load & Save */
     bool loadXML(QXmlStreamReader &root);
-    bool saveXML(QXmlStreamWriter *doc) const;
+    bool saveXML(QXmlStreamWriter *doc);
 
 public:
     bool m_canPlay;
@@ -102,23 +102,23 @@ public:
     virtual ~VCClock();
 
     /** @reimp */
-    QString defaultCaption() const override;
+    QString defaultCaption();
 
     /** @reimp */
-    void setupLookAndFeel(qreal pixelDensity, int page) override;
+    void setupLookAndFeel(qreal pixelDensity, int page);
 
     /** @reimp */
-    void render(QQuickView *view, QQuickItem *parent) override;
+    void render(QQuickView *view, QQuickItem *parent);
 
     /** @reimp */
-    QString propertiesResource() const override;
+    QString propertiesResource() const;
 
     /** @reimp */
-    VCWidget *createCopy(VCWidget *parent) const override;
+    VCWidget *createCopy(VCWidget *parent);
 
 protected:
     /** @reimp */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
 private:
     FunctionParent functionParent() const;
@@ -133,8 +133,8 @@ public:
     void setClockType(ClockType type);
     ClockType clockType() const;
 
-    QString typeToString(ClockType type) const;
-    ClockType stringToType(QString str) const;
+    QString typeToString(ClockType type);
+    ClockType stringToType(QString str);
 
 signals:
     void clockTypeChanged(ClockType type);
@@ -195,8 +195,8 @@ private:
      * Load & Save
      *********************************************************************/
 public:
-    bool loadXML(QXmlStreamReader &root) override;
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool loadXML(QXmlStreamReader &root);
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 #endif

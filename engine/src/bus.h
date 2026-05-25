@@ -64,7 +64,7 @@ class BusEntry;
  * an EFX is set to perform a "Circle" algorithm, its bus value defines the time
  * it should take for the function to run a full 360 degree circle.
  */
-class Bus final : public QObject
+class Bus : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(Bus)

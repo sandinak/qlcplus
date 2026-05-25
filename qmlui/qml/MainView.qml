@@ -35,24 +35,6 @@ Rectangle
 
     property string currentContext: ""
 
-    // main mouse area to intercept any click and reset
-    // the last clicked type before it is set (or not)
-    // to specifically delete a project item
-    MouseArea
-    {
-        anchors.fill: parent
-        z: 999
-        acceptedButtons: Qt.AllButtons
-        propagateComposedEvents: true
-        onPressed: (mouse) =>
-        {
-            if (contextManager)
-                contextManager.setLastClickedType(App.NoDragItem)
-            // let this event pass through
-            mouse.accepted = false
-        }
-    }
-
     Component.onCompleted: UISettings.sidePanelWidth = Math.min(width / 3, UISettings.bigItemHeight * 5)
     onWidthChanged: UISettings.sidePanelWidth = Math.min(width / 3, UISettings.bigItemHeight * 5)
 
@@ -89,9 +71,7 @@ Rectangle
         if (enableContext(ctx, true) === true)
         {
             currentContext = ctx
-            // show toolbar only if not in kiosk mode
-            if (qlcplus.accessMask !== App.AC_VCControl)
-                mainToolbar.visible = true
+            mainToolbar.visible = true
         }
         else
         {
@@ -144,7 +124,7 @@ Rectangle
     Rectangle
     {
         id: mainToolbar
-        visible: qlcplus.accessMask & App.AC_VCControl ? false : true // this is kiosk mode
+        visible: qlcplus.accessMask !== App.AC_VCControl
         width: parent.width
         height: UISettings.iconSizeDefault
         z: 50
@@ -189,14 +169,13 @@ Rectangle
                 Layout.alignment: Qt.AlignTop
                 property string ctxRes: "qrc:/FixturesAndFunctions.qml"
 
-                //visible: qlcplus.accessMask & App.AC_FunctionEditing
                 imgSource: "qrc:/editor.svg"
                 entryText: qsTr("Fixtures & Functions")
                 checked: false
                 ButtonGroup.group: menuBarGroup
                 onCheckedChanged:
                 {
-                    if (checked === true)
+                    if (checked == true)
                         switchToContext(fnfEntry.ctxName, fnfEntry.ctxRes)
                 }
             }
@@ -213,7 +192,7 @@ Rectangle
                 ButtonGroup.group: menuBarGroup
                 onCheckedChanged:
                 {
-                    if (checked === true)
+                    if (checked == true)
                         switchToContext(vcEntry.ctxName, vcEntry.ctxRes)
                 }
                 onRightClicked:
@@ -235,7 +214,7 @@ Rectangle
                 ButtonGroup.group: menuBarGroup
                 onCheckedChanged:
                 {
-                    if (checked === true)
+                    if (checked == true)
                         switchToContext(sdEntry.ctxName, sdEntry.ctxRes)
                 }
                 onRightClicked:
@@ -257,7 +236,7 @@ Rectangle
                 ButtonGroup.group: menuBarGroup
                 onCheckedChanged:
                 {
-                    if (checked === true)
+                    if (checked == true)
                         switchToContext(smEntry.ctxName, smEntry.ctxRes)
                 }
                 onRightClicked:
@@ -279,7 +258,7 @@ Rectangle
                 ButtonGroup.group: menuBarGroup
                 onCheckedChanged:
                 {
-                    if (checked === true)
+                    if (checked == true)
                         switchToContext(ioEntry.ctxName, ioEntry.ctxRes)
                 }
                 onRightClicked:
@@ -433,12 +412,12 @@ Rectangle
                     {
                         if (currentContext === sdEntry.ctxName)
                         {
-                            simpleDesk.dumpDmxChannels(sceneName, getChannelsMask(), existingScene && func ? func.id : -1, nonZeroOnly)
+                            simpleDesk.dumpDmxChannels(sceneName, getChannelsMask())
                         }
                         else
                         {
                             contextManager.dumpDmxChannels(getChannelsMask(), sceneName, existingScene && func ? func.id : -1,
-                                                           allChannels, nonZeroOnly);
+                                        allChannels, nonZeroOnly);
                         }
                     }
                 }

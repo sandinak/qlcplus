@@ -27,6 +27,33 @@
 
 #define KXMLQLCVCSlider QStringLiteral("Slider")
 
+#define KXMLQLCVCSliderMode         QStringLiteral("SliderMode")
+#define KXMLQLCVCSliderWidgetStyle  QStringLiteral("WidgetStyle")
+
+#define KXMLQLCVCSliderValueDisplayStyle            QStringLiteral("ValueDisplayStyle")
+#define KXMLQLCVCSliderValueDisplayStyleExact       QStringLiteral("Exact")
+#define KXMLQLCVCSliderValueDisplayStylePercentage  QStringLiteral("Percentage")
+
+#define KXMLQLCVCSliderClickAndGoType QStringLiteral("ClickAndGoType")
+
+#define KXMLQLCVCSliderInvertedAppearance QStringLiteral("InvertedAppearance")
+
+#define KXMLQLCVCSliderLevel            QStringLiteral("Level")
+#define KXMLQLCVCSliderLevelLowLimit    QStringLiteral("LowLimit")
+#define KXMLQLCVCSliderLevelHighLimit   QStringLiteral("HighLimit")
+#define KXMLQLCVCSliderLevelValue       QStringLiteral("Value")
+#define KXMLQLCVCSliderLevelMonitor     QStringLiteral("Monitor")
+#define KXMLQLCVCSliderOverrideReset    QStringLiteral("Reset")
+#define KXMLQLCVCSliderFunctionFlash    QStringLiteral("Flash")
+
+#define KXMLQLCVCSliderChannel          QStringLiteral("Channel")
+#define KXMLQLCVCSliderChannelFixture   QStringLiteral("Fixture")
+
+#define KXMLQLCVCSliderPlayback             QStringLiteral("Playback") // LEGACY
+#define KXMLQLCVCSliderAdjust               QStringLiteral("Adjust")
+#define KXMLQLCVCSliderAdjustAttribute      QStringLiteral("Attribute")
+#define KXMLQLCVCSliderControlledFunction   QStringLiteral("Function")
+
 class FunctionParent;
 class GenericFader;
 
@@ -38,7 +65,6 @@ class VCSlider : public VCWidget, public DMXSource
     Q_PROPERTY(ValueDisplayStyle valueDisplayStyle READ valueDisplayStyle WRITE setValueDisplayStyle NOTIFY valueDisplayStyleChanged)
     Q_PROPERTY(bool invertedAppearance READ invertedAppearance WRITE setInvertedAppearance NOTIFY invertedAppearanceChanged)
     Q_PROPERTY(SliderMode sliderMode READ sliderMode WRITE setSliderMode NOTIFY sliderModeChanged)
-    Q_PROPERTY(bool catchValues READ catchValues WRITE setCatchValues NOTIFY catchValuesChanged)
 
     Q_PROPERTY(int value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(qreal rangeLowLimit READ rangeLowLimit WRITE setRangeLowLimit NOTIFY rangeLowLimitChanged)
@@ -78,23 +104,23 @@ public:
     virtual ~VCSlider();
 
     /** @reimp */
-    QString defaultCaption() const override;
+    QString defaultCaption();
 
     /** @reimp */
-    void setupLookAndFeel(qreal pixelDensity, int page) override;
+    void setupLookAndFeel(qreal pixelDensity, int page);
 
     /** @reimp */
-    void render(QQuickView *view, QQuickItem *parent) override;
+    void render(QQuickView *view, QQuickItem *parent);
 
     /** @reimp */
-    QString propertiesResource() const override;
+    QString propertiesResource() const;
 
     /** @reimp */
-    VCWidget *createCopy(VCWidget *parent) const override;
+    VCWidget *createCopy(VCWidget *parent);
 
 protected:
     /** @reimp */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
     /*********************************************************************
      * Widget style
@@ -108,8 +134,8 @@ public:
     Q_ENUM(SliderWidgetStyle)
 
     /** Helper methods for SliderWidgetStyle <--> QString conversion */
-    QString widgetStyleToString(SliderWidgetStyle style) const;
-    SliderWidgetStyle stringToWidgetStyle(QString style) const;
+    QString widgetStyleToString(SliderWidgetStyle style);
+    SliderWidgetStyle stringToWidgetStyle(QString style);
 
     /** Get/Set the Slider value display style */
     SliderWidgetStyle widgetStyle() const;
@@ -147,12 +173,10 @@ public:
 signals:
     void valueDisplayStyleChanged(ValueDisplayStyle valueDisplayStyle);
     void invertedAppearanceChanged(bool inverted);
-    void catchValuesChanged(bool enable);
 
 protected:
     ValueDisplayStyle m_valueDisplayStyle;
     bool m_invertedAppearance;
-    bool m_catchValues;
 
     /*********************************************************************
      * Slider Mode
@@ -183,10 +207,6 @@ public:
     int value() const;
     void setValue(int value, bool setDMX = true, bool updateFeedback = true);
 
-    /** Get/Set the external input values catching */
-    bool catchValues() const;
-    void setCatchValues(bool enable);
-
     /** Set/Get the lower limit for the slider values */
     void setRangeLowLimit(qreal value);
     qreal rangeLowLimit() const;
@@ -209,7 +229,6 @@ protected:
     int m_value;
     qreal m_rangeLowLimit;
     qreal m_rangeHighLimit;
-    int m_lastInputValue;
 
     /*********************************************************************
      * Level mode
@@ -377,7 +396,7 @@ public:
     qreal attributeMaxValue() const;
 
     /** @reimp */
-    void adjustIntensity(qreal val) override;
+    void adjustIntensity(qreal val);
 
 private:
     FunctionParent functionParent() const;
@@ -431,7 +450,7 @@ signals:
      *********************************************************************/
 public:
     /** @reimpl */
-    void writeDMX(MasterTimer* timer, QList<Universe*> universes) override;
+    void writeDMX(MasterTimer* timer, QList<Universe*> universes);
 
 protected:
     /** writeDMX for Level mode */
@@ -449,24 +468,24 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    void updateFeedback() override;
+    void updateFeedback();
 
 public slots:
     /** @reimp */
-    void slotInputValueChanged(quint8 id, uchar value) override;
+    void slotInputValueChanged(quint8 id, uchar value);
 
     /*********************************************************************
      * Load & Save
      *********************************************************************/
 public:
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
     bool loadXMLLevel(QXmlStreamReader &level_root);
     bool loadXMLAdjust(QXmlStreamReader &adj_root);
     bool loadXMLLegacyPlayback(QXmlStreamReader &pb_root);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 #endif

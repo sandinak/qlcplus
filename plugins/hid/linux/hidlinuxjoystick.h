@@ -26,27 +26,27 @@
 
 #include "hidjsdevice.h"
 
-class HIDLinuxJoystick final : public HIDJsDevice
+class HIDLinuxJoystick: public HIDJsDevice
 {
     Q_OBJECT
 public:
     HIDLinuxJoystick(HIDPlugin* parent, quint32 line, struct hid_device_info *info);
 
     /** @reimp */
-    void init() override;
+    void init();
 
     /** @reimp */
-    bool openInput() override;
+    bool openInput();
 
     /** @reimp */
-    bool readEvent() override;
+    bool readEvent();
 
 protected:
     bool openDevice();
 
 private:
     /** @reimp */
-    void run() override;
+    void run();
 };
 
 #endif // HIDLINUXJOYSTICK_H

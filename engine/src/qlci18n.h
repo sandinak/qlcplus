@@ -27,7 +27,7 @@ class QString;
  * @{
  */
 
-class QLCi18n final
+class QLCi18n
 {
 public:
     /** Initialize QLCi18n */

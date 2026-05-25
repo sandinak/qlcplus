@@ -43,7 +43,6 @@ Rectangle
     property real xViewOffset: 0
 
     property int showID: showManager.currentShowID
-    property int selectedTrackIndex: -1
 
     onShowIDChanged: renderAndCenter()
     Component.onCompleted: renderAndCenter()
@@ -70,8 +69,8 @@ Rectangle
         z: 5
         gradient: Gradient
         {
-            GradientStop { position: 0; color: UISettings.toolbarStartSub }
-            GradientStop { position: 1; color: UISettings.toolbarEnd }
+          GradientStop { position: 0; color: UISettings.toolbarStartSub }
+          GradientStop { position: 1; color: UISettings.toolbarEnd }
         }
 
         RowLayout
@@ -91,7 +90,7 @@ Rectangle
                 text: showManager.showName
                 enabled: showManager.isEditing
 
-                onTextEdited: showManager.showName = text
+                onTextChanged: showManager.showName = text
             }
 
             IconButton
@@ -356,7 +355,6 @@ Rectangle
         x: parent.width - width
         z: 5
         height: parent.height - (bottomPanel.visible ? bottomPanel.height : 0)
-        inShowManager: true
     }
 
     BottomPanel
@@ -383,7 +381,7 @@ Rectangle
 
             IconButton
             {
-                visible: selectedTrackIndex > 0 ? true : false
+                visible: showManager.selectedTrackIndex > 0 ? true : false
                 height: parent.height - 2
                 width: height
                 faSource: FontAwesome.fa_angle_up
@@ -391,15 +389,15 @@ Rectangle
                 tooltip: qsTr("Move the selected track up")
                 onClicked:
                 {
-                    showManager.moveTrack(selectedTrackIndex, -1)
-                    selectedTrackIndex--
+                    showManager.moveTrack(showManager.selectedTrackIndex, -1)
+                    showManager.selectedTrackIndex--
                     renderAndCenter()
                 }
             }
 
             IconButton
             {
-                visible: selectedTrackIndex < tracksBox.count - 1 ? true : false
+                visible: showManager.selectedTrackIndex < tracksBox.count - 1 ? true : false
                 height: parent.height - 2
                 width: height
                 faSource: FontAwesome.fa_angle_down
@@ -407,8 +405,8 @@ Rectangle
                 tooltip: qsTr("Move the selected track down")
                 onClicked:
                 {
-                    showManager.moveTrack(selectedTrackIndex, 1)
-                    selectedTrackIndex++
+                    showManager.moveTrack(showManager.selectedTrackIndex, 1)
+                    showManager.selectedTrackIndex++
                     renderAndCenter()
                 }
             }
@@ -513,9 +511,8 @@ Rectangle
                             width: tracksBox.width
                             height: trackHeight
                             trackRef: modelData
-                            isSelected: showMgrContainer.selectedTrackIndex === index ? true : false
-
-                            onTrackSelected: showMgrContainer.selectedTrackIndex = index
+                            trackIndex: index
+                            isSelected: showManager.selectedTrackIndex === index ? true : false
                         }
                 }
             }

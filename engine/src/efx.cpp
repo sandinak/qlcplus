@@ -762,7 +762,7 @@ EFXFixture *EFX::fixture(quint32 id, int headIndex)
     return NULL;
 }
 
-QList<quint32> EFX::components() const
+QList<quint32> EFX::components()
 {
     QList<quint32> ids;
 
@@ -831,7 +831,7 @@ EFX::PropagationMode EFX::stringToPropagationMode(QString str)
  * Load & Save
  *****************************************************************************/
 
-bool EFX::saveXML(QXmlStreamWriter *doc) const
+bool EFX::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 
@@ -849,8 +849,6 @@ bool EFX::saveXML(QXmlStreamWriter *doc) const
     /* Propagation mode */
     doc->writeTextElement(KXMLQLCEFXPropagationMode, propagationModeToString(m_propagationMode));
 
-    /* Tempo type */
-    saveXMLTempoType(doc);
     /* Speeds */
     saveXMLSpeed(doc);
     /* Direction */
@@ -938,10 +936,6 @@ bool EFX::loadXML(QXmlStreamReader &root)
         else if (root.name() == KXMLQLCFunctionSpeed)
         {
             loadXMLSpeed(root);
-        }
-        else if (root.name() == KXMLQLCFunctionTempoType)
-        {
-            loadXMLTempoType(root);
         }
         else if (root.name() == KXMLQLCEFXFixture)
         {
@@ -1090,7 +1084,7 @@ QSharedPointer<GenericFader> EFX::getFader(QList<Universe *> universes, quint32 
     QSharedPointer<GenericFader> fader = m_fadersMap.value(universeID, QSharedPointer<GenericFader>());
     if (fader.isNull())
     {
-        fader = universes[universeID]->requestFader(isRelative() ? Universe::Override : Universe::Auto);
+        fader = universes[universeID]->requestFader();
         fader->adjustIntensity(getAttributeValue(Intensity));
         fader->setBlendMode(blendMode());
         fader->setName(name());

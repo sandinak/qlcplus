@@ -36,56 +36,19 @@
 #include "doc.h"
 #include "app.h"
 
-/** ************** XML Tags and Attributes ************** */
-
-#define KXMLQLCVCSliderMode             QStringLiteral("SliderMode")
-#define KXMLQLCVCSliderWidgetStyle      QStringLiteral("WidgetStyle")
-
-#define KXMLQLCVCSliderValueDisplayStyle            QStringLiteral("ValueDisplayStyle")
-#define KXMLQLCVCSliderValueDisplayStyleExact       QStringLiteral("Exact")
-#define KXMLQLCVCSliderValueDisplayStylePercentage  QStringLiteral("Percentage")
-
-#define KXMLQLCVCSliderClickAndGoType       QStringLiteral("ClickAndGoType")
-#define KXMLQLCVCSliderInvertedAppearance   QStringLiteral("InvertedAppearance")
-#define KXMLQLCVCSliderCatchValues          QStringLiteral("CatchValues")
-
-#define KXMLQLCVCSliderLevel            QStringLiteral("Level")
-#define KXMLQLCVCSliderLevelLowLimit    QStringLiteral("LowLimit")
-#define KXMLQLCVCSliderLevelHighLimit   QStringLiteral("HighLimit")
-#define KXMLQLCVCSliderLevelValue       QStringLiteral("Value")
-#define KXMLQLCVCSliderLevelMonitor     QStringLiteral("Monitor")
-#define KXMLQLCVCSliderOverrideReset    QStringLiteral("Reset")
-#define KXMLQLCVCSliderFunctionFlash    QStringLiteral("Flash")
-
-#define KXMLQLCVCSliderChannel          QStringLiteral("Channel")
-#define KXMLQLCVCSliderChannelFixture   QStringLiteral("Fixture")
-
-#define KXMLQLCVCSliderPlayback             QStringLiteral("Playback") // LEGACY
-#define KXMLQLCVCSliderAdjust               QStringLiteral("Adjust")
-#define KXMLQLCVCSliderAdjustAttribute      QStringLiteral("Attribute")
-#define KXMLQLCVCSliderControlledFunction   QStringLiteral("Function")
-
-/** **************** External Control IDs ***************** */
-
 #define INPUT_SLIDER_CONTROL_ID     0
 #define INPUT_SLIDER_RESET_ID       1
 #define INPUT_SLIDER_FLASH_ID       2
-
-/** +/- value range to catch the slider for external
- *  controllers with no feedback support */
-#define VALUE_CATCHING_THRESHOLD    4
 
 VCSlider::VCSlider(Doc *doc, QObject *parent)
     : VCWidget(doc, parent)
     , m_widgetMode(WSlider)
     , m_valueDisplayStyle(DMXValue)
     , m_invertedAppearance(false)
-    , m_catchValues(false)
     , m_sliderMode(Adjust)
     , m_value(0)
     , m_rangeLowLimit(0)
     , m_rangeHighLimit(UCHAR_MAX)
-    , m_lastInputValue(-1)
     , m_levelValueChanged(false)
     , m_monitorEnabled(false)
     , m_monitorValue(0)
@@ -127,7 +90,7 @@ VCSlider::~VCSlider()
         delete m_item;
 }
 
-QString VCSlider::defaultCaption() const
+QString VCSlider::defaultCaption()
 {
     if (widgetStyle() == WSlider)
         return tr("Slider %1").arg(id() + 1);
@@ -166,7 +129,7 @@ QString VCSlider::propertiesResource() const
     return QString("qrc:/VCSliderProperties.qml");
 }
 
-VCWidget* VCSlider::createCopy(VCWidget* parent) const
+VCWidget* VCSlider::createCopy(VCWidget* parent)
 {
     Q_ASSERT(parent != nullptr);
 
@@ -201,7 +164,6 @@ bool VCSlider::copyFrom(const VCWidget *widget)
     /* Copy slider appearance */
     setValueDisplayStyle(slider->valueDisplayStyle());
     setInvertedAppearance(slider->invertedAppearance());
-    setCatchValues(slider->catchValues());
 
     /* Copy Click & Go feature */
     setClickAndGoType(slider->clickAndGoType());
@@ -295,7 +257,7 @@ void VCSlider::setSliderMode(SliderMode mode)
  * Widget style
  *********************************************************************/
 
-QString VCSlider::widgetStyleToString(VCSlider::SliderWidgetStyle style) const
+QString VCSlider::widgetStyleToString(VCSlider::SliderWidgetStyle style)
 {
     if (style == VCSlider::WSlider)
         return QString("Slider");
@@ -305,7 +267,7 @@ QString VCSlider::widgetStyleToString(VCSlider::SliderWidgetStyle style) const
     return QString();
 }
 
-VCSlider::SliderWidgetStyle VCSlider::stringToWidgetStyle(QString style) const
+VCSlider::SliderWidgetStyle VCSlider::stringToWidgetStyle(QString style)
 {
     if (style == "Slider")
         return VCSlider::WSlider;
@@ -382,24 +344,6 @@ void VCSlider::setInvertedAppearance(bool inverted)
     Tardis::instance()->enqueueAction(Tardis::VCSliderSetInverted, id(), m_invertedAppearance, inverted);
     m_invertedAppearance = inverted;
     emit invertedAppearanceChanged(inverted);
-}
-
-/*********************************************************************
- * Value catching feature
- *********************************************************************/
-
-bool VCSlider::catchValues() const
-{
-    return m_catchValues;
-}
-
-void VCSlider::setCatchValues(bool enable)
-{
-    if (enable == m_catchValues)
-        return;
-
-    m_catchValues = enable;
-    emit catchValuesChanged(enable);
 }
 
 /*********************************************************************
@@ -991,10 +935,7 @@ void VCSlider::slotControlledFunctionAttributeChanged(int attrIndex, qreal fract
     if (attrIndex != m_controlledAttributeIndex || m_adjustChangeCounter)
         return;
 
-    qreal newValue = fraction;
-
-    if (attrIndex == Function::Intensity)
-        newValue = qRound(attributeValueToSliderValue(fraction / intensity()));
+    qreal newValue = qRound(attributeValueToSliderValue(fraction / intensity()));
 
     qDebug() << "Function attribute" << m_controlledAttributeIndex << "changed" << fraction << "->" << newValue;
 
@@ -1049,8 +990,8 @@ void VCSlider::setControlledAttribute(int attributeIndex)
         newValue = function->getAttributeValue(m_controlledAttributeIndex);
     }
 
-    setRangeLowLimit(qMax(m_attributeMinValue, rangeLowLimit()));
-    setRangeHighLimit(qMin(m_attributeMaxValue, rangeHighLimit()));
+    setRangeLowLimit(m_attributeMinValue);
+    setRangeHighLimit(m_attributeMaxValue);
 
     emit controlledAttributeChanged(attributeIndex);
     emit attributeMinValueChanged();
@@ -1341,14 +1282,12 @@ void VCSlider::writeDMXAdjust(MasterTimer* timer, QList<Universe *> ua)
     if (function == nullptr)
         return;
 
-    qreal fraction = m_value;
+    qreal fraction = sliderValueToAttributeValue(m_value);
 
     qDebug() << "Adjust Function attribute" << m_controlledAttributeIndex << "to" << fraction;
 
     if (m_controlledAttributeIndex == Function::Intensity)
     {
-        fraction = sliderValueToAttributeValue(m_value);
-
         if (m_value == 0)
         {
             if (function->stopped() == false)
@@ -1403,23 +1342,7 @@ void VCSlider::slotInputValueChanged(quint8 id, uchar value)
     switch (id)
     {
         case INPUT_SLIDER_CONTROL_ID:
-            if (catchValues())
-            {
-                int currentValue = m_value;
-
-                // filter 'out of threshold' cases
-                if (m_lastInputValue == -1 ||
-                    (m_lastInputValue < currentValue - VALUE_CATCHING_THRESHOLD &&
-                     scaledValue < currentValue - VALUE_CATCHING_THRESHOLD) ||
-                    (m_lastInputValue > currentValue + VALUE_CATCHING_THRESHOLD &&
-                     scaledValue > currentValue + VALUE_CATCHING_THRESHOLD))
-                {
-                    m_lastInputValue = scaledValue;
-                    break;
-                }
-            }
             setValue(scaledValue, true, false);
-            m_lastInputValue = scaledValue;
         break;
         case INPUT_SLIDER_RESET_ID:
             if (value)
@@ -1459,10 +1382,6 @@ bool VCSlider::loadXML(QXmlStreamReader &root)
         setInvertedAppearance(false);
     else
         setInvertedAppearance(true);
-
-    /* Values catching */
-    if (attrs.hasAttribute(KXMLQLCVCSliderCatchValues))
-        setCatchValues(true);
 
     while (root.readNextStartElement())
     {
@@ -1661,7 +1580,7 @@ bool VCSlider::loadXMLLegacyPlayback(QXmlStreamReader &pb_root)
     return true;
 }
 
-bool VCSlider::saveXML(QXmlStreamWriter *doc) const
+bool VCSlider::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != nullptr);
 
@@ -1678,10 +1597,6 @@ bool VCSlider::saveXML(QXmlStreamWriter *doc) const
         doc->writeAttribute(KXMLQLCVCSliderInvertedAppearance, "true");
     else
         doc->writeAttribute(KXMLQLCVCSliderInvertedAppearance, "false");
-
-    /* Values catching */
-    if (catchValues() == true)
-        doc->writeAttribute(KXMLQLCVCSliderCatchValues, "true");
 
     /* Window state */
     saveXMLWindowState(doc);
@@ -1728,7 +1643,7 @@ bool VCSlider::saveXML(QXmlStreamWriter *doc) const
         doc->writeAttribute(KXMLQLCVCSliderLevelValue, QString::number(value()));
 
     /* Level channels */
-    for (const SceneValue &scv : m_levelChannels)
+    for (SceneValue &scv : m_levelChannels)
     {
         doc->writeStartElement(KXMLQLCVCSliderChannel);
         doc->writeAttribute(KXMLQLCVCSliderChannelFixture, QString::number(scv.fxi));
@@ -1751,11 +1666,7 @@ bool VCSlider::saveXML(QXmlStreamWriter *doc) const
         doc->writeEndElement();
 
         if (adjustFlashEnabled())
-        {
-            doc->writeStartElement(KXMLQLCVCSliderFunctionFlash);
-            saveXMLInputControl(doc, INPUT_SLIDER_FLASH_ID, false);
-            doc->writeEndElement();
-        }
+            saveXMLInputControl(doc, INPUT_SLIDER_FLASH_ID, false, KXMLQLCVCSliderFunctionFlash);
     }
 
     /* End the <Slider> tag */

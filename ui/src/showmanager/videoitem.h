@@ -37,7 +37,7 @@
  * Video Item. Clickable and draggable object identifying a Video object
  *
  */
-class VideoItem final : public ShowItem
+class VideoItem : public ShowItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -45,23 +45,23 @@ class VideoItem final : public ShowItem
 public:
     VideoItem(Video *vid, ShowFunction *func);
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     /** @reimp */
-    void setTimeScale(int val) override;
+    void setTimeScale(int val);
 
     /** @reimp */
-    void setDuration(quint32 msec, bool stretch) override;
+    void setDuration(quint32 msec, bool stretch);
 
     /** @reimp */
-    QString functionName() const override;
+    QString functionName();
 
     /** Return a pointer to a Video Function associated to this item */
-    Video *getVideo() const;
+    Video *getVideo();
 
 protected:
     /** @reimp */
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 protected slots:
     void slotVideoChanged(quint32);

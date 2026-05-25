@@ -108,7 +108,7 @@ bool HIDJsDevice::readEvent()
  * Device info
  *****************************************************************************/
 
-QString HIDJsDevice::infoText() const
+QString HIDJsDevice::infoText()
 {
     QString info;
 

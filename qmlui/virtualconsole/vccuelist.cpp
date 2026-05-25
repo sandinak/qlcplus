@@ -75,7 +75,7 @@ VCCueList::~VCCueList()
         delete m_item;
 }
 
-QString VCCueList::defaultCaption() const
+QString VCCueList::defaultCaption()
 {
     return tr("Cue List %1").arg(id() + 1);
 }
@@ -110,7 +110,7 @@ QString VCCueList::propertiesResource() const
     return QString("qrc:/VCCueListProperties.qml");
 }
 
-VCWidget *VCCueList::createCopy(VCWidget *parent) const
+VCWidget *VCCueList::createCopy(VCWidget *parent)
 {
     Q_ASSERT(parent != nullptr);
 
@@ -216,7 +216,7 @@ void VCCueList::setSideFaderMode(VCCueList::FaderMode mode)
         setSideFaderLevel(100);
 }
 
-VCCueList::FaderMode VCCueList::stringToFaderMode(QString modeStr) const
+VCCueList::FaderMode VCCueList::stringToFaderMode(QString modeStr)
 {
     if (modeStr == "Crossfade")
         return Crossfade;
@@ -226,7 +226,7 @@ VCCueList::FaderMode VCCueList::stringToFaderMode(QString modeStr) const
     return None;
 }
 
-QString VCCueList::faderModeToString(VCCueList::FaderMode mode) const
+QString VCCueList::faderModeToString(VCCueList::FaderMode mode)
 {
     if (mode == Crossfade)
         return "Crossfade";
@@ -268,16 +268,13 @@ void VCCueList::setSideFaderLevel(int level)
             //qDebug() << "value:" << value << " new step:" << newStep << " stepSize:" << stepSize;
         }
 
-        if (newStep == ch->currentStepIndex())
-            return;
-
         ChaserAction action;
         action.m_action = ChaserSetStepIndex;
         action.m_stepIndex = newStep;
-        action.m_masterIntensity = intensity();
-        action.m_stepIntensity = getPrimaryIntensity();
-        action.m_fadeMode = getFadeMode();
         ch->setAction(action);
+
+        if (newStep == ch->currentStepIndex())
+            return;
     }
     else
     {
@@ -434,18 +431,6 @@ void VCCueList::setStepNote(int index, QString text)
 
     QModelIndex mIdx = m_stepsList->index(index, 0, QModelIndex());
     m_stepsList->setDataWithRole(mIdx, "note", text);
-}
-
-void VCCueList::notifyFunctionStarting(VCWidget *widget, quint32 fid, qreal fIntensity, bool excludeMonitored)
-{
-    Q_UNUSED(widget)
-    Q_UNUSED(fIntensity)
-    Q_UNUSED(excludeMonitored)
-
-    if (fid == m_chaserID)
-        return;
-
-    stopChaser();
 }
 
 quint32 VCCueList::chaserID() const
@@ -696,7 +681,7 @@ void VCCueList::slotInputValueChanged(quint8 id, uchar value)
         case INPUT_PREVIOUS_STEP_ID:
         case INPUT_PLAY_PAUSE_ID:
         case INPUT_STOP_PAUSE_ID:
-            if (value == 0)
+            if (value != UCHAR_MAX)
                 return;
         break;
         default:
@@ -779,7 +764,8 @@ void VCCueList::stopClicked()
     }
     else
     {
-        setPlaybackIndex(-1);
+        //m_primaryIndex = 0;
+        //m_tree->setCurrentItem(m_tree->topLevelItem(getFirstIndex()));
     }
 }
 
@@ -904,7 +890,7 @@ void VCCueList::slotFunctionStopped(quint32 fid)
     if (fid == m_chaserID)
     {
         emit playbackStatusChanged();
-
+        setPlaybackIndex(-1);
         sendFeedback(0, INPUT_PLAY_PAUSE_ID, VCWidget::ExactValue);
 
         m_timer->stop();
@@ -1062,7 +1048,7 @@ bool VCCueList::loadXML(QXmlStreamReader &root)
     return true;
 }
 
-bool VCCueList::saveXML(QXmlStreamWriter *doc) const
+bool VCCueList::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != nullptr);
 

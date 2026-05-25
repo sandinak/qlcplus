@@ -22,7 +22,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "utils.h"
 #include "os2lplugin.h"
 #include "os2lconfiguration.h"
 
@@ -42,7 +41,7 @@ void OS2LPlugin::init()
     m_tcpServer = NULL;
 }
 
-QString OS2LPlugin::name() const
+QString OS2LPlugin::name()
 {
     return QString("OS2L");
 }
@@ -52,7 +51,7 @@ int OS2LPlugin::capabilities() const
     return QLCIOPlugin::Input | QLCIOPlugin::Feedback | QLCIOPlugin::Beats;
 }
 
-QString OS2LPlugin::pluginInfo() const
+QString OS2LPlugin::pluginInfo()
 {
     /** Return a description of the purpose of this plugin
      *  in HTML format */
@@ -170,7 +169,12 @@ quint16 OS2LPlugin::getHash(QString channel)
     else
     {
         /** No existing hash found. Add a new key to the table */
-        hash = Utils::getChecksum(channel.toUtf8());
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        hash = qChecksum(channel.toUtf8().data(), channel.length());
+#else
+        QByteArrayView bav(channel.toUtf8().data(), channel.length());
+        hash = qChecksum(bav);
+#endif
         m_hashMap[channel] = hash;
     }
 
@@ -265,7 +269,7 @@ void OS2LPlugin::configure()
     conf.exec();
 }
 
-bool OS2LPlugin::canConfigure() const
+bool OS2LPlugin::canConfigure()
 {
     return true;
 }

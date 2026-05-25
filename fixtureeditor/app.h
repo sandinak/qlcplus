@@ -33,11 +33,11 @@ class QMenu;
  * @{
  */
 
-#define KAllFilter  QStringLiteral("Fixture Definitions (*.qxf *.d4)")
-#define KQXFFilter  QStringLiteral("QLC fixtures (*.qxf)")
-#define KD4Filter   QStringLiteral("Avolites fixtures (*.d4)")
+#define KAllFilter  "Fixture Definitions (*.qxf *.d4)"
+#define KQXFFilter  "QLC fixtures (*.qxf)"
+#define KD4Filter   "Avolites fixtures (*.d4)"
 
-class App final : public QMainWindow
+class App : public QMainWindow
 {
     Q_OBJECT
 
@@ -78,7 +78,7 @@ private:
     QLCFixtureDef* loadD4(const QString& path, QString& errorMsg) const;
 
 protected:
-    void closeEvent(QCloseEvent*) override;
+    void closeEvent(QCloseEvent*);
 
     /*********************************************************************
      * Copy channel

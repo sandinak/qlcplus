@@ -27,7 +27,7 @@
  * @{
  */
 
-class AddVCSliderMatrix final : public QDialog, public Ui_AddVCSliderMatrix
+class AddVCSliderMatrix : public QDialog, public Ui_AddVCSliderMatrix
 {
     Q_OBJECT
 
@@ -40,7 +40,7 @@ public:
     int width() const;
 
 public slots:
-    void accept() override;
+    void accept();
 
 protected:
     int m_amount;

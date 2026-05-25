@@ -30,7 +30,7 @@
 
 #define KXMLQLCRGBPlain QStringLiteral("Plain")
 
-class RGBPlain final : public QObject, public RGBAlgorithm
+class RGBPlain : public QObject, public RGBAlgorithm
 {
     Q_OBJECT
 
@@ -40,51 +40,51 @@ public:
     ~RGBPlain();
 
     /** @reimp */
-    RGBAlgorithm* clone() const override;
+    RGBAlgorithm* clone() const;
 
     /************************************************************************
      * RGBAlgorithm
      ************************************************************************/
 public:
     /** @reimp */
-    int rgbMapStepCount(const QSize& size) override;
+    int rgbMapStepCount(const QSize& size);
 
     /** @reimp */
-    void rgbMapSetColors(const QVector<uint> &colors) override;
+    void rgbMapSetColors(const QVector<uint> &colors);
 
     /** @reimp */
-    QVector<uint> rgbMapGetColors() override;
+    QVector<uint> rgbMapGetColors();
 
     /** @reimp */
-    void rgbMap(const QSize& size, uint rgb, int step, RGBMap &map) override;
+    void rgbMap(const QSize& size, uint rgb, int step, RGBMap &map);
 
     /** @reimp */
-    QString name() const override;
+    QString name() const;
 
     /** @reimp */
-    QString author() const override;
+    QString author() const;
 
     /** @reimp */
-    int apiVersion() const override;
+    int apiVersion() const;
 
     /** @reimp */
-    void setColors(QVector<QColor> colors) override;
+    void setColors(QVector<QColor> colors);
 
     /** @reimp */
-    RGBAlgorithm::Type type() const override;
+    RGBAlgorithm::Type type() const;
 
     /** @reimp */
-    int acceptColors() const override;
+    int acceptColors() const;
 
     /************************************************************************
      * Load & Save
      ************************************************************************/
 public:
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc) const;
 };
 
 /** @} */

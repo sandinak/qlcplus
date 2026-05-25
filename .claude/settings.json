@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git fetch:*)",
+      "Bash(git log:*)",
+      "Bash(grep -v \"\\\\.ts$\")",
+      "Bash(grep -v \"\\\\.qxf$\")",
+      "Bash(grep -v \"\\\\.svg$\")"
+    ]
+  }
+}

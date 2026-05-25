@@ -23,7 +23,7 @@
 #include <QObject>
 #include "qlcpalette.h"
 
-class QLCPalette_Test final : public QObject
+class QLCPalette_Test : public QObject
 {
     Q_OBJECT
 

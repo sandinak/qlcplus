@@ -48,7 +48,7 @@ class Doc;
 #define KXMLQLCCueStackSpeedFadeOut  QStringLiteral("FadeOut")
 #define KXMLQLCCueStackSpeedDuration QStringLiteral("Duration")
 
-class CueStack final : public QObject, public DMXSource
+class CueStack : public QObject, public DMXSource
 {
     Q_OBJECT
 
@@ -232,7 +232,7 @@ public:
     void setFlashing(bool enable);
     bool isFlashing() const;
 
-    void writeDMX(MasterTimer* timer, QList<Universe *> ua) override;
+    void writeDMX(MasterTimer* timer, QList<Universe *> ua);
 
 private:
     bool m_flashing;

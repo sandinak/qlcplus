@@ -145,7 +145,7 @@ bool AudioRendererPortAudio::initialize(quint32 freq, int chan, AudioFormat form
     return true;
 }
 
-qint64 AudioRendererPortAudio::latency() const
+qint64 AudioRendererPortAudio::latency()
 {
     return 0;
 }

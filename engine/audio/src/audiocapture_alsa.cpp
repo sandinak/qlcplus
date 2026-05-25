@@ -93,7 +93,7 @@ void AudioCaptureAlsa::uninitialize()
     m_captureHandle = NULL;
 }
 
-qint64 AudioCaptureAlsa::latency() const
+qint64 AudioCaptureAlsa::latency()
 {
     return 0; // TODO
 }

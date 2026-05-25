@@ -50,7 +50,7 @@ VCAnimation::~VCAnimation()
         delete m_item;
 }
 
-QString VCAnimation::defaultCaption() const
+QString VCAnimation::defaultCaption()
 {
     return tr("Animation %1").arg(id() + 1);
 }
@@ -85,7 +85,7 @@ QString VCAnimation::propertiesResource() const
     return QString("qrc:/VCAnimationProperties.qml");
 }
 
-VCWidget *VCAnimation::createCopy(VCWidget *parent) const
+VCWidget *VCAnimation::createCopy(VCWidget *parent)
 {
     Q_ASSERT(parent != nullptr);
 
@@ -125,7 +125,7 @@ FunctionParent VCAnimation::functionParent() const
  * UI elements visibility
  *********************************************************************/
 
-quint32 VCAnimation::defaultVisibilityMask() const
+quint32 VCAnimation::defaultVisibilityMask()
 {
     return Fader | Label | Color1 | Color2 | PresetCombo;
 }
@@ -427,10 +427,6 @@ bool VCAnimation::loadXML(QXmlStreamReader &root)
         {
             setVisibilityMask(root.readElementText().toUInt());
         }
-        else if (root.name() == KXMLQLCVCWidgetInput)
-        {
-            loadXMLInputSource(root, INPUT_FADER_ID);
-        }
         else
         {
             qWarning() << Q_FUNC_INFO << "Unknown animation tag:" << root.name().toString();
@@ -441,7 +437,7 @@ bool VCAnimation::loadXML(QXmlStreamReader &root)
     return true;
 }
 
-bool VCAnimation::saveXML(QXmlStreamWriter *doc) const
+bool VCAnimation::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != nullptr);
 
@@ -467,9 +463,6 @@ bool VCAnimation::saveXML(QXmlStreamWriter *doc) const
     /* Controls visibility mask */
     if (m_visibilityMask != defaultVisibilityMask())
         doc->writeTextElement(KXMLQLCVCAnimationVisibilityMask, QString::number(m_visibilityMask));
-
-    /* External control */
-    saveXMLInputControl(doc, INPUT_FADER_ID, false);
 
     /* Write the <end> tag */
     doc->writeEndElement();

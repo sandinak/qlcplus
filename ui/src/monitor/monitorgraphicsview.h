@@ -33,7 +33,7 @@ class Doc;
  * @{
  */
 
-class MonitorGraphicsView final : public QGraphicsView
+class MonitorGraphicsView : public QGraphicsView
 {
     Q_OBJECT
 
@@ -106,10 +106,10 @@ protected:
     void updateGrid();
 
     /** Event caught when the GraphicsView is resized */
-    void resizeEvent(QResizeEvent *event) override;
+    void resizeEvent(QResizeEvent *event);
 
 public slots:
-    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e);
 
 protected slots:
     /** Slot called when a MonitorFixtureItem is dropped after a drag */

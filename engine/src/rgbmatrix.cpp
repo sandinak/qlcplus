@@ -202,7 +202,7 @@ void RGBMatrix::setFixtureGroup(quint32 id)
     m_stepsCount = algorithmStepsCount();
 }
 
-QList<quint32> RGBMatrix::components() const
+QList<quint32> RGBMatrix::components()
 {
     if (m_group != NULL)
         return m_group->fixtureList();
@@ -269,7 +269,7 @@ QRecursiveMutex& RGBMatrix::algorithmMutex()
 #endif
 
 
-int RGBMatrix::stepsCount() const
+int RGBMatrix::stepsCount()
 {
     return m_stepsCount;
 }
@@ -443,10 +443,6 @@ bool RGBMatrix::loadXML(QXmlStreamReader &root)
         {
             loadXMLSpeed(root);
         }
-        else if (root.name() == KXMLQLCFunctionTempoType)
-        {
-            loadXMLTempoType(root);
-        }
         else if (root.name() == KXMLQLCRGBAlgorithm)
         {
             setAlgorithm(RGBAlgorithm::loader(doc(), root));
@@ -502,7 +498,7 @@ bool RGBMatrix::loadXML(QXmlStreamReader &root)
     return true;
 }
 
-bool RGBMatrix::saveXML(QXmlStreamWriter *doc) const
+bool RGBMatrix::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 
@@ -511,9 +507,6 @@ bool RGBMatrix::saveXML(QXmlStreamWriter *doc) const
 
     /* Common attributes */
     saveXMLCommon(doc);
-
-    /* Tempo type */
-    saveXMLTempoType(doc);
 
     /* Speeds */
     saveXMLSpeed(doc);
@@ -871,7 +864,7 @@ void RGBMatrix::updateMapChannels(const RGBMap& map, const FixtureGroup *grp, QL
             //
             // The rest of the dimmer channels are set to full if dimmer control is
             // enabled and target color is > 0 (see
-            // https://www.qlcplus.org/forum/viewtopic.php?f=29&t=11090)
+            // http://www.qlcplus.org/forum/viewtopic.php?f=29&t=11090)
             //
             // Note: If there is only one head, and only one dimmer channel,
             // make it a master dimmer in fixture definition.
@@ -1075,7 +1068,7 @@ void RGBMatrixStep::setStepColor(QColor color)
     m_stepColor = color;
 }
 
-QColor RGBMatrixStep::stepColor() const
+QColor RGBMatrixStep::stepColor()
 {
     return m_stepColor;
 }

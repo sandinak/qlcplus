@@ -88,8 +88,8 @@ RenderTarget
         height: 1024
         format: Texture.D32F
         generateMipMaps: false
-        magnificationFilter: Texture.Nearest
-        minificationFilter: Texture.Nearest
+        magnificationFilter: Texture.Linear
+        minificationFilter: Texture.Linear
         wrapMode
         {
             x: WrapMode.ClampToEdge

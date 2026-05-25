@@ -72,7 +72,7 @@ class Fixture;
  * An EFX (effects) function that is used to create
  * more complex automation especially for moving lights
  */
-class EFX final : public Function
+class EFX : public Function
 {
     Q_OBJECT
     Q_DISABLE_COPY(EFX)
@@ -98,24 +98,24 @@ public:
     ~EFX();
 
     /** @reimp */
-    QIcon getIcon() const override;
+    QIcon getIcon() const;
 
     /*********************************************************************
      * Copying
      *********************************************************************/
 public:
     /** @reimp */
-    Function* createCopy(Doc* doc, bool addToDoc = true) override;
+    Function* createCopy(Doc* doc, bool addToDoc = true);
 
     /** Copy the contents for this function from another function */
-    bool copyFrom(const Function* function) override;
+    bool copyFrom(const Function* function);
 
     /*********************************************************************
      * Contents
      *********************************************************************/
 public:
     /** Set the duration in milliseconds */
-    virtual void setDuration(uint ms) override;
+    virtual void setDuration(uint ms);
 
     uint loopDuration() const;
 
@@ -506,11 +506,11 @@ public:
     EFXFixture *fixture(quint32 id, int headIndex);
 
     /** @reimp */
-    QList<quint32> components() const override;
+    QList<quint32> components();
 
 public slots:
     /** Slot that captures Doc::fixtureRemoved signals */
-    void slotFixtureRemoved(quint32 fxi_id) override;
+    void slotFixtureRemoved(quint32 fxi_id);
 
 private:
     QList <EFXFixture *> m_fixtures;
@@ -548,9 +548,9 @@ private:
      * Load & Save
      *********************************************************************/
 public:
-    bool saveXML(QXmlStreamWriter *doc) const override;
-    bool loadXML(QXmlStreamReader &root) override;
-    void postLoad() override;
+    bool saveXML(QXmlStreamWriter *doc);
+    bool loadXML(QXmlStreamReader &root);
+    void postLoad();
 
 private:
     /** Load an axis' contents from an XML document*/
@@ -568,13 +568,13 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    void preRun(MasterTimer* timer) override;
+    void preRun(MasterTimer* timer);
 
     /** @reimp */
-    void write(MasterTimer* timer, QList<Universe *> universes) override;
+    void write(MasterTimer* timer, QList<Universe *> universes);
 
     /** @reimp */
-    void postRun(MasterTimer* timer, QList<Universe*> universes) override;
+    void postRun(MasterTimer* timer, QList<Universe*> universes);
 
 private:
     QSharedPointer<GenericFader> getFader(QList<Universe *> universes, quint32 universeID);
@@ -584,14 +584,14 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    int adjustAttribute(qreal fraction, int attributeId = 0) override;
+    int adjustAttribute(qreal fraction, int attributeId = 0);
 
     /*************************************************************************
      * Blend mode
      *************************************************************************/
 public:
     /** @reimp */
-    void setBlendMode(Universe::BlendMode mode) override;
+    void setBlendMode(Universe::BlendMode mode);
 };
 
 /** @} */

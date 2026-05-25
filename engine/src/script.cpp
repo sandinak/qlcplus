@@ -310,7 +310,7 @@ bool Script::loadXML(QXmlStreamReader &root)
     return true;
 }
 
-bool Script::saveXML(QXmlStreamWriter *doc) const
+bool Script::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 

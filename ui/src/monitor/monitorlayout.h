@@ -35,7 +35,7 @@ class MonitorFixture;
  * MonitorLayoutItem
  ****************************************************************************/
 
-class MonitorLayoutItem final : public QWidgetItem
+class MonitorLayoutItem : public QWidgetItem
 {
 public:
     MonitorLayoutItem(MonitorFixture* mof);
@@ -48,7 +48,7 @@ public:
  * MonitorLayout
  ****************************************************************************/
 
-class MonitorLayout final : public QLayout
+class MonitorLayout : public QLayout
 {
     /********************************************************************
      * Initialization
@@ -61,11 +61,11 @@ public:
      * Items
      ********************************************************************/
 public:
-    void addItem(QLayoutItem* item) override;
-    int count() const override;
+    void addItem(QLayoutItem* item);
+    int count() const;
 
-    MonitorLayoutItem* itemAt(int index) const override;
-    MonitorLayoutItem* takeAt(int index) override;
+    MonitorLayoutItem* itemAt(int index) const;
+    MonitorLayoutItem* takeAt(int index);
 
     void sort();
 
@@ -76,12 +76,12 @@ protected:
      * Size & Geometry
      ********************************************************************/
 public:
-    Qt::Orientations expandingDirections() const override;
-    bool hasHeightForWidth() const override;
-    int heightForWidth(int) const override;
-    QSize minimumSize() const override;
-    void setGeometry(const QRect& rect) override;
-    QSize sizeHint() const override;
+    Qt::Orientations expandingDirections() const;
+    bool hasHeightForWidth() const;
+    int heightForWidth(int) const;
+    QSize minimumSize() const;
+    void setGeometry(const QRect& rect);
+    QSize sizeHint() const;
 
 protected:
     int doLayout(const QRect &rect, bool testOnly) const;

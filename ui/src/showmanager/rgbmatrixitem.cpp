@@ -61,23 +61,24 @@ void RGBMatrixItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    float xpos = 0;
-    float timeUnit = 50.0 / float(getTimeScale());
+    float timeScale = 50 / float(m_timeScale);
 
     ShowItem::paint(painter, option, widget);
 
-    int loopCount = 0;
-    if (getDuration() == Function::infiniteSpeed())
-        loopCount = 10000 / m_matrix->duration();
-    else if (getDuration() > 0)
-        loopCount = qFloor(getDuration() / m_matrix->duration());
+    quint32 matrixDuration = getDuration();
 
-    for (int i = 0; i < loopCount; i++)
+    if (matrixDuration)
     {
-        xpos += ((timeUnit * float(m_matrix->totalDuration())) / 1000);
-        // draw loop vertical delimiter
-        painter->setPen(QPen(Qt::white, 1));
-        painter->drawLine(int(xpos), 1, int(xpos), TRACK_HEIGHT - 5);
+        float xpos = 0;
+        int loopCount = m_function->duration() ? qFloor(m_function->duration() / m_matrix->totalDuration()) : 0;
+
+        for (int i = 0; i < loopCount; i++)
+        {
+            xpos += ((timeScale * float(m_matrix->totalDuration())) / 1000);
+            // draw loop vertical delimiter
+            painter->setPen(QPen(Qt::white, 1));
+            painter->drawLine(int(xpos), 1, int(xpos), TRACK_HEIGHT - 5);
+        }
     }
 
     ShowItem::postPaint(painter);
@@ -105,19 +106,19 @@ void RGBMatrixItem::setDuration(quint32 msec, bool stretch)
     }
 }
 
-quint32 RGBMatrixItem::getDuration() const
+quint32 RGBMatrixItem::getDuration()
 {
     return m_function->duration() ? m_function->duration() : m_matrix->totalDuration();
 }
 
-QString RGBMatrixItem::functionName() const
+QString RGBMatrixItem::functionName()
 {
     if (m_matrix)
         return m_matrix->name();
     return QString();
 }
 
-RGBMatrix *RGBMatrixItem::getRGBMatrix() const
+RGBMatrix *RGBMatrixItem::getRGBMatrix()
 {
     return m_matrix;
 }

@@ -33,7 +33,7 @@ class Doc;
  * @{
  */
 
-class QLCClipboard final : public QObject
+class QLCClipboard: public QObject
 {
     Q_OBJECT
 

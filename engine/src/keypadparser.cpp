@@ -25,6 +25,7 @@
 
 KeyPadParser::KeyPadParser()
 {
+
 }
 
 QList<SceneValue> KeyPadParser::parseCommand(Doc *doc, QString command,

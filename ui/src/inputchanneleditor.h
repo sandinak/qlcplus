@@ -32,7 +32,7 @@ class QLCInputChannel;
  * @{
  */
 
-class InputChannelEditor final : public QDialog, public Ui_InputChannelEditor
+class InputChannelEditor : public QDialog, public Ui_InputChannelEditor
 {
     Q_OBJECT
     Q_DISABLE_COPY(InputChannelEditor)

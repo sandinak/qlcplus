@@ -26,7 +26,7 @@
 #ifndef OSCPACKETIZER_H
 #define OSCPACKETIZER_H
 
-class OSCPacketizer final
+class OSCPacketizer
 {
     /*********************************************************************
      * Initialization

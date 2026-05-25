@@ -28,7 +28,7 @@
 /**
  * Start/Stop source
  */
-class FunctionParent final
+class FunctionParent
 {
 public:
     // The type of the FunctionParent has 2 purposes:

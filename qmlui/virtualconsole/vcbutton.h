@@ -24,6 +24,23 @@
 
 #define KXMLQLCVCButton QStringLiteral("Button")
 
+#define KXMLQLCVCButtonFunction     QStringLiteral("Function")
+#define KXMLQLCVCButtonFunctionID   QStringLiteral("ID")
+
+#define KXMLQLCVCButtonAction           QStringLiteral("Action")
+#define KXMLQLCVCButtonActionFlash      QStringLiteral("Flash")
+#define KXMLQLCVCButtonActionToggle     QStringLiteral("Toggle")
+#define KXMLQLCVCButtonActionBlackout   QStringLiteral("Blackout")
+#define KXMLQLCVCButtonActionStopAll    QStringLiteral("StopAll")
+
+#define KXMLQLCVCButtonFlashOverride    QStringLiteral("Override")
+#define KXMLQLCVCButtonFlashForceLTP    QStringLiteral("ForceLTP")
+
+#define KXMLQLCVCButtonStopAllFadeTime  QStringLiteral("FadeOut")
+
+#define KXMLQLCVCButtonIntensity        QStringLiteral("Intensity")
+#define KXMLQLCVCButtonIntensityAdjust  QStringLiteral("Adjust")
+
 class FunctionParent;
 
 class VCButton : public VCWidget
@@ -47,23 +64,23 @@ public:
     virtual ~VCButton();
 
     /** @reimp */
-    QString defaultCaption() const override;
+    QString defaultCaption();
 
     /** @reimp */
-    void setupLookAndFeel(qreal pixelDensity, int page) override;
+    void setupLookAndFeel(qreal pixelDensity, int page);
 
     /** @reimp */
-    void render(QQuickView *view, QQuickItem *parent) override;
+    void render(QQuickView *view, QQuickItem *parent);
 
     /** @reimp */
-    QString propertiesResource() const override;
+    QString propertiesResource() const;
 
     /** @reimp */
-    VCWidget *createCopy(VCWidget *parent) const override;
+    VCWidget *createCopy(VCWidget *parent);
 
 protected:
     /** @reimp */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
     /*********************************************************************
      * Function attachment
@@ -86,10 +103,10 @@ public:
     quint32 functionID() const;
 
     /** @reimp */
-    void adjustFunctionIntensity(Function *f, qreal value) override;
+    void adjustFunctionIntensity(Function *f, qreal value);
 
     /** @reimp */
-    void adjustIntensity(qreal val) override;
+    void adjustIntensity(qreal val);
 
     /**
      *  The actual method used to request a change of state of this
@@ -98,7 +115,7 @@ public:
     Q_INVOKABLE void requestStateChange(bool pressed);
 
     /** @reimp */
-    void notifyFunctionStarting(VCWidget *widget, quint32 fid, qreal fIntensity, bool excludeMonitored) override;
+    void notifyFunctionStarting(VCWidget *widget, quint32 fid, qreal fIntensity);
 
 signals:
     void functionIDChanged(quint32 id);
@@ -224,11 +241,11 @@ protected:
      *********************************************************************/
 public:
     /** @reimp */
-    void updateFeedback() override;
+    void updateFeedback();
 
 public slots:
     /** @reimp */
-    void slotInputValueChanged(quint8 id, uchar value) override;
+    void slotInputValueChanged(quint8 id, uchar value);
 
     /*********************************************************************
      * Load & Save
@@ -236,10 +253,10 @@ public slots:
 
 public:
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 #endif

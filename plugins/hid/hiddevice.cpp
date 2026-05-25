@@ -45,12 +45,12 @@ HIDDevice::~HIDDevice()
 /*****************************************************************************
  * File operations
  *****************************************************************************/
-bool HIDDevice::hasMergerMode() const
+bool HIDDevice::hasMergerMode()
 {
     return false; //usual HIDDevices don't offer a merger mode
 }
 
-bool HIDDevice::isMergerModeEnabled() const
+bool HIDDevice::isMergerModeEnabled()
 {
     return false; //never enabled when not offered
 }
@@ -93,12 +93,12 @@ int HIDDevice::handle() const
  * Device info
  *****************************************************************************/
 
-QString HIDDevice::infoText() const
+QString HIDDevice::infoText()
 {
     return QString();
 }
 
-QString HIDDevice::name() const
+QString HIDDevice::name()
 {
     return m_name;
 }

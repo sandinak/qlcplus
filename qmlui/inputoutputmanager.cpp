@@ -495,37 +495,17 @@ void InputOutputManager::addInputPatch(int universe, QString plugin, QString lin
     emit inputCanConfigureChanged();
 }
 
-bool InputOutputManager::setFeedbackPatch(int universe, bool enable)
+void InputOutputManager::setFeedbackPatch(int universe, bool enable)
 {
     InputPatch *patch = m_ioMap->inputPatch(universe);
 
     if (patch == nullptr)
-        return false;
+        return;
 
     if (enable)
-    {
-        // find a matching output line
-        QString inputName = patch->inputName();
-        int i = 0;
-        bool found = false;
-
-        for (QString &pLine : m_ioMap->pluginOutputs(patch->pluginName()))
-        {
-            if (pLine == inputName)
-            {
-                m_ioMap->setOutputPatch(universe, patch->pluginName(), "", i, true);
-                found = true;
-                break;
-            }
-            i++;
-        }
-        return found;
-    }
+        m_ioMap->setOutputPatch(universe, patch->pluginName(), "", patch->input(), true);
     else
-    {
         m_ioMap->setOutputPatch(universe, KInputNone, "", QLCIOPlugin::invalidLine(), true);
-    }
-    return true;
 }
 
 void InputOutputManager::removeInputPatch(int universe)

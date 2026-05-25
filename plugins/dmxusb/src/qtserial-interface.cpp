@@ -41,12 +41,12 @@ QtSerialInterface::~QtSerialInterface()
         close();
 }
 
-DMXInterface::Type QtSerialInterface::type() const
+DMXInterface::Type QtSerialInterface::type()
 {
     return DMXInterface::QtSerial;
 }
 
-QString QtSerialInterface::typeString() const
+QString QtSerialInterface::typeString()
 {
     return "QtSerialPort";
 }

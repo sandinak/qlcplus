@@ -25,7 +25,7 @@
 
 #include "hidjsdevice.h"
 
-class HIDWindowsJoystick final : public HIDJsDevice
+class HIDWindowsJoystick: public HIDJsDevice
 {
     Q_OBJECT
 public:
@@ -34,10 +34,10 @@ public:
     static bool isJoystick(unsigned short vid, unsigned short pid);
 
     /** @reimp */
-    void init() override;
+    void init();
 
     /** @reimp */
-    bool readEvent() override;
+    bool readEvent();
 
 protected:
     JOYCAPS m_caps;

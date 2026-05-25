@@ -37,7 +37,7 @@
  * RGBMatrix Item. Clickable and draggable object identifying a RGBMatrix object
  *
  */
-class RGBMatrixItem final : public ShowItem
+class RGBMatrixItem : public ShowItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -46,26 +46,26 @@ public:
     RGBMatrixItem(RGBMatrix *rgbm, ShowFunction *func);
 
     /** @reimp */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     /** @reimp */
-    void setTimeScale(int val) override;
+    void setTimeScale(int val);
 
     /** @reimp */
-    void setDuration(quint32 msec, bool stretch) override;
+    void setDuration(quint32 msec, bool stretch);
 
     /** @reimp */
-    quint32 getDuration() const override;
+    quint32 getDuration();
 
     /** @reimp */
-    QString functionName() const override;
+    QString functionName();
 
     /** Return a pointer to a RGBMatrix Function associated to this item */
-    RGBMatrix *getRGBMatrix() const;
+    RGBMatrix *getRGBMatrix();
 
 protected:
     /** @reimp */
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 protected slots:
     void slotRGBMatrixChanged(quint32);

@@ -23,7 +23,7 @@
 
 #include "vcwidget.h"
 
-class StubWidget final : public VCWidget
+class StubWidget : public VCWidget
 {
     Q_OBJECT
 
@@ -31,12 +31,12 @@ public:
     StubWidget(QWidget* parent, Doc* doc);
     ~StubWidget();
 
-    VCWidget* createCopy(VCWidget* parent) const override;
+    VCWidget* createCopy(VCWidget* parent);
 
     /** @reimp */
-    void updateFeedback() override { }
-    bool loadXML(QXmlStreamReader &root) override;
-    bool saveXML(QXmlStreamWriter *doc) override;
+    void updateFeedback() { }
+    bool loadXML(QXmlStreamReader &root);
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 #endif

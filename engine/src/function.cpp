@@ -98,6 +98,7 @@ Function::Function(QObject *parent)
     , m_preserveAttributes(false)
     , m_blendMode(Universe::NormalBlend)
 {
+
 }
 
 Function::Function(Doc* doc, Type t)
@@ -588,34 +589,6 @@ void Function::slotBPMChanged(int bpmNumber)
     m_beatResyncNeeded = true;
 }
 
-bool Function::saveXMLTempoType(QXmlStreamWriter *doc) const
-{
-    Q_ASSERT(doc != NULL);
-
-    /* Make this optional to keep projects lighter */
-    if (tempoType() == Beats)
-        doc->writeTextElement(KXMLQLCFunctionTempoType, tempoTypeToString(tempoType()));
-
-    return true;
-}
-
-bool Function::loadXMLTempoType(QXmlStreamReader &root)
-{
-    if (root.name() != KXMLQLCFunctionTempoType)
-    {
-        qWarning() << Q_FUNC_INFO << "Tempo type node not found";
-        return false;
-    }
-
-    QString str = root.readElementText();
-    if (str.isEmpty())
-        return false;
-
-    setTempoType(stringToTempoType(str));
-
-    return true;
-}
-
 /****************************************************************************
  * Speed
  ****************************************************************************/
@@ -872,7 +845,7 @@ void Function::slotFixtureRemoved(quint32 fid)
 /*****************************************************************************
  * Load & Save
  *****************************************************************************/
-bool Function::saveXML(QXmlStreamWriter *doc) const
+bool Function::saveXML(QXmlStreamWriter *doc)
 {
     Q_UNUSED(doc)
     return false;
@@ -972,13 +945,13 @@ void Function::postLoad()
     /* NOP */
 }
 
-bool Function::contains(quint32 functionId) const
+bool Function::contains(quint32 functionId)
 {
     Q_UNUSED(functionId);
     return false;
 }
 
-QList<quint32> Function::components() const
+QList<quint32> Function::components()
 {
     return QList<quint32>();
 }

@@ -41,7 +41,7 @@
  *
  */
 
-class TrackItem final : public QObject, public QGraphicsItem
+class TrackItem : public QObject, public QGraphicsItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -49,14 +49,14 @@ class TrackItem final : public QObject, public QGraphicsItem
 public:
     TrackItem(Track *track, int number);
 
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     /** Return pointer to the Track class associated to this item */
-    Track *getTrack() const;
+    Track *getTrack();
 
     /** Return the track number */
-    int getTrackNumber() const;
+    int getTrackNumber();
 
     /** Set the track name */
     void setName(QString name);
@@ -65,18 +65,18 @@ public:
     void setActive(bool flag);
 
     /** Return if this track is active or not */
-    bool isActive() const;
+    bool isActive();
 
     /** Set mute and solo flags on/off */
     void setFlags(bool solo, bool mute);
 
     /** Return the mute state of the item */
-    bool isMute() const;
+    bool isMute();
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *) override;
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *);
 
 protected slots:
     void slotTrackChanged(quint32 id);

@@ -191,7 +191,7 @@ Rectangle
                 selectionColor: UISettings.highlightPressed
                 selectByMouse: true
 
-                onTextEdited: paletteManager.searchFilter = text
+                onTextChanged: paletteManager.searchFilter = text
             }
         } // Rectangle - searchBox
 
@@ -276,9 +276,6 @@ Rectangle
                                 case QLCPalette.Tilt:
                                 case QLCPalette.PanTilt:
                                     toolLoader.source = "qrc:/PositionTool.qml"
-                                break
-                                case QLCPalette.Zoom:
-                                    toolLoader.source = "qrc:/BeamTool.qml"
                                 break
                             }
                         }

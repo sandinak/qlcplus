@@ -45,7 +45,7 @@ class ctkRangeSliderPrivate;
 /// TODO: support triggerAction(QAbstractSlider::SliderSingleStepSub) that
 /// moves both values at a time.
 /// \sa ctkDoubleRangeSlider, ctkDoubleSlider, ctkRangeWidget
-class ctkRangeSlider final : public QSlider
+class ctkRangeSlider : public QSlider
 {
     Q_OBJECT
     Q_PROPERTY(int minimumValue READ minimumValue WRITE setMinimumValue)
@@ -184,19 +184,19 @@ protected:
 
     // Description:
     // Standard Qt UI events
-    virtual void mousePressEvent(QMouseEvent *ev) override;
-    virtual void mouseMoveEvent(QMouseEvent *ev) override;
-    virtual void mouseReleaseEvent(QMouseEvent *ev) override;
+    virtual void mousePressEvent(QMouseEvent *ev);
+    virtual void mouseMoveEvent(QMouseEvent *ev);
+    virtual void mouseReleaseEvent(QMouseEvent *ev);
 
     // Description:
     // Rendering is done here.
-    virtual void paintEvent(QPaintEvent *ev) override;
+    virtual void paintEvent(QPaintEvent *ev);
     virtual void initMinimumSliderStyleOption(QStyleOptionSlider *option) const;
     virtual void initMaximumSliderStyleOption(QStyleOptionSlider *option) const;
 
     // Description:
     // Reimplemented for the tooltips
-    virtual bool event(QEvent *event) override;
+    virtual bool event(QEvent *event);
 
 protected:
     QScopedPointer<ctkRangeSliderPrivate> d_ptr;

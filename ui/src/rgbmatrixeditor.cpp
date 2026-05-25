@@ -86,6 +86,9 @@ RGBMatrixEditor::RGBMatrixEditor(QWidget* parent, RGBMatrix* mtx, Doc* doc)
     init();
 
     slotModeChanged(m_doc->mode());
+
+    // Set focus to the editor
+    m_nameEdit->setFocus();
 }
 
 RGBMatrixEditor::~RGBMatrixEditor()
@@ -125,6 +128,7 @@ void RGBMatrixEditor::init()
 {
     /* Name */
     m_nameEdit->setText(m_matrix->name());
+    m_nameEdit->setSelection(0, m_matrix->name().length());
 
     /* Running order */
     switch (m_matrix->runOrder())

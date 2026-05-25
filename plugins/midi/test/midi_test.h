@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class Midi_Test final : public QObject
+class Midi_Test : public QObject
 {
     Q_OBJECT
 

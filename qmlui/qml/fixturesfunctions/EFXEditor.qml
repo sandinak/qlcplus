@@ -753,16 +753,9 @@ Rectangle
                             GridLayout
                             {
                                 width: parent.width
-                                columns: 3
+                                columns: 2
                                 columnSpacing: 5
                                 rowSpacing: 4
-
-                                function showTimeTool(item, titleLabel, timeLabel, type)
-                                {
-                                    timeEditTool.allowFractions = QLCFunction.ByTwoFractions
-                                    timeEditTool.show(-1, item.mapToItem(mainView, 0, 0).y - timeEditTool.height,
-                                                      titleLabel, timeLabel, type)
-                                }
 
                                 // Row 1
                                 RobotoText
@@ -780,25 +773,20 @@ Rectangle
 
                                     RobotoText
                                     {
-                                        id: fiTimeLabel
-                                        x: 3
-                                        height: parent.height
-                                        label: TimeUtils.timeToQlcString(efxEditor.fadeInSpeed, efxEditor.tempoType)
-                                    }
-                                    MouseArea
-                                    {
                                         anchors.fill: parent
-                                        onDoubleClicked: showTimeTool(this, fiLabel.label, fiTimeLabel.label, QLCFunction.FadeIn)
-                                    }
-                                }
+                                        label: TimeUtils.timeToQlcString(efxEditor.fadeInSpeed, efxEditor.tempoType)
 
-                                IconButton
-                                {
-                                    width: height
-                                    height: UISettings.listItemHeight
-                                    faSource: FontAwesome.fa_clock
-                                    faColor: UISettings.fgMain
-                                    onClicked: showTimeTool(this, fiLabel.label, fiTimeLabel.label, QLCFunction.FadeIn)
+                                        MouseArea
+                                        {
+                                            anchors.fill: parent
+                                            onDoubleClicked:
+                                            {
+                                                timeEditTool.allowFractions = QLCFunction.ByTwoFractions
+                                                timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y,
+                                                                  fiLabel.label, parent.label, QLCFunction.FadeIn)
+                                            }
+                                        }
+                                    }
                                 }
 
                                 // Row 2
@@ -817,25 +805,20 @@ Rectangle
 
                                     RobotoText
                                     {
-                                        id: hTimeLabel
-                                        x: 3
-                                        height: parent.height
-                                        label: TimeUtils.timeToQlcString(efxEditor.holdSpeed, efxEditor.tempoType)
-                                    }
-                                    MouseArea
-                                    {
                                         anchors.fill: parent
-                                        onDoubleClicked: showTimeTool(this, hLabel.label, hTimeLabel.label, QLCFunction.Hold)
-                                    }
-                                }
+                                        label: TimeUtils.timeToQlcString(efxEditor.holdSpeed, efxEditor.tempoType)
 
-                                IconButton
-                                {
-                                    width: height
-                                    height: UISettings.listItemHeight
-                                    faSource: FontAwesome.fa_clock
-                                    faColor: UISettings.fgMain
-                                    onClicked: showTimeTool(this, hLabel.label, hTimeLabel.label, QLCFunction.Hold)
+                                        MouseArea
+                                        {
+                                            anchors.fill: parent
+                                            onDoubleClicked:
+                                            {
+                                                timeEditTool.allowFractions = QLCFunction.ByTwoFractions
+                                                timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y,
+                                                                  hLabel.label, parent.label, QLCFunction.Hold)
+                                            }
+                                        }
+                                    }
                                 }
 
                                 // Row 3
@@ -854,25 +837,20 @@ Rectangle
 
                                     RobotoText
                                     {
-                                        id: foTimeLabel
-                                        x: 3
-                                        height: parent.height
-                                        label: TimeUtils.timeToQlcString(efxEditor.fadeOutSpeed, efxEditor.tempoType)
-                                    }
-                                    MouseArea
-                                    {
                                         anchors.fill: parent
-                                        onDoubleClicked: showTimeTool(this, foLabel.label, foTimeLabel.label, QLCFunction.FadeOut)
-                                    }
-                                }
+                                        label: TimeUtils.timeToQlcString(efxEditor.fadeOutSpeed, efxEditor.tempoType)
 
-                                IconButton
-                                {
-                                    width: height
-                                    height: UISettings.listItemHeight
-                                    faSource: FontAwesome.fa_clock
-                                    faColor: UISettings.fgMain
-                                    onClicked: showTimeTool(this, foLabel.label, foTimeLabel.label, QLCFunction.FadeOut)
+                                        MouseArea
+                                        {
+                                            anchors.fill: parent
+                                            onDoubleClicked:
+                                            {
+                                                timeEditTool.allowFractions = QLCFunction.ByTwoFractions
+                                                timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y,
+                                                                  foLabel.label, parent.label, QLCFunction.FadeOut)
+                                            }
+                                        }
+                                    }
                                 }
                             } // GridLayout
                     }

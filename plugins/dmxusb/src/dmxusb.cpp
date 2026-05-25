@@ -45,7 +45,7 @@ void DMXUSB::init()
     rescanWidgets();
 }
 
-QString DMXUSB::name() const
+QString DMXUSB::name()
 {
     return QString("DMX USB");
 }
@@ -137,7 +137,7 @@ QStringList DMXUSB::outputs()
     return list;
 }
 
-QString DMXUSB::pluginInfo() const
+QString DMXUSB::pluginInfo()
 {
     QString str;
 
@@ -152,7 +152,7 @@ QString DMXUSB::pluginInfo() const
     str += tr("This plugin provides DMX output support for");
     str += QString(" DMXKing ultraDMX range, Enttec DMX USB Pro, "
                    "Enttec Open DMX USB, FTDI USB COM485 Plus1, "
-                   "Vince USB-DMX512, usbdmx.com (legacy) ");
+                   "Vince USB-DMX512 ");
     str += tr("and compatible devices.");
     str += QString("</P>");
 
@@ -305,7 +305,7 @@ void DMXUSB::configure()
     emit configurationChanged();
 }
 
-bool DMXUSB::canConfigure() const
+bool DMXUSB::canConfigure()
 {
     return true;
 }

@@ -116,19 +116,19 @@ void EFXItem::setDuration(quint32 msec, bool stretch)
     }
 }
 
-quint32 EFXItem::getDuration() const
+quint32 EFXItem::getDuration()
 {
     return m_function->duration() ? m_function->duration() : m_efx->duration();
 }
 
-QString EFXItem::functionName() const
+QString EFXItem::functionName()
 {
     if (m_efx)
         return m_efx->name();
     return QString();
 }
 
-EFX *EFXItem::getEFX() const
+EFX *EFXItem::getEFX()
 {
     return m_efx;
 }

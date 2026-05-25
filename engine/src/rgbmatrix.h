@@ -46,7 +46,7 @@ class QDir;
  * @{
  */
 
-class RGBMatrixStep final
+class RGBMatrixStep
 {
 public:
     RGBMatrixStep();
@@ -62,7 +62,7 @@ public:
 
     /** Set/Get the final color of the next step to be reproduced */
     void setStepColor(QColor color);
-    QColor stepColor() const;
+    QColor stepColor();
 
     /** Update the color of the next step to be reproduced, considering the step index,
      *  the start color and the steps count */
@@ -92,7 +92,7 @@ private:
     int m_crDelta, m_cgDelta, m_cbDelta;
 };
 
-class RGBMatrix final : public Function
+class RGBMatrix : public Function
 {
     Q_OBJECT
     Q_DISABLE_COPY(RGBMatrix)
@@ -105,17 +105,17 @@ public:
     ~RGBMatrix();
 
     /** @reimp */
-    QIcon getIcon() const override;
+    QIcon getIcon() const;
 
     /*********************************************************************
      * Contents
      *********************************************************************/
 public:
     /** @reimp */
-    void setTotalDuration(quint32 msec) override;
+    void setTotalDuration(quint32 msec);
 
     /** @reimp */
-    quint32 totalDuration() override;
+    quint32 totalDuration();
 
     /** Set the matrix to control or not the dimmer channel */
     void setDimmerControl(bool dimmerControl);
@@ -132,10 +132,10 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    virtual Function* createCopy(Doc* doc, bool addToDoc = true) override;
+    virtual Function* createCopy(Doc* doc, bool addToDoc = true);
 
     /** @reimp */
-    virtual bool copyFrom(const Function* function) override;
+    virtual bool copyFrom(const Function* function);
 
     /************************************************************************
      * Fixture Group
@@ -146,7 +146,7 @@ public:
     void setFixtureGroup(quint32 id);
 
     /** @reimp */
-    QList<quint32> components() const override;
+    QList<quint32> components();
 
 private:
     quint32 m_fixtureGroupID;
@@ -170,7 +170,7 @@ public:
 #endif
 
     /** Get the number of steps of the current algorithm */
-    int stepsCount() const;
+    int stepsCount();
 
     /** Get the preview of the current algorithm at the given step */
     void previewMap(int step, RGBMatrixStep *handler);
@@ -224,26 +224,26 @@ private:
      ************************************************************************/
 public:
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc);
 
     /************************************************************************
      * Running
      ************************************************************************/
 public:
     /** @reimp */
-    void tap() override;
+    void tap();
 
     /** @reimp */
-    void preRun(MasterTimer *timer) override;
+    void preRun(MasterTimer *timer);
 
     /** @reimp */
-    void write(MasterTimer *timer, QList<Universe*> universes) override;
+    void write(MasterTimer *timer, QList<Universe*> universes);
 
     /** @reimp */
-    void postRun(MasterTimer *timer, QList<Universe*> universes) override;
+    void postRun(MasterTimer *timer, QList<Universe*> universes);
 
 private:
     /** Check what should be done when elapsed() >= duration() */
@@ -277,14 +277,14 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    int adjustAttribute(qreal fraction, int attributeId) override;
+    int adjustAttribute(qreal fraction, int attributeId);
 
     /*************************************************************************
      * Blend mode
      *************************************************************************/
 public:
     /** @reimp */
-    void setBlendMode(Universe::BlendMode mode) override;
+    void setBlendMode(Universe::BlendMode mode);
 
     /*************************************************************************
      * Control Mode

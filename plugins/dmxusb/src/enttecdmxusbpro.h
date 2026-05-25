@@ -33,7 +33,7 @@ class RDMProtocol;
 /**
  * This is the base interface class for ENTTEC USB DMX Pro widgets.
  */
-class EnttecDMXUSBPro final : public QThread, public DMXUSBWidget
+class EnttecDMXUSBPro : public QThread, public DMXUSBWidget
 {
     Q_OBJECT
 
@@ -47,7 +47,7 @@ public:
     virtual ~EnttecDMXUSBPro();
 
     /** @reimp */
-    DMXUSBWidget::Type type() const override;
+    Type type() const;
 
     // DMXking port flags
     enum PortType
@@ -96,7 +96,7 @@ public:
     void setDMXKingMode();
 
     /** @reimp */
-    QString additionalInfo() const override;
+    QString additionalInfo() const;
 
 private:
     bool m_dmxKingMode;
@@ -109,17 +109,17 @@ private:
 
 public:
     /** @reimp */
-    virtual bool open(quint32 line, bool input = false) override;
+    virtual bool open(quint32 line, bool input = false);
 
     /** @reimp */
-    virtual bool close(quint32 line = 0, bool input = false) override;
+    virtual bool close(quint32 line = 0, bool input = false);
 
     /************************************************************************
      * Name & Serial
      ************************************************************************/
 public:
     /** @reimp */
-    QString uniqueName(ushort line = 0, bool input = false) const override;
+    QString uniqueName(ushort line = 0, bool input = false) const;
 
 private:
     /** Extract the widget's unique serial number (printed on the bottom) */
@@ -140,14 +140,14 @@ signals:
      ************************************************************************/
 public:
     /** @reimp */
-    bool writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged) override;
+    bool writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged);
 
     /************************************************************************
      * Input/Output Thread
      ************************************************************************/
 private:
     /** @reimp - Input/Output thread worker method */
-    void run() override;
+    void run();
 
     /** Stop input/output thread */
     void stopThread();
@@ -168,10 +168,10 @@ private:
      ********************************************************************/
 public:
     /** @reimp */
-    bool supportRDM() override;
+    bool supportRDM();
 
     /** @reimp */
-    bool sendRDMCommand(quint32 universe, quint32 line, uchar command, QVariantList params) override;
+    bool sendRDMCommand(quint32 universe, quint32 line, uchar command, QVariantList params);
 
 signals:
     void rdmValueChanged(quint32 universe, quint32 line, QVariantMap data);

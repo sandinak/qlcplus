@@ -24,7 +24,7 @@
 
 class Doc;
 
-class KeyPadParser_Test final : public QObject
+class KeyPadParser_Test : public QObject
 {
     Q_OBJECT
 

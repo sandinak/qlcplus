@@ -101,7 +101,7 @@ VCFrame::~VCFrame()
 {
 }
 
-bool VCFrame::isBottomFrame() const
+bool VCFrame::isBottomFrame()
 {
     return (parentWidget() != NULL && qobject_cast<VCFrame*>(parentWidget()) == NULL);
 }
@@ -486,12 +486,12 @@ void VCFrame::setTotalPagesNumber(int num)
     m_totalPagesNumber = num;
 }
 
-int VCFrame::totalPagesNumber() const
+int VCFrame::totalPagesNumber()
 {
     return m_totalPagesNumber;
 }
 
-int VCFrame::currentPage() const
+int VCFrame::currentPage()
 {
     if (m_multiPageMode == false)
         return 0;
@@ -826,7 +826,7 @@ void VCFrame::slotInputValueChanged(quint32 universe, quint32 channel, uchar val
  * Clipboard
  *****************************************************************************/
 
-VCWidget* VCFrame::createCopy(VCWidget* parent) const
+VCWidget* VCFrame::createCopy(VCWidget* parent)
 {
     Q_ASSERT(parent != NULL);
 
@@ -1081,19 +1081,12 @@ bool VCFrame::loadXML(QXmlStreamReader &root)
             else
                 setEnableButtonVisible(false);
         }
-        else if (this->type() == SoloFrameWidget && root.name() == KXMLQLCVCSoloFrameMixing)
+        else if (root.name() == KXMLQLCVCSoloFrameMixing && this->type() == SoloFrameWidget)
         {
             if (root.readElementText() == KXMLQLCTrue)
                 reinterpret_cast<VCSoloFrame*>(this)->setSoloframeMixing(true);
             else
                 reinterpret_cast<VCSoloFrame*>(this)->setSoloframeMixing(false);
-        }
-        else if (this->type() == SoloFrameWidget && root.name() == KXMLQLCVCSoloFrameExclude)
-        {
-            if (root.readElementText() == KXMLQLCTrue)
-                reinterpret_cast<VCSoloFrame*>(this)->setExcludeMonitoredFunctions(true);
-            else
-                reinterpret_cast<VCSoloFrame*>(this)->setExcludeMonitoredFunctions(false);
         }
         else if (root.name() == KXMLQLCVCFrameMultipage)
         {
@@ -1343,14 +1336,10 @@ bool VCFrame::saveXML(QXmlStreamWriter *doc)
         /* Solo frame mixing */
         if (this->type() == SoloFrameWidget)
         {
-            VCSoloFrame *solo = reinterpret_cast<VCSoloFrame*>(this);
-            if (solo->soloframeMixing())
+            if (reinterpret_cast<VCSoloFrame*>(this)->soloframeMixing())
                 doc->writeTextElement(KXMLQLCVCSoloFrameMixing, KXMLQLCTrue);
             else
                 doc->writeTextElement(KXMLQLCVCSoloFrameMixing, KXMLQLCFalse);
-
-            if (solo->excludeMonitoredFunctions())
-                doc->writeTextElement(KXMLQLCVCSoloFrameExclude, KXMLQLCTrue);
         }
 
         /* Collapsed */
@@ -1462,7 +1451,7 @@ QString VCFrame::xmlTagName() const
  * Custom menu
  *****************************************************************************/
 
-QMenu* VCFrame::customMenu(QMenu* parentMenu) const
+QMenu* VCFrame::customMenu(QMenu* parentMenu)
 {
     QMenu* menu = NULL;
     VirtualConsole* vc = VirtualConsole::instance();

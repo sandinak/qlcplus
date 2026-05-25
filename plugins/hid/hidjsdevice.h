@@ -50,7 +50,7 @@ protected:
     virtual void init() = 0;
 
     /** @reimp */
-    bool hasInput() const override { return true; }
+    bool hasInput() { return true; }
 
 protected:
     struct hid_device_info *m_dev_info;
@@ -62,34 +62,34 @@ protected:
      *********************************************************************/
 public:
     /** @reimp */
-    virtual bool openInput() override;
+    virtual bool openInput();
 
     /** @reimp */
-    void closeInput() override;
+    void closeInput();
 
     /** @reimp */
-    QString path() const override;
+    QString path() const;
 
     /** @reimp */
-    virtual bool readEvent() override;
+    virtual bool readEvent() ;
 
     /*********************************************************************
      * Device info
      *********************************************************************/
 public:
     /** @reimp */
-    QString infoText() const override;
+    QString infoText();
 
     /*********************************************************************
      * Input data
      *********************************************************************/
 public:
     /** @reimp */
-    void feedBack(quint32 channel, uchar value) override;
+    void feedBack(quint32 channel, uchar value);
 
 private:
     /** @reimp */
-    virtual void run() override;
+    virtual void run();
 };
 
 #endif

@@ -40,7 +40,7 @@
  * @{
  */
 
-class MultiTrackView final : public QGraphicsView
+class MultiTrackView : public QGraphicsView
 {
     Q_OBJECT
 
@@ -92,14 +92,14 @@ public:
     void activateTrack(Track *track);
 
     /** get the selected Show item. If none, returns NULL */
-    ShowItem *getSelectedItem() const;
+    ShowItem *getSelectedItem();
 
 private:
     /** Retrieve the index of the given Track.
      *  If trk is NULL, this function returns the currently
      *  selected track.
      */
-    int getTrackIndex(Track *trk) const;
+    int getTrackIndex(Track *trk);
 
     void setItemCommonProperties(ShowItem *item, ShowFunction *func, int trackNum);
 
@@ -111,7 +111,7 @@ public:
      *  in various forms (4/4, 3/4) */
     void setHeaderType(Show::TimeDivision type);
 
-    Show::TimeDivision getHeaderType() const;
+    Show::TimeDivision getHeaderType();
 
     /** When BPM is selected, this function can set a precise
      *  value of time division */
@@ -130,13 +130,13 @@ public:
     void rewindCursor();
 
     /** Get time in milliseconds of the current cursor position */
-    quint32 getTimeFromCursor() const;
+    quint32 getTimeFromCursor();
 
     /** Return position in pixel of a given time (in msec) */
-    quint32 getPositionFromTime(quint32 time) const;
+    quint32 getPositionFromTime(quint32 time);
 
     /** Return the time (in msec) from a given X position */
-    quint32 getTimeFromPosition(qreal pos) const;
+    quint32 getTimeFromPosition(qreal pos);
 
 private:
     QGraphicsScene *m_scene;
@@ -150,8 +150,8 @@ private:
     bool m_snapToGrid;
 
 public slots:
-    void mouseReleaseEvent(QMouseEvent *e) override;
-    void wheelEvent(QWheelEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *e);
+    void wheelEvent(QWheelEvent *event);
 
 protected slots:
     void slotHeaderClicked(QGraphicsSceneMouseEvent *event);

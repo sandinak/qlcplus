@@ -65,26 +65,26 @@ public:
     virtual ~VCCueList();
 
     /** @reimp */
-    QString defaultCaption() const override;
+    QString defaultCaption();
 
     /** @reimp */
-    void setupLookAndFeel(qreal pixelDensity, int page) override;
+    void setupLookAndFeel(qreal pixelDensity, int page);
 
     /** @reimp */
-    void render(QQuickView *view, QQuickItem *parent) override;
+    void render(QQuickView *view, QQuickItem *parent);
 
     /** @reimp */
-    QString propertiesResource() const override;
+    QString propertiesResource() const;
 
     /** @reimp */
-    VCWidget *createCopy(VCWidget *parent) const override;
+    VCWidget *createCopy(VCWidget *parent);
 
     /** @reimp */
-    void adjustIntensity(qreal val) override;
+    void adjustIntensity(qreal val);
 
 protected:
     /** @reimp */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
     /*********************************************************************
      * UI settings
@@ -139,8 +139,8 @@ public:
     void setSideFaderMode(FaderMode mode);
 
     /** Convert side fader mode <-> string */
-    FaderMode stringToFaderMode(QString modeStr) const;
-    QString faderModeToString(FaderMode mode) const;
+    FaderMode stringToFaderMode(QString modeStr);
+    QString faderModeToString(FaderMode mode);
 
     /** Get/Set the side fader level */
     int sideFaderLevel() const;
@@ -183,9 +183,6 @@ public:
     Q_INVOKABLE void addFunctions(QVariantList idsList, int insertIndex = -1);
 
     Q_INVOKABLE void setStepNote(int index, QString text);
-
-    /** @reimp */
-    void notifyFunctionStarting(VCWidget *widget, quint32 fid, qreal fIntensity, bool excludeMonitored) override;
 
 private slots:
     void slotFunctionRemoved(quint32 fid);
@@ -289,21 +286,21 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    void updateFeedback() override;
+    void updateFeedback();
 
 public slots:
     /** @reimp */
-    void slotInputValueChanged(quint8 id, uchar value) override;
+    void slotInputValueChanged(quint8 id, uchar value);
 
     /*********************************************************************
      * Load & Save
      *********************************************************************/
 public:
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 #endif

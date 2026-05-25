@@ -27,7 +27,7 @@
 class QXmlStreamReader;
 class Doc;
 
-class ImportManager final : public QObject
+class ImportManager : public QObject
 {
     Q_OBJECT
 

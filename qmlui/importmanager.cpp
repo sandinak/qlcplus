@@ -36,7 +36,7 @@
 #include "sequence.h"
 #include "qlcfile.h"
 #include "chaser.h"
-#include "scriptwrapper.h"
+#include "script.h"
 #include "scene.h"
 #include "efx.h"
 #include "doc.h"

@@ -145,16 +145,6 @@ Entity
         }
     }
 
-    function cleanupScattering()
-    {
-        for (var i = 0; i < headsList.length; i++)
-        {
-            var headItem = headsList[i]
-            if (headItem && headItem.cleanupScattering)
-                headItem.cleanupScattering()
-        }
-    }
-
     function getHead(headIndex)
     {
         return headsList[headIndex]
@@ -277,11 +267,28 @@ Entity
 
     property Texture2D goboTexture: Texture2D { }
 
+    ObjectPicker
+    {
+        id: eObjectPicker
+        //hoverEnabled: true
+        dragEnabled: true
+
+        property var lastPos
+
+        onClicked: (pick) =>
+        {
+            console.log("3D item clicked")
+            isSelected = !isSelected
+            contextManager.setItemSelection(itemID, isSelected, pick.modifiers)
+        }
+    }
+
     components: [
         baseMesh,
         headEntity,
         transform,
         material,
-        sceneLayer
+        sceneLayer,
+        eObjectPicker
     ]
 }

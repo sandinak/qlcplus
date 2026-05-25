@@ -22,7 +22,7 @@
 
 #include "scenevalue.h"
 
-class KeyPadParser final
+class KeyPadParser
 {
 public:
     KeyPadParser();

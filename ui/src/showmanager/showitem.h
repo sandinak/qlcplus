@@ -69,7 +69,7 @@ protected:
      * @return a QList of QAction pointers
      */
 
-    QList<QAction *> getDefaultActions() const;
+    QList<QAction *> getDefaultActions();
 
 public:
 
@@ -85,7 +85,7 @@ public:
      *
      * @return the item time scale value
      */
-    virtual int getTimeScale() const;
+    virtual int getTimeScale();
 
     /**
      * @brief setStartTime virtual method to set the item start time.
@@ -101,7 +101,7 @@ public:
      *
      * @return the item start time in milliseconds
      */
-    virtual quint32 getStartTime() const;
+    virtual quint32 getStartTime();
 
     /**
      * @brief setDuration virtual method to set the item's total duration
@@ -115,7 +115,7 @@ public:
      * @brief getDuration virtual method that returns the item total duration
      * @return the item duration in milliseconds
      */
-    virtual quint32 getDuration() const;
+    virtual quint32 getDuration();
 
     /**
      * @brief setWidth set the item width for rendering
@@ -129,14 +129,14 @@ public:
      *
      * @return the item's width in pixels
      */
-    virtual int getWidth() const;
+    virtual int getWidth();
 
     /**
      * @brief getDraggingPos returns the item position during a dragging event
      *
      * @return the dragging position as float point
      */
-    virtual QPointF getDraggingPos() const;
+    virtual QPointF getDraggingPos();
 
     /**
      * @brief setTrackIndex set the multitrack track index of the item
@@ -150,7 +150,7 @@ public:
      *
      * @return the track index
      */
-    virtual int getTrackIndex() const;
+    virtual int getTrackIndex();
 
     /**
      * @brief setColor set the item background color
@@ -164,7 +164,7 @@ public:
      *
      * @return the current background RGB color
      */
-    virtual QColor getColor() const;
+    virtual QColor getColor();
 
     /**
      * @brief setLocked set the item lock state. When locked the item
@@ -179,7 +179,7 @@ public:
      *
      * @return boolean lock state
      */
-    virtual bool isLocked() const;
+    virtual bool isLocked();
 
     /**
      * @brief setFunctionID set the QLC+ Function ID associated to this item
@@ -193,7 +193,7 @@ public:
      *
      * @return the Function ID
      */
-    virtual quint32 functionID() const;
+    virtual quint32 functionID();
 
     /**
      * @brief showFunction return the item's associate ShowFunction
@@ -207,7 +207,7 @@ public:
      *
      * @return the Function name as a string
      */
-    virtual QString functionName() const;
+    virtual QString functionName();
 
     /**
      * @brief boundingRect overridden method that returns the item bounding rectangle.
@@ -215,13 +215,13 @@ public:
      *
      * @return the item bounding rectangle
      */
-    virtual QRectF boundingRect() const override;
+    virtual QRectF boundingRect() const;
 
     /**
      * @brief paint overridden method to paint the item's basic elements such as the
      * background rectangle and selection state
      */
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     /**
      * @brief postPaint method to be called to paint the "overlay" elements after a subclass
@@ -260,19 +260,19 @@ protected:
      * This method stores the starting position of a dragging event, to be used later
      * to restore the item position if the drag is not valid
      */
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
     /**
      * @brief mouseReleaseEvent overridden method to handle the mouse release event over an item.
      * This method emits the itemDropped signal to be handled by the above layers
      */
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
     /**
      * @brief contextMenuEvent overridden method to handle the mouse right click over an item
      * and request the display of a contextual menu.
      */
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 protected:
     /** Font used for the item's labels */

@@ -40,7 +40,7 @@ class GenericFader;
  * UniverseArray on each writeDMX() call (called by MasterTimer); HTP values continuously
  * and LTP values only once (after which they will be removed from m_values).
  */
-class GenericDMXSource final : public DMXSource
+class GenericDMXSource : public DMXSource
 {
 public:
     GenericDMXSource(Doc* doc);
@@ -68,7 +68,7 @@ public:
     QList<SceneValue> channels();
 
     /** @reimp */
-    void writeDMX(MasterTimer* timer, QList<Universe*> ua) override;
+    void writeDMX(MasterTimer* timer, QList<Universe*> ua);
 
 private:
     Doc *m_doc;

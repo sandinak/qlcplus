@@ -66,7 +66,7 @@ class QXmlStreamWriter;
  * mode). These properties include weight, dimensions, light source, lens,
  * movement capabilities and beam width.
  */
-class QLCPhysical final
+class QLCPhysical
 {
     /************************************************************************
      * Initialization
@@ -163,7 +163,7 @@ public:
     bool loadXML(QXmlStreamReader &doc);
 
     /** Save physical values to the given XML tag in the given document */
-    bool saveXML(QXmlStreamWriter *doc) const;
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 /** @} */

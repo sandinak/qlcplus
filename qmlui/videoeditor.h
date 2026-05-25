@@ -26,7 +26,7 @@
 
 class Video;
 
-class VideoEditor final : public FunctionEditor
+class VideoEditor : public FunctionEditor
 {
     Q_OBJECT
 
@@ -48,7 +48,7 @@ public:
     ~VideoEditor();
 
     /** @reimp */
-    void setFunctionID(quint32 ID) override;
+    void setFunctionID(quint32 ID);
 
     /** Get/Set the source file name for this Video function */
     QString sourceFileName() const;
@@ -96,7 +96,11 @@ private:
 
 protected slots:
     void slotDurationChanged(qint64 duration);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    void slotMetaDataChanged(QString key, QVariant data);
+#else
     void slotMetaDataChanged();
+#endif
 
 signals:
     void sourceFileNameChanged(QString sourceFileName);

@@ -27,7 +27,7 @@
 
 class SimpleCrypt;
 
-class NetworkPacketizer final
+class NetworkPacketizer
 {
 
 public:

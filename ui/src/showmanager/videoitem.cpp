@@ -124,14 +124,14 @@ void VideoItem::setDuration(quint32 msec, bool stretch)
     updateTooltip();
 }
 
-QString VideoItem::functionName() const
+QString VideoItem::functionName()
 {
     if (m_video)
         return m_video->name();
     return QString();
 }
 
-Video *VideoItem::getVideo() const
+Video *VideoItem::getVideo()
 {
     return m_video;
 }

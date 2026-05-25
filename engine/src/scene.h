@@ -52,7 +52,7 @@ class QXmlStreamReader;
  * fading occurs. Otherwise values are always faded from what they currently
  * are, to the target values defined in the scene (with SceneValue instances).
  */
-class Scene final : public Function, public DMXSource
+class Scene : public Function, public DMXSource
 {
     Q_OBJECT
     Q_DISABLE_COPY(Scene)
@@ -81,10 +81,10 @@ public:
     ~Scene();
 
     /** @reimp */
-    QIcon getIcon() const override;
+    QIcon getIcon() const;
 
     /** @reimp */
-    quint32 totalDuration() override;
+    quint32 totalDuration();
 
 private:
     quint32 m_legacyFadeBus;
@@ -94,10 +94,10 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    Function* createCopy(Doc* doc, bool addToDoc = true) override;
+    Function* createCopy(Doc* doc, bool addToDoc = true);
 
     /** @reimp */
-    bool copyFrom(const Function* function) override;
+    bool copyFrom(const Function* function);
 
     /*********************************************************************
      * Values
@@ -134,7 +134,7 @@ public:
     QList <SceneValue> values() const;
 
     /** @reimp */
-    QList<quint32> components() const override;
+    QList<quint32> components();
 
     /**
      * Try to retrieve a RGB/CMY color if the Scene has RGB/CMY channels set.
@@ -192,7 +192,7 @@ protected:
      * Fixtures
      *********************************************************************/
 public slots:
-    void slotFixtureRemoved(quint32 fxi_id) override;
+    void slotFixtureRemoved(quint32 fxi_id);
 
 public:
     void addFixture(quint32 fixtureId);
@@ -229,13 +229,13 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc);
 
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    void postLoad() override;
+    void postLoad();
 
 private:
     static bool saveXMLFixtureValues(QXmlStreamWriter* doc, quint32 fixtureID, QStringList const& values);
@@ -245,13 +245,13 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    void flash(MasterTimer *timer, bool shouldOverride, bool forceLTP) override;
+    void flash(MasterTimer *timer, bool shouldOverride, bool forceLTP);
 
     /** @reimp */
-    void unFlash(MasterTimer *timer) override;
+    void unFlash(MasterTimer *timer);
 
     /** @reimp from DMXSource */
-    void writeDMX(MasterTimer *timer, QList<Universe*> ua) override;
+    void writeDMX(MasterTimer *timer, QList<Universe*> ua);
 
 private:
     bool m_flashOverrides;
@@ -262,13 +262,13 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    void write(MasterTimer *timer, QList<Universe*> ua) override;
+    void write(MasterTimer *timer, QList<Universe*> ua);
 
     /** @reimp */
-    void postRun(MasterTimer *timer, QList<Universe*> ua) override;
+    void postRun(MasterTimer *timer, QList<Universe*> ua);
 
     /** @reimp */
-    void setPause(bool enable) override;
+    void setPause(bool enable);
 
 private:
     /** Internal helper method to abtract Scene value processing */
@@ -282,14 +282,14 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    int adjustAttribute(qreal fraction, int attributeId) override;
+    int adjustAttribute(qreal fraction, int attributeId);
 
     /*************************************************************************
      * Blending
      *************************************************************************/
 public:
     /** @reimp */
-    void setBlendMode(Universe::BlendMode mode) override;
+    void setBlendMode(Universe::BlendMode mode);
 
     /** Get/Set the ID of a Function to blend from.
      *  When preparing the faders of this Scene,

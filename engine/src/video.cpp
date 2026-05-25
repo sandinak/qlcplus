@@ -333,7 +333,8 @@ int Video::adjustAttribute(qreal fraction, int attributeId)
     {
         case Intensity:
         {
-            emit requestBrightnessVolumeAdjust(getAttributeValue(Intensity));
+            int b = -100 - (int)((qreal)-100.0 * getAttributeValue(Intensity));
+            emit requestBrightnessAdjust(b);
             emit intensityChanged();
         }
         break;
@@ -353,7 +354,7 @@ void Video::slotFunctionRemoved(quint32 fid)
  * Save & Load
  *********************************************************************/
 
-bool Video::saveXML(QXmlStreamWriter *doc) const
+bool Video::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 

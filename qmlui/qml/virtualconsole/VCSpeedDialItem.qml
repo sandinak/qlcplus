@@ -29,7 +29,6 @@ VCWidgetItem
 {
     id: speedRoot
     property VCSpeedDial speedObj: null
-    property int vMask: speedObj ? speedObj.visibilityMask : VCSpeedDial.Nothing
 
     // needed for tapping
     property double tapTimeValue: 0
@@ -93,22 +92,6 @@ VCWidgetItem
         lastTap = currTime
     }
 
-    function updateTime()
-    {
-        var newTime = 0
-        if (hoursSpin.visible)
-            newTime += hoursSpin.value * 3600000
-        if (minutesSpin.visible)
-            newTime += minutesSpin.value * 60000
-        if (secondsSpin.visible)
-            newTime += secondsSpin.value * 1000
-        if (msSpin.visible)
-            newTime += msSpin.value
-
-        tapTimer.stop()
-        speedObj.currentTime = newTime
-    }
-
     Timer
     {
         id: tapTimer
@@ -132,31 +115,16 @@ VCWidgetItem
 
         columns: tapButton.visible ? 6 : 4
 
-        // row 1 widget name text box
-        Text
-        {
-            id: sliderText
-            visible: (speedObj && speedObj.caption.length) ? true : false
-            Layout.columnSpan: itemsLayout.columns
-            Layout.fillWidth: true
-            height: UISettings.listItemHeight
-            font: speedObj ? speedObj.font : ""
-            text: speedObj ? speedObj.caption : ""
-            color: speedObj ? speedObj.foregroundColor : "white"
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        // row 2
+        // row 1
         QLCPlusKnob
         {
             property int lastValue: 0
 
-            Layout.columnSpan: tapButton.visible ? 4 : itemsLayout.columns
-            Layout.rowSpan: tapButton.visible ? 2 : 1
+            Layout.columnSpan: tapButton.visible ? 4 : 6
+            Layout.rowSpan: 2
             Layout.fillWidth: true
             Layout.fillHeight: true
-            visible: vMask & VCSpeedDial.Dial
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Dial : false
             drawOuterLevel: false
             from: 0
             to: 1000
@@ -176,7 +144,6 @@ VCWidgetItem
                         diff = stepSize;
 
                     lastValue = value
-                    tapTimer.stop()
                     speedObj.currentTime += diff
                 }
             }
@@ -187,7 +154,7 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "1/16"
-            visible: vMask & VCSpeedDial.Beats
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Beats : false
             bgColor: speedObj ? (speedObj.currentFactor === VCSpeedDial.OneSixteenth ? speedRoot.activeColor : UISettings.bgControl) : UISettings.bgControl
             onClicked:
             {
@@ -201,7 +168,7 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "1/8"
-            visible: vMask & VCSpeedDial.Beats
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Beats : false
             bgColor: speedObj ? (speedObj.currentFactor === VCSpeedDial.OneEighth ? speedRoot.activeColor : UISettings.bgControl) : UISettings.bgControl
             onClicked:
             {
@@ -215,7 +182,7 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "1/4"
-            visible: vMask & VCSpeedDial.Beats
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Beats : false
             bgColor: speedObj ? (speedObj.currentFactor === VCSpeedDial.OneFourth ? speedRoot.activeColor : UISettings.bgControl) : UISettings.bgControl
             onClicked:
             {
@@ -229,7 +196,7 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "1/2"
-            visible: vMask & VCSpeedDial.Beats
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Beats : false
             bgColor: speedObj ? (speedObj.currentFactor === VCSpeedDial.Half ? speedRoot.activeColor : UISettings.bgControl) : UISettings.bgControl
             onClicked:
             {
@@ -242,11 +209,11 @@ VCWidgetItem
         {
             id: tapButton
             Layout.columnSpan: 2
-            Layout.rowSpan: 2
+            Layout.rowSpan: xpadControl.visible ? 3 : 2
             Layout.fillHeight: true
 
             label: "TAP"
-            visible: vMask & VCSpeedDial.Tap
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Tap : false
 
             onClicked:
             {
@@ -265,13 +232,61 @@ VCWidgetItem
             }
         }
 
+        CustomSpinBox
+        {
+            id: hoursSpin
+            Layout.fillWidth: true
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Hours : false
+            from: 0
+            to: 999
+            suffix: "h"
+        }
+        CustomSpinBox
+        {
+            id: minutesSpin
+            Layout.fillWidth: true
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Minutes : false
+            from: 0
+            to: 59
+            suffix: "m"
+        }
+        CustomSpinBox
+        {
+            id: secondsSpin
+            Layout.fillWidth: true
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Seconds : false
+            from: 0
+            to: 59
+            suffix: "s"
+        }
+        CustomSpinBox
+        {
+            id: msSpin
+            Layout.fillWidth: true
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Milliseconds : false
+            from: 0
+            to: 999
+            suffix: "ms"
+        }
+
+        // row 2
+        Rectangle
+        {
+            // TODO: X-Pad
+            id: xpadControl
+            visible: false
+            Layout.columnSpan: 4
+            Layout.fillWidth: true
+            height: UISettings.iconSizeMedium
+        }
+
         // row 3
         GenericButton
         {
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "2"
-            visible: vMask & VCSpeedDial.Beats
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Beats : false
             bgColor: speedObj ? (speedObj.currentFactor === VCSpeedDial.Two ? speedRoot.activeColor : UISettings.bgControl) : UISettings.bgControl
             onClicked:
             {
@@ -285,7 +300,7 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "4"
-            visible: vMask & VCSpeedDial.Beats
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Beats : false
             bgColor: speedObj ? (speedObj.currentFactor === VCSpeedDial.Four ? speedRoot.activeColor : UISettings.bgControl) : UISettings.bgControl
             onClicked:
             {
@@ -299,7 +314,7 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "8"
-            visible: vMask & VCSpeedDial.Beats
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Beats : false
             bgColor: speedObj ? (speedObj.currentFactor === VCSpeedDial.Eight ? speedRoot.activeColor : UISettings.bgControl) : UISettings.bgControl
             onClicked:
             {
@@ -313,7 +328,7 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "16"
-            visible: vMask & VCSpeedDial.Beats
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Beats : false
             bgColor: speedObj ? (speedObj.currentFactor === VCSpeedDial.Sixteen ? speedRoot.activeColor : UISettings.bgControl) : UISettings.bgControl
             onClicked:
             {
@@ -323,62 +338,12 @@ VCWidgetItem
         }
 
         // row 4
-        RowLayout
-        {
-            visible: vMask & VCSpeedDial.Hours | vMask & VCSpeedDial.Minutes | vMask & VCSpeedDial.Seconds | vMask & VCSpeedDial.Milliseconds
-            Layout.columnSpan: itemsLayout.columns
-            Layout.fillWidth: true
-            height: UISettings.listItemHeight
-
-            CustomSpinBox
-            {
-                id: hoursSpin
-                Layout.fillWidth: true
-                visible: vMask & VCSpeedDial.Hours
-                from: 0
-                to: 999
-                suffix: "h"
-                onValueModified: updateTime()
-            }
-            CustomSpinBox
-            {
-                id: minutesSpin
-                Layout.fillWidth: true
-                visible: vMask & VCSpeedDial.Minutes
-                from: 0
-                to: 59
-                suffix: "m"
-                onValueModified: updateTime()
-            }
-            CustomSpinBox
-            {
-                id: secondsSpin
-                Layout.fillWidth: true
-                visible: vMask & VCSpeedDial.Seconds
-                from: 0
-                to: 59
-                suffix: "s"
-                onValueModified: updateTime()
-            }
-            CustomSpinBox
-            {
-                id: msSpin
-                Layout.fillWidth: true
-                visible: vMask & VCSpeedDial.Milliseconds
-                from: 0
-                to: 999
-                suffix: "ms"
-                onValueModified: updateTime()
-            }
-        }
-
-        // row 5
         GenericButton
         {
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "-"
-            visible: vMask & VCSpeedDial.Multipliers
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Multipliers : false
             onClicked:
             {
                 if (speedObj)
@@ -392,8 +357,8 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             textHAlign: Text.AlignHCenter
-            label: speedObj ? speedLabels[speedObj.currentFactor] + "x\n" + TimeUtils.timeToQlcString(speedObj.currentTime, QLCFunction.Time) : ""
-            visible: vMask & VCSpeedDial.Multipliers
+            label: speedLabels[speedObj.currentFactor] + "x\n" + TimeUtils.timeToQlcString(speedObj.currentTime, QLCFunction.Time)
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Multipliers : false
         }
 
         GenericButton
@@ -401,7 +366,7 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             label: "+"
-            visible: vMask & VCSpeedDial.Multipliers
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Multipliers : false
             onClicked:
             {
                 if (speedObj)
@@ -415,7 +380,7 @@ VCWidgetItem
             Layout.fillWidth: true
             Layout.fillHeight: true
             faSource: FontAwesome.fa_xmark
-            visible: vMask & VCSpeedDial.Multipliers
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Multipliers : false
             onClicked:
             {
                 if (speedObj)
@@ -427,38 +392,11 @@ VCWidgetItem
             Layout.columnSpan: itemsLayout.columns
             Layout.fillWidth: true
             label: qsTr("Apply")
-            visible: vMask & VCSpeedDial.Apply
+            visible: speedObj ? speedObj.visibilityMask & VCSpeedDial.Apply : false
             onClicked:
             {
                 if (speedObj)
                     speedObj.applyFunctionsTime()
-            }
-        }
-
-        Flow
-        {
-            Layout.columnSpan: itemsLayout.columns
-            Layout.fillWidth: true
-            spacing: 4
-            visible: speedObj && speedObj.presetsList && speedObj.presetsList.length > 0
-
-            Repeater
-            {
-                model: speedObj ? speedObj.presetsList : []
-
-                GenericButton
-                {
-                    height: UISettings.listItemHeight
-                    width: Math.max(UISettings.iconSizeDefault * 3, implicitWidth)
-                    label: modelData.name
-                    bgColor: speedObj && speedObj.currentTime === modelData.value ?
-                                speedRoot.activeColor : UISettings.bgControl
-                    onClicked:
-                    {
-                        if (speedObj)
-                            speedObj.currentTime = modelData.value
-                    }
-                }
             }
         }
     }

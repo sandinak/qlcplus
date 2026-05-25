@@ -31,7 +31,7 @@ StubWidget::~StubWidget()
 {
 }
 
-VCWidget* StubWidget::createCopy(VCWidget* parent) const
+VCWidget* StubWidget::createCopy(VCWidget* parent)
 {
     return parent;
 }

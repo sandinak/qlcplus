@@ -46,7 +46,7 @@ typedef struct
     QTcpSocket *tcpSocket;
 } NetworkHost;
 
-class NetworkManager final : public QObject
+class NetworkManager : public QObject
 {
     Q_OBJECT
 

@@ -32,7 +32,7 @@ class HIDDevice;
  * HIDPlugin
  *****************************************************************************/
 
-class HIDPlugin final : public QLCIOPlugin
+class HIDPlugin : public QLCIOPlugin
 {
     Q_OBJECT
     Q_INTERFACES(QLCIOPlugin)
@@ -46,66 +46,67 @@ class HIDPlugin final : public QLCIOPlugin
      *********************************************************************/
 public:
     /** @reimp */
-    void init() override;
+    void init();
 
     /** @reimp */
-    virtual ~HIDPlugin() override;
+    virtual ~HIDPlugin();
 
     /** @reimp */
-    QString name() const override;
+    QString name();
 
     /** @reimp */
-    int capabilities() const override;
+    int capabilities() const;
 
     /** @reimp */
-    QString pluginInfo() const override;
+    QString pluginInfo();
 
     /*********************************************************************
      * Inputs
      *********************************************************************/
 public:
     /** @reimp */
-    bool openInput(quint32 input, quint32 universe) override;
+    bool openInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    void closeInput(quint32 input, quint32 universe) override;
+    void closeInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    QStringList inputs() override;
+    QStringList inputs();
 
     /** @reimp */
-    QString inputInfo(quint32 input) override;
+    QString inputInfo(quint32 input);
 
     /*********************************************************************
      * Outputs
      *********************************************************************/
 public:
     /** @reimp */
-    bool openOutput(quint32 output, quint32 universe) override;
+    bool openOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    void closeOutput(quint32 output, quint32 universe) override;
+    void closeOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    QStringList outputs() override;
+    QStringList outputs();
 
     /** @reimp */
-    QString outputInfo(quint32 output) override;
+    QString outputInfo(quint32 output);
 
     /** @reimp */
-    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged) override;
+    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged);
 
     /*********************************************************************
      * Configuration
      *********************************************************************/
 public:
     /** @reimp */
-    void configure() override;
+    void configure();
 
     /** @reimp */
-    bool canConfigure() const override;
+    bool canConfigure();
 
 signals:
+    /** @reimp */
     void configurationChanged();
 
     /*********************************************************************
@@ -115,9 +116,9 @@ public:
     void rescanDevices();
 
 protected:
-    HIDDevice* device(const QString& path) const;
-    HIDDevice* device(quint32 index) const;
-    HIDDevice* deviceOutput(quint32 index) const;
+    HIDDevice* device(const QString& path);
+    HIDDevice* device(quint32 index);
+    HIDDevice* deviceOutput(quint32 index);
 
     void addDevice(HIDDevice* device);
     void removeDevice(HIDDevice* device);

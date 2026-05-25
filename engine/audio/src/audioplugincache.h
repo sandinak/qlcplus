@@ -38,7 +38,7 @@
 
 class AudioDecoder;
 
-class AudioPluginCache final : public QObject
+class AudioPluginCache : public QObject
 {
     Q_OBJECT
 

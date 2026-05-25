@@ -65,12 +65,6 @@ Rectangle
         }
     }
 
-    function activatePage(pageIndex)
-    {
-        var pageItem = pagesRepeater.itemAt(pageIndex)
-        pageItem.click()
-    }
-
     function requestMatrixPopup(target, mparent, type, pos)
     {
         addMatrixPopup.targetFrame = target
@@ -137,7 +131,7 @@ Rectangle
 
                             onCheckedChanged:
                             {
-                                if (wObj && checked === true)
+                                if (wObj && checked == true)
                                 {
                                     if (wObj.requirePIN())
                                         pinRequestPopup.open()
@@ -274,7 +268,7 @@ Rectangle
                     from: 1
                     to: 999
                     suffix: "px"
-                    value: addMatrixPopup.wType === "buttonmatrix" ? screenPixelDensity * 17 : screenPixelDensity * 15
+                    value: addMatrixPopup.wType === "buttonmatrix" ? screenPixelDensity * 17 : screenPixelDensity * 10
                 }
 
                 RobotoText  { label: qsTr("Height") }
@@ -284,7 +278,7 @@ Rectangle
                     from: 1
                     to: 999
                     suffix: "px"
-                    value: addMatrixPopup.wType === "buttonmatrix" ? screenPixelDensity * 17 : screenPixelDensity * 40
+                    value: addMatrixPopup.wType === "buttonmatrix" ? screenPixelDensity * 17 : screenPixelDensity * 35
                 }
 
                 // row 3

@@ -22,7 +22,7 @@
 
 #include "iodevice.h"
 
-class OutputDevice final : public IODevice
+class OutputDevice : public IODevice
 {
     Q_OBJECT
 

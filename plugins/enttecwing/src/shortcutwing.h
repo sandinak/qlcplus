@@ -31,7 +31,7 @@
  * ShortcutWing
  ****************************************************************************/
 
-class QLC_DECLSPEC ShortcutWing final : public Wing
+class QLC_DECLSPEC ShortcutWing : public Wing
 {
     Q_OBJECT
 
@@ -56,14 +56,14 @@ public:
     ~ShortcutWing();
 
     /** @reimp */
-    QString name() const override;
+    QString name() const;
 
     /************************************************************************
      * Input data
      ************************************************************************/
 public:
     /** @reimp */
-    void parseData(const QByteArray& data) override;
+    void parseData(const QByteArray& data);
 
     /** Check if page buttons were pressed and increase/decrease page number */
     void applyPageButtons(const QByteArray& data);

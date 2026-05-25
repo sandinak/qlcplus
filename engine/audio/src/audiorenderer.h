@@ -67,7 +67,7 @@ public:
     /*!
      * Returns output interface latency in milliseconds.
      */
-    virtual qint64 latency() const = 0;
+    virtual qint64 latency() = 0;
 
     /*!
      * Writes all remaining plugin's internal data to audio output device.
@@ -117,10 +117,9 @@ private:
      *********************************************************************/
 public:
     /** @reimpl */
-    virtual void run() override; //thread run function
+    virtual void run(); //thread run function
 
     void stop();
-    void setUserStop(bool stop);
 
 protected:
     /** State machine variables */

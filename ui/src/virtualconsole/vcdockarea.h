@@ -33,7 +33,7 @@ class QHideEvent;
  * @{
  */
 
-class VCDockArea final : public QFrame
+class VCDockArea : public QFrame
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCDockArea)

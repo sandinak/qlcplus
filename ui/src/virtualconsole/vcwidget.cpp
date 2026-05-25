@@ -129,7 +129,7 @@ void VCWidget::setType(int type)
     m_type = type;
 }
 
-int VCWidget::type() const
+int VCWidget::type()
 {
     return m_type;
 }
@@ -200,7 +200,7 @@ void VCWidget::enableWidgetUI(bool enable)
     Q_UNUSED(enable)
 }
 
-bool VCWidget::isDisabled() const
+bool VCWidget::isDisabled()
 {
     return m_disableState;
 }
@@ -214,7 +214,7 @@ void VCWidget::setPage(int pNum)
     m_page = pNum;
 }
 
-int VCWidget::page() const
+int VCWidget::page()
 {
     return m_page;
 }
@@ -507,13 +507,6 @@ bool VCWidget::allowResize() const
     return m_allowResize;
 }
 
-void VCWidget::notifyFunctionStarting(quint32 fid, qreal intensity, bool excludeMonitored)
-{
-    Q_UNUSED(fid)
-    Q_UNUSED(intensity)
-    Q_UNUSED(excludeMonitored)
-}
-
 /*****************************************************************************
  * Properties
  *****************************************************************************/
@@ -560,7 +553,7 @@ qreal VCWidget::intensity() const
  * External input
  *****************************************************************************/
 
-bool VCWidget::acceptsInput() const
+bool VCWidget::acceptsInput()
 {
     if (mode() == Doc::Design || isEnabled() == false || isDisabled())
         return false;
@@ -692,20 +685,12 @@ QSharedPointer<QLCInputSource> VCWidget::inputSource(quint8 id) const
 
 void VCWidget::remapInputSources(int pgNum)
 {
-    QList<quint8> ids;
-    QList<QSharedPointer<QLCInputSource> > sources;
-    QHash <quint8, QSharedPointer<QLCInputSource> >::const_iterator it = m_inputs.constBegin();
-    for (; it != m_inputs.constEnd(); ++it)
+    QHash <quint8, QSharedPointer<QLCInputSource> >::iterator it = m_inputs.begin();
+    for (; it != m_inputs.end(); it++)
     {
-        ids.append(it.key());
-        sources.append(it.value());
-    }
-
-    for (int i = 0; i < ids.count(); ++i)
-    {
-        const QSharedPointer<QLCInputSource>& src(sources.at(i));
+        const QSharedPointer<QLCInputSource>& src(it.value());
         src->setPage(pgNum);
-        setInputSource(src, ids.at(i));
+        setInputSource(src, it.key());
     }
 }
 
@@ -1011,7 +996,7 @@ QString VCWidget::extraParamToString(QVariant param)
     return QString();
 }
 
-bool VCWidget::saveXMLCommon(QXmlStreamWriter *doc) const
+bool VCWidget::saveXMLCommon(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 
@@ -1029,7 +1014,7 @@ bool VCWidget::saveXMLCommon(QXmlStreamWriter *doc) const
     return true;
 }
 
-bool VCWidget::saveXMLAppearance(QXmlStreamWriter *doc) const
+bool VCWidget::saveXMLAppearance(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 
@@ -1075,7 +1060,7 @@ bool VCWidget::saveXMLAppearance(QXmlStreamWriter *doc) const
     return true;
 }
 
-bool VCWidget::saveXMLInput(QXmlStreamWriter *doc) const
+bool VCWidget::saveXMLInput(QXmlStreamWriter *doc)
 {
     return saveXMLInput(doc, inputSource());
 }
@@ -1128,7 +1113,7 @@ bool VCWidget::saveXMLInput(QXmlStreamWriter *doc,
     return saveXMLInput(doc, src.data());
 }
 
-bool VCWidget::saveXMLWindowState(QXmlStreamWriter *doc) const
+bool VCWidget::saveXMLWindowState(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 
@@ -1247,7 +1232,7 @@ void VCWidget::invokeMenu(const QPoint& point)
  * Custom menu
  *****************************************************************************/
 
-QMenu* VCWidget::customMenu(QMenu* parentMenu) const
+QMenu* VCWidget::customMenu(QMenu* parentMenu)
 {
     Q_UNUSED(parentMenu);
     return NULL;

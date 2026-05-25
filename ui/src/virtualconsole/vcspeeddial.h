@@ -62,7 +62,7 @@ class QLabel;
 #define KXMLQLCVCSpeedDialInfinite      QStringLiteral("Infinite")
 #define KXMLQLCVCSpeedDialInfiniteKey   QStringLiteral("InfiniteKey")
 
-class VCSpeedDial final : public VCWidget
+class VCSpeedDial : public VCWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCSpeedDial)
@@ -92,34 +92,34 @@ public:
     ~VCSpeedDial();
 
     /** @reimp */
-    virtual void enableWidgetUI(bool enable) override;
+    virtual void enableWidgetUI(bool enable);
 
     /*************************************************************************
      * Clipboard
      *************************************************************************/
 public:
     /** @reimp */
-    VCWidget* createCopy(VCWidget* parent) const override;
+    VCWidget* createCopy(VCWidget* parent);
 
 protected:
     /** @reimp */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
     /*********************************************************************
      * Background/Foreground color
      *********************************************************************/
 public:
     /** @reimp */
-    void setFont(const QFont& font) override;
+    void setFont(const QFont& font);
 
     /** @reimp */
-    void setBackgroundColor(const QColor& color) override;
+    void setBackgroundColor(const QColor& color);
 
     /** @reimp */
-    void setForegroundColor(const QColor& color) override;
+    void setForegroundColor(const QColor& color);
 
     /** @reimp */
-    QColor foregroundColor() const override;
+    QColor foregroundColor() const;
 
 private:
     QColor m_foregroundColor;
@@ -128,21 +128,21 @@ private:
      *************************************************************************/
 public:
     /** @reimp */
-    void setCaption(const QString& text) override;
+    void setCaption(const QString& text);
 
     /*************************************************************************
      * QLC Mode
      *************************************************************************/
 public slots:
     /** @reimp */
-    void slotModeChanged(Doc::Mode mode) override;
+    void slotModeChanged(Doc::Mode mode);
 
     /*************************************************************************
      * Properties
      *************************************************************************/
 public:
     /** @reimp */
-    void editProperties() override;
+    void editProperties();
 
      /************************************************************************
      * Speed Type
@@ -219,11 +219,11 @@ public:
      *********************************************************************/
 public:
     /** @reimp */
-    void updateFeedback() override;
+    void updateFeedback();
 
 protected slots:
     /** @reimp */
-    void slotInputValueChanged(quint32 universe, quint32 channel, uchar value) override;
+    void slotInputValueChanged(quint32 universe, quint32 channel, uchar value);
 
     /*********************************************************************
      * Tap & presets key sequence handler
@@ -241,7 +241,7 @@ public:
     QKeySequence applyKeySequence() const;
 
 protected slots:
-    void slotKeyPressed(const QKeySequence& keySequence) override;
+    void slotKeyPressed(const QKeySequence& keySequence);
 
 protected:
     QKeySequence m_tapKeySequence;
@@ -302,15 +302,15 @@ private:
      *************************************************************************/
 public:
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     bool loadXMLInfiniteLegacy(QXmlStreamReader &root, QSharedPointer<VCSpeedDialPreset> preset);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) override;
+    bool saveXML(QXmlStreamWriter *doc);
 
     /** @reimp */
-    void postLoad() override;
+    void postLoad();
 };
 // Deprecated: used for loading old workspace files
 Q_DECLARE_OPERATORS_FOR_FLAGS(VCSpeedDial::SpeedTypes)

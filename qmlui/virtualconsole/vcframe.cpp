@@ -26,16 +26,22 @@
 #include "vcframe.h"
 #include "vclabel.h"
 #include "vcclock.h"
-#include "vcxypad.h"
 #include "vcbutton.h"
 #include "vcslider.h"
 #include "vccuelist.h"
 #include "vcsoloframe.h"
 #include "simplecrypt.h"
 #include "vcanimation.h"
+#include "vcaudiotrigger.h"
+#include "vcxypad.h"
 #include "vcspeeddial.h"
 #include "virtualconsole.h"
-#include "vcaudiotriggers.h"
+
+#define INPUT_NEXT_PAGE_ID      0
+#define INPUT_PREVIOUS_PAGE_ID  1
+#define INPUT_ENABLE_ID         2
+#define INPUT_COLLAPSE_ID       3
+#define INPUT_SHORTCUT_BASE_ID  20
 
 static const quint64 encKey = 0x5131632B5067334B; // this is "Q1c+Pg3K"
 
@@ -77,7 +83,7 @@ void VCFrame::initializeProperties()
     m_validatedPIN = false;
 }
 
-QString VCFrame::defaultCaption() const
+QString VCFrame::defaultCaption()
 {
     return tr("Frame %1").arg(id() + 1);
 }
@@ -127,7 +133,7 @@ QString VCFrame::propertiesResource() const
     return QString("qrc:/VCFrameProperties.qml");
 }
 
-VCWidget *VCFrame::createCopy(VCWidget *parent) const
+VCWidget *VCFrame::createCopy(VCWidget *parent)
 {
     Q_ASSERT(parent != nullptr);
 
@@ -194,7 +200,7 @@ bool VCFrame::hasChildren()
     return !m_pagesMap.isEmpty();
 }
 
-QList<VCWidget *> VCFrame::children(bool recursive) const
+QList<VCWidget *> VCFrame::children(bool recursive)
 {
     QList<VCWidget *> widgetsList;
 
@@ -216,7 +222,7 @@ QList<VCWidget *> VCFrame::children(bool recursive) const
     return widgetsList;
 }
 
-VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
+void VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
 {
     VCWidget::WidgetType type = stringToType(wType);
 
@@ -240,7 +246,6 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
             frame->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 50, m_vc->pixelDensity() * 50));
             setupWidget(frame, currentPage());
             frame->render(m_vc->view(), parent);
-            return frame;
         }
         break;
         case SoloFrameWidget:
@@ -253,7 +258,6 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
             soloframe->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 50, m_vc->pixelDensity() * 50));
             setupWidget(soloframe, currentPage());
             soloframe->render(m_vc->view(), parent);
-            return soloframe;
         }
         break;
         case ButtonWidget:
@@ -266,7 +270,6 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
             button->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 17, m_vc->pixelDensity() * 17));
             setupWidget(button, currentPage());
             button->render(m_vc->view(), parent);
-            return button;
         }
         break;
         case LabelWidget:
@@ -279,7 +282,6 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
             label->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 25, m_vc->pixelDensity() * 8));
             setupWidget(label, currentPage());
             label->render(m_vc->view(), parent);
-            return label;
         }
         break;
         case SliderWidget:
@@ -299,7 +301,6 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
                 slider->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 15, m_vc->pixelDensity() * 40));
             setupWidget(slider, currentPage());
             slider->render(m_vc->view(), parent);
-            return slider;
         }
         break;
         case AnimationWidget:
@@ -312,20 +313,18 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
             animation->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 60, m_vc->pixelDensity() * 45));
             setupWidget(animation, currentPage());
             animation->render(m_vc->view(), parent);
-            return animation;
         }
         break;
         case AudioTriggersWidget:
         {
-            VCAudioTriggers *audioTrigger = new VCAudioTriggers(m_doc, this);
+            VCAudioTrigger *audioTrigger = new VCAudioTrigger(m_doc, this);
             QQmlEngine::setObjectOwnership(audioTrigger, QQmlEngine::CppOwnership);
             m_vc->addWidgetToMap(audioTrigger);
             Tardis::instance()->enqueueAction(Tardis::VCWidgetCreate, this->id(), QVariant(),
                                               Tardis::instance()->actionToByteArray(Tardis::VCWidgetCreate, audioTrigger->id()));
-            audioTrigger->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 50, m_vc->pixelDensity() * 50));
+            audioTrigger->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 25, m_vc->pixelDensity() * 8));
             setupWidget(audioTrigger, currentPage());
             audioTrigger->render(m_vc->view(), parent);
-            return audioTrigger;
         }
         break;
         case XYPadWidget:
@@ -335,10 +334,9 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
             m_vc->addWidgetToMap(xyPad);
             Tardis::instance()->enqueueAction(Tardis::VCWidgetCreate, this->id(), QVariant(),
                                               Tardis::instance()->actionToByteArray(Tardis::VCWidgetCreate, xyPad->id()));
-            xyPad->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 50, m_vc->pixelDensity() * 50));
+            xyPad->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 25, m_vc->pixelDensity() * 8));
             setupWidget(xyPad, currentPage());
             xyPad->render(m_vc->view(), parent);
-            return xyPad;
         }
         break;
         case SpeedWidget:
@@ -351,7 +349,6 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
             speed->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 80, m_vc->pixelDensity() * 50));
             setupWidget(speed, currentPage());
             speed->render(m_vc->view(), parent);
-            return speed;
         }
         break;
         case ClockWidget:
@@ -364,7 +361,6 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
             clock->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 40, m_vc->pixelDensity() * 10));
             setupWidget(clock, currentPage());
             clock->render(m_vc->view(), parent);
-            return clock;
         }
         break;
         case CueListWidget:
@@ -377,14 +373,11 @@ VCWidget *VCFrame::addWidget(QQuickItem *parent, QString wType, QPoint pos)
             cuelist->setGeometry(QRect(pos.x(), pos.y(), m_vc->pixelDensity() * 80, m_vc->pixelDensity() * 50));
             setupWidget(cuelist, currentPage());
             cuelist->render(m_vc->view(), parent);
-            return cuelist;
         }
         break;
         default:
         break;
     }
-
-    return nullptr;
 }
 
 void VCFrame::addWidget(QQuickItem *parent, VCWidget *widget, QPoint pos)
@@ -445,8 +438,7 @@ void VCFrame::addWidgetMatrix(QQuickItem *parent, QString matrixType, QPoint pos
 
         for (int col = 0; col < matrixSize.width(); col++)
         {
-            VCWidget *widget = frame->addWidget(nullptr, matrixType == "buttonmatrix" ? "Button" : "Slider", QPoint(xPos, yPos));
-            widget->setGeometry(QRectF(xPos, yPos, widgetSize.width(), widgetSize.height()));
+            frame->addWidget(nullptr, matrixType == "buttonmatrix" ? typeToString(ButtonWidget) : typeToString(SliderWidget), QPoint(xPos, yPos));
             xPos += widgetSize.width();
         }
         yPos += widgetSize.height();
@@ -1122,7 +1114,7 @@ bool VCFrame::loadWidgetXML(QXmlStreamReader &root, bool render)
     else if (root.name() == KXMLQLCVCAudioTriggers)
     {
         /* Create a new clock into its parent */
-        VCAudioTriggers *audioTrigger = new VCAudioTriggers(m_doc, this);
+        VCAudioTrigger *audioTrigger = new VCAudioTrigger(m_doc, this);
         if (audioTrigger->loadXML(root) == false)
             delete audioTrigger;
         else
@@ -1251,20 +1243,6 @@ bool VCFrame::loadXML(QXmlStreamReader &root)
             else
                 setShowEnable(false);
         }
-        else if (this->type() == SoloFrameWidget && root.name() == KXMLQLCVCSoloFrameMixing)
-        {
-            if (root.readElementText() == KXMLQLCTrue)
-                reinterpret_cast<VCSoloFrame*>(this)->setSoloframeMixing(true);
-            else
-                reinterpret_cast<VCSoloFrame*>(this)->setSoloframeMixing(false);
-        }
-        else if (this->type() == SoloFrameWidget && root.name() == KXMLQLCVCSoloFrameExclude)
-        {
-            if (root.readElementText() == KXMLQLCTrue)
-                reinterpret_cast<VCSoloFrame*>(this)->setExcludeMonitoredFunctions(true);
-            else
-                reinterpret_cast<VCSoloFrame*>(this)->setExcludeMonitoredFunctions(false);
-        }
         else if (root.name() == KXMLQLCVCFramePIN)
         {
             SimpleCrypt crypter(encKey);
@@ -1348,7 +1326,7 @@ bool VCFrame::loadXML(QXmlStreamReader &root)
     return true;
 }
 
-bool VCFrame::saveXML(QXmlStreamWriter *doc) const
+bool VCFrame::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != nullptr);
 
@@ -1372,17 +1350,16 @@ bool VCFrame::saveXML(QXmlStreamWriter *doc) const
     /* ShowEnableButton */
     doc->writeTextElement(KXMLQLCVCFrameShowEnableButton, showEnable() ? KXMLQLCTrue : KXMLQLCFalse);
 
-    /* Solo frame mixing and monitored functions exclusion */
+#if 0 // TODO
+    /* Solo frame mixing */
     if (this->type() == SoloFrameWidget)
     {
-        const VCSoloFrame *solo = reinterpret_cast<const VCSoloFrame*>(this);
-        if (solo->soloframeMixing())
+        if (reinterpret_cast<VCSoloFrame*>(this)->soloframeMixing())
             doc->writeTextElement(KXMLQLCVCSoloFrameMixing, KXMLQLCTrue);
-
-        if (solo->excludeMonitoredFunctions())
-            doc->writeTextElement(KXMLQLCVCSoloFrameExclude, KXMLQLCTrue);
+        else
+            doc->writeTextElement(KXMLQLCVCSoloFrameMixing, KXMLQLCFalse);
     }
-
+#endif
     /* Collapsed */
     doc->writeTextElement(KXMLQLCVCFrameIsCollapsed, isCollapsed() ? KXMLQLCTrue : KXMLQLCFalse);
 
@@ -1430,7 +1407,7 @@ bool VCFrame::saveXML(QXmlStreamWriter *doc) const
     }
 
     /* Save children */
-    foreach (const VCWidget *child, children(false))
+    foreach (VCWidget *child, children(false))
         child->saveXML(doc);
 
     /* End the <Frame> tag */

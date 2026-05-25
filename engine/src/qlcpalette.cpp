@@ -99,7 +99,6 @@ QString QLCPalette::typeToString(QLCPalette::PaletteType type)
         case PanTilt:   return "PanTilt";
         case Shutter:   return "Shutter";
         case Gobo:      return "Gobo";
-        case Zoom:      return "Zoom";
         case Undefined: return "";
     }
 
@@ -122,8 +121,6 @@ QLCPalette::PaletteType QLCPalette::stringToType(const QString &str)
         return Shutter;
     else if (str == "Gobo")
         return Gobo;
-    else if (str == "Zoom")
-        return Zoom;
 
     return Undefined;
 }
@@ -142,7 +139,6 @@ QString QLCPalette::iconResource(bool svg) const
         case PanTilt: return QString("%1:/position.%2").arg(prefix).arg(ext);
         case Shutter: return QString("%1:/shutter.%2").arg(prefix).arg(ext);
         case Gobo: return QString("%1:/gobo.%2").arg(prefix).arg(ext);
-        case Zoom: return QString("%1:/beam.%2").arg(prefix).arg(ext);
         default: return "";
     }
 }
@@ -183,14 +179,6 @@ int QLCPalette::intValue2() const
         return -1;
 
     return m_values.at(1).toInt();
-}
-
-float QLCPalette::floatValue1() const
-{
-    if (m_values.isEmpty())
-        return -1;
-
-    return m_values.at(0).toFloat();
 }
 
 QString QLCPalette::strValue1() const
@@ -262,48 +250,10 @@ QList<SceneValue> QLCPalette::valuesFromFixtures(Doc *doc, QList<quint32> fixtur
     FanningType fType = fanningType();
     FanningLayout fLayout = fanningLayout();
     MonitorProperties *mProps = doc->monitorProperties();
-    qreal centerCoord = 0.0;
-    qreal maxCenterDistance = 0.0;
-
-    if (fLayout == XCentered || fLayout == YCentered || fLayout == ZCentered)
-    {
-        bool hasCoord = false;
-        qreal minCoord = 0.0;
-        qreal maxCoord = 0.0;
-
-        foreach (quint32 id, fixtures)
-        {
-            QVector3D pos = mProps->fixturePosition(id, 0, 0);
-            qreal coord = 0.0;
-
-            switch (fLayout)
-            {
-                case XCentered: coord = pos.x(); break;
-                case YCentered: coord = pos.y(); break;
-                case ZCentered: coord = pos.z(); break;
-                default: break;
-            }
-
-            if (hasCoord == false)
-            {
-                minCoord = coord;
-                maxCoord = coord;
-                hasCoord = true;
-            }
-            else
-            {
-                minCoord = qMin(minCoord, coord);
-                maxCoord = qMax(maxCoord, coord);
-            }
-        }
-
-        centerCoord = (minCoord + maxCoord) / 2.0;
-        maxCenterDistance = qMax(qAbs(minCoord - centerCoord), qAbs(maxCoord - centerCoord));
-    }
 
     // sort the fixtures list based on selected layout
     std::sort(fixtures.begin(), fixtures.end(),
-        [fLayout, mProps, centerCoord](quint32 a, quint32 b) {
+        [fLayout, mProps](quint32 a, quint32 b) {
             QVector3D posA = mProps->fixturePosition(a, 0, 0);
             QVector3D posB = mProps->fixturePosition(b, 0, 0);
 
@@ -311,28 +261,10 @@ QList<SceneValue> QLCPalette::valuesFromFixtures(Doc *doc, QList<quint32> fixtur
             {
                 case XAscending: return posA.x() < posB.x();
                 case XDescending: return posB.x() < posA.x();
-                case XCentered:
-                {
-                    qreal distA = qAbs(posA.x() - centerCoord);
-                    qreal distB = qAbs(posB.x() - centerCoord);
-                    return (distA == distB) ? (posA.x() < posB.x()) : (distA < distB);
-                }
                 case YAscending: return posA.y() < posB.y();
                 case YDescending: return posB.y() < posA.y();
-                case YCentered:
-                {
-                    qreal distA = qAbs(posA.y() - centerCoord);
-                    qreal distB = qAbs(posB.y() - centerCoord);
-                    return (distA == distB) ? (posA.y() < posB.y()) : (distA < distB);
-                }
                 case ZAscending: return posA.z() < posB.z();
                 case ZDescending: return posB.z() < posA.z();
-                case ZCentered:
-                {
-                    qreal distA = qAbs(posA.z() - centerCoord);
-                    qreal distB = qAbs(posB.z() - centerCoord);
-                    return (distA == distB) ? (posA.z() < posB.z()) : (distA < distB);
-                }
                 default: return false;
             }
         });
@@ -344,38 +276,6 @@ QList<SceneValue> QLCPalette::valuesFromFixtures(Doc *doc, QList<quint32> fixtur
             continue;
 
         qreal factor = valueFactor(progress);
-        int centeredSign = 1;
-
-        if (fLayout == XCentered || fLayout == YCentered || fLayout == ZCentered)
-        {
-            QVector3D pos = mProps->fixturePosition(id, 0, 0);
-            qreal coord = 0.0;
-
-            switch (fLayout)
-            {
-                case XCentered: coord = pos.x(); break;
-                case YCentered: coord = pos.y(); break;
-                case ZCentered: coord = pos.z(); break;
-                default: break;
-            }
-
-            if (coord > centerCoord)
-                centeredSign = 1;
-            else if (coord < centerCoord)
-                centeredSign = -1;
-            else
-                centeredSign = 0;
-
-            if (maxCenterDistance > 0.0)
-            {
-                qreal distance = qAbs(coord - centerCoord);
-                factor = valueFactor(distance / maxCenterDistance);
-            }
-            else
-            {
-                factor = valueFactor(0.0);
-            }
-        }
 
         switch(type())
         {
@@ -401,10 +301,8 @@ QList<SceneValue> QLCPalette::valuesFromFixtures(Doc *doc, QList<quint32> fixtur
             break;
             case Color:
             {
-
-                QColor startColor = rgbValue();
+                QColor startColor = value().value<QColor>();
                 QColor col = startColor;
-                QColor wauv = wauvValue();
 
                 if (fType != Flat)
                 {
@@ -433,19 +331,6 @@ QList<SceneValue> QLCPalette::valuesFromFixtures(Doc *doc, QList<quint32> fixtur
                         list << SceneValue(id, cmyCh.at(1), uchar(col.magenta()));
                         list << SceneValue(id, cmyCh.at(2), uchar(col.yellow()));
                     }
-
-                    if (wauv.isValid())
-                    {
-                        quint32 channel = fixture->channelNumber(QLCChannel::White, QLCChannel::MSB, i);
-                        if (channel != QLCChannel::invalid())
-                            list << SceneValue(id, channel, uchar(wauv.red()));
-                        channel = fixture->channelNumber(QLCChannel::Amber, QLCChannel::MSB, i);
-                        if (channel != QLCChannel::invalid())
-                            list << SceneValue(id, channel, uchar(wauv.green()));
-                        channel = fixture->channelNumber(QLCChannel::UV, QLCChannel::MSB, i);
-                        if (channel != QLCChannel::invalid())
-                            list << SceneValue(id, channel, uchar(wauv.blue()));
-                    }
                 }
             }
             break;
@@ -454,12 +339,7 @@ QList<SceneValue> QLCPalette::valuesFromFixtures(Doc *doc, QList<quint32> fixtur
                 int degrees = value().toInt();
 
                 if (fType != Flat)
-                {
-                    int offset = int(qreal(intFanValue) * factor);
-                    if (fLayout == XCentered || fLayout == YCentered || fLayout == ZCentered)
-                        offset *= centeredSign;
-                    degrees = int(qreal(degrees) + qreal(offset));
-                }
+                    degrees = int((qreal(degrees) + qreal(intFanValue) * factor));
 
                 list << fixture->positionToValues(QLCChannel::Pan, degrees);
             }
@@ -469,12 +349,7 @@ QList<SceneValue> QLCPalette::valuesFromFixtures(Doc *doc, QList<quint32> fixtur
                 int degrees = m_values.count() == 2 ? m_values.at(1).toInt() : value().toInt();
 
                 if (fType != Flat)
-                {
-                    int offset = int(qreal(intFanValue) * factor);
-                    if (fLayout == XCentered || fLayout == YCentered || fLayout == ZCentered)
-                        offset *= centeredSign;
-                    degrees = int(qreal(degrees) + qreal(offset));
-                }
+                    degrees = int((qreal(degrees) + qreal(intFanValue) * factor));
 
                 list << fixture->positionToValues(QLCChannel::Tilt, degrees);
             }
@@ -488,11 +363,8 @@ QList<SceneValue> QLCPalette::valuesFromFixtures(Doc *doc, QList<quint32> fixtur
 
                     if (fType != Flat)
                     {
-                        int offset = int(qreal(intFanValue) * factor);
-                        if (fLayout == XCentered || fLayout == YCentered || fLayout == ZCentered)
-                            offset *= centeredSign;
-                        panDegrees = int((qreal(panDegrees) + qreal(offset)));
-                        tiltDegrees = int((qreal(tiltDegrees) + qreal(offset)));
+                        panDegrees = int((qreal(panDegrees) + qreal(intFanValue) * factor));
+                        tiltDegrees = int((qreal(tiltDegrees) + qreal(intFanValue) * factor));
                     }
 
                     list << fixture->positionToValues(QLCChannel::Pan, panDegrees);
@@ -512,23 +384,6 @@ QList<SceneValue> QLCPalette::valuesFromFixtures(Doc *doc, QList<quint32> fixtur
                 quint32 goboCh = fixture->channelNumber(QLCChannel::Gobo, QLCChannel::MSB);
                 if (goboCh != QLCChannel::invalid())
                     list << SceneValue(id, goboCh, uchar(value().toUInt()));
-            }
-            break;
-            case Zoom:
-            {
-                for (int i = 0; i < int(fixture->channels()); i++)
-                {
-                    const QLCChannel *ch = fixture->channel(quint32(i));
-                    if (ch == nullptr)
-                        continue;
-
-                    if (ch->group() == QLCChannel::Beam &&
-                        (ch->preset() == QLCChannel::BeamZoomSmallBig || ch->preset() == QLCChannel::BeamZoomBigSmall))
-                    {
-                        list << fixture->zoomToValues(value().toFloat(), false);
-                        break;
-                    }
-                }
             }
             break;
             case Undefined:
@@ -841,9 +696,6 @@ bool QLCPalette::loadXML(QXmlStreamReader &doc)
                     setValue(posList.at(0).toInt(), posList.at(1).toInt());
             }
             break;
-            case Zoom:
-                setValue(strVal.toFloat());
-            break;
             case Shutter:   break;
             case Gobo:      break;
             case Undefined: break;
@@ -869,7 +721,6 @@ bool QLCPalette::loadXML(QXmlStreamReader &doc)
                 case Pan:
                 case Tilt:
                 case PanTilt:
-                case Zoom:
                     setFanningValue(strVal.toInt());
                 break;
                 case Color:
@@ -907,7 +758,6 @@ bool QLCPalette::saveXML(QXmlStreamWriter *doc)
         case Dimmer:
         case Pan:
         case Tilt:
-        case Zoom:
         case Color:
             doc->writeAttribute(KXMLQLCPaletteValue, value().toString());
         break;
@@ -933,3 +783,4 @@ bool QLCPalette::saveXML(QXmlStreamWriter *doc)
 
     return true;
 }
+

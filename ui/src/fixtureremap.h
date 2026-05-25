@@ -40,7 +40,7 @@ struct RemapInfo
     QTreeWidgetItem *target;
 };
 
-class FixtureRemap final : public QDialog, public Ui_FixtureRemap
+class FixtureRemap : public QDialog, public Ui_FixtureRemap
 {
     Q_OBJECT
     Q_DISABLE_COPY(FixtureRemap)
@@ -78,7 +78,7 @@ protected slots:
     void slotSourceSelectionChanged();
 
     /** Callback for OK button clicks */
-    void accept() override;
+    void accept();
 
 };
 

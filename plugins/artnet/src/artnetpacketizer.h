@@ -73,7 +73,7 @@ typedef struct
     // ... can be extended with more info to be added by fillArtPollReplyInfo
 } ArtNetNodeInfo;
 
-class ArtNetPacketizer final
+class ArtNetPacketizer
 {
     /*********************************************************************
      * Initialization

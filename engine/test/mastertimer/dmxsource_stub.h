@@ -23,13 +23,13 @@
 #include <QObject>
 #include "dmxsource.h"
 
-class DMXSource_Stub final : public DMXSource
+class DMXSource_Stub : public DMXSource
 {
 public:
     DMXSource_Stub();
     ~DMXSource_Stub();
 
-    void writeDMX(MasterTimer* timer, QList<Universe*> universes) override;
+    void writeDMX(MasterTimer* timer, QList<Universe*> universes);
 
     /** Number of calls to writeDMX() */
     int m_writeCalls;

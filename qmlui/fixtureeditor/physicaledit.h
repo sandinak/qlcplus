@@ -24,7 +24,7 @@
 
 #include "qlcphysical.h"
 
-class PhysicalEdit final : public QObject
+class PhysicalEdit : public QObject
 {
     Q_OBJECT
 

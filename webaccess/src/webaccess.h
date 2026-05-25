@@ -20,7 +20,13 @@
 #ifndef WEBACCESS_H
 #define WEBACCESS_H
 
-#include "webaccessbase.h"
+#include <QObject>
+
+#if defined(Q_WS_X11) || defined(Q_OS_LINUX)
+class WebAccessNetwork;
+#endif
+
+class WebAccessAuth;
 
 class VCAudioTriggers;
 class VirtualConsole;
@@ -36,11 +42,12 @@ class VCClock;
 class VCMatrix;
 class Doc;
 
+class QHttpServer;
 class QHttpRequest;
 class QHttpResponse;
 class QHttpConnection;
 
-class WebAccess final : public WebAccessBase
+class WebAccess : public QObject
 {
     Q_OBJECT
 public:
@@ -49,6 +56,10 @@ public:
                        QObject *parent = 0);
     /** Destructor */
     ~WebAccess();
+
+private:
+    bool sendFile(QHttpResponse *response, QString filename, QString contentType);
+    void sendWebSocketMessage(const QString &message);
 
     QString getWidgetBackgroundImage(VCWidget *widget);
     QString getWidgetHTML(VCWidget *widget);
@@ -69,12 +80,12 @@ public:
     QString getSimpleDeskHTML();
 
 protected slots:
-    void slotHandleHTTPRequest(QHttpRequest *req, QHttpResponse *resp) override;
-    void slotHandleWebSocketRequest(QHttpConnection *conn, QString data) override;
-    void slotHandleWebSocketClose(QHttpConnection *conn) override;
+    void slotHandleHTTPRequest(QHttpRequest *req, QHttpResponse *resp);
+    void slotHandleWebSocketRequest(QHttpConnection *conn, QString data);
+    void slotHandleWebSocketClose(QHttpConnection *conn);
 
-    void slotFunctionStarted(quint32 fid) override;
-    void slotFunctionStopped(quint32 fid) override;
+    void slotFunctionStarted(quint32 fid);
+    void slotFunctionStopped(quint32 fid);
 
     void slotVCLoaded();
     void slotButtonStateChanged(int state);
@@ -95,7 +106,11 @@ protected slots:
     void slotFramePageChanged(int pageNum);
     void slotFrameDisableStateChanged(bool disable);
     void slotMatrixSliderValueChanged(int value);
-    void slotMatrixColorChanged(int);
+    void slotMatrixColor1Changed();
+    void slotMatrixColor2Changed();
+    void slotMatrixColor3Changed();
+    void slotMatrixColor4Changed();
+    void slotMatrixColor5Changed();
     void slotMatrixAnimationValueChanged(QString name);
     void slotMatrixControlKnobValueChanged(int controlID, int value);
 
@@ -105,9 +120,19 @@ protected:
     QString m_JScode;
     QString m_CSScode;
 
-    void handleProjectLoad(const QByteArray &projectXml) override;
-    bool storeFixtureDefinition(const QString &fxName, const QByteArray &fixtureXML) override;
-    void handleAutostartProject(const QString &path) override;
+protected:
+    Doc *m_doc;
+    VirtualConsole *m_vc;
+    SimpleDesk *m_sd;
+    WebAccessAuth *m_auth;
+#if defined(Q_WS_X11) || defined(Q_OS_LINUX)
+    WebAccessNetwork *m_netConfig;
+#endif
+
+    QHttpServer *m_httpServer;
+    QList<QHttpConnection *> m_webSocketsList;
+
+    bool m_pendingProjectLoaded;
 
 signals:
     void toggleDocMode();

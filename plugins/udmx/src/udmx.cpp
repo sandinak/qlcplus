@@ -41,7 +41,7 @@ void UDMX::init()
     rescanDevices();
 }
 
-QString UDMX::name() const
+QString UDMX::name()
 {
     return QString("uDMX");
 }
@@ -85,7 +85,7 @@ QStringList UDMX::outputs()
     return list;
 }
 
-QString UDMX::pluginInfo() const
+QString UDMX::pluginInfo()
 {
     QString str;
 
@@ -176,7 +176,7 @@ void UDMX::rescanDevices()
         emit configurationChanged();
 }
 
-UDMXDevice* UDMX::device(struct libusb_device* usbdev) const
+UDMXDevice* UDMX::device(struct libusb_device* usbdev)
 {
     QListIterator <UDMXDevice*> it(m_devices);
     while (it.hasNext() == true)
@@ -202,7 +202,7 @@ void UDMX::configure()
         rescanDevices();
 }
 
-bool UDMX::canConfigure() const
+bool UDMX::canConfigure()
 {
     return true;
 }

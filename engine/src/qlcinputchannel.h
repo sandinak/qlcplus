@@ -53,7 +53,7 @@ class QString;
 #define KXMLQLCInputChannelUpperValue   QStringLiteral("UpperValue")
 #define KXMLQLCInputChannelMidiChannel  QStringLiteral("MidiChannel")
 
-class QLCInputChannel final : public QObject
+class QLCInputChannel : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QLCInputChannel)

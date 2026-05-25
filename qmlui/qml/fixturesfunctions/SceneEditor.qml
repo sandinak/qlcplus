@@ -81,7 +81,7 @@ Rectangle
         visible: false
         tempoType: sceneEditor ? sceneEditor.tempoType : 0
 
-        onValueChanged: (val) =>
+        onValueChanged:
         {
             if (speedType == QLCFunction.FadeIn)
                 sceneEditor.fadeInSpeed = val
@@ -167,7 +167,6 @@ Rectangle
                     {
                         if (checked)
                         {
-                            addPalette.checked = false
                             if (!sideLoader.visible)
                                 rightSidePanel.width += UISettings.sidePanelWidth
                             sideLoader.visible = true
@@ -205,7 +204,6 @@ Rectangle
                     {
                         if (checked)
                         {
-                            addFixture.checked = false
                             if (!sideLoader.visible)
                                 rightSidePanel.width += UISettings.sidePanelWidth
                             sideLoader.visible = true
@@ -328,16 +326,9 @@ Rectangle
                     GridLayout
                     {
                         width: parent.width
-                        columns: 3
+                        columns: 2
                         columnSpacing: 5
                         rowSpacing: 4
-
-                        function showTimeTool(item, titleLabel, timeLabel, type)
-                        {
-                            timeEditTool.allowFractions = QLCFunction.ByTwoFractions
-                            timeEditTool.show(-1, item.mapToItem(mainView, 0, 0).y - timeEditTool.height,
-                                              titleLabel, timeLabel, type)
-                        }
 
                         // Row 1
                         RobotoText
@@ -355,25 +346,20 @@ Rectangle
 
                             RobotoText
                             {
-                                id: fiTimeLabel
-                                x: 3
-                                height: parent.height
-                                label: TimeUtils.timeToQlcString(sceneEditor.fadeInSpeed, sceneEditor.tempoType)
-                            }
-                            MouseArea
-                            {
                                 anchors.fill: parent
-                                onDoubleClicked: showTimeTool(this, fiLabel.label, fiTimeLabel.label, QLCFunction.FadeIn)
-                            }
-                        }
+                                label: TimeUtils.timeToQlcString(sceneEditor.fadeInSpeed, sceneEditor.tempoType)
 
-                        IconButton
-                        {
-                            width: height
-                            height: UISettings.listItemHeight
-                            faSource: FontAwesome.fa_clock
-                            faColor: UISettings.fgMain
-                            onClicked: showTimeTool(this, fiLabel.label, fiTimeLabel.label, QLCFunction.FadeIn)
+                                MouseArea
+                                {
+                                    anchors.fill: parent
+                                    onDoubleClicked:
+                                    {
+                                        timeEditTool.allowFractions = QLCFunction.ByTwoFractions
+                                        timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y - timeEditTool.height,
+                                                          fiLabel.label, parent.label, QLCFunction.FadeIn)
+                                    }
+                                }
+                            }
                         }
 
                         // Row 2
@@ -392,25 +378,20 @@ Rectangle
 
                             RobotoText
                             {
-                                id: foTimeLabel
-                                x: 3
-                                height: parent.height
-                                label: TimeUtils.timeToQlcString(sceneEditor.fadeOutSpeed, sceneEditor.tempoType)
-                            }
-                            MouseArea
-                            {
                                 anchors.fill: parent
-                                onDoubleClicked: showTimeTool(this, foLabel.label, foTimeLabel.label, QLCFunction.FadeOut)
-                            }
-                        }
+                                label: TimeUtils.timeToQlcString(sceneEditor.fadeOutSpeed, sceneEditor.tempoType)
 
-                        IconButton
-                        {
-                            width: height
-                            height: UISettings.listItemHeight
-                            faSource: FontAwesome.fa_clock
-                            faColor: UISettings.fgMain
-                            onClicked: showTimeTool(this, foLabel.label, foTimeLabel.label, QLCFunction.FadeOut)
+                                MouseArea
+                                {
+                                    anchors.fill: parent
+                                    onDoubleClicked:
+                                    {
+                                        timeEditTool.allowFractions = QLCFunction.ByTwoFractions
+                                        timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y - timeEditTool.height,
+                                                          foLabel.label, parent.label, QLCFunction.FadeOut)
+                                    }
+                                }
+                            }
                         }
                     } // GridLayout
             }

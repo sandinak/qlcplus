@@ -70,7 +70,7 @@ void ShowItem::updateTooltip()
               .arg(tr("Click to move this item along the timeline")));
 }
 
-QList<QAction *> ShowItem::getDefaultActions() const
+QList<QAction *> ShowItem::getDefaultActions()
 {
     QList<QAction *> actions;
     actions.append(m_alignToCursor);
@@ -96,7 +96,7 @@ void ShowItem::setTimeScale(int val)
     m_timeScale = val;
 }
 
-int ShowItem::getTimeScale() const
+int ShowItem::getTimeScale()
 {
     return m_timeScale;
 }
@@ -110,7 +110,7 @@ void ShowItem::setStartTime(quint32 time)
     updateTooltip();
 }
 
-quint32 ShowItem::getStartTime() const
+quint32 ShowItem::getStartTime()
 {
     if (m_function)
         return m_function->startTime();
@@ -128,7 +128,7 @@ void ShowItem::setDuration(quint32 msec, bool stretch)
     updateTooltip();
 }
 
-quint32 ShowItem::getDuration() const
+quint32 ShowItem::getDuration()
 {
     if (m_function)
         return m_function->duration();
@@ -141,12 +141,12 @@ void ShowItem::setWidth(int w)
     updateTooltip();
 }
 
-int ShowItem::getWidth() const
+int ShowItem::getWidth()
 {
     return m_width;
 }
 
-QPointF ShowItem::getDraggingPos() const
+QPointF ShowItem::getDraggingPos()
 {
     return m_pos;
 }
@@ -156,7 +156,7 @@ void ShowItem::setTrackIndex(int idx)
     m_trackIdx = idx;
 }
 
-int ShowItem::getTrackIndex() const
+int ShowItem::getTrackIndex()
 {
     return m_trackIdx;
 }
@@ -169,7 +169,7 @@ void ShowItem::setColor(QColor col)
     update();
 }
 
-QColor ShowItem::getColor() const
+QColor ShowItem::getColor()
 {
     return m_color;
 }
@@ -183,7 +183,7 @@ void ShowItem::setLocked(bool locked)
     update();
 }
 
-bool ShowItem::isLocked() const
+bool ShowItem::isLocked()
 {
     return m_locked;
 }
@@ -194,7 +194,7 @@ void ShowItem::setFunctionID(quint32 id)
         m_function->setFunctionID(id);
 }
 
-quint32 ShowItem::functionID() const
+quint32 ShowItem::functionID()
 {
     if (m_function != NULL)
         return m_function->functionID();
@@ -207,7 +207,7 @@ ShowFunction *ShowItem::showFunction() const
     return m_function;
 }
 
-QString ShowItem::functionName() const
+QString ShowItem::functionName()
 {
     return QString();
 }

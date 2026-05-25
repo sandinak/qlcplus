@@ -45,7 +45,7 @@ class QXmlStreamReader;
 #define KXMLQLCInputProfileMidiChannelTable QStringLiteral("MidiChannelTable")
 #define KXMLQLCInputProfileMidiChannel      QStringLiteral("Channel")
 
-class QLCInputProfile final : public QObject
+class QLCInputProfile : public QObject
 {
     Q_OBJECT
 

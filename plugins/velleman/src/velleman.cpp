@@ -61,7 +61,7 @@ void Velleman::init()
     m_currentlyOpen = false;
 }
 
-QString Velleman::name() const
+QString Velleman::name()
 {
     return QString("Velleman");
 }
@@ -112,7 +112,7 @@ QStringList Velleman::outputs()
     return list;
 }
 
-QString Velleman::pluginInfo() const
+QString Velleman::pluginInfo()
 {
     QString str;
 

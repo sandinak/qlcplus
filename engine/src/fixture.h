@@ -68,7 +68,7 @@ typedef struct
     QLCCapability *m_currCap; /** The current capability in use */
 } ChannelAlias;
 
-class Fixture final : public QObject
+class Fixture : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(Fixture)
@@ -512,6 +512,17 @@ public:
      * @param wksp_root The workspace root element
      */
     bool saveXML(QXmlStreamWriter *doc) const;
+
+    /*********************************************************************
+     * Status
+     *********************************************************************/
+public:
+    /**
+     * Get the fixture instance's status info for Fixture Manager
+     *
+     * @return A sort-of HTML-RTF-gibberish for Fixture Manager
+     */
+    QString status() const;
 };
 
 /** @} */

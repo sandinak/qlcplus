@@ -25,7 +25,7 @@
 class Audio;
 class ListModel;
 
-class AudioEditor final : public FunctionEditor
+class AudioEditor : public FunctionEditor
 {
     Q_OBJECT
 
@@ -40,7 +40,7 @@ public:
     AudioEditor(QQuickView *view, Doc *doc, QObject *parent = 0);
 
     /** Set the ID of the Audio being edited */
-    void setFunctionID(quint32 ID) override;
+    void setFunctionID(quint32 ID);
 
     /** Get/Set the source file name for this Audio function */
     QString sourceFileName() const;

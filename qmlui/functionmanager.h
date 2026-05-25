@@ -40,7 +40,7 @@ typedef struct
     QQuickItem *m_item;
 } selectedFunction;
 
-class FunctionManager final : public QObject
+class FunctionManager : public QObject
 {
     Q_OBJECT
 
@@ -80,7 +80,6 @@ public:
 
 signals:
     void startupFunctionIDChanged();
-    void itemClicked(int itemType);
 
     /*********************************************************************
      * Functions
@@ -201,8 +200,6 @@ protected:
     void updateFunctionsTree();
     void clearTree();
     void moveFunction(quint32 fID, QString newPath);
-    void storeExpandedPaths();
-    void restoreExpandedPaths();
 
 signals:
     void functionsListChanged();
@@ -282,10 +279,6 @@ private:
     QStringList m_emptyFolderList;
     /** List of the folders currently selected */
     QStringList m_selectedFolderList;
-    /** List of the expanded folder paths to restore after tree rebuild */
-    QStringList m_expandedPaths;
-    /** Path of the currently edited Function, used to keep its folders expanded */
-    QString m_editorFunctionPath;
 
     /*********************************************************************
      * DMX values (dumping and Scene editor)

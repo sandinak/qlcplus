@@ -32,7 +32,6 @@ Rectangle
     color: wObj ? wObj.backgroundColor : "darkgray"
     border.width: 2
     border.color: UISettings.bgLight
-    z: wObj ? wObj.zIndex : 0
     visible: wObj ? wObj.isVisible : true
 
     property VCWidget wObj: null
@@ -120,7 +119,6 @@ Rectangle
         {
             id: dragMouseArea
             anchors.fill: parent
-            drag.threshold: 10
 
             property bool dragRemapped: false
 
@@ -134,12 +132,13 @@ Rectangle
                 }
 
                 drag.target = wRoot
+                drag.threshold = 10
                 dragRemapped = false
             }
 
             onPositionChanged: (mouse) =>
             {
-                if (drag.active && drag.target !== null && dragRemapped == false)
+                if (drag.target !== null && dragRemapped == false)
                 {
                     var remappedPos = wRoot.mapToItem(virtualConsole.currentPageItem(), 0, 0);
                     wObj.geometry = Qt.rect(remappedPos.x, remappedPos.y, wRoot.width, wRoot.height)
@@ -155,7 +154,7 @@ Rectangle
 
             onReleased: (mouse) =>
             {
-                if (drag.active && drag.target !== null)
+                if (drag.target !== null)
                 {
                     // A drag/drop sequence is always performed within a parent frame,
                     // so the new geometry will be calculated by virtualConsole.moveWidget,

@@ -42,7 +42,7 @@ class Doc;
  * @{
  */
 
-class InputOutputManager final : public QWidget
+class InputOutputManager : public QWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY(InputOutputManager)
@@ -97,7 +97,7 @@ private slots:
 
 protected:
     /** @reimp */
-    void showEvent(QShowEvent* ev) override;
+    void showEvent(QShowEvent* ev);
 
 private:
     Doc *m_doc;

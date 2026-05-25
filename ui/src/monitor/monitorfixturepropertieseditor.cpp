@@ -107,7 +107,6 @@ void MonitorFixturePropertiesEditor::slotGelColorClicked()
         QPixmap pm(28, 28);
         pm.fill(newColor);
         m_gelColorButton->setIcon(QIcon(pm));
-        m_fxItem->slotUpdateValues();
     }
 }
 
@@ -116,6 +115,5 @@ void MonitorFixturePropertiesEditor::slotGelResetClicked()
     m_gelColorButton->setIcon(QIcon());
     m_fxItem->setGelColor(QColor());
     m_props->setFixtureGelColor(m_fxItem->fixtureID(), 0, 0, QColor());
-    m_fxItem->slotUpdateValues();
 }
 

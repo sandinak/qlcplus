@@ -37,7 +37,7 @@
  * EFX Item. Clickable and draggable object identifying a EFX object
  *
  */
-class EFXItem final : public ShowItem
+class EFXItem : public ShowItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -46,26 +46,26 @@ public:
     EFXItem(EFX *efx, ShowFunction *func);
 
     /** @reimp */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     /** @reimp */
-    void setTimeScale(int val) override;
+    void setTimeScale(int val);
 
     /** @reimp */
-    void setDuration(quint32 msec, bool stretch) override;
+    void setDuration(quint32 msec, bool stretch);
 
     /** @reimp */
-    quint32 getDuration() const override;
+    quint32 getDuration();
 
     /** @reimp */
-    QString functionName() const override;
+    QString functionName();
 
     /** Return a pointer to a EFX Function associated to this item */
-    EFX *getEFX() const;
+    EFX *getEFX();
 
 protected:
     /** @reimp */
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 protected slots:
     void slotEFXChanged(quint32);

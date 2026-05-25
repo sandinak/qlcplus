@@ -11,12 +11,11 @@
 !define MUI_HEADERIMAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Header\nsis3-vintage.bmp"
 !define MUI_HEADERIMAGE_LEFT
 !define MUI_PAGE_HEADER_TEXT "Q Light Controller Plus"
-!define MUI_COMPONENTSPAGE_NODESC
 
 ;--------------------------------
 ;General
 Name "Q Light Controller Plus"
-OutFile "QLC+_5.1.1.exe"
+OutFile "QLC+_5.0.0.exe"
 InstallDir C:\QLC+5
 InstallDirRegKey HKCU "Software\qlcplus" "Install_Dir"
 RequestExecutionLevel user
@@ -24,13 +23,6 @@ RequestExecutionLevel user
 !define MUI_LICENSEPAGE_TEXT_TOP "Do you accept the following statement of the Apache 2.0 license?"
 
 !insertmacro MUI_PAGE_LICENSE "${QLCPLUS_HOME}\platforms\windows\apache_2.0.txt"
-
-;--------------------------------
-; Pages
-!insertmacro MUI_PAGE_COMPONENTS
-Page directory
-Page custom StartMenuGroupSelect "" ": Start Menu Folder"
-Page instfiles
 
 ;--------------------------------
 ;Languages
@@ -44,6 +36,12 @@ Page instfiles
 !insertmacro MUI_LANGUAGE "Finnish"
 !insertmacro MUI_LANGUAGE "Japanese"
 !insertmacro MUI_LANGUAGE "Catalan"
+
+;--------------------------------
+; Pages
+Page directory
+Page custom StartMenuGroupSelect "" ": Start Menu Folder"
+Page instfiles
 
 Function StartMenuGroupSelect
 	Push $R1
@@ -64,10 +62,7 @@ Function StartMenuGroupSelect
 	Pop $R1
 FunctionEnd
 
-;--------------------------------
-; Main application section (checked & disabled)
-Section "Q Light Controller Plus" SEC_MAIN
-	SectionIn RO
+Section
 	SetOutPath $INSTDIR
 
 	# this part is only necessary if you used /checknoshortcuts
@@ -82,31 +77,12 @@ Section "Q Light Controller Plus" SEC_MAIN
 	skip:
 SectionEnd
 
-;--------------------------------
-; Optional file association section
-Section "Associate .qxw and .qxf files" SEC_ASSOC
-	; Per-user classes (maps to HKCR for current user)
-	WriteRegStr HKCU "Software\Classes\.qxw" "" "QLightControllerPlus.Document"
-	WriteRegStr HKCU "Software\Classes\QLightControllerPlus.Document" "" "Q Light Controller Plus Workspace"
-	WriteRegStr HKCU "Software\Classes\QLightControllerPlus.Document\DefaultIcon" "" "$INSTDIR\qlcplus-qml.exe,0"
-	WriteRegStr HKCU "Software\Classes\QLightControllerPlus.Document\shell\open\command" "" '"$INSTDIR\qlcplus-qml.exe" --open "%1"'
-
-	WriteRegStr HKCU "Software\Classes\.qxf" "" "QLightControllerPlusFixture.Document"
-	WriteRegStr HKCU "Software\Classes\QLightControllerPlusFixture.Document" "" "Q Light Controller Plus Fixture"
-	WriteRegStr HKCU "Software\Classes\QLightControllerPlusFixture.Document\DefaultIcon" "" "$INSTDIR\qlcplus-qml.exe,0"
-	WriteRegStr HKCU "Software\Classes\QLightControllerPlusFixture.Document\shell\open\command" "" '"$INSTDIR\qlcplus-qml.exe" --open "%1"'
-
-	; Notify Explorer to refresh icons
-	System::Call 'SHELL32::SHChangeNotify(i 0x08000000, i 0, i 0, i 0)'
-SectionEnd
-
-;--------------------------------
-; File installation section
 Section
 	File qlcplus-qml.exe
 	File *.dll
 	File *.qm
 	File Sample.qxw
+	
 	File /r geometryloaders
 	File /r iconengines
 	File /r imageformats
@@ -125,6 +101,16 @@ Section
 	File /r Plugins
 	File /r RGBScripts
 
+;	WriteRegStr HKCR ".qxw" "" "QLightControllerPlus.Document"
+;	WriteRegStr HKCR "QLightControllerPlus.Document" "" "Q Light Controller Plus Workspace"
+;	WriteRegStr HKCR "QLightControllerPlus.Document\DefaultIcon" "" "$INSTDIR\qlcplus-qml.exe,0"
+;	WriteRegStr HKCR "QLightControllerPlus.Document\shell\open\command" "" '"$INSTDIR\qlcplus-qml.exe" --open "%1"'
+
+;	WriteRegStr HKCR ".qxf" "" "QLightControllerPlusFixture.Document"
+;	WriteRegStr HKCR "QLightControllerPlusFixture.Document" "" "Q Light Controller Plus Fixture"
+;	WriteRegStr HKCR "QLightControllerPlusFixture.Document\DefaultIcon" "" "$INSTDIR\qlcplus-qml.exe,0"
+;	WriteRegStr HKCR "QLightControllerPlusFixture.Document\shell\open\command" "" '"$INSTDIR\qlcplus-qml.exe" --open "%1"'
+
 	WriteRegStr HKCU "SOFTWARE\qlcplus" "Install_Dir" "$INSTDIR"
 
 	WriteUninstaller $INSTDIR\uninstall.exe
@@ -139,8 +125,6 @@ Section "Uninstall"
 	Delete $INSTDIR\uninstall.exe
 	Delete $INSTDIR\qlcplus-qml.exe
 	Delete $INSTDIR\*.dll
-	Delete $INSTDIR\Sample.qxw
-	Delete $INSTDIR\*.qm
 	RMDir /r $INSTDIR\geometryloaders
 	RMDir /r $INSTDIR\iconengines
 	RMDir /r $INSTDIR\imageformats
@@ -149,6 +133,7 @@ Section "Uninstall"
 	RMDir /r $INSTDIR\renderers
 	RMDir /r $INSTDIR\sceneparsers
 	RMDir /r $INSTDIR\qml
+	Delete $INSTDIR\Sample.qxw
 	RMDir /r $INSTDIR\ColorFilters
 	RMDir /r $INSTDIR\Fixtures
 	RMDir /r $INSTDIR\Gobos
@@ -161,12 +146,9 @@ Section "Uninstall"
 
 	RMDir $INSTDIR
 
-	; Remove file associations (per-user)
-	DeleteRegKey HKCU "Software\Classes\.qxw"
-	DeleteRegKey HKCU "Software\Classes\QLightControllerPlus.Document"
-	DeleteRegKey HKCU "Software\Classes\.qxf"
-	DeleteRegKey HKCU "Software\Classes\QLightControllerPlusFixture.Document"
+;	DeleteRegKey HKCR ".qxw"
+;	DeleteRegKey HKCR "QLightControllerPlus.Document"
 
-	; Refresh Explorer after uninstall
-	System::Call 'SHELL32::SHChangeNotify(i 0x08000000, i 0, i 0, i 0)'
+	; This will delete all settings
+;	DeleteRegKey HKCU "Software\qlcplus"
 SectionEnd

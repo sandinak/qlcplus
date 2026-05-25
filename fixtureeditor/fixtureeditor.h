@@ -37,7 +37,7 @@ class QLCChannel;
  * @{
  */
 
-class QLCFixtureEditor final : public QWidget, public Ui_FixtureEditor
+class QLCFixtureEditor : public QWidget, public Ui_FixtureEditor
 {
     Q_OBJECT
 
@@ -48,7 +48,7 @@ public:
 
 protected:
     void init();
-    void closeEvent(QCloseEvent* e) override;
+    void closeEvent(QCloseEvent* e);
 
     /*********************************************************************
      * Saving

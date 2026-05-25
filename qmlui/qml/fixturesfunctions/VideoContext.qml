@@ -59,7 +59,6 @@ Rectangle
         if (cIdx > -1)
         {
             mediaItems[cIdx].stopPlayback()
-            mediaItems[cIdx].destroy()
             mediaArray.splice(cIdx, 1)
             mediaItems.splice(cIdx, 1)
         }

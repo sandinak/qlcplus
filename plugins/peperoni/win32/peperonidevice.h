@@ -24,7 +24,7 @@
 #include <QObject>
 #include <QMutex>
 
-class PeperoniDevice final : public QObject
+class PeperoniDevice : public QObject
 {
     Q_OBJECT
 

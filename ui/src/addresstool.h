@@ -32,7 +32,7 @@ class AddressTool;
  * @{
  */
 
-class DIPSwitchSlider final : public QObject
+class DIPSwitchSlider : public QObject
 {
     Q_OBJECT
 public:
@@ -48,7 +48,7 @@ private:
     QSize m_size;
 };
 
-class DIPSwitchWidget final : public QWidget
+class DIPSwitchWidget: public QWidget
 {
     Q_OBJECT
 
@@ -77,12 +77,12 @@ private:
     QMap<quint8, DIPSwitchSlider*> m_sliders;
 
 protected:
-    void paintEvent(QPaintEvent* e) override;
-    void mousePressEvent(QMouseEvent *e) override;
-    void resizeEvent(QResizeEvent *e) override;
+    void paintEvent(QPaintEvent* e);
+    void mousePressEvent(QMouseEvent *e);
+    void resizeEvent(QResizeEvent *e);
 };
 
-class AddressTool final : public QDialog
+class AddressTool : public QDialog
 {
     Q_OBJECT
 

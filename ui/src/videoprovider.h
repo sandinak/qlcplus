@@ -29,7 +29,7 @@
 class Doc;
 class QVideoWidget;
 
-class VideoWidget final : public QObject
+class VideoWidget: public QObject
 {
     Q_OBJECT
 
@@ -48,7 +48,7 @@ protected slots:
     void slotPlaybackVideo();
     void slotSetPause(bool enable);
     void slotStopVideo();
-    void slotBrightnessVolumeAdjust(qreal value);
+    void slotBrightnessAdjust(int value);
 
 private:
     int getScreenCount();
@@ -68,7 +68,7 @@ private:
     FunctionParent functionParent() const;
 };
 
-class VideoProvider final : public QObject
+class VideoProvider: public QObject
 {
     Q_OBJECT
 public:

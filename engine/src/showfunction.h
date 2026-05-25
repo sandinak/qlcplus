@@ -35,7 +35,7 @@ class Doc;
 #define KXMLShowFunctionUid QStringLiteral("UID")
 #define KXMLShowFunctionTrackId QStringLiteral("TrackID")
 
-class ShowFunction final : public QObject
+class ShowFunction: public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(ShowFunction)

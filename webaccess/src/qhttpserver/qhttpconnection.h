@@ -34,7 +34,7 @@ class QTimer;
 class QWebSocket;
 class QWebSocketServer;
 
-class QHttpConnection final : public QObject
+class QHttpConnection : public QObject
 {
     Q_OBJECT
 

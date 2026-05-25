@@ -24,10 +24,10 @@
 #include "qlcfile.h"
 
 ChannelModifier::ChannelModifier()
-    : m_name(QString())
-    , m_type(Type::UserTemplate)
 {
     m_values.fill(0, 256);
+    m_name = QString();
+    m_type = UserTemplate;
 }
 
 void ChannelModifier::setName(QString name)
@@ -92,12 +92,12 @@ QList< QPair<uchar, uchar> > ChannelModifier::modifierMap() const
     return m_map;
 }
 
-uchar ChannelModifier::getValue(uchar dmxValue) const
+uchar ChannelModifier::getValue(uchar dmxValue)
 {
     return m_values.at(dmxValue);
 }
 
-QFile::FileError ChannelModifier::saveXML(const QString &fileName) const
+QFile::FileError ChannelModifier::saveXML(const QString &fileName)
 {
     QFile::FileError error;
 

@@ -35,7 +35,7 @@ class Doc;
  * @{
  */
 
-class FixtureSelection final : public QDialog, public Ui_FixtureSelection
+class FixtureSelection : public QDialog, public Ui_FixtureSelection
 {
     Q_OBJECT
     Q_DISABLE_COPY(FixtureSelection)
@@ -46,7 +46,7 @@ public:
 
 public slots:
     /** @reimp */
-    int exec() override;
+    int exec();
 
 private:
     Doc* m_doc;
@@ -106,7 +106,7 @@ private slots:
     void slotSelectionChanged();
 
     /** OK button click */
-    void accept() override;
+    void accept();
 };
 
 /** @} */

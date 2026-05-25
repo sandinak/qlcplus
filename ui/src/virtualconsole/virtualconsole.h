@@ -48,7 +48,7 @@ class QMenu;
  * @{
  */
 
-class VirtualConsole final : public QWidget
+class VirtualConsole : public QWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY(VirtualConsole)
@@ -348,10 +348,10 @@ protected:
 
 protected:
     /** Handler for keyboard key press events */
-    void keyPressEvent(QKeyEvent* event) override;
+    void keyPressEvent(QKeyEvent* event);
 
     /** Handler for keyboard key release events */
-    void keyReleaseEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event);
 
 signals:
     /** Signal telling that the keySequence was pressed down */

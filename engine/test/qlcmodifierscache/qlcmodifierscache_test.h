@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class QLCModifiersCache_Test final : public QObject
+class QLCModifiersCache_Test : public QObject
 {
     Q_OBJECT
 

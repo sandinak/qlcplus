@@ -18,7 +18,6 @@
 */
 
 #include <QQmlContext>
-#include <QQmlEngine>
 #include <QSettings>
 
 #include "qlcfixturedef.h"
@@ -51,10 +50,9 @@ FixtureEditor::FixtureEditor(QQuickView *view, Doc *doc, QObject *parent)
     if (dir.isValid() == true)
         m_workingPath = dir.toString();
     else
-        m_workingPath = userFolder();
+        m_workingPath = "file://" + userFolder();
 
     qDebug() << "working path:" << m_workingPath;
-    emit workingPathChanged(m_workingPath);
 }
 
 FixtureEditor::~FixtureEditor()
@@ -74,13 +72,11 @@ QString FixtureEditor::workingPath() const
 
 void FixtureEditor::setWorkingPath(QString workingPath)
 {
-    QString strippedPath = workingPath.replace("file://", "");
-
-    if (m_workingPath == strippedPath)
+    qDebug() << "Setting new path:" << workingPath;
+    if (m_workingPath == workingPath)
         return;
 
-    m_workingPath = strippedPath;
-    qDebug() << "Setting new path:" << m_workingPath;
+    m_workingPath = workingPath;
 
     QSettings settings;
     settings.setValue(SETTINGS_DEF_WORKINGPATH, m_workingPath);
@@ -92,12 +88,7 @@ void FixtureEditor::createDefinition()
 {
     QLCFixtureDef *def = new QLCFixtureDef();
     def->setIsUser(true);
-    EditorView *editor = new EditorView(m_view, m_lastId, def);
-    QQmlEngine::setObjectOwnership(editor, QQmlEngine::CppOwnership);
-    m_editors[m_lastId] = editor;
-    connect(editor, &EditorView::definitionSaved, this, &FixtureEditor::slotReloadFixture);
-    //connect(m_editors[m_lastId], SIGNAL(definitionSaved(QString)),
-    //        this, SLOT(slotReloadFixture(QString)));
+    m_editors[m_lastId] = new EditorView(m_view, m_lastId, def);
     m_lastId++;
     emit editorsListChanged();
 }
@@ -133,10 +124,7 @@ bool FixtureEditor::loadDefinition(QString fileName)
 
     def->setDefinitionSourceFile(localFilename);
     def->setIsUser(true);
-    EditorView *editor = new EditorView(m_view, m_lastId, def);
-    m_editors[m_lastId] = editor;
-    QQmlEngine::setObjectOwnership(editor, QQmlEngine::CppOwnership);
-    connect(editor, &EditorView::definitionSaved, this, &FixtureEditor::slotReloadFixture);
+    m_editors[m_lastId] = new EditorView(m_view, m_lastId, def);
     m_lastId++;
     emit editorsListChanged();
     return true;
@@ -149,10 +137,7 @@ bool FixtureEditor::editDefinition(QString manufacturer, QString model)
     if (def == nullptr)
         return false;
 
-    EditorView *editor = new EditorView(m_view, m_lastId, def);
-    QQmlEngine::setObjectOwnership(editor, QQmlEngine::CppOwnership);
-    m_editors[m_lastId] = editor;
-    connect(editor, &EditorView::definitionSaved, this, &FixtureEditor::slotReloadFixture);
+    m_editors[m_lastId] = new EditorView(m_view, m_lastId, def);
     m_lastId++;
     emit editorsListChanged();
     return true;
@@ -192,9 +177,4 @@ void FixtureEditor::deleteEditor(int id)
 
     delete editor;
     emit editorsListChanged();
-}
-
-void FixtureEditor::slotReloadFixture(QLCFixtureDef *def)
-{
-    m_doc->fixtureDefCache()->reloadOrAddFixtureDef(def);
 }

@@ -43,7 +43,7 @@ extern "C"
  * @{
  */
 
-class AudioDecoderMAD final : public AudioDecoder
+class AudioDecoderMAD : public AudioDecoder
 {
     Q_OBJECT
     Q_INTERFACES(AudioDecoder)
@@ -53,28 +53,28 @@ public:
     virtual ~AudioDecoderMAD();
 
     /** @reimpl */
-    AudioDecoder *createCopy() override;
+    AudioDecoder *createCopy();
 
     /** @reimp */
-    int priority() const override;
+    int priority() const;
 
     /** @reimp */
-    bool initialize(const QString &path) override;
+    bool initialize(const QString &path);
 
     /** @reimp */
-    qint64 totalTime() override;
+    qint64 totalTime();
 
     /** @reimp */
-    int bitrate() override;
+    int bitrate();
 
     /** @reimp */
-    qint64 read(char *data, qint64 size) override;
+    qint64 read(char *data, qint64 size);
 
     /** @reimp */
-    void seek(qint64) override;
+    void seek(qint64);
 
     /** @reimp */
-    QStringList supportedFormats() override;
+    QStringList supportedFormats();
 
 private:
     // helper functions

@@ -20,15 +20,16 @@
 #ifndef ARTNETCONTROLLER_H
 #define ARTNETCONTROLLER_H
 
+#if defined(ANDROID)
 #include <QScopedPointer>
 #include <QSharedPointer>
+#endif
 #include <QNetworkInterface>
 #include <QHostAddress>
 #include <QUdpSocket>
 #include <QVariant>
 #include <QMutex>
 #include <QTimer>
-#include <QMap>
 
 #include "artnetpacketizer.h"
 
@@ -65,7 +66,7 @@ typedef struct _uinfo
     QByteArray outputData;
 } UniverseInfo;
 
-class ArtNetController final : public QObject
+class ArtNetController : public QObject
 {
     Q_OBJECT
 

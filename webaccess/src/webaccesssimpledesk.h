@@ -25,7 +25,7 @@
 class SimpleDesk;
 class Doc;
 
-class WebAccessSimpleDesk final : public QObject
+class WebAccessSimpleDesk : public QObject
 {
     Q_OBJECT
 public:

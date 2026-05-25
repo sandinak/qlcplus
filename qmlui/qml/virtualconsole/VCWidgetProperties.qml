@@ -33,8 +33,6 @@ Rectangle
 
     property VCWidget wObj: virtualConsole.selectedWidget
     property int selectedWidgetsCount: virtualConsole.selectedWidgetsCount
-    property bool presetsTabVisible: wObj && selectedWidgetsCount < 2 && wObj.supportsPresets
-    property int tabsCount: presetsTabVisible ? 3 : 2
 
     //Component.onCompleted: wObj = Qt.binding(function() { return virtualConsole.selectedWidget })
     Component.onDestruction: virtualConsole.resetWidgetSelection()
@@ -48,8 +46,6 @@ Rectangle
             rightSidePanel.width -= sideLoader.width
         sideLoader.source = ""
         sideLoader.visible = false
-        if (!presetsTabVisible && presetsView.checked)
-            settingsView.checked = true
     }
 
     onSelectedWidgetsCountChanged:
@@ -58,8 +54,6 @@ Rectangle
             wPropsLoader.source = ""
         else
             wPropsLoader.source = wObj ? wObj.propertiesResource : ""
-        if (!presetsTabVisible && presetsView.checked)
-            settingsView.checked = true
     }
 
     ColorTool
@@ -180,7 +174,7 @@ Rectangle
                     MenuBarEntry
                     {
                         id: settingsView
-                        width: parent.width / tabsCount
+                        width: parent.width / 2
                         entryText: qsTr("Settings")
                         checked: true
                         autoExclusive: true
@@ -191,22 +185,9 @@ Rectangle
 
                     MenuBarEntry
                     {
-                        id: presetsView
-                        visible: presetsTabVisible
-                        width: parent.width / tabsCount
-                        anchors.left: settingsView.right
-                        entryText: qsTr("Presets")
-                        autoExclusive: true
-                        checkedColor: UISettings.toolbarSelectionSub
-                        bgGradient: cBarGradient
-                        mFontSize: UISettings.textSizeDefault
-                    }
-
-                    MenuBarEntry
-                    {
                         id: controlsView
-                        width: parent.width / tabsCount
-                        anchors.left: presetsTabVisible ? presetsView.right : settingsView.right
+                        width: parent.width / 2
+                        anchors.left: settingsView.right
                         entryText: qsTr("External controls")
                         autoExclusive: true
                         checkedColor: UISettings.toolbarSelectionSub
@@ -244,7 +225,7 @@ Rectangle
                             //color: UISettings.bgMedium
                             text: wObj ? wObj.caption : ""
 
-                            onTextEdited:
+                            onTextChanged:
                             {
                                 if (!wObj)
                                     return
@@ -410,26 +391,6 @@ Rectangle
                         // row 6
                         RobotoText
                         {
-                            height: UISettings.listItemHeight
-                            label: qsTr("Z-Index")
-                            visible: selectedWidgetsCount < 2
-                        }
-
-                        CustomSpinBox
-                        {
-                            Layout.fillWidth: true
-                            height: UISettings.listItemHeight
-                            from: -1000
-                            to: 1000
-                            value: wObj ? wObj.zIndex : 0
-                            visible: selectedWidgetsCount < 2
-
-                            onValueChanged: if (wObj) wObj.zIndex = value
-                        }
-
-                        // row 7
-                        RobotoText
-                        {
                             visible: selectedWidgetsCount > 1 ? true : false
                             label: qsTr("Alignment")
                         }
@@ -491,20 +452,6 @@ Rectangle
                     //source: wObj && virtualConsole.selectedWidgetsCount < 2 ? wObj.propertiesResource : ""
 
                     onLoaded: item.widgetRef = wObj
-                }
-
-                Loader
-                {
-                    id: presetsLoader
-                    width: parent.width
-                    visible: presetsView.checked ? true : false
-                    source: (wObj && presetsTabVisible) ? wObj.presetsResource : ""
-
-                    onLoaded:
-                    {
-                        if (item.hasOwnProperty('widgetRef'))
-                            item.widgetRef = wObj
-                    }
                 }
 
                 SectionBox

@@ -62,9 +62,9 @@ QLCFixtureDef& QLCFixtureDef::operator=(const QLCFixtureDef& fixture)
 {
     if (this != &fixture)
     {
-        m_fileAbsolutePath = fixture.m_fileAbsolutePath;
-        m_isUser = fixture.m_isUser;
-        m_isLoaded = fixture.m_isLoaded;
+        QListIterator <QLCChannel*> chit(fixture.m_channels);
+        QListIterator <QLCFixtureMode*> modeit(fixture.m_modes);
+
         m_manufacturer = fixture.m_manufacturer;
         m_model = fixture.m_model;
         m_type = fixture.m_type;
@@ -75,7 +75,6 @@ QLCFixtureDef& QLCFixtureDef::operator=(const QLCFixtureDef& fixture)
             delete m_channels.takeFirst();
 
         /* Copy channels from the other fixture */
-        QListIterator <QLCChannel*> chit(fixture.m_channels);
         while (chit.hasNext() == true)
             m_channels.append(chit.next()->createCopy());
 
@@ -84,11 +83,8 @@ QLCFixtureDef& QLCFixtureDef::operator=(const QLCFixtureDef& fixture)
             delete m_modes.takeFirst();
 
         /* Copy modes from the other fixture */
-        QListIterator <QLCFixtureMode*> modeit(fixture.m_modes);
         while (modeit.hasNext() == true)
             m_modes.append(new QLCFixtureMode(this, modeit.next()));
-
-        m_physical = fixture.physical();
     }
 
     return *this;
@@ -139,7 +135,7 @@ void QLCFixtureDef::setType(const FixtureType type)
     m_type = type;
 }
 
-QLCFixtureDef::FixtureType QLCFixtureDef::type() const
+QLCFixtureDef::FixtureType QLCFixtureDef::type()
 {
     return m_type;
 }
@@ -189,7 +185,7 @@ void QLCFixtureDef::setAuthor(const QString& author)
     m_author = author;
 }
 
-QString QLCFixtureDef::author() const
+QString QLCFixtureDef::author()
 {
     return m_author;
 }

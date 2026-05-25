@@ -643,9 +643,10 @@ Opravdu si přejete běžící funkce zastavit a přejít zpět do režimu Návr
         <translation>&amp;Nový</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="683"/>
         <source>CTRL+N</source>
         <comment>File|New</comment>
-        <translation type="vanished">CTRL+N</translation>
+        <translation>CTRL+N</translation>
     </message>
     <message>
         <location filename="app.cpp" line="686"/>
@@ -653,9 +654,10 @@ Opravdu si přejete běžící funkce zastavit a přejít zpět do režimu Návr
         <translation>&amp;Otevřít</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="687"/>
         <source>CTRL+O</source>
         <comment>File|Open</comment>
-        <translation type="vanished">CTRL+O</translation>
+        <translation>CTRL+O</translation>
     </message>
     <message>
         <location filename="app.cpp" line="690"/>
@@ -663,9 +665,10 @@ Opravdu si přejete běžící funkce zastavit a přejít zpět do režimu Návr
         <translation>&amp;Uložit</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="691"/>
         <source>CTRL+S</source>
         <comment>File|Save</comment>
-        <translation type="vanished">CTRL+S</translation>
+        <translation>CTRL+S</translation>
     </message>
     <message>
         <location filename="app.cpp" line="694"/>
@@ -678,9 +681,10 @@ Opravdu si přejete běžící funkce zastavit a přejít zpět do režimu Návr
         <translation>&amp;Provoz</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="700"/>
         <source>CTRL+F12</source>
         <comment>Control|Toggle operate/design mode</comment>
-        <translation type="vanished">CTRL+F12</translation>
+        <translation>CTRL+F12</translation>
     </message>
     <message>
         <location filename="app.cpp" line="703"/>
@@ -688,9 +692,10 @@ Opravdu si přejete běžící funkce zastavit a přejít zpět do režimu Návr
         <translation>&amp;Monitor</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="704"/>
         <source>CTRL+M</source>
         <comment>Control|Monitor</comment>
-        <translation type="vanished">CTRL+M</translation>
+        <translation>CTRL+M</translation>
     </message>
     <message>
         <location filename="app.cpp" line="707"/>
@@ -718,9 +723,10 @@ Opravdu si přejete běžící funkce zastavit a přejít zpět do režimu Návr
         <translation>Zachytit DMX hodnoty do funkce</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="725"/>
         <source>CTRL+D</source>
         <comment>Control|Dump DMX</comment>
-        <translation type="vanished">CTRL+D</translation>
+        <translation>CTRL+D</translation>
     </message>
     <message>
         <location filename="app.cpp" line="728"/>
@@ -753,9 +759,10 @@ Opravdu si přejete běžící funkce zastavit a přejít zpět do režimu Návr
         <translation>Přepnout na celou obrazovku</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="757"/>
         <source>CTRL+F11</source>
         <comment>Control|Toggle Full Screen</comment>
-        <translation type="vanished">CTRL+F11</translation>
+        <translation>CTRL+F11</translation>
     </message>
     <message>
         <location filename="app.cpp" line="761"/>
@@ -763,9 +770,10 @@ Opravdu si přejete běžící funkce zastavit a přejít zpět do režimu Návr
         <translation>&amp;Index</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="762"/>
         <source>SHIFT+F1</source>
         <comment>Help|Index</comment>
-        <translation type="vanished">SHIFT+F1</translation>
+        <translation>SHIFT+F1</translation>
     </message>
     <message>
         <location filename="app.cpp" line="765"/>
@@ -5248,27 +5256,27 @@ Note that the wizard cannot tell the difference between a knob and a slider so y
         <translation>Vložit parametre programu (možno nechat prázdne)</translation>
     </message>
     <message>
-        <location filename="scripteditor.cpp" line="427"/>
+        <location filename="scripteditor.cpp" line="426"/>
         <source>Enter the range for the randomization</source>
         <translation>Vložit rozsah pro náhodní číslo</translation>
     </message>
     <message>
-        <location filename="scripteditor.cpp" line="434"/>
+        <location filename="scripteditor.cpp" line="433"/>
         <source>Minimum value</source>
         <translation>Minimální hodnota</translation>
     </message>
     <message>
-        <location filename="scripteditor.cpp" line="435"/>
+        <location filename="scripteditor.cpp" line="434"/>
         <source>Maximum value</source>
         <translation>Maximální hodnota</translation>
     </message>
     <message>
-        <location filename="scripteditor.cpp" line="475"/>
+        <location filename="scripteditor.cpp" line="474"/>
         <source>No syntax errors found in the script</source>
         <translation>Skript je bez syntantických chyb.</translation>
     </message>
     <message>
-        <location filename="scripteditor.cpp" line="482"/>
+        <location filename="scripteditor.cpp" line="481"/>
         <source>Syntax error at line %1:
 %2
 
@@ -5279,12 +5287,12 @@ Note that the wizard cannot tell the difference between a knob and a slider so y
 </translation>
     </message>
     <message>
-        <location filename="scripteditor.cpp" line="485"/>
+        <location filename="scripteditor.cpp" line="484"/>
         <source>Script check results</source>
         <translation>Výsledky kontroly skriptu</translation>
     </message>
     <message>
-        <location filename="scripteditor.cpp" line="411"/>
+        <location filename="scripteditor.cpp" line="410"/>
         <source>Add Comment</source>
         <translation>Přidat komentář</translation>
     </message>
@@ -5890,17 +5898,17 @@ Délka: %3
         <translation>Obrázky (%1)</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcbutton.cpp" line="600"/>
+        <location filename="virtualconsole/vcbutton.cpp" line="597"/>
         <source>Toggle Blackout</source>
         <translation>Režim Blackout</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcbutton.cpp" line="602"/>
+        <location filename="virtualconsole/vcbutton.cpp" line="599"/>
         <source>Stop ALL functions!</source>
         <translation>Zastavit VŠECHNY funkce!</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcbutton.cpp" line="886"/>
+        <location filename="virtualconsole/vcbutton.cpp" line="883"/>
         <source>Icon</source>
         <translation>Ikona</translation>
     </message>
@@ -6071,22 +6079,22 @@ Délka: %3
         <translation>Naplánované funkce</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcclockproperties.ui" line="161"/>
+        <location filename="virtualconsole/vcclockproperties.ui" line="188"/>
         <source>Function</source>
         <translation>Funkce</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcclockproperties.ui" line="166"/>
+        <location filename="virtualconsole/vcclockproperties.ui" line="193"/>
         <source>Time</source>
         <translation>Čas</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcclockproperties.ui" line="218"/>
+        <location filename="virtualconsole/vcclockproperties.ui" line="205"/>
         <source>Input</source>
         <translation type="unfinished">Vstup</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcclockproperties.ui" line="227"/>
+        <location filename="virtualconsole/vcclockproperties.ui" line="214"/>
         <source>No input control available for Clock type</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6110,13 +6118,13 @@ Délka: %3
     </message>
     <message>
         <location filename="virtualconsole/vccuelist.cpp" line="212"/>
-        <location filename="virtualconsole/vccuelist.cpp" line="1079"/>
+        <location filename="virtualconsole/vccuelist.cpp" line="1078"/>
         <source>Play/Pause Cue list</source>
         <translation type="unfinished">Spustit/pozastavit seznam střihů</translation>
     </message>
     <message>
         <location filename="virtualconsole/vccuelist.cpp" line="221"/>
-        <location filename="virtualconsole/vccuelist.cpp" line="1080"/>
+        <location filename="virtualconsole/vccuelist.cpp" line="1079"/>
         <source>Stop Cue list</source>
         <translation type="unfinished">Zastavit seznam střihů</translation>
     </message>
@@ -6136,32 +6144,32 @@ Délka: %3
         <translation>Seznam střihů</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vccuelist.cpp" line="1073"/>
+        <location filename="virtualconsole/vccuelist.cpp" line="1072"/>
         <source>Play/Stop Cue list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vccuelist.cpp" line="1074"/>
+        <location filename="virtualconsole/vccuelist.cpp" line="1073"/>
         <source>Pause Cue list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vccuelist.cpp" line="1511"/>
+        <location filename="virtualconsole/vccuelist.cpp" line="1510"/>
         <source>Fade In</source>
         <translation>Zesílení</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vccuelist.cpp" line="1511"/>
+        <location filename="virtualconsole/vccuelist.cpp" line="1510"/>
         <source>Fade Out</source>
         <translation>Zeslabení</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vccuelist.cpp" line="1511"/>
+        <location filename="virtualconsole/vccuelist.cpp" line="1510"/>
         <source>Duration</source>
         <translation>Délka</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vccuelist.cpp" line="1511"/>
+        <location filename="virtualconsole/vccuelist.cpp" line="1510"/>
         <source>Notes</source>
         <translation>Poznámky</translation>
     </message>
@@ -6326,7 +6334,7 @@ Délka: %3
 <context>
     <name>VCFrame</name>
     <message>
-        <location filename="virtualconsole/vcframe.cpp" line="1476"/>
+        <location filename="virtualconsole/vcframe.cpp" line="1465"/>
         <source>Add</source>
         <translation>Přidat</translation>
     </message>
@@ -6445,97 +6453,97 @@ Délka: %3
         <translation>Animace %1</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="956"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="954"/>
         <source>Color 2 Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="968"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="966"/>
         <source>Color 3 Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="980"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="978"/>
         <source>Color 4 Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="992"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="990"/>
         <source>Color 5 Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1031"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1029"/>
         <source>Color 1 Red component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1033"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1031"/>
         <source>Color 1 Green component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1035"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1033"/>
         <source>Color 1 Blue component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1047"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1045"/>
         <source>Color 2 Red component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1049"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1047"/>
         <source>Color 2 Green component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1051"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1049"/>
         <source>Color 2 Blue component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1063"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1061"/>
         <source>Color 3 Red component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1065"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1063"/>
         <source>Color 3 Green component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1067"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1065"/>
         <source>Color 3 Blue component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1079"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1077"/>
         <source>Color 4 Red component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1081"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1079"/>
         <source>Color 4 Green component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1083"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1081"/>
         <source>Color 4 Blue component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1095"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1093"/>
         <source>Color 5 Red component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1097"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1095"/>
         <source>Color 5 Green component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcmatrix.cpp" line="1099"/>
+        <location filename="virtualconsole/vcmatrix.cpp" line="1097"/>
         <source>Color 5 Blue component</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7112,7 +7120,7 @@ Délka: %3
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcslider.cpp" line="1063"/>
+        <location filename="virtualconsole/vcslider.cpp" line="1061"/>
         <source>Flash Function</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7419,19 +7427,14 @@ Délka: %3
 <context>
     <name>VCSoloFrameProperties</name>
     <message>
-        <location filename="virtualconsole/vcsoloframeproperties.cpp" line="41"/>
+        <location filename="virtualconsole/vcsoloframeproperties.cpp" line="40"/>
         <source>Solo Frame properties</source>
         <translation>Vlastnosti samostatného rámečku</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcsoloframeproperties.cpp" line="44"/>
+        <location filename="virtualconsole/vcsoloframeproperties.cpp" line="43"/>
         <source>Mix sliders in playback mode</source>
         <translation>Mixovat šavle v režimu přehrávání</translation>
-    </message>
-    <message>
-        <location filename="virtualconsole/vcsoloframeproperties.cpp" line="48"/>
-        <source>Exclude Monitored Functions</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7752,7 +7755,7 @@ Délka: %3
         <translation>Neznámý</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcwidget.cpp" line="524"/>
+        <location filename="virtualconsole/vcwidget.cpp" line="517"/>
         <source>This widget has no properties</source>
         <translation>Tento prvek/ovladač nemá žádné vlastnosti</translation>
     </message>

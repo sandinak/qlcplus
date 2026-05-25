@@ -4,170 +4,174 @@
 <context>
     <name>ActionsMenu</name>
     <message>
+        <location filename="qml/ActionsMenu.qml" line="79"/>
+        <location filename="qml/ActionsMenu.qml" line="97"/>
         <source>Project files</source>
-        <translation type="vanished">File di progetto</translation>
+        <translation>File di progetto</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="61"/>
+        <location filename="qml/ActionsMenu.qml" line="62"/>
+        <location filename="qml/ActionsMenu.qml" line="79"/>
+        <location filename="qml/ActionsMenu.qml" line="97"/>
         <source>All files</source>
         <translation>Tutti i file</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="71"/>
+        <location filename="qml/ActionsMenu.qml" line="60"/>
         <source>Open a file</source>
         <translation>Apri un file</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="61"/>
+        <location filename="qml/ActionsMenu.qml" line="62"/>
         <source>QLC+ files</source>
         <translation>File di QLC+</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="80"/>
-        <location filename="qml/ActionsMenu.qml" line="334"/>
+        <location filename="qml/ActionsMenu.qml" line="77"/>
+        <location filename="qml/ActionsMenu.qml" line="283"/>
         <source>Import from project</source>
         <translation>Importa da progetto</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="76"/>
-        <location filename="qml/ActionsMenu.qml" line="320"/>
+        <location filename="qml/ActionsMenu.qml" line="94"/>
+        <location filename="qml/ActionsMenu.qml" line="269"/>
         <source>Save project as...</source>
         <translation>Salva il progetto come...</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="165"/>
+        <location filename="qml/ActionsMenu.qml" line="114"/>
         <source>Your project has changes</source>
         <translation>Il progetto è stato modificato</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="166"/>
+        <location filename="qml/ActionsMenu.qml" line="115"/>
         <source>Do you wish to save the current project first?
 Changes will be lost if you don&apos;t save them.</source>
         <translation>Vuoi salvare il progetto corrente?
 I cambiamenti verranno perduti se non salvati.</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="229"/>
+        <location filename="qml/ActionsMenu.qml" line="178"/>
         <source>New project</source>
         <translation>Nuovo progetto</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="249"/>
+        <location filename="qml/ActionsMenu.qml" line="198"/>
         <source>Open file</source>
         <translation>Apri un file</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="306"/>
+        <location filename="qml/ActionsMenu.qml" line="255"/>
         <source>Save project</source>
         <translation>Salva il progetto</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="370"/>
+        <location filename="qml/ActionsMenu.qml" line="319"/>
         <source>Undo</source>
         <translation>Annulla</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="384"/>
+        <location filename="qml/ActionsMenu.qml" line="333"/>
         <source>Redo</source>
         <translation>Rifai</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="399"/>
+        <location filename="qml/ActionsMenu.qml" line="348"/>
         <source>Network</source>
         <translation>Rete</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="424"/>
+        <location filename="qml/ActionsMenu.qml" line="373"/>
         <source>Server setup</source>
         <translation>Configurazione del server</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="442"/>
+        <location filename="qml/ActionsMenu.qml" line="391"/>
         <source>Client setup</source>
         <translation>Configurazione del client</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="463"/>
+        <location filename="qml/ActionsMenu.qml" line="412"/>
         <source>Address tool</source>
         <translation>Strumento indirizzi</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="475"/>
+        <location filename="qml/ActionsMenu.qml" line="424"/>
         <source>DMX Address tool</source>
         <translation>Strumento indirizzi DMX</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="487"/>
+        <location filename="qml/ActionsMenu.qml" line="436"/>
         <source>UI Settings</source>
         <translation>Impostazioni interfaccia</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="501"/>
+        <location filename="qml/ActionsMenu.qml" line="450"/>
         <source>Toggle fullscreen</source>
         <translation>Schermo intero</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="514"/>
+        <location filename="qml/ActionsMenu.qml" line="463"/>
         <source>Language</source>
         <translation>Lingua</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="545"/>
+        <location filename="qml/ActionsMenu.qml" line="494"/>
         <source>Catalan</source>
         <translation>Catalano</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="553"/>
+        <location filename="qml/ActionsMenu.qml" line="502"/>
         <source>Dutch</source>
         <translation>Olandese</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="561"/>
+        <location filename="qml/ActionsMenu.qml" line="510"/>
         <source>English</source>
         <translation>Inglese</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="569"/>
+        <location filename="qml/ActionsMenu.qml" line="518"/>
         <source>French</source>
         <translation>Francese</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="577"/>
+        <location filename="qml/ActionsMenu.qml" line="526"/>
         <source>German</source>
         <translation>Tedesco</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="585"/>
+        <location filename="qml/ActionsMenu.qml" line="534"/>
         <source>Italian</source>
         <translation>Italiano</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="593"/>
+        <location filename="qml/ActionsMenu.qml" line="542"/>
         <source>Japanese</source>
         <translation>Giapponese</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="601"/>
+        <location filename="qml/ActionsMenu.qml" line="550"/>
         <source>Polish</source>
         <translation>Polacco</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="609"/>
+        <location filename="qml/ActionsMenu.qml" line="558"/>
         <source>Russian</source>
         <translation>Russo</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="617"/>
+        <location filename="qml/ActionsMenu.qml" line="566"/>
         <source>Spanish</source>
         <translation>Spagnolo</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="625"/>
+        <location filename="qml/ActionsMenu.qml" line="574"/>
         <source>Ukrainian</source>
         <translation>Ucraino</translation>
     </message>
     <message>
-        <location filename="qml/ActionsMenu.qml" line="637"/>
+        <location filename="qml/ActionsMenu.qml" line="586"/>
         <source>About</source>
         <translation>Informazioni</translation>
     </message>
@@ -175,57 +179,57 @@ I cambiamenti verranno perduti se non salvati.</translation>
 <context>
     <name>AddFunctionMenu</name>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="45"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="46"/>
         <source>New folder</source>
         <translation>Nuova cartella</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="56"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="57"/>
         <source>New Scene</source>
         <translation>Nuova scena</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="62"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="63"/>
         <source>New Chaser</source>
         <translation>Nuovo chaser</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="68"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="69"/>
         <source>New Sequence</source>
         <translation>Nuova sequenza</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="74"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="75"/>
         <source>New EFX</source>
         <translation>Nuovo EFX</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="80"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="81"/>
         <source>New Collection</source>
         <translation>Nuova collezione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="86"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="87"/>
         <source>New RGB Matrix</source>
         <translation>Nuova matrice RGB</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="92"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="93"/>
         <source>New Show</source>
         <translation>Nuovo show</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="98"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="99"/>
         <source>New Script</source>
         <translation>Nuovo script</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="104"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="105"/>
         <source>New Audio</source>
         <translation>Nuovo audio</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="110"/>
+        <location filename="qml/fixturesfunctions/AddFunctionMenu.qml" line="111"/>
         <source>New Video</source>
         <translation>Nuovo video</translation>
     </message>
@@ -314,27 +318,27 @@ I cambiamenti verranno perduti se non salvati.</translation>
 <context>
     <name>BeamTool</name>
     <message>
-        <location filename="qml/fixturesfunctions/BeamTool.qml" line="152"/>
+        <location filename="qml/fixturesfunctions/BeamTool.qml" line="134"/>
         <source>Beam</source>
         <translation>Fascio</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/BeamTool.qml" line="244"/>
+        <location filename="qml/fixturesfunctions/BeamTool.qml" line="215"/>
         <source>Beam degrees</source>
         <translation>Gradi del fascio</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/BeamTool.qml" line="257"/>
+        <location filename="qml/fixturesfunctions/BeamTool.qml" line="224"/>
         <source>Distance</source>
         <translation>Distanza</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/BeamTool.qml" line="278"/>
+        <location filename="qml/fixturesfunctions/BeamTool.qml" line="241"/>
         <source>Projected diameter</source>
         <translation>Diametro proiettato</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/BeamTool.qml" line="284"/>
+        <location filename="qml/fixturesfunctions/BeamTool.qml" line="245"/>
         <source>N/A</source>
         <translation>N/D</translation>
     </message>
@@ -360,8 +364,8 @@ I cambiamenti verranno perduti se non salvati.</translation>
 <context>
     <name>ChannelEdit</name>
     <message>
-        <location filename="fixtureeditor/channeledit.cpp" line="62"/>
-        <location filename="fixtureeditor/channeledit.cpp" line="86"/>
+        <location filename="fixtureeditor/channeledit.cpp" line="66"/>
+        <location filename="fixtureeditor/channeledit.cpp" line="90"/>
         <source>Custom</source>
         <translation>Personalizzato</translation>
     </message>
@@ -395,92 +399,92 @@ I cambiamenti verranno perduti se non salvati.</translation>
     </message>
     <message>
         <location filename="qml/fixtureeditor/ChannelEditor.qml" line="117"/>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="509"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="508"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="130"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="128"/>
         <source>Role</source>
         <translation>Ruolo</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="146"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="144"/>
         <source>Coarse (MSB)</source>
         <translation>Grossolano (MSB)</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="156"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="154"/>
         <source>Fine (LSB)</source>
         <translation>Fine (LSB)</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="160"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="158"/>
         <source>Default value</source>
         <translation>Valore di default</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="187"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="185"/>
         <source>Delete the selected capabilities</source>
         <translation>Elimina le caratteristiche selezionate</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="199"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="197"/>
         <source>Capability wizard</source>
         <translation>Assistente per le proprietà</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="282"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="280"/>
         <source>Empty description provided</source>
         <translation>Inserita una descrizione vuota</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="283"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="281"/>
         <source>Overlapping with another capability</source>
         <translation>Sovrapposizione con un&apos;altra proprietà</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="298"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="296"/>
         <source>From</source>
         <translation>Da</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="307"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="305"/>
         <source>To</source>
         <translation>A</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="316"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="314"/>
         <source>Description</source>
         <translation>Descrizione</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="529"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="528"/>
         <source>Preview</source>
         <translation>Anteprima</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="541"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="540"/>
         <source>Primary color</source>
         <translation>Colore primario</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="604"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="603"/>
         <source>Secondary color</source>
         <translation>Colore secondario</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="637"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="636"/>
         <source>Value(s)</source>
         <translation>Valore(i)</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="649"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="648"/>
         <source>Value 1</source>
         <translation>Valore 1</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="665"/>
+        <location filename="qml/fixtureeditor/ChannelEditor.qml" line="664"/>
         <source>Value 2</source>
         <translation>Valore 2</translation>
     </message>
@@ -528,102 +532,102 @@ I cambiamenti verranno perduti se non salvati.</translation>
         <translation>Randomizza l&apos;ordine degli step selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="190"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="191"/>
         <source>Print the Chaser steps</source>
         <translation>Stampa gli step del Chaser</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="228"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="229"/>
         <source>Run properties</source>
         <translation>Proprietà di esecuzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="243"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="244"/>
         <source>Loop</source>
         <translation>Ciclica</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="244"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="245"/>
         <source>Single Shot</source>
         <translation>Singola riproduzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="245"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="246"/>
         <source>Ping Pong</source>
         <translation>Ping pong</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="246"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="247"/>
         <source>Random</source>
         <translation>Casuale</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="254"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="255"/>
         <source>Run Order</source>
         <translation>Ordine di esecuzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="261"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="262"/>
         <source>Forward</source>
         <translation>Avanti</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="262"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="263"/>
         <source>Backward</source>
         <translation>Indietro</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="270"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="271"/>
         <source>Direction</source>
         <translation>Direzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="277"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="278"/>
         <source>Time</source>
         <translation>Tempo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="278"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="279"/>
         <source>Beats</source>
         <translation>Battiti</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="286"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="287"/>
         <source>Tempo</source>
         <translation>Tempo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="294"/>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="311"/>
-        <source>Default</source>
-        <translation>Predefinito</translation>
-    </message>
-    <message>
         <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="295"/>
         <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="312"/>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="328"/>
-        <source>Common</source>
-        <translation>Comune</translation>
+        <source>Default</source>
+        <translation>Predefinito</translation>
     </message>
     <message>
         <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="296"/>
         <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="313"/>
         <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="329"/>
+        <source>Common</source>
+        <translation>Comune</translation>
+    </message>
+    <message>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="297"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="314"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="330"/>
         <source>Per Step</source>
         <translation>Per step</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="304"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="305"/>
         <source>Fade In</source>
         <translation>Fade in</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="321"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="322"/>
         <source>Fade Out</source>
         <translation>Fade out</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="337"/>
+        <location filename="qml/fixturesfunctions/ChaserEditor.qml" line="338"/>
         <source>Duration</source>
         <translation>Durata</translation>
     </message>
@@ -631,32 +635,32 @@ I cambiamenti verranno perduti se non salvati.</translation>
 <context>
     <name>ChaserWidget</name>
     <message>
-        <location filename="qml/ChaserWidget.qml" line="187"/>
+        <location filename="qml/ChaserWidget.qml" line="183"/>
         <source>Function</source>
         <translation>Funzione</translation>
     </message>
     <message>
-        <location filename="qml/ChaserWidget.qml" line="226"/>
+        <location filename="qml/ChaserWidget.qml" line="222"/>
         <source>Fade In</source>
         <translation>Fade in</translation>
     </message>
     <message>
-        <location filename="qml/ChaserWidget.qml" line="264"/>
+        <location filename="qml/ChaserWidget.qml" line="260"/>
         <source>Hold</source>
         <translation>Hold</translation>
     </message>
     <message>
-        <location filename="qml/ChaserWidget.qml" line="302"/>
+        <location filename="qml/ChaserWidget.qml" line="298"/>
         <source>Fade Out</source>
         <translation>Fade out</translation>
     </message>
     <message>
-        <location filename="qml/ChaserWidget.qml" line="340"/>
+        <location filename="qml/ChaserWidget.qml" line="336"/>
         <source>Duration</source>
         <translation>Durata</translation>
     </message>
     <message>
-        <location filename="qml/ChaserWidget.qml" line="378"/>
+        <location filename="qml/ChaserWidget.qml" line="374"/>
         <source>Note</source>
         <translation>Note</translation>
     </message>
@@ -839,12 +843,12 @@ I cambiamenti verranno perduti se non salvati.</translation>
 <context>
     <name>ContextManager</name>
     <message>
-        <location filename="contextmanager.cpp" line="71"/>
+        <location filename="contextmanager.cpp" line="69"/>
         <source>Universe Grid View</source>
         <translation>Vista universo a griglia</translation>
     </message>
     <message>
-        <location filename="contextmanager.cpp" line="1123"/>
+        <location filename="contextmanager.cpp" line="1067"/>
         <source>linked</source>
         <translation>in cascata</translation>
     </message>
@@ -888,12 +892,12 @@ I cambiamenti verranno perduti se non salvati.</translation>
         <location filename="qml/fixturesfunctions/EFXEditor.qml" line="216"/>
         <source>Add a fixture/head</source>
         <oldsource>Add a fixture head</oldsource>
-        <translation>Aggiungi fixture/emettitore</translation>
+        <translation>Aggiungi fixture/sezioni</translation>
     </message>
     <message>
         <location filename="qml/fixturesfunctions/EFXEditor.qml" line="244"/>
         <source>Remove the selected fixture head(s)</source>
-        <translation>Rimuovi gli emettitori delle fixture selezionate</translation>
+        <translation>Rimuovi le sezioni di fixture selezionate</translation>
     </message>
     <message>
         <location filename="qml/fixturesfunctions/EFXEditor.qml" line="273"/>
@@ -1091,137 +1095,137 @@ I cambiamenti verranno perduti se non salvati.</translation>
 <context>
     <name>EditorView</name>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="56"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="55"/>
         <source>Manufacturer or model cannot be empty!</source>
         <translation>Il produttore o il modello devono essere definiti!</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="70"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="69"/>
         <source>The following errors have been detected:</source>
         <translation>Sono stati rilevati i seguenti errori:</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="123"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="80"/>
         <source>!! Warning !!</source>
         <translation>!! Attenzione !!</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="164"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="118"/>
         <source>General</source>
         <translation>Generale</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="173"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="127"/>
         <source>Manufacturer</source>
         <translation>Produttore</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="186"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="140"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="229"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="183"/>
         <source>Model</source>
         <translation>Modello</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="240"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="194"/>
         <source>Author</source>
         <translation>Autore</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="258"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="209"/>
         <source>Physical properties</source>
         <translation>Proprietà fisiche</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="275"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="223"/>
         <source>Channels</source>
         <translation>Canali</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="312"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="251"/>
         <source>Add a new channel</source>
         <translation>Aggiungi un nuovo canale</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="327"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="266"/>
         <source>Remove the selected channel(s)</source>
         <translation>Elimina i canali selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="355"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="294"/>
         <source>Channel wizard</source>
         <translation>Assistente dei canali</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="522"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="447"/>
         <source>Modes</source>
         <translation>Modalità</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="550"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="475"/>
         <source>Add a new mode</source>
         <translation>Aggiungi una nuova modalità</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="565"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="490"/>
         <source>Remove the selected mode(s)</source>
         <translation>Elimina le modalità selezionate</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/EditorView.qml" line="647"/>
+        <location filename="qml/fixtureeditor/EditorView.qml" line="565"/>
         <source>Aliases</source>
         <translation>Alias</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="207"/>
+        <location filename="fixtureeditor/editorview.cpp" line="199"/>
         <source>New channel %1</source>
         <translation>Nuovo canale %1</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="333"/>
+        <location filename="fixtureeditor/editorview.cpp" line="322"/>
         <source>New mode</source>
         <translation>Nuova modalità</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="404"/>
+        <location filename="fixtureeditor/editorview.cpp" line="376"/>
         <source>&lt;li&gt;No channels provided&lt;/li&gt;</source>
         <translation>&lt;li&gt;Nessun canale aggiunto&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="411"/>
+        <location filename="fixtureeditor/editorview.cpp" line="383"/>
         <source>&lt;li&gt;No capability provided in channel &apos;%1&apos;&lt;/li&gt;</source>
         <translation>&lt;li&gt;Nessuna proprietà aggiunta al canale &apos;%1&apos;&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="416"/>
+        <location filename="fixtureeditor/editorview.cpp" line="388"/>
         <source>&lt;li&gt;Empty capability description provided in channel &apos;%1&apos;&lt;/li&gt;</source>
         <translation>&lt;li&gt;Descrizione della proprietà vuota nel canale &apos;%1&apos;&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="423"/>
+        <location filename="fixtureeditor/editorview.cpp" line="395"/>
         <source>&lt;li&gt;Empty mode name provided&lt;/li&gt;</source>
         <translation>&lt;li&gt;Nome della modalità assente&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="426"/>
+        <location filename="fixtureeditor/editorview.cpp" line="398"/>
         <source>&lt;li&gt;Mode &apos;%1&apos; has no channels defined&lt;/li&gt;</source>
         <translation>&lt;li&gt;La modalità &apos;%1&apos; non ha alcun canale definito&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="433"/>
+        <location filename="fixtureeditor/editorview.cpp" line="405"/>
         <source>&lt;li&gt;In mode &apos;%1&apos;, channel &apos;%2&apos; cannot act on itself&lt;/li&gt;</source>
         <translation>&lt;li&gt;Nella modalità &apos;%1&apos;, il canale &apos;%2&apos; non può agire su sé stesso&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="440"/>
+        <location filename="fixtureeditor/editorview.cpp" line="412"/>
         <source>&lt;li&gt;No modes provided. Without modes, this fixture will not appear in the list!&lt;/li&gt;</source>
         <translation>&lt;li&gt;Nessuna modalità inserita. Senza modalità, questa fixture non apparirà nella lista!&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="fixtureeditor/editorview.cpp" line="458"/>
+        <location filename="fixtureeditor/editorview.cpp" line="430"/>
         <source>Could not save file! (%1)</source>
         <translation>Impossibile salvare il file! (%1)</translation>
     </message>
@@ -1280,25 +1284,13 @@ I cambiamenti verranno perduti se non salvati.</translation>
 <context>
     <name>FixtureBrowser</name>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureBrowser.qml" line="39"/>
-        <source>Error</source>
-        <translation>Errore</translation>
-    </message>
-    <message>
-        <location filename="qml/fixturesfunctions/FixtureBrowser.qml" line="40"/>
-        <source>Address overlapping detected.
-Please set another DMX address.</source>
-        <translation>E&apos; stata rilevata una sovrapposizione di indirizzi.
-Si prega di impostare un altro indirizzo DMX.</translation>
-    </message>
-    <message>
-        <location filename="qml/fixturesfunctions/FixtureBrowser.qml" line="96"/>
+        <location filename="qml/fixturesfunctions/FixtureBrowser.qml" line="87"/>
         <source>Create a new fixture definition</source>
         <oldsource>Add a new fixture definition</oldsource>
         <translation>Crea una nuova definizione di fixture</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureBrowser.qml" line="107"/>
+        <location filename="qml/fixturesfunctions/FixtureBrowser.qml" line="98"/>
         <source>Edit the selected fixture definition</source>
         <translation>Modifica la definizione di fixture selezionata</translation>
     </message>
@@ -1329,63 +1321,65 @@ Si prega di impostare un altro indirizzo DMX.</translation>
 <context>
     <name>FixtureEditor</name>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="68"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="57"/>
         <source>Open a fixture definition</source>
         <translation>Apri una definizione di fixture</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="56"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="59"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="81"/>
         <source>Fixture definition files</source>
         <translation>File di definizione di fixture</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="56"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="59"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="81"/>
         <source>All files</source>
         <translation>Tutti i file</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="109"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="67"/>
         <source>An error occurred while loading the selected file.&lt;br&gt;It could be invalid or corrupted.</source>
         <translation>Si è verificato un errore durante il carimento del file selezionato.&lt;br&gt;Potrebbe essere invalido o corrotto.</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="73"/>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="298"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="78"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="233"/>
         <source>Save definition as...</source>
         <translation>Salva la definizione come...</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="162"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="95"/>
         <source>Error</source>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="169"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="102"/>
         <source>Warning</source>
         <translation>Attenzione</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="250"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="184"/>
         <source>Back to QLC+</source>
         <translation>Torna a QLC+</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="258"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="192"/>
         <source>New definition</source>
         <translation>Nuova definizione</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="267"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="201"/>
         <source>Open definition</source>
         <translation>Apri definizione</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="279"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="213"/>
         <source>Save definition</source>
         <translation>Salva definizione</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="350"/>
+        <location filename="qml/fixtureeditor/FixtureEditor.qml" line="286"/>
         <source>Unknown</source>
         <translation>Sconosciuto</translation>
     </message>
@@ -1441,54 +1435,54 @@ Si prega di impostare un altro indirizzo DMX.</translation>
 <context>
     <name>FixtureGroupManager</name>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="171"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="165"/>
         <source>Error</source>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="218"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="212"/>
         <source>Add a new fixture group</source>
         <translation>Aggiungi un nuovo gruppo di fixture</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="230"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="224"/>
         <source>Remove the selected items</source>
         <translation>Rimuovi gli elementi selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="278"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="272"/>
         <source>Apply changes to fixtures of the same type</source>
         <translation>Applica i cambiamenti sulle fixture dello stesso tipo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="297"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="291"/>
         <source>Set a Group/Fixture/Channel search filter</source>
         <translation>Imposta un filtro di ricerca di gruppo/fixture/canale</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="314"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="308"/>
         <source>Rename the selected items</source>
         <translation>Rinomina gli elementi selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="327"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="321"/>
         <source>Rename items</source>
         <translation>Rinomina elementi</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="369"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="363"/>
         <source>An item with the same name already exists.
 Please provide a different name.</source>
         <translation>Esiste già un elemento con lo stesso nome.
 Si prega di assegnare un nome diverso.</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="385"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="379"/>
         <source>Inspect the selected item</source>
         <translation>Analizza l&apos;elemento selezionato</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="399"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="393"/>
         <source>Toggle selected item editing</source>
         <translation>Abilita/disabilita le modifiche dell&apos;elemento selezionato</translation>
     </message>
@@ -1497,37 +1491,37 @@ Si prega di assegnare un nome diverso.</translation>
         <translation type="vanished">Mostra le proprietà delle fixture e dei canali</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="414"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="408"/>
         <source>Add/Remove a linked fixture</source>
         <translation>Aggiungi/rimuovi una fixture in cascata</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="433"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="427"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="435"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="429"/>
         <source>Mode</source>
         <translation>Modalità</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="437"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="431"/>
         <source>Flags</source>
         <translation>Flag</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="439"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="433"/>
         <source>Can fade</source>
         <translation>Consenti fade</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="441"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="435"/>
         <source>Behaviour</source>
         <translation>Comportamento</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="443"/>
+        <location filename="qml/fixturesfunctions/FixtureGroupManager.qml" line="437"/>
         <source>Modifier</source>
         <translation>Modificatore</translation>
     </message>
@@ -1535,24 +1529,24 @@ Si prega di assegnare un nome diverso.</translation>
 <context>
     <name>FixtureManager</name>
     <message>
-        <location filename="fixturemanager.cpp" line="666"/>
-        <location filename="fixturemanager.cpp" line="804"/>
-        <location filename="fixturemanager.cpp" line="1368"/>
+        <location filename="fixturemanager.cpp" line="657"/>
+        <location filename="fixturemanager.cpp" line="795"/>
+        <location filename="fixturemanager.cpp" line="1359"/>
         <source>Head</source>
         <translation>Testa</translation>
     </message>
     <message>
-        <location filename="fixturemanager.cpp" line="1299"/>
+        <location filename="fixturemanager.cpp" line="1290"/>
         <source>New group %1</source>
         <translation>Nuovo gruppo %1</translation>
     </message>
     <message>
-        <location filename="fixturemanager.cpp" line="1520"/>
+        <location filename="fixturemanager.cpp" line="1511"/>
         <source>%1 - Row %2</source>
         <translation>%1 - Riga %2</translation>
     </message>
     <message>
-        <location filename="fixturemanager.cpp" line="1900"/>
+        <location filename="fixturemanager.cpp" line="1891"/>
         <source>New filters %1</source>
         <translation>Nuovo filtro %1</translation>
     </message>
@@ -1628,140 +1622,140 @@ Si prega di assegnare un nome diverso.</translation>
 <context>
     <name>FixtureSummary</name>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="57"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="56"/>
         <source>Print the fixture summary</source>
         <translation>Stampa il sommario delle fixture</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="110"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="109"/>
         <source>Manufacturer</source>
         <translation>Produttore</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="134"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="133"/>
         <source>Model</source>
         <translation>Modello</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="148"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="147"/>
         <source>Mode</source>
         <translation>Modalità</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="162"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="161"/>
         <source>Universe</source>
         <translation>Universo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="176"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="175"/>
         <source>Address range</source>
         <translation>Intervallo di indirizzi</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="190"/>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="219"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="189"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="218"/>
         <source>Channels</source>
         <translation>Canali</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="204"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="203"/>
         <source>Author</source>
         <translation>Autore</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="231"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="230"/>
         <source>Number</source>
         <translation>Numero</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="238"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="237"/>
         <source>DMX address</source>
         <translation>Indirizzo DMX</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="246"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="245"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="295"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="294"/>
         <source>Physical</source>
         <translation>Dimensioni fisiche</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="308"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="307"/>
         <source>Width</source>
         <translation>Larghezza</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="324"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="323"/>
         <source>Height</source>
         <translation>Altezza</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="339"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="338"/>
         <source>Depth</source>
         <translation>Profondità</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="354"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="353"/>
         <source>Weight</source>
         <translation>Peso</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="369"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="368"/>
         <source>Power consumption</source>
         <translation>Consumo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="384"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="383"/>
         <source>DMX connector</source>
         <translation>Tipo di connettore DMX</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="400"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="399"/>
         <source>Focus</source>
         <translation>Fuoco</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="413"/>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="473"/>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="533"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="412"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="472"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="532"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="429"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="428"/>
         <source>Pan degrees</source>
         <translation>Gradi di pan</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="444"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="443"/>
         <source>Tilt degrees</source>
         <translation>Gradi di tilt</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="460"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="459"/>
         <source>Bulb</source>
         <translation>Bulbo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="489"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="488"/>
         <source>Luminous flux</source>
         <translation>Flusso luminoso</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="504"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="503"/>
         <source>Color temperature</source>
         <translation>Temperatura colore</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="520"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="519"/>
         <source>Lens</source>
         <translation>Lente</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="549"/>
+        <location filename="qml/fixturesfunctions/FixtureSummary.qml" line="548"/>
         <source>Beam range</source>
         <translation>Ampiezza fascio</translation>
     </message>
@@ -1769,27 +1763,27 @@ Si prega di assegnare un nome diverso.</translation>
 <context>
     <name>FixturesAndFunctions</name>
     <message>
-        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="150"/>
+        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="130"/>
         <source>Universe View</source>
         <translation>Vista universo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="170"/>
+        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="148"/>
         <source>DMX View</source>
         <translation>Vista DMX</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="190"/>
+        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="166"/>
         <source>2D View</source>
         <translation>Vista 2D</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="210"/>
+        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="185"/>
         <source>3D View</source>
         <translation>Vista 3D</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="268"/>
+        <location filename="qml/fixturesfunctions/FixturesAndFunctions.qml" line="242"/>
         <source>Show/hide the view settings</source>
         <translation>Mostra/nascondi le impostazioni della vista</translation>
     </message>
@@ -1852,68 +1846,69 @@ Si prega di assegnare un nome diverso.</translation>
         <translation>Imposta un filtro di ricerca di funzioni</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="141"/>
+        <location filename="functionmanager.cpp" line="143"/>
         <source>&lt;None&gt;</source>
         <translation>&lt;Nessuno&gt;</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="254"/>
+        <location filename="functionmanager.cpp" line="256"/>
         <source>New Scene</source>
         <translation>Nuova scena</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="268"/>
+        <location filename="functionmanager.cpp" line="270"/>
         <source>New Chaser</source>
         <translation>Nuovo chaser</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="297"/>
+        <location filename="functionmanager.cpp" line="299"/>
         <source>New Sequence</source>
         <translation>Nuova sequenza</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="310"/>
+        <location filename="functionmanager.cpp" line="312"/>
         <source>New EFX</source>
         <translation>Nuovo EFX</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="331"/>
+        <location filename="functionmanager.cpp" line="333"/>
         <source>New Collection</source>
         <translation>Nuova collezione</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="346"/>
+        <location filename="functionmanager.cpp" line="348"/>
         <source>New RGB Matrix</source>
         <translation>Nuova matrice RGB</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="354"/>
+        <location filename="functionmanager.cpp" line="356"/>
         <source>New Script</source>
         <translation>Nuovo script</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="362"/>
+        <location filename="functionmanager.cpp" line="364"/>
         <source>New Show</source>
         <translation>Nuovo show</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="383"/>
+        <location filename="functionmanager.cpp" line="385"/>
         <source>New Audio</source>
         <translation>Nuovo audio</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="415"/>
+        <location filename="functionmanager.cpp" line="417"/>
         <source>New Video</source>
         <translation>Nuovo video</translation>
     </message>
     <message>
-        <location filename="functionmanager.cpp" line="842"/>
+        <location filename="functionmanager.cpp" line="844"/>
         <source> (Copy)</source>
         <translation> (Copia)</translation>
     </message>
     <message>
+        <location filename="functionmanager.cpp" line="1051"/>
         <source>New folder</source>
-        <translation type="vanished">Nuova cartella</translation>
+        <translation>Nuova cartella</translation>
     </message>
 </context>
 <context>
@@ -1990,17 +1985,17 @@ Si prega di assegnare un nome diverso.</translation>
         <location filename="inputoutputmanager.cpp" line="284"/>
         <location filename="inputoutputmanager.cpp" line="313"/>
         <location filename="inputoutputmanager.cpp" line="346"/>
-        <location filename="inputoutputmanager.cpp" line="787"/>
+        <location filename="inputoutputmanager.cpp" line="767"/>
         <source>Default device</source>
         <translation>Dispositivo predefinito</translation>
     </message>
     <message>
-        <location filename="inputoutputmanager.cpp" line="745"/>
+        <location filename="inputoutputmanager.cpp" line="725"/>
         <source>Disabled</source>
         <translation>Disabilitato</translation>
     </message>
     <message>
-        <location filename="inputoutputmanager.cpp" line="754"/>
+        <location filename="inputoutputmanager.cpp" line="734"/>
         <source>Internal generator</source>
         <translation>Generatore interno</translation>
     </message>
@@ -2017,8 +2012,8 @@ Si prega di assegnare un nome diverso.</translation>
     <name>InputProfileEditor</name>
     <message>
         <location filename="qml/inputoutput/InputProfileEditor.qml" line="37"/>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="133"/>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="162"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="131"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="160"/>
         <source>!! Warning !!</source>
         <translation>!! Attenzione !!</translation>
     </message>
@@ -2045,74 +2040,74 @@ Changes will be lost if you don&apos;t save them.</source>
 Le modifiche saranno perse se non le salvi.</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="186"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="184"/>
         <source>Manufacturer</source>
         <translation>Produttore</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="197"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="195"/>
         <source>Model</source>
         <translation>Modello</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="208"/>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="301"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="206"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="299"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="227"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="225"/>
         <source>MIDI Global Settings</source>
         <translation>Impostazioni globali MIDI</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="250"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="248"/>
         <source>When MIDI notes are used, send a Note Off when value is 0</source>
         <translation>Quando vengono usate note MIDI, invia una Nota Off quando il valore è 0</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="283"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="281"/>
         <source>Channel</source>
         <translation>Canale</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="292"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="290"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="366"/>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="396"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="364"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="394"/>
         <source>Behaviour</source>
         <translation>Comportamento</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="388"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="386"/>
         <source>Generate an extra Press/Release when toggled</source>
         <translation>Genera un evento aggiuntivo di pressione/rilascio quando attivato</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="411"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="409"/>
         <source>Movement</source>
         <translation>Movimento</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="427"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="425"/>
         <source>Sensitivity</source>
         <translation>Sensibilità</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="444"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="442"/>
         <source>Custom Feedback</source>
         <translation>Feedback personalizzato</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="458"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="456"/>
         <source>Lower value</source>
         <translation>Valore inferiore</translation>
     </message>
     <message>
-        <location filename="qml/inputoutput/InputProfileEditor.qml" line="471"/>
+        <location filename="qml/inputoutput/InputProfileEditor.qml" line="469"/>
         <source>Upper value</source>
         <translation>Valore superiore</translation>
     </message>
@@ -2146,22 +2141,22 @@ Le modifiche saranno perse se non le salvi.</translation>
 <context>
     <name>KeyboardSequenceDelegate</name>
     <message>
-        <location filename="qml/KeyboardSequenceDelegate.qml" line="48"/>
+        <location filename="qml/KeyboardSequenceDelegate.qml" line="46"/>
         <source>Control</source>
         <translation>Controllo</translation>
     </message>
     <message>
-        <location filename="qml/KeyboardSequenceDelegate.qml" line="72"/>
+        <location filename="qml/KeyboardSequenceDelegate.qml" line="70"/>
         <source>Combination</source>
         <translation>Combinazione</translation>
     </message>
     <message>
-        <location filename="qml/KeyboardSequenceDelegate.qml" line="96"/>
+        <location filename="qml/KeyboardSequenceDelegate.qml" line="94"/>
         <source>Activate auto detection</source>
         <translation>Abilita rilevamento automatico</translation>
     </message>
     <message>
-        <location filename="qml/KeyboardSequenceDelegate.qml" line="122"/>
+        <location filename="qml/KeyboardSequenceDelegate.qml" line="120"/>
         <source>Remove this keyboard combination</source>
         <translation>Rimuovi questa combinazione di tasti</translation>
     </message>
@@ -2179,62 +2174,62 @@ Le modifiche saranno perse se non le salvi.</translation>
         <translation>Gruppi di fixture</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="118"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="116"/>
         <source>Palettes</source>
         <translation>Palette</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="137"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="135"/>
         <source>Intensity</source>
         <translation>Intensità</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="173"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="171"/>
         <source>Shutter</source>
         <translation>Shutter</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="203"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="201"/>
         <source>Position</source>
         <translation>Posizione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="231"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="229"/>
         <source>Color</source>
         <translation>Colore</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="263"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="261"/>
         <source>Color Wheel</source>
         <translation>Ruota colori</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="293"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="291"/>
         <source>Gobos</source>
         <translation>Gobo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="323"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="321"/>
         <source>Beam</source>
         <translation>Fascio</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="359"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="357"/>
         <source>Highlight</source>
         <translation>Evidenzia</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="376"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="374"/>
         <source>Pick a 3D point</source>
         <translation>Seleziona un punto in 3D</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="385"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="383"/>
         <source>Toggle multiple item selection</source>
         <translation>Selezione multipla</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="396"/>
+        <location filename="qml/fixturesfunctions/LeftPanel.qml" line="394"/>
         <source>Select/Deselect all fixtures</source>
         <translation>Seleziona/deseleziona tutte le fixture</translation>
     </message>
@@ -2242,47 +2237,47 @@ Le modifiche saranno perse se non le salvi.</translation>
 <context>
     <name>MainView</name>
     <message>
-        <location filename="qml/MainView.qml" line="151"/>
+        <location filename="qml/MainView.qml" line="149"/>
         <source>Actions</source>
         <translation>Azioni</translation>
     </message>
     <message>
-        <location filename="qml/MainView.qml" line="176"/>
+        <location filename="qml/MainView.qml" line="173"/>
         <source>Fixtures &amp; Functions</source>
         <translation>Fixture &amp; Funzioni</translation>
     </message>
     <message>
-        <location filename="qml/MainView.qml" line="194"/>
+        <location filename="qml/MainView.qml" line="191"/>
         <source>Virtual Console</source>
         <translation>Console Virtuale</translation>
     </message>
     <message>
-        <location filename="qml/MainView.qml" line="216"/>
+        <location filename="qml/MainView.qml" line="213"/>
         <source>Simple Desk</source>
         <translation>Banco Semplice</translation>
     </message>
     <message>
-        <location filename="qml/MainView.qml" line="238"/>
+        <location filename="qml/MainView.qml" line="235"/>
         <source>Show Manager</source>
         <translation>Show Manager</translation>
     </message>
     <message>
-        <location filename="qml/MainView.qml" line="260"/>
+        <location filename="qml/MainView.qml" line="257"/>
         <source>Input/Output</source>
         <translation>Ingressi/Uscite</translation>
     </message>
     <message>
-        <location filename="qml/MainView.qml" line="292"/>
+        <location filename="qml/MainView.qml" line="289"/>
         <source>Dump DMX values on a Scene</source>
         <translation>Salva i valori DMX su una Scena</translation>
     </message>
     <message>
-        <location filename="qml/MainView.qml" line="439"/>
+        <location filename="qml/MainView.qml" line="434"/>
         <source>Off</source>
         <translation>Off</translation>
     </message>
     <message>
-        <location filename="qml/MainView.qml" line="513"/>
+        <location filename="qml/MainView.qml" line="508"/>
         <source>Stop all the running functions</source>
         <translation>Ferma tutte le funzioni in esecuzione</translation>
     </message>
@@ -2298,27 +2293,27 @@ Le modifiche saranno perse se non le salvi.</translation>
 <context>
     <name>MainView3D</name>
     <message>
-        <location filename="mainview3d.cpp" line="74"/>
+        <location filename="mainview3d.cpp" line="80"/>
         <source>3D View</source>
         <translation>Vista 3D</translation>
     </message>
     <message>
-        <location filename="mainview3d.cpp" line="81"/>
+        <location filename="mainview3d.cpp" line="87"/>
         <source>Simple ground</source>
         <translation>Palco semplice</translation>
     </message>
     <message>
-        <location filename="mainview3d.cpp" line="81"/>
+        <location filename="mainview3d.cpp" line="87"/>
         <source>Simple box</source>
         <translation>Stanza semplice</translation>
     </message>
     <message>
-        <location filename="mainview3d.cpp" line="81"/>
+        <location filename="mainview3d.cpp" line="87"/>
         <source>Rock stage</source>
         <translation>Palco rock</translation>
     </message>
     <message>
-        <location filename="mainview3d.cpp" line="81"/>
+        <location filename="mainview3d.cpp" line="87"/>
         <source>Theatre stage</source>
         <translation>Palco teatro</translation>
     </message>
@@ -2334,58 +2329,58 @@ Le modifiche saranno perse se non le salvi.</translation>
 <context>
     <name>ModeEditor</name>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="115"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="73"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="134"/>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="260"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="89"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="207"/>
         <source>Channels</source>
         <translation>Canali</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="170"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="118"/>
         <source>Create a new emitter</source>
         <translation>Crea un nuovo emettitore</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="194"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="142"/>
         <source>Remove the selected channel(s)</source>
         <translation>Elimina i canali selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="229"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="176"/>
         <source>Drop channels here</source>
         <translation>Trascina i canali qui</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="269"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="216"/>
         <source>Acts on</source>
         <translation>Agisce su</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="450"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="394"/>
         <source>Emitters</source>
         <translation>Emettitori</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="478"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="422"/>
         <source>Remove the selected emitter(s)</source>
         <translation>Rimuovi gli emettitori selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="594"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="535"/>
         <source>Physical</source>
         <translation>Dimensioni fisiche</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="612"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="553"/>
         <source>Use global settings</source>
         <translation>Usa le impostazioni globali</translation>
     </message>
     <message>
-        <location filename="qml/fixtureeditor/ModeEditor.qml" line="620"/>
+        <location filename="qml/fixtureeditor/ModeEditor.qml" line="561"/>
         <source>Override global settings</source>
         <translation>Usa al posto delle impostazioni globali</translation>
     </message>
@@ -2406,107 +2401,92 @@ Le modifiche saranno perse se non le salvi.</translation>
 <context>
     <name>PaletteFanningBox</name>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="192"/>
+        <location filename="qml/PaletteFanningBox.qml" line="191"/>
         <source>Flat</source>
         <translation>Piatto</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="193"/>
+        <location filename="qml/PaletteFanningBox.qml" line="192"/>
         <source>Linear</source>
         <translation>Lineare</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="194"/>
+        <location filename="qml/PaletteFanningBox.qml" line="193"/>
         <source>Square</source>
         <translation>Onda quadra</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="195"/>
+        <location filename="qml/PaletteFanningBox.qml" line="194"/>
         <source>Saw</source>
         <translation>Onda dente di sega</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="196"/>
+        <location filename="qml/PaletteFanningBox.qml" line="195"/>
         <source>Sine</source>
         <translation>Sinusoide</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="145"/>
+        <location filename="qml/PaletteFanningBox.qml" line="144"/>
         <source>Show/Hide fanning options</source>
         <translation>Mostra/Nascondi le opzioni di fanning</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="162"/>
+        <location filename="qml/PaletteFanningBox.qml" line="161"/>
         <source>Create a new palette</source>
         <translation>Crea una nuova palette</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="179"/>
+        <location filename="qml/PaletteFanningBox.qml" line="178"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="221"/>
+        <location filename="qml/PaletteFanningBox.qml" line="220"/>
         <source>Layout</source>
         <translation>Disposizione</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="234"/>
+        <location filename="qml/PaletteFanningBox.qml" line="233"/>
         <source>X Ascending</source>
-        <translation>X crescente</translation>
+        <translation>X Ascendente</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="235"/>
+        <location filename="qml/PaletteFanningBox.qml" line="234"/>
         <source>X Descending</source>
-        <translation>X decrescenete</translation>
+        <translation>X Discendente</translation>
     </message>
     <message>
         <location filename="qml/PaletteFanningBox.qml" line="236"/>
-        <source>X Centered</source>
-        <translation>X dal centro</translation>
+        <source>Y Ascending</source>
+        <translation>Y Ascendente</translation>
     </message>
     <message>
         <location filename="qml/PaletteFanningBox.qml" line="237"/>
-        <source>Y Ascending</source>
-        <translation>Y crescente</translation>
-    </message>
-    <message>
-        <location filename="qml/PaletteFanningBox.qml" line="238"/>
         <source>Y Descending</source>
-        <translation>Y decrescenete</translation>
+        <translation>Y Discendente</translation>
     </message>
     <message>
         <location filename="qml/PaletteFanningBox.qml" line="239"/>
-        <source>Y Centered</source>
-        <translation>Y dal centro</translation>
+        <source>Z Ascending</source>
+        <translation>Z Ascendente</translation>
     </message>
     <message>
         <location filename="qml/PaletteFanningBox.qml" line="240"/>
-        <source>Z Ascending</source>
-        <translation>Z crescente</translation>
-    </message>
-    <message>
-        <location filename="qml/PaletteFanningBox.qml" line="241"/>
         <source>Z Descending</source>
-        <translation>Z decrescenete</translation>
+        <translation>Z Discendente</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="242"/>
-        <source>Z Centered</source>
-        <translation>Z dal centro</translation>
-    </message>
-    <message>
-        <location filename="qml/PaletteFanningBox.qml" line="267"/>
+        <location filename="qml/PaletteFanningBox.qml" line="266"/>
         <source>Amount</source>
         <translation>Contributo</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="350"/>
+        <location filename="qml/PaletteFanningBox.qml" line="343"/>
         <source>Value</source>
         <translation>Valore</translation>
     </message>
     <message>
-        <location filename="qml/PaletteFanningBox.qml" line="426"/>
+        <location filename="qml/PaletteFanningBox.qml" line="419"/>
         <source>Pick the selected color</source>
         <translation>Cattura il colore selezionato</translation>
     </message>
@@ -2735,132 +2715,127 @@ Le modifiche saranno perse se non le salvi.</translation>
         <translation>Assistente di creazione di fixture</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="129"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="125"/>
         <source>Properties</source>
         <translation>Proprietà</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="143"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="139"/>
         <source>Start</source>
         <translation>Inizio</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="159"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="155"/>
         <source>Width</source>
         <translation>Larghezza</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="174"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="170"/>
         <source>Amount</source>
         <translation>Contributo</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="189"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="185"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="199"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="195"/>
         <source>Red</source>
         <translation>Rosso</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="200"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="196"/>
         <source>Green</source>
         <translation>Verde</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="201"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="197"/>
         <source>Blue</source>
         <translation>Blu</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="202"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="198"/>
         <source>White</source>
         <translation>Bianco</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="203"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="199"/>
         <source>Amber</source>
         <translation>Ambra</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="204"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="200"/>
         <source>UV</source>
         <translation>UV</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="205"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="201"/>
         <source>RGB</source>
         <translation>RGB</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="206"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="202"/>
         <source>RGBW</source>
         <translation>RGBW</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="207"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="203"/>
         <source>RGBAW</source>
         <translation>RGBAW</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="208"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="204"/>
         <source>Dimmer</source>
         <translation>Dimmer</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="209"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="205"/>
         <source>Pan</source>
         <translation>Pan</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="210"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="206"/>
         <source>Tilt</source>
         <translation>Tilt</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="211"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="207"/>
         <source>Color Macro</source>
         <translation>Macro di colore</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="212"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="208"/>
         <source>Shutter</source>
         <translation>Shutter</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="213"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="209"/>
         <source>Beam</source>
         <translation>Fascio</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="214"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="210"/>
         <source>Effect</source>
         <translation>Effetto</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="225"/>
-        <source>Overlapping range detected. Adjust the parameters or make space</source>
-        <translation>Rilevata una sovrapposizione di intervallo. Aggiusta i parametri o fai spazio</translation>
-    </message>
-    <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="231"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="220"/>
         <source>Label</source>
         <translation>Etichetta</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="241"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="230"/>
         <source>Capability #</source>
         <translation>Proprietà #</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="241"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="230"/>
         <source>Channel #</source>
         <translation>Canale #</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupChannelWizard.qml" line="249"/>
+        <location filename="qml/popup/PopupChannelWizard.qml" line="238"/>
         <source>Preview</source>
         <translation>Anteprima</translation>
     </message>
@@ -3125,19 +3100,6 @@ Le modifiche saranno perse se non le salvi.</translation>
         <location filename="qml/popup/PopupDisclaimer.qml" line="32"/>
         <source>Disclaimer</source>
         <translation>Avviso</translation>
-    </message>
-</context>
-<context>
-    <name>PopupFolderBrowser</name>
-    <message>
-        <location filename="qml/popup/PopupFolderBrowser.qml" line="213"/>
-        <source>File name:</source>
-        <translation>Nome del file:</translation>
-    </message>
-    <message>
-        <location filename="qml/popup/PopupFolderBrowser.qml" line="241"/>
-        <source>Files of type:</source>
-        <translation>Tipi di file:</translation>
     </message>
 </context>
 <context>
@@ -3431,42 +3393,42 @@ Livello di accesso:</translation>
         <translation>Chiave di cifratura</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupNetworkServer.qml" line="90"/>
+        <location filename="qml/popup/PopupNetworkServer.qml" line="92"/>
         <source>Start automatically</source>
         <translation>Avvia automaticamente</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupNetworkServer.qml" line="106"/>
+        <location filename="qml/popup/PopupNetworkServer.qml" line="108"/>
         <source>Server status</source>
         <translation>Stato del server</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupNetworkServer.qml" line="113"/>
+        <location filename="qml/popup/PopupNetworkServer.qml" line="115"/>
         <source>Running</source>
         <translation>Avviato</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupNetworkServer.qml" line="113"/>
+        <location filename="qml/popup/PopupNetworkServer.qml" line="115"/>
         <source>Stopped</source>
         <translation>Non avviato</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupNetworkServer.qml" line="121"/>
+        <location filename="qml/popup/PopupNetworkServer.qml" line="123"/>
         <source>Clients connected</source>
         <translation>Client connessi</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupNetworkServer.qml" line="140"/>
+        <location filename="qml/popup/PopupNetworkServer.qml" line="142"/>
         <source>Close</source>
         <translation>Chiudi</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupNetworkServer.qml" line="147"/>
+        <location filename="qml/popup/PopupNetworkServer.qml" line="149"/>
         <source>Stop server</source>
         <translation>Ferma server</translation>
     </message>
     <message>
-        <location filename="qml/popup/PopupNetworkServer.qml" line="147"/>
+        <location filename="qml/popup/PopupNetworkServer.qml" line="149"/>
         <source>Start server</source>
         <translation>Avvia server</translation>
     </message>
@@ -3980,79 +3942,69 @@ Livello di accesso:</translation>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="212"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="185"/>
         <source>Function Manager</source>
         <translation>Manager delle funzioni</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="235"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="208"/>
         <source>Add a new function</source>
         <translation>Aggiungi una nuova funzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="245"/>
-        <source>Enter a unique name</source>
-        <translation>Inserire un nome univoco</translation>
-    </message>
-    <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="247"/>
-        <source>New folder</source>
-        <translation>Nuova cartella</translation>
-    </message>
-    <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="267"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="232"/>
         <source>Delete the selected functions</source>
         <translation>Elimina le funzioni selezionate</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="273"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="238"/>
         <source>Are you sure you want to delete the following items?</source>
         <translation>Sei sicuro di voler eliminare gli elementi seguenti?</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="280"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="245"/>
         <source>Delete items</source>
         <translation>Elimina elementi</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="295"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="260"/>
         <source>Rename the selected items</source>
         <translation>Rinomina gli elementi selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="304"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="276"/>
         <source>Rename items</source>
         <translation>Rinomina elementi</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="185"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="281"/>
         <source>An item with the same name already exists.
 Please provide a different name.</source>
         <translation>Esiste già un elemento con lo stesso nome.
 Si prega di assegnare un nome diverso.</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="318"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="296"/>
         <source>Clone the selected functions</source>
         <translation>Duplica le funzioni selezionate</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="330"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="308"/>
         <source>Show function usage</source>
         <translation>Mostra l&apos;utilizzo di una funzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="346"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="324"/>
         <source>Set/Unset autostart function</source>
         <translation>Imposta/Annulla una funzione di avvio automatico</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="364"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="342"/>
         <source>Function Preview</source>
         <translation>Preview della funzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/RightPanel.qml" line="385"/>
+        <location filename="qml/fixturesfunctions/RightPanel.qml" line="363"/>
         <source>Reset dump channels</source>
         <translation>Reset valori di scaricamento</translation>
     </message>
@@ -4065,12 +4017,12 @@ Si prega di assegnare un nome diverso.</translation>
         <translation>Aggiungi una fixture/gruppo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="192"/>
+        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="191"/>
         <source>Add a palette</source>
         <translation>Aggiungi una palette</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="231"/>
+        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="229"/>
         <source>Remove the selected items</source>
         <oldsource>Remove the selected fixtures</oldsource>
         <translation>Rimuovi le fixture selezionate</translation>
@@ -4086,17 +4038,17 @@ Si prega di assegnare un nome diverso.</translation>
         <translation>Sei sicuro di voler rimuovere gli elementi selezionati?</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="326"/>
+        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="324"/>
         <source>Speed</source>
         <translation>Velocità</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="339"/>
+        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="337"/>
         <source>Fade in</source>
         <translation>Fade in</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="372"/>
+        <location filename="qml/fixturesfunctions/SceneEditor.qml" line="370"/>
         <source>Fade out</source>
         <translation>Fade out</translation>
     </message>
@@ -4129,42 +4081,42 @@ Si prega di assegnare un nome diverso.</translation>
         <translation>Verifica sintassi</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="323"/>
+        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="322"/>
         <source>Start function</source>
         <translation>Avvia funzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="330"/>
+        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="329"/>
         <source>Stop function</source>
         <translation>Interrompi funzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="337"/>
+        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="336"/>
         <source>Set fixture channel</source>
         <translation>Imposta il canale di una fixture</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="344"/>
+        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="343"/>
         <source>Wait time</source>
         <translation>Tempo di attesa</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="351"/>
+        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="350"/>
         <source>Random number</source>
         <translation>Numero casuale</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="358"/>
+        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="357"/>
         <source>Blackout</source>
         <translation>Blackout</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="365"/>
+        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="364"/>
         <source>System command</source>
         <translation>Comando di sistema</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="372"/>
+        <location filename="qml/fixturesfunctions/ScriptEditor.qml" line="371"/>
         <source>File path</source>
         <translation>Persorso di un file</translation>
     </message>
@@ -4290,47 +4242,42 @@ Si prega di assegnare un nome diverso.</translation>
         <translation>Fixture selezionate</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="277"/>
+        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="276"/>
         <source>Gel color</source>
         <translation>Colore della gelatina</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="298"/>
-        <source>Fixed zoom</source>
-        <translation>Zoom fisso</translation>
-    </message>
-    <message>
-        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="316"/>
+        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="295"/>
         <source>Rotation</source>
         <translation>Rotazione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="348"/>
+        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="327"/>
         <source>Alignment</source>
         <translation>Allineamento</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="362"/>
+        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="341"/>
         <source>Align the selected items to the left</source>
         <translation>Allinea a sinistra gli elementi selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="372"/>
+        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="351"/>
         <source>Align the selected items to the top</source>
         <translation>Allinea in alto gli elementi selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="381"/>
+        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="360"/>
         <source>Distribution</source>
         <translation>Distribuzione</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="395"/>
+        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="374"/>
         <source>Equally distribute horizontally the selected items</source>
         <translation>Distribuisci equamente in orizzontale gli elementi selezionati</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="405"/>
+        <location filename="qml/fixturesfunctions/SettingsView2D.qml" line="384"/>
         <source>Equally distribute vertically the selected items</source>
         <translation>Distribuisci equamente in verticale gli elementi selezionati</translation>
     </message>
@@ -4480,7 +4427,7 @@ Si prega di assegnare un nome diverso.</translation>
     <name>ShowItem</name>
     <message>
         <location filename="qml/showmanager/ShowItem.qml" line="100"/>
-        <location filename="qml/showmanager/ShowItem.qml" line="318"/>
+        <location filename="qml/showmanager/ShowItem.qml" line="287"/>
         <source>Position: </source>
         <translation>Posizione: </translation>
     </message>
@@ -4607,24 +4554,24 @@ drag a function on the timeline</source>
 trascina una funzione sulla timeline</translation>
     </message>
     <message>
-        <location filename="showmanager.cpp" line="54"/>
+        <location filename="showmanager.cpp" line="47"/>
         <source>Show Manager</source>
         <translation>Show Manager</translation>
     </message>
     <message>
-        <location filename="showmanager.cpp" line="321"/>
+        <location filename="showmanager.cpp" line="304"/>
         <source>New Show</source>
         <translation>Nuovo show</translation>
     </message>
     <message>
-        <location filename="showmanager.cpp" line="347"/>
-        <location filename="showmanager.cpp" line="488"/>
+        <location filename="showmanager.cpp" line="330"/>
+        <location filename="showmanager.cpp" line="471"/>
         <source>Track %1</source>
         <translation>Traccia %1</translation>
     </message>
     <message>
-        <location filename="showmanager.cpp" line="898"/>
-        <location filename="showmanager.cpp" line="911"/>
+        <location filename="showmanager.cpp" line="881"/>
+        <location filename="showmanager.cpp" line="894"/>
         <source>(Copy)</source>
         <translation>(Copia)</translation>
     </message>
@@ -4642,17 +4589,17 @@ trascina una funzione sulla timeline</translation>
         <translation>Reimposta l&apos;intero universo</translation>
     </message>
     <message>
-        <location filename="qml/SimpleDesk.qml" line="266"/>
+        <location filename="qml/SimpleDesk.qml" line="261"/>
         <source>Reset the channel</source>
         <translation>Reimposta il canale</translation>
     </message>
     <message>
-        <location filename="qml/SimpleDesk.qml" line="303"/>
+        <location filename="qml/SimpleDesk.qml" line="298"/>
         <source>Fixture List</source>
         <translation>Lista di fixture</translation>
     </message>
     <message>
-        <location filename="qml/SimpleDesk.qml" line="367"/>
+        <location filename="qml/SimpleDesk.qml" line="362"/>
         <source>Commands history</source>
         <translation>Storico dei comandi</translation>
     </message>
@@ -4875,71 +4822,71 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
     <name>UniverseSummary</name>
     <message>
         <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="55"/>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="134"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="133"/>
         <source>Manufacturer</source>
         <translation>Produttore</translation>
     </message>
     <message>
         <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="64"/>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="135"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="134"/>
         <source>Model</source>
         <translation>Modello</translation>
     </message>
     <message>
         <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="73"/>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="138"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="137"/>
         <source>Weight</source>
         <translation>Peso</translation>
     </message>
     <message>
         <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="82"/>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="139"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="138"/>
         <source>Consumption</source>
         <translation>Consumo</translation>
     </message>
     <message>
         <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="91"/>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="140"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="139"/>
         <source>DIP switch</source>
         <translation>DIP switch</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="102"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="101"/>
         <source>Print the universe summary</source>
         <translation>Stampa il sommario dell&apos;universo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="133"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="132"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="136"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="135"/>
         <source>Address</source>
         <translation>Indirizzo</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="137"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="136"/>
         <source>Channels</source>
         <translation>Canali</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="304"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="303"/>
         <source>Summary</source>
         <translation>Sommario</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="313"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="312"/>
         <source>DMX channels used:</source>
         <translation>Canali DMX usati:</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="327"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="326"/>
         <source>Total weight:</source>
         <translation>Peso totale:</translation>
     </message>
     <message>
-        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="341"/>
+        <location filename="qml/fixturesfunctions/UniverseSummary.qml" line="340"/>
         <source>Estimated power consumption:</source>
         <translation>Consumo totale stimato:</translation>
     </message>
@@ -5046,125 +4993,28 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
 <context>
     <name>VCAudioTrigger</name>
     <message>
-        <source>Audio Trigger %1</source>
-        <translation type="vanished">Impulsi Audio %1</translation>
-    </message>
-</context>
-<context>
-    <name>VCAudioTriggerProperties</name>
-    <message>
-        <source>Audio Trigger Properties</source>
-        <translation type="vanished">Proprietà Impulsi Audio</translation>
-    </message>
-</context>
-<context>
-    <name>VCAudioTriggers</name>
-    <message>
-        <location filename="virtualconsole/vcaudiotriggers.cpp" line="65"/>
-        <source>Enable Capture</source>
-        <translation>Abilita l&apos;acquisizione</translation>
-    </message>
-    <message>
-        <location filename="virtualconsole/vcaudiotriggers.cpp" line="66"/>
-        <source>Volume Control</source>
-        <translation>Controllo del volume</translation>
-    </message>
-    <message>
-        <location filename="virtualconsole/vcaudiotriggers.cpp" line="85"/>
+        <location filename="virtualconsole/vcaudiotrigger.cpp" line="41"/>
         <source>Audio Trigger %1</source>
         <translation>Impulsi Audio %1</translation>
     </message>
 </context>
 <context>
-    <name>VCAudioTriggersItem</name>
+    <name>VCAudioTriggerProperties</name>
     <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersItem.qml" line="101"/>
-        <source>Enable/Disable the audio capture</source>
-        <translation>Abilita/Disabilita l&apos;acquisizione audio</translation>
-    </message>
-</context>
-<context>
-    <name>VCAudioTriggersProperties</name>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="59"/>
-        <source>Activation threshold</source>
-        <translation>Soglia di attivazione</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="74"/>
-        <source>Deactivation threshold</source>
-        <translation>Soglia di disattivazione</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="97"/>
-        <source>Spectrum Bars</source>
-        <translation>Barre dello spettro</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="111"/>
-        <source>Number of bars</source>
-        <translation>Numero di barre</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="149"/>
-        <source>Name</source>
-        <translation>Nome</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="158"/>
-        <source>Type</source>
-        <translation>Tipo</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="168"/>
-        <source>Information</source>
-        <translation>Informazioni</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="191"/>
-        <source>None</source>
-        <translation>Nessuno</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="192"/>
-        <source>DMX</source>
-        <translation>DMX</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="193"/>
-        <source>Function</source>
-        <translation>Funzione</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="194"/>
-        <source>Widget</source>
-        <translation>Oggetto</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="255"/>
-        <source>Channels</source>
-        <translation>Canali</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="256"/>
-        <source>Thresholds:</source>
-        <translation>Soglie:</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCAudioTriggersProperties.qml" line="302"/>
-        <source>Drop a Function here</source>
-        <translation>Rilascia una funzione qui</translation>
+        <location filename="qml/virtualconsole/VCAudioTriggerProperties.qml" line="46"/>
+        <source>Audio Trigger Properties</source>
+        <translation>Proprietà Impulsi Audio</translation>
     </message>
 </context>
 <context>
     <name>VCButton</name>
     <message>
-        <location filename="virtualconsole/vcbutton.cpp" line="66"/>
+        <location filename="virtualconsole/vcbutton.cpp" line="43"/>
         <source>Pressure</source>
         <translation>Pressione</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcbutton.cpp" line="77"/>
+        <location filename="virtualconsole/vcbutton.cpp" line="54"/>
         <source>Button %1</source>
         <translation>Pulsante %1</translation>
     </message>
@@ -5236,7 +5086,7 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
 <context>
     <name>VCClock</name>
     <message>
-        <location filename="virtualconsole/vcclock.cpp" line="77"/>
+        <location filename="virtualconsole/vcclock.cpp" line="75"/>
         <source>Clock %1</source>
         <translation>Orologio %1</translation>
     </message>
@@ -5244,7 +5094,7 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
 <context>
     <name>VCClockItem</name>
     <message>
-        <location filename="qml/virtualconsole/VCClockItem.qml" line="154"/>
+        <location filename="qml/virtualconsole/VCClockItem.qml" line="151"/>
         <source>Enable/Disable this scheduler</source>
         <translation>Abilita/Disabilita questa programmazione</translation>
     </message>
@@ -5513,32 +5363,32 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
 <context>
     <name>VCFrame</name>
     <message>
-        <location filename="virtualconsole/vcframe.cpp" line="57"/>
+        <location filename="virtualconsole/vcframe.cpp" line="63"/>
         <source>Next Page</source>
         <translation>Pagina successiva</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcframe.cpp" line="58"/>
+        <location filename="virtualconsole/vcframe.cpp" line="64"/>
         <source>Previous Page</source>
         <translation>Pagina precedente</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcframe.cpp" line="59"/>
+        <location filename="virtualconsole/vcframe.cpp" line="65"/>
         <source>Enable</source>
         <translation>Abilita</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcframe.cpp" line="60"/>
+        <location filename="virtualconsole/vcframe.cpp" line="66"/>
         <source>Collapse</source>
         <translation>Contrai</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcframe.cpp" line="82"/>
+        <location filename="virtualconsole/vcframe.cpp" line="88"/>
         <source>Frame %1</source>
         <translation>Frame %1</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcframe.cpp" line="760"/>
+        <location filename="virtualconsole/vcframe.cpp" line="752"/>
         <source>Page %1</source>
         <translation>Pagina %1</translation>
     </message>
@@ -5584,48 +5434,38 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
         <translation>Mostra il pulsante di abilitazione</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="90"/>
-        <source>Solo Frame Options</source>
-        <translation>Opzioni del frame esclusivo</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="105"/>
-        <source>Exclude monitored functions</source>
-        <translation>Escludi le funzioni monitorizzate</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="120"/>
+        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="89"/>
         <source>Pages</source>
         <translation>Pagine</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="135"/>
+        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="104"/>
         <source>Enable pages</source>
         <translation>Abilita pagine</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="151"/>
+        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="120"/>
         <source>Circular pages scrolling</source>
         <translation>Scorrimento circolare delle pagine</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="171"/>
+        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="140"/>
         <source>Pages number</source>
         <translation>Numero di pagine</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="191"/>
+        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="160"/>
         <source>Clone first page widgets</source>
         <translation>Clona il contenuto della prima pagina</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="199"/>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="215"/>
+        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="168"/>
+        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="184"/>
         <source>Shortcuts</source>
         <translation>Scorciatoie</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="231"/>
+        <location filename="qml/virtualconsole/VCFrameProperties.qml" line="200"/>
         <source>Shortcut name</source>
         <translation>Nome della scorciatoia</translation>
     </message>
@@ -5641,12 +5481,12 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
 <context>
     <name>VCPage</name>
     <message>
-        <location filename="virtualconsole/vcpage.cpp" line="54"/>
+        <location filename="virtualconsole/vcpage.cpp" line="46"/>
         <source>Page %1</source>
         <translation>Pagina %1</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcpage.cpp" line="42"/>
+        <location filename="virtualconsole/vcpage.cpp" line="34"/>
         <source>Virtual Console Page %1</source>
         <translation>Pagina %1 Console Virtuale</translation>
     </message>
@@ -5755,27 +5595,27 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
 <context>
     <name>VCSlider</name>
     <message>
-        <location filename="virtualconsole/vcslider.cpp" line="105"/>
+        <location filename="virtualconsole/vcslider.cpp" line="74"/>
         <source>Slider Control</source>
         <translation>Controllo fader</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcslider.cpp" line="106"/>
+        <location filename="virtualconsole/vcslider.cpp" line="75"/>
         <source>Reset Control</source>
         <translation>Controllo del reset</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcslider.cpp" line="107"/>
+        <location filename="virtualconsole/vcslider.cpp" line="76"/>
         <source>Flash Control</source>
         <translation>Controllo di flash</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcslider.cpp" line="127"/>
+        <location filename="virtualconsole/vcslider.cpp" line="96"/>
         <source>Slider %1</source>
         <translation>Slider %1</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcslider.cpp" line="129"/>
+        <location filename="virtualconsole/vcslider.cpp" line="98"/>
         <source>Knob %1</source>
         <translation>Manopola %1</translation>
     </message>
@@ -5950,7 +5790,7 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
 <context>
     <name>VCSoloFrame</name>
     <message>
-        <location filename="virtualconsole/vcsoloframe.cpp" line="36"/>
+        <location filename="virtualconsole/vcsoloframe.cpp" line="34"/>
         <source>Solo Frame %1</source>
         <translation>Frame esclusivo %1</translation>
     </message>
@@ -6036,7 +5876,7 @@ Non c&apos;è abbastanza spazio o l&apos;universo di destinazione non è valido<
 <context>
     <name>VCSpeedDialItem</name>
     <message>
-        <location filename="qml/virtualconsole/VCSpeedDialItem.qml" line="409"/>
+        <location filename="qml/virtualconsole/VCSpeedDialItem.qml" line="394"/>
         <source>Apply</source>
         <translation>Applica</translation>
     </message>
@@ -6275,13 +6115,13 @@ sull&apos;oggetto per popolare questa lista</translation>
         <translation>Sconosciuto</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcwidget.cpp" line="727"/>
+        <location filename="virtualconsole/vcwidget.cpp" line="720"/>
         <source>From plugin settings</source>
         <translation>Dalle impostazioni della plugin</translation>
     </message>
     <message>
-        <location filename="virtualconsole/vcwidget.cpp" line="930"/>
-        <location filename="virtualconsole/vcwidget.cpp" line="931"/>
+        <location filename="virtualconsole/vcwidget.cpp" line="923"/>
+        <location filename="virtualconsole/vcwidget.cpp" line="924"/>
         <source>None</source>
         <translation>Nessuno</translation>
     </message>
@@ -6382,37 +6222,7 @@ sull&apos;oggetto per popolare questa lista</translation>
 <context>
     <name>VCXYPad</name>
     <message>
-        <location filename="virtualconsole/vcxypad.cpp" line="85"/>
-        <source>Pan / Horizontal axis</source>
-        <translation>Pan / Asse orizzontale</translation>
-    </message>
-    <message>
-        <location filename="virtualconsole/vcxypad.cpp" line="86"/>
-        <source>Pan fine</source>
-        <translation>Pan fine</translation>
-    </message>
-    <message>
-        <location filename="virtualconsole/vcxypad.cpp" line="87"/>
-        <source>Tilt / Vertical axis</source>
-        <translation>Tilt / Asse verticale</translation>
-    </message>
-    <message>
-        <location filename="virtualconsole/vcxypad.cpp" line="88"/>
-        <source>Tilt fine</source>
-        <translation>Tilt fine</translation>
-    </message>
-    <message>
-        <location filename="virtualconsole/vcxypad.cpp" line="89"/>
-        <source>Width</source>
-        <translation>Larghezza</translation>
-    </message>
-    <message>
-        <location filename="virtualconsole/vcxypad.cpp" line="90"/>
-        <source>Height</source>
-        <translation>Altezza</translation>
-    </message>
-    <message>
-        <location filename="virtualconsole/vcxypad.cpp" line="118"/>
+        <location filename="virtualconsole/vcxypad.cpp" line="41"/>
         <source>XY Pad %1</source>
         <translation>Pad XY %1</translation>
     </message>
@@ -6420,73 +6230,9 @@ sull&apos;oggetto per popolare questa lista</translation>
 <context>
     <name>VCXYPadProperties</name>
     <message>
+        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="46"/>
         <source>XY Pad Properties</source>
-        <translation type="vanished">Proprietà del pad XY</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="50"/>
-        <source>Display Properties</source>
-        <translation>Proprietà di visualizzazione</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="65"/>
-        <source>Inverted Y-Axis</source>
-        <translation>Asse Y invertito</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="80"/>
-        <source>Range Display Mode</source>
-        <translation>Modalità di visualizzazione dell&apos;intervallo</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="106"/>
-        <source>Degrees</source>
-        <translation>Gradi</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="122"/>
-        <source>Percentage</source>
-        <translation>Percentuale</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="138"/>
-        <source>DMX</source>
-        <translation>DMX</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="147"/>
-        <source>Fixtures</source>
-        <translation>Fixture</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="176"/>
-        <source>Add a fixture/head</source>
-        <translation>Aggiungi fixture/emettitore</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="204"/>
-        <source>Remove the selected fixture head(s)</source>
-        <translation>Rimuovi gli emettitori delle fixture selezionate</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="215"/>
-        <source>Fixture</source>
-        <translation>Fixture</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="231"/>
-        <source>X-Axis Range</source>
-        <translation>Intervallo dell&apos;asse X</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="246"/>
-        <source>Y-Axis Range</source>
-        <translation>Intervallo dell&apos;asse Y</translation>
-    </message>
-    <message>
-        <location filename="qml/virtualconsole/VCXYPadProperties.qml" line="365"/>
-        <source>Add a new fixture</source>
-        <translation>Aggiungi una nuova fixture</translation>
+        <translation>Proprietà del pad XY</translation>
     </message>
 </context>
 <context>
@@ -6640,57 +6386,57 @@ sull&apos;oggetto per popolare questa lista</translation>
 <context>
     <name>VirtualConsole</name>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="181"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="175"/>
         <source>Error</source>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="182"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="176"/>
         <source>Invalid PIN entered</source>
         <translation>Il PIN inserito non è corretto</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="195"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="189"/>
         <source>Enable/Disable widgets snapping</source>
         <translation>Abilita/Disabilita l&apos;ancoraggio dei widget</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="240"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="234"/>
         <source>Widget matrix setup</source>
         <translation>Configurazione matrice di widget</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="252"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="246"/>
         <source>Columns</source>
         <translation>Colonne</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="261"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="255"/>
         <source>Rows</source>
         <translation>Righe</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="270"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="264"/>
         <source>Width</source>
         <translation>Larghezza</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="280"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="274"/>
         <source>Height</source>
         <translation>Altezza</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="297"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="291"/>
         <source>Frame type</source>
         <translation>Tipo di frame</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="306"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="300"/>
         <source>Normal</source>
         <translation>Normale</translation>
     </message>
     <message>
-        <location filename="qml/virtualconsole/VirtualConsole.qml" line="314"/>
+        <location filename="qml/virtualconsole/VirtualConsole.qml" line="308"/>
         <source>Solo</source>
         <translation>Esclusivo</translation>
     </message>
@@ -6700,12 +6446,12 @@ sull&apos;oggetto per popolare questa lista</translation>
         <translation>Console Virtuale</translation>
     </message>
     <message>
-        <location filename="virtualconsole/virtualconsole.cpp" line="268"/>
+        <location filename="virtualconsole/virtualconsole.cpp" line="257"/>
         <source>&lt;None&gt;</source>
         <translation>&lt;Nessuno&gt;</translation>
     </message>
     <message>
-        <location filename="virtualconsole/virtualconsole.cpp" line="1303"/>
+        <location filename="virtualconsole/virtualconsole.cpp" line="1217"/>
         <source>Page %1</source>
         <translation>Pagina %1</translation>
     </message>

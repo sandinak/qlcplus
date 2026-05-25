@@ -31,7 +31,7 @@ extern "C"
  * @{
  */
 
-class AudioCaptureAlsa final : public AudioCapture
+class AudioCaptureAlsa : public AudioCapture
 {
     Q_OBJECT
 public:
@@ -39,23 +39,23 @@ public:
     ~AudioCaptureAlsa();
 
     /** @reimpl */
-    qint64 latency() const override;
+    qint64 latency();
 
 protected:
     /** @reimpl */
-    bool initialize() override;
+    bool initialize();
 
     /** @reimpl */
-    virtual void uninitialize() override;
+    virtual void uninitialize();
 
     /** @reimpl */
-    void suspend() override;
+    void suspend();
 
     /** @reimpl */
-    void resume() override;
+    void resume();
 
     /** @reimpl */
-    bool readAudio(int maxSize) override;
+    bool readAudio(int maxSize);
 
 private:
     snd_pcm_t *m_captureHandle;

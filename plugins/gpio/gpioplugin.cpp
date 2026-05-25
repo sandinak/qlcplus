@@ -77,7 +77,7 @@ void GPIOPlugin::init()
         updateLinesList();
 }
 
-QString GPIOPlugin::name() const
+QString GPIOPlugin::name()
 {
     return QString("GPIO");
 }
@@ -90,7 +90,7 @@ int GPIOPlugin::capabilities() const
     return QLCIOPlugin::Output | QLCIOPlugin::Input;
 }
 
-QString GPIOPlugin::pluginInfo() const
+QString GPIOPlugin::pluginInfo()
 {
     QString str;
 
@@ -240,7 +240,7 @@ QList<GPIOLineInfo *> GPIOPlugin::gpioList() const
     return m_gpioList;
 }
 
-QString GPIOPlugin::lineDirectionToString(GPIOPlugin::LineDirection usage) const
+QString GPIOPlugin::lineDirectionToString(GPIOPlugin::LineDirection usage)
 {
     switch(usage)
     {
@@ -251,7 +251,7 @@ QString GPIOPlugin::lineDirectionToString(GPIOPlugin::LineDirection usage) const
     return QString("NotUsed");
 }
 
-GPIOPlugin::LineDirection GPIOPlugin::stringToLineDirection(QString usage) const
+GPIOPlugin::LineDirection GPIOPlugin::stringToLineDirection(QString usage)
 {
     if (usage == "Output") return OutputDirection;
     else if (usage == "Input") return InputDirection;
@@ -403,7 +403,7 @@ void GPIOPlugin::configure()
     }
 }
 
-bool GPIOPlugin::canConfigure() const
+bool GPIOPlugin::canConfigure()
 {
     return true;
 }

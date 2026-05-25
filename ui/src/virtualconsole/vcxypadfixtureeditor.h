@@ -29,7 +29,7 @@
  * @{
  */
 
-class VCXYPadFixtureEditor final : public QDialog, public Ui_VCXYPadFixtureEditor
+class VCXYPadFixtureEditor : public QDialog, public Ui_VCXYPadFixtureEditor
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCXYPadFixtureEditor)
@@ -42,7 +42,7 @@ public:
     ~VCXYPadFixtureEditor();
 
 protected slots:
-    void accept() override;
+    void accept();
 
     void slotXMinChanged(int value);
     void slotXMaxChanged(int value);

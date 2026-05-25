@@ -66,10 +66,10 @@ class Doc;
 #define KXMLQLCVCXYPadRangeVertMin  QStringLiteral("vMin")
 #define KXMLQLCVCXYPadRangeVertMax  QStringLiteral("vMax")
 
-#define KXMLQLCVCXYPadPositionX QStringLiteral("X") // Legacy
-#define KXMLQLCVCXYPadPositionY QStringLiteral("Y") // Legacy
+#define KXMLQLCVCXYPadPositionX "X" // Legacy
+#define KXMLQLCVCXYPadPositionY "Y" // Legacy
 
-#define KXMLQLCVCXYPadInvertedAppearance QStringLiteral("InvertedAppearance")
+#define KXMLQLCVCXYPadInvertedAppearance "InvertedAppearance"
 
 typedef struct
 {
@@ -80,7 +80,7 @@ typedef struct
     QLCChannel::ControlByte m_subType;
 } SceneChannel;
 
-class VCXYPad final : public VCWidget, public DMXSource
+class VCXYPad : public VCWidget, public DMXSource
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCXYPad)
@@ -101,7 +101,7 @@ public:
     virtual ~VCXYPad();
 
     /** @reimp */
-    void enableWidgetUI(bool enable) override;
+    void enableWidgetUI(bool enable);
 
 private:
     QVBoxLayout *m_mainVbox;  // main vertical layout
@@ -121,17 +121,17 @@ private:
      *************************************************************************/
 public:
     /** @reimp */
-    VCWidget* createCopy(VCWidget* parent) const override;
+    VCWidget* createCopy(VCWidget* parent);
 
     /** @reimp */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
     /*************************************************************************
      * Caption
      *************************************************************************/
 public:
     /** @reimp */
-    void setCaption(const QString& text) override;
+    void setCaption(const QString& text);
 
     /*********************************************************************
      * Y-Axis Inverted appearance
@@ -145,7 +145,7 @@ public:
      *************************************************************************/
 public:
     /** @reimp */
-    void editProperties() override;
+    void editProperties();
 
     /*************************************************************************
      * Fixtures
@@ -185,7 +185,7 @@ private:
      *************************************************************************/
 public:
     /** @reimp */
-    void writeDMX(MasterTimer* timer, QList<Universe*> universes) override;
+    void writeDMX(MasterTimer* timer, QList<Universe*> universes);
 
 protected:
     void writeXYFixtures(MasterTimer* timer, QList<Universe*> universes);
@@ -244,15 +244,15 @@ protected:
      * External input
      *********************************************************************/
 public:
-    void updateFeedback() override;
+    void updateFeedback();
 
 protected:
     void updatePosition();
 
 protected slots:
     /** Called when an external input device produces input data */
-    void slotInputValueChanged(quint32 universe, quint32 channel, uchar value) override;
-    void slotKeyPressed(const QKeySequence& keySequence) override;
+    void slotInputValueChanged(quint32 universe, quint32 channel, uchar value);
+    void slotKeyPressed(const QKeySequence& keySequence);
 
 private:
     QRect m_lastPos;
@@ -262,17 +262,17 @@ private:
      *************************************************************************/
 protected slots:
     /** @reimp */
-    void slotModeChanged(Doc::Mode mode) override;
+    void slotModeChanged(Doc::Mode mode);
 
     /*************************************************************************
      * Load & Save
      *************************************************************************/
 public:
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) override;
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 /** @} */

@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class QLCInputProfile_Test final : public QObject
+class QLCInputProfile_Test : public QObject
 {
     Q_OBJECT
 

@@ -24,9 +24,8 @@
 
 class Doc;
 class EditorView;
-class QLCFixtureDef;
 
-class FixtureEditor final : public QObject
+class FixtureEditor : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVariantList editorsList READ editorsList NOTIFY editorsListChanged)
@@ -61,9 +60,6 @@ public:
 signals:
     void editorsListChanged();
     void workingPathChanged(QString workingPath);
-
-protected slots:
-    void slotReloadFixture(QLCFixtureDef *def);
 
 private:
     /** Reference to the QML view root */

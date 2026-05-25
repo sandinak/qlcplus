@@ -43,6 +43,7 @@ AudioEditor::AudioEditor(QWidget* parent, Audio *audio, Doc* doc)
     setupUi(this);
 
     m_nameEdit->setText(m_audio->name());
+    m_nameEdit->setSelection(0, m_nameEdit->text().length());
 
     m_fadeInEdit->setText(Function::speedToString(audio->fadeInSpeed()));
     m_fadeOutEdit->setText(Function::speedToString(audio->fadeOutSpeed()));
@@ -120,6 +121,9 @@ AudioEditor::AudioEditor(QWidget* parent, Audio *audio, Doc* doc)
             this, SLOT(slotLoopCheckClicked()));
     connect(m_singleCheck, SIGNAL(clicked()),
             this, SLOT(slotSingleShotCheckClicked()));
+
+    // Set focus to the editor
+    m_nameEdit->setFocus();
 }
 
 AudioEditor::~AudioEditor()

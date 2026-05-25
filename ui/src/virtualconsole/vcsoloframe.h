@@ -33,11 +33,10 @@ class Doc;
  * @{
  */
 
-#define KXMLQLCVCSoloFrame          QStringLiteral("SoloFrame")
-#define KXMLQLCVCSoloFrameMixing    QStringLiteral("Mixing")
-#define KXMLQLCVCSoloFrameExclude   QStringLiteral("ExcludeMonitored")
+#define KXMLQLCVCSoloFrame       QStringLiteral("SoloFrame")
+#define KXMLQLCVCSoloFrameMixing QStringLiteral("Mixing")
 
-class VCSoloFrame final : public VCFrame
+class VCSoloFrame : public VCFrame
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCSoloFrame)
@@ -54,11 +53,11 @@ public:
      *************************************************************************/
 public:
     /** @reimp */
-    virtual VCWidget* createCopy(VCWidget* parent) const override;
+    virtual VCWidget* createCopy(VCWidget* parent);
 
 protected:
     /** Copy the contents for this widget from another widget */
-    virtual bool copyFrom(const VCWidget* widget) override;
+    virtual bool copyFrom(const VCWidget* widget);
 
     /*************************************************************************
     * Solo behaviour
@@ -75,10 +74,10 @@ protected:
     bool thisIsNearestSoloFrameParent(QWidget* widget);
 
     /** @reimp */
-    virtual void setLiveEdit(bool liveEdit) override;
+    virtual void setLiveEdit(bool liveEdit);
 
 protected slots:
-    virtual void slotModeChanged(Doc::Mode mode) override;
+    virtual void slotModeChanged(Doc::Mode mode);
 
     /** Slot called when a Function attached to a widget has
      *  been requested to start.
@@ -88,34 +87,26 @@ protected slots:
     /*****************************************************************************
      * Properties
      *****************************************************************************/
+protected:
+    /** @reimp */
+    virtual void editProperties();
+
+    bool m_soloframeMixing;
 public:
     bool soloframeMixing() const;
     void setSoloframeMixing(bool soloframeMixing);
-
-    /** Get/Set a behaviour to prevent stopping Functions controlled
-     *  by VC Buttons even if they are monitored */
-    bool excludeMonitoredFunctions() const;
-    void setExcludeMonitoredFunctions(bool exclude);
-
-protected:
-    /** @reimp */
-    virtual void editProperties() override;
-
-protected:
-    bool m_soloframeMixing;
-    bool m_excludeMonitored;
 
     /*************************************************************************
      * Load & Save
      *************************************************************************/
 protected:
-    virtual QString xmlTagName() const override;
+    virtual QString xmlTagName() const;
 
     /*************************************************************************
      * Event handlers
      *************************************************************************/
 protected:
-    virtual void paintEvent(QPaintEvent* e) override;
+    virtual void paintEvent(QPaintEvent* e);
 
 };
 

@@ -38,48 +38,6 @@ Rectangle
         nameEdit.selectAndFocus()
     }
 
-    function updateChannelToolbarPosition()
-    {
-        var toolbar = channelSection.loadedItem.toolbar
-
-        if (!channelSection.visible || !toolbar)
-            return
-
-        // channelSection top in the Flickable's visible coordinates
-        var topInFlick = channelSection.mapToItem(editorFlickable, 0, 0).y
-        var bottomInFlick = topInFlick + channelSection.height
-
-        // We want the toolbar floating when:
-        //  - the top of the section is above the top of the viewport (topInFlick < 0)
-        //  - but some part of the section (below the toolbar) is still visible
-        var shouldFloat =
-                (topInFlick < 0) &&
-                (bottomInFlick > 0 + toolbar.height)
-
-        if (shouldFloat)
-        {
-            // detach and parent to the Flickable to pin it at y = 0
-            if (toolbar.parent !== editorFlickable)
-            {
-                toolbar.parent = editorFlickable
-                toolbar.x = channelSection.x      // align with section
-                toolbar.y = 0                     // stick to top
-                toolbar.z = 100                   // above list items
-            }
-        }
-        else
-        {
-            // put it back into the section contents at its natural place
-            if (toolbar.parent !== channelSection.loadedItem)
-            {
-                toolbar.parent = channelSection.loadedItem.tContainer
-                toolbar.x = 0
-                toolbar.y = 0
-                toolbar.z = 0
-            }
-        }
-    }
-
     ModelSelector
     {
         id: modeChanSelector
@@ -120,13 +78,10 @@ Rectangle
                     Layout.fillWidth: true
                     Layout.columnSpan: 3
                     text: mode ? mode.name : ""
-                    onTextEdited: if (mode) mode.name = text
+                    onTextChanged: if (mode) mode.name = text
                 }
             }
 
-            // *********************************************************************
-            //                                CHANNELS
-            // *********************************************************************
             SectionBox
             {
                 id: channelSection
@@ -140,77 +95,69 @@ Rectangle
                         height: chEditToolbar.height + Math.max(channelList.height + UISettings.listItemHeight, UISettings.bigItemHeight)
                         color: "transparent"
 
-                        property alias tContainer: toolbarContainer
-                        property alias toolbar: chEditToolbar
-
-                        Item
+                        Rectangle
                         {
-                            id: toolbarContainer
-
-                            Rectangle
+                            id: chEditToolbar
+                            width: channelSection.width
+                            height: UISettings.iconSizeDefault
+                            gradient: Gradient
                             {
-                                id: chEditToolbar
-                                width: channelSection.width
-                                height: UISettings.iconSizeDefault
-                                gradient: Gradient
+                                GradientStop { position: 0; color: UISettings.toolbarStartSub }
+                                GradientStop { position: 1; color: UISettings.toolbarEnd }
+                            }
+
+                            RowLayout
+                            {
+                                anchors.fill: parent
+
+                                IconButton
                                 {
-                                    GradientStop { position: 0; color: UISettings.toolbarStartSub }
-                                    GradientStop { position: 1; color: UISettings.toolbarEnd }
+                                    id: newChButton
+                                    faSource: FontAwesome.fa_certificate
+                                    faColor: UISettings.fgMain
+                                    tooltip: qsTr("Create a new emitter")
+                                    enabled: modeChanSelector.itemsCount
+
+                                    onClicked:
+                                    {
+                                        mode.addHead(modeChanSelector.itemsList())
+                                    }
+
+                                    Image
+                                    {
+                                        x: parent.width - width - 2
+                                        y: 2
+                                        width: parent.height / 2
+                                        height: width
+                                        source: "qrc:/add.svg"
+                                        sourceSize: Qt.size(width, height)
+                                    }
                                 }
 
-                                RowLayout
+                                IconButton
                                 {
-                                    anchors.fill: parent
+                                    id: delChButton
+                                    faSource: FontAwesome.fa_minus
+                                    faColor: "crimson"
+                                    tooltip: qsTr("Remove the selected channel(s)")
+                                    enabled: modeChanSelector.itemsCount
 
-                                    IconButton
+                                    onClicked:
                                     {
-                                        id: newChButton
-                                        faSource: FontAwesome.fa_certificate
-                                        faColor: UISettings.fgMain
-                                        tooltip: qsTr("Create a new emitter")
-                                        enabled: modeChanSelector.itemsCount
+                                        for (var i = 0; i < mcDragItem.itemsList.length; i++)
+                                            mode.deleteChannel(mcDragItem.itemsList[i].cRef)
 
-                                        onClicked:
-                                        {
-                                            mode.addHead(modeChanSelector.itemsList())
-                                        }
-
-                                        Image
-                                        {
-                                            x: parent.width - width - 2
-                                            y: 2
-                                            width: parent.height / 2
-                                            height: width
-                                            source: "qrc:/add.svg"
-                                            sourceSize: Qt.size(width, height)
-                                        }
-                                    }
-
-                                    IconButton
-                                    {
-                                        id: delChButton
-                                        faSource: FontAwesome.fa_minus
-                                        faColor: "crimson"
-                                        tooltip: qsTr("Remove the selected channel(s)")
-                                        enabled: modeChanSelector.itemsCount
-
-                                        onClicked:
-                                        {
-                                            for (var i = 0; i < mcDragItem.itemsList.length; i++)
-                                                mode.deleteChannel(mcDragItem.itemsList[i].cRef)
-
-                                            mcDragItem.itemsList = []
-                                        }
-                                    }
-
-                                    Rectangle
-                                    {
-                                        Layout.fillWidth: true
-                                        color: "transparent"
+                                        mcDragItem.itemsList = []
                                     }
                                 }
-                            } // Rectangle - toolbar
-                        } // Item - toolbar container
+
+                                Rectangle
+                                {
+                                    Layout.fillWidth: true
+                                    color: "transparent"
+                                }
+                            }
+                        } // Rectangle - toolbar
 
                         Rectangle
                         {
@@ -289,7 +236,7 @@ Rectangle
                                         drag.target: mcDragItem
                                         drag.threshold: height / 2
 
-                                        onPressed: (mouse) =>
+                                        onPressed:
                                         {
                                             var posnInWindow = mcDelegate.mapToItem(channelList, mcDelegate.x, mcDelegate.y)
                                             mcDragItem.parent = channelList
@@ -421,7 +368,7 @@ Rectangle
                                 }
                                 channelList.dragInsertIndex = -1
                             }
-                            onPositionChanged: (drag) =>
+                            onPositionChanged:
                             {
                                 var yInList = drag.y - chEditToolbar.height - UISettings.listItemHeight
                                 var idx = channelList.indexAt(drag.x, yInList)
@@ -440,9 +387,6 @@ Rectangle
                     }
             }
 
-            // *********************************************************************
-            //                                EMITTERS
-            // *********************************************************************
             SectionBox
             {
                 id: headSection
@@ -531,7 +475,7 @@ Rectangle
                                     MouseArea
                                     {
                                         anchors.fill: parent
-                                        onClicked: (mouse) =>
+                                        onClicked:
                                         {
                                             modeHeadSelector.selectItem(index, headList.model, mouse.modifiers)
                                         }
@@ -584,9 +528,6 @@ Rectangle
                     }
             }
 
-            // *********************************************************************
-            //                                PHYSICAL
-            // *********************************************************************
             SectionBox
             {
                 id: physicalSection
@@ -632,11 +573,6 @@ Rectangle
             }
         }
 
-        ScrollBar.vertical:
-            CustomScrollBar
-            {
-                id: sbar
-                onPositionChanged: editorRoot.updateChannelToolbarPosition()
-            }
+        ScrollBar.vertical: CustomScrollBar { id: sbar }
     } // Flickable
 }

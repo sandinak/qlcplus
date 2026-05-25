@@ -32,7 +32,7 @@
  * application will be started. This kind of launcher is needed only for OSX
  * because application bundles can launch only one binary program.
  */
-class Launcher final : public QWidget
+class Launcher : public QWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY(Launcher)
@@ -64,7 +64,7 @@ private:
 
 protected:
     /** Acts as QApplication's event filter for QFileOpen events */
-    bool eventFilter(QObject* object, QEvent* event) override;
+    bool eventFilter(QObject* object, QEvent* event);
 };
 
 #endif

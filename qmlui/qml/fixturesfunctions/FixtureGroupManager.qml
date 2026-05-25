@@ -43,9 +43,6 @@ Rectangle
 
     function updateButtons(itemType, itemID)
     {
-        if (itemType === App.ChannelDragItem || itemType === App.HeadDragItem)
-            return
-
         // update info button
         infoButton.enabled = itemType !== App.HeadDragItem ? true : false
         updateInfoView(infoButton.checked)
@@ -123,15 +120,12 @@ Rectangle
                     previousView = ""
                 }
 
-                if (fixtureManager.propertyEditEnabled !== checked)
-                {
-                    if (checked)
-                        leftSidePanel.width += UISettings.sidePanelWidth
-                    else
-                        leftSidePanel.width -= UISettings.sidePanelWidth
+                if (checked)
+                    leftSidePanel.width += UISettings.sidePanelWidth
+                else
+                    leftSidePanel.width -= UISettings.sidePanelWidth
 
-                    fixtureManager.propertyEditEnabled = checked
-                }
+                fixtureManager.propertyEditEnabled = checked
             }
             break
             case App.FixtureGroupDragItem:
@@ -243,16 +237,16 @@ Rectangle
                             switch (item.itemType)
                             {
                                 case App.UniverseDragItem:
-                                break
+                                break;
                                 case App.FixtureGroupDragItem:
                                     fxGroupDeleteList.push(item.cRef.id)
-                                break
+                                break;
                                 case App.FixtureDragItem:
                                     if (item.inGroup)
                                         fixtureManager.deleteFixtureInGroup(item.subID, item.itemID, item.nodePath)
                                     else
                                         fxDeleteList.push(item.itemID)
-                                break
+                                break;
                             }
                         }
 
@@ -469,7 +463,7 @@ Rectangle
                 selectionColor: UISettings.highlightPressed
                 selectByMouse: true
 
-                onTextEdited: modelProvider ? modelProvider.searchFilter = text : fixtureManager.searchFilter = text
+                onTextChanged: modelProvider ? modelProvider.searchFilter = text : fixtureManager.searchFilter = text
             }
         }
 
@@ -570,17 +564,17 @@ Rectangle
                                     {
                                         case App.FixtureDragItem:
                                             contextManager.setFixtureSelection(iID, -1, true)
-                                        break
+                                        break;
                                         case App.HeadDragItem:
                                             itemID = qItem.itemID
-                                            contextManager.setFixtureSelection(qItem.itemID, iID, true)
-                                        break
+                                            contextManager.setFixtureSelection(qItem.itemID, iID, true);
+                                        break;
                                         case App.UniverseDragItem:
                                             contextManager.setFixtureGroupSelection(iID, true, true)
-                                        break
+                                        break;
                                         case App.FixtureGroupDragItem:
                                             contextManager.setFixtureGroupSelection(iID, true, false)
-                                        break
+                                        break;
                                     }
 
                                     updateButtons(qItem.itemType, itemID)
@@ -607,20 +601,6 @@ Rectangle
                                     groupListView.dragActive = false
                                     //gfhcDragItem.itemsList = []
                                 break;
-                            }
-                        }
-
-                        function onPathChanged(oldPath, newPath)
-                        {
-                            for (var i = 0; i < gfhcDragItem.itemsList.length; i++)
-                            {
-                                var item = gfhcDragItem.itemsList[i]
-
-                                if (item.itemType === App.FixtureGroupDragItem)
-                                {
-                                    fixtureManager.renameFixtureGroup(item.itemID, newPath)
-                                    return
-                                }
                             }
                         }
                     }

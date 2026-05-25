@@ -29,7 +29,7 @@
 struct libusb_device;
 class UDMXDevice;
 
-class UDMX final : public QLCIOPlugin
+class UDMX : public QLCIOPlugin
 {
     Q_OBJECT
     Q_INTERFACES(QLCIOPlugin)
@@ -43,42 +43,42 @@ public:
     virtual ~UDMX();
 
     /** @reimp */
-    void init() override;
+    void init();
 
     /** @reimp */
-    QString name() const override;
+    QString name();
 
     /** @reimp */
-    int capabilities() const override;
+    int capabilities() const;
 
     /** @reimp */
-    QString pluginInfo() const override;
+    QString pluginInfo();
 
     /*********************************************************************
      * Outputs
      *********************************************************************/
 public:
     /** @reimp */
-    bool openOutput(quint32 output, quint32 universe) override;
+    bool openOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    void closeOutput(quint32 output, quint32 universe) override;
+    void closeOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    QStringList outputs() override;
+    QStringList outputs();
 
     /** @reimp */
-    QString outputInfo(quint32 output) override;
+    QString outputInfo(quint32 output);
 
     /** @reimp */
-    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged) override;
+    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged);
 
 private:
     /** Attempt to find all uDMX devices */
     void rescanDevices();
 
     /** Get a UDMXDevice entry by its usbdev struct */
-    UDMXDevice* device(libusb_device *usbdev) const;
+    UDMXDevice* device(libusb_device *usbdev);
 
 private:
     struct libusb_context* m_ctx;
@@ -91,10 +91,10 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    void configure() override;
+    void configure();
 
     /** @reimp */
-    bool canConfigure() const override;
+    bool canConfigure();
 };
 
 #endif

@@ -20,7 +20,9 @@
 #ifndef E131CONTROLLER_H
 #define E131CONTROLLER_H
 
+#if defined(ANDROID)
 #include <QScopedPointer>
+#endif
 #include <QByteArray>
 #include <QMap>
 #include <QSharedPointer>
@@ -29,7 +31,6 @@
 #include <QUdpSocket>
 #include <QMutex>
 #include <QTimer>
-#include <QMap>
 
 #include "e131packetizer.h"
 
@@ -54,7 +55,7 @@ typedef struct _uinfo
     int type;
 } UniverseInfo;
 
-class E131Controller final : public QObject
+class E131Controller : public QObject
 {
     Q_OBJECT
 

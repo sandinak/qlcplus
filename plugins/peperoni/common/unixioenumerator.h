@@ -26,7 +26,7 @@
 
 struct libusb_device;
 
-class UnixIOEnumerator final : public IOEnumerator
+class UnixIOEnumerator : public IOEnumerator
 {
     Q_OBJECT
 

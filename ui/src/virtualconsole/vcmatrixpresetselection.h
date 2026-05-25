@@ -28,7 +28,7 @@
 class RGBScript;
 class Doc;
 
-class VCMatrixPresetSelection final : public QDialog, public Ui_VCMatrixPresetSelection
+class VCMatrixPresetSelection : public QDialog, public Ui_VCMatrixPresetSelection
 {
     Q_OBJECT
 

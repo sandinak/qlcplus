@@ -115,37 +115,6 @@ Item
         visible: sfRef ? (sfRef.locked ? true : false) : false
     }
 
-    /* Waveform for audio items */
-    Image
-    {
-        id: waveformImage
-        z: 3
-        anchors.fill: parent
-        visible: funcRef && funcRef.type === QLCFunction.AudioType
-        cache: false
-        fillMode: Image.Stretch
-
-        source: (funcRef && funcRef.type === QLCFunction.AudioType) ? "image://waveform/" + funcRef.id : ""
-
-        function reload()
-        {
-            const old = source;
-            source = "";
-            source = old;
-        }
-
-        Connections
-        {
-            target: waveformProvider
-
-            function onWaveformUpdated(fid)
-            {
-                if (funcRef && fid === funcRef.id)
-                    waveformImage.reload()
-            }
-        }
-    }
-
     Canvas
     {
         id: prCanvas
@@ -360,15 +329,10 @@ Item
             updateGeometry()
         }
 
-        onClicked: (mouse) =>
+        onClicked:
         {
-            var multi = ((mouse.modifiers & Qt.ControlModifier) || (mouse.modifiers & Qt.ShiftModifier))
-                    || (showManager && showManager.multipleSelection)
-            if (multi)
-                itemRoot.isSelected = !itemRoot.isSelected
-            else
-                itemRoot.isSelected = true
-            showManager.setItemSelection(trackIndex, sfRef, itemRoot, itemRoot.isSelected, mouse.modifiers)
+            itemRoot.isSelected = !itemRoot.isSelected
+            showManager.setItemSelection(trackIndex, sfRef, itemRoot, itemRoot.isSelected)
         }
 
         onDoubleClicked: functionManager.setEditorFunction(sfRef.functionID, true, false)

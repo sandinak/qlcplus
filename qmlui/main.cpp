@@ -24,9 +24,12 @@
 #include <QQmlApplicationEngine>
 
 #include "app.h"
-#include "webaccess-qml.h"
 #include "qlcfile.h"
 #include "qlcconfig.h"
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+#define endl Qt::endl
+#endif
 
 QFile logFile;
 
@@ -37,26 +40,26 @@ void printVersion()
 {
     QTextStream cout(stdout, QIODevice::WriteOnly);
 
-    cout << Qt::endl;
-    cout << APPNAME << " " << "version " << APPVERSION << Qt::endl;
+    cout << endl;
+    cout << APPNAME << " " << "version " << APPVERSION << endl;
     cout << "This program is licensed under the terms of the ";
-    cout << "Apache 2.0 license." << Qt::endl;
-    cout << "Copyright (c) Heikki Junnila (hjunnila@users.sf.net)" << Qt::endl;
-    cout << "Copyright (c) Massimo Callegari (massimocallegari@yahoo.it)" << Qt::endl;
-    cout << Qt::endl;
+    cout << "Apache 2.0 license." << endl;
+    cout << "Copyright (c) Heikki Junnila (hjunnila@users.sf.net)" << endl;
+    cout << "Copyright (c) Massimo Callegari (massimocallegari@yahoo.it)" << endl;
+    cout << endl;
 }
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-
-    // Since Qt6, the default rendering backend is Rhi. 
-    // QLC+ doesn't support it yet so OpenGL have to be forced.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+// Since Qt6, the default rendering backend is Rhi. QLC doesn't support it yet so OpenGL have to be forced.
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
     qputenv("QT3D_RENDERER", "opengl");
+#endif
 
     QApplication::setOrganizationName("qlcplus");
-    QApplication::setOrganizationDomain("qlcplus.org");
+    QApplication::setOrganizationDomain("org");
     QApplication::setApplicationName(APPNAME);
     QApplication::setApplicationVersion(QString(APPVERSION));
 
@@ -76,10 +79,6 @@ int main(int argc, char *argv[])
     QCommandLineOption openLastOption(QStringList() << "9" << "openlast",
                                       "Open the file from last session.");
     parser.addOption(openLastOption);
-
-    QCommandLineOption fullscreenOption(QStringList() << "f" << "fullscreen",
-                                        "Start the application in fullscreen mode");
-    parser.addOption(fullscreenOption);
 
     QCommandLineOption kioskOption(QStringList() << "k" << "kiosk",
                                       "Enable kiosk mode (only Virtual Console)");
@@ -102,33 +101,7 @@ int main(int argc, char *argv[])
                                       "Disable the 3D preview.");
     parser.addOption(threedSupportOption);
 
-    QCommandLineOption webAccessOption(QStringList() << "w" << "web",
-                                      "Enable remote web access");
-    parser.addOption(webAccessOption);
-
-    QCommandLineOption webPortOption(QStringList() << "wp" << "web-port",
-                                      "Set the port to use for web access",
-                                      "port", "");
-    parser.addOption(webPortOption);
-
-    QCommandLineOption webAuthOption(QStringList() << "wa" << "web-auth",
-                                      "Enable remote web access with users authentication");
-    parser.addOption(webAuthOption);
-
-    QCommandLineOption webAuthFileOption(QStringList() << "a" << "web-auth-file",
-                                      "Specify a file where to store web access basic authentication credentials",
-                                      "file", "");
-    parser.addOption(webAuthFileOption);
-
     parser.process(app);
-
-    bool enableWebAccess = parser.isSet(webAccessOption)
-        || parser.isSet(webPortOption)
-        || parser.isSet(webAuthOption)
-        || parser.isSet(webAuthFileOption);
-    bool enableWebAuth = parser.isSet(webAuthOption);
-    int webAccessPort = parser.value(webPortOption).toInt();
-    QString webAccessPasswordFile = parser.value(webAuthFileOption);
 
     // 3D enablement
 #if !defined Q_OS_ANDROID
@@ -146,8 +119,7 @@ int main(int argc, char *argv[])
     {
         QString logFilename = QDir::homePath() + QDir::separator() + "QLC+.log";
         logFile.setFileName(logFilename);
-        if (!logFile.open(QIODevice::Append))
-            qWarning("Warning: Unable to open log file.");
+        logFile.open(QIODevice::Append);
     }
 
     // logging option
@@ -188,26 +160,6 @@ int main(int argc, char *argv[])
 
     qlcplusApp.startup();
 
-    if (enableWebAccess)
-    {
-        WebAccessQml *webAccess = new WebAccessQml(qlcplusApp.doc(),
-                                                   qlcplusApp.virtualConsole(),
-                                                   qlcplusApp.simpleDesk(),
-                                                   webAccessPort,
-                                                   enableWebAuth,
-                                                   webAccessPasswordFile,
-                                                   &qlcplusApp);
-
-        QObject::connect(webAccess, &WebAccessQml::loadProject, &qlcplusApp,
-                         [&qlcplusApp](const QByteArray &xmlData)
-        {
-            QByteArray xmlCopy = xmlData;
-            qlcplusApp.slotLoadDocFromMemory(xmlCopy);
-        });
-        QObject::connect(webAccess, &WebAccessQml::storeAutostartProject,
-                         &qlcplusApp, &App::slotSaveAutostart);
-    }
-
     // open file
     QString filename = parser.value(openFileOption);
     if (filename.isEmpty() == false)
@@ -221,10 +173,6 @@ int main(int argc, char *argv[])
     // open last file
     if (parser.isSet(openLastOption))
         qlcplusApp.loadLastWorkspace();
-
-    // fullscreen mode
-    if (parser.isSet(fullscreenOption))
-        qlcplusApp.toggleFullscreen();
 
     return app.exec();
 }

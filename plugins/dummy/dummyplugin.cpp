@@ -38,7 +38,7 @@ void DummyPlugin::init()
     /** Initialize the plugin variables here */
 }
 
-QString DummyPlugin::name() const
+QString DummyPlugin::name()
 {
     return QString("Dummy");
 }
@@ -89,7 +89,7 @@ QStringList DummyPlugin::outputs()
     return list;
 }
 
-QString DummyPlugin::pluginInfo() const
+QString DummyPlugin::pluginInfo()
 {
     /** Return a description of the purpose of this plugin
      *  in HTML format */
@@ -230,7 +230,7 @@ void DummyPlugin::configure()
     }
 }
 
-bool DummyPlugin::canConfigure() const
+bool DummyPlugin::canConfigure()
 {
     return true;
 }

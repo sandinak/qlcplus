@@ -71,7 +71,7 @@ public:
     /** Virtual method to retrieve the original USB
      *  bus location of the device.
      *  Used only in Linux to perform a sysfs lookup */
-    virtual quint8 busLocation() const;
+    virtual quint8 busLocation();
 
 private:
     QString m_serial;
@@ -91,7 +91,6 @@ public:
     static const int NXPVID = 0x1FC9;        //! NXP Vendor ID
     static const int FTDIPID = 0x6001;       //! FTDI Product ID
     static const int FTDI2PID = 0x6010;      //! FTDI COM485-PLUS2 Product ID
-    static const int FTDI4PID = 0x6011;      //! FTDI FT4232H Product ID
     static const int DMX4ALLPID = 0xC850;    //! DMX4ALL FTDI Product ID
     static const int NANODMXPID = 0x2018;    //! DMX4ALL Nano DMX Product ID
     static const int EUROLITEPID = 0xFA63;   //! Eurolite USB DMX Product ID
@@ -113,7 +112,7 @@ public:
      */
     static bool validInterface(quint16 vendor, quint16 product);
 
-    bool checkInfo(QString &serial, QString &name, QString &vendor) const;
+    bool checkInfo(QString &serial, QString &name, QString &vendor);
 
     /**
      * Get a map of [serial = type] bindings that tells which serials should
@@ -135,9 +134,9 @@ public:
      * DMX/Serial Interface Methods
      ************************************************************************/
 public:
-    virtual DMXInterface::Type type() const = 0;
+    virtual DMXInterface::Type type() = 0;
 
-    virtual QString typeString() const = 0;
+    virtual QString typeString() = 0;
 
     /** Open the widget */
     virtual bool open() = 0;

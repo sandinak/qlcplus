@@ -32,7 +32,7 @@ class QXmlStreamReader;
  * @{
  */
 
-class Audio final : public Function
+class Audio : public Function
 {
     Q_OBJECT
     Q_DISABLE_COPY(Audio)
@@ -45,7 +45,7 @@ public:
     virtual ~Audio();
 
     /** @reimp */
-    QIcon getIcon() const override;
+    QIcon getIcon() const;
 
 private:
     Doc *m_doc;
@@ -54,10 +54,10 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    Function* createCopy(Doc* doc, bool addToDoc = true) override;
+    Function* createCopy(Doc* doc, bool addToDoc = true);
 
     /** Copy the contents for this function from another function */
-    bool copyFrom(const Function* function) override;
+    bool copyFrom(const Function* function);
 
 public slots:
     /** Catches Doc::functionRemoved() so that destroyed members can be
@@ -79,14 +79,14 @@ public:
      *
      * @return Duration in milliseconds of the source audio file
      */
-    quint32 totalDuration() override;
+    quint32 totalDuration();
 
     /**
      * Set the playback duration of the audio file
      *
      * @param The playback total duration in milliseconds
      */
-    void setTotalDuration(quint32 msec) override;
+    void setTotalDuration(quint32 msec);
 
     /**
      * Set the source file name used by this Audio object
@@ -118,7 +118,7 @@ public:
      */
     QString audioDevice();
 
-    int adjustAttribute(qreal fraction, int attributeId) override;
+    int adjustAttribute(qreal fraction, int attributeId);
 
 signals:
     void sourceFilenameChanged();
@@ -145,29 +145,29 @@ private:
      *********************************************************************/
 public:
     /** Save function's contents to an XML document */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc);
 
     /** Load function's contents from an XML document */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    void postLoad() override;
+    void postLoad();
 
     /*********************************************************************
      * Running
      *********************************************************************/
 public:
     /** @reimpl */
-    void preRun(MasterTimer*) override;
+    void preRun(MasterTimer*);
 
     /** @reimpl */
-    void setPause(bool enable) override;
+    void setPause(bool enable);
 
     /** @reimpl */
-    void write(MasterTimer* timer, QList<Universe*> universes) override;
+    void write(MasterTimer* timer, QList<Universe*> universes);
 
     /** @reimpl */
-    void postRun(MasterTimer* timer, QList<Universe *> universes) override;
+    void postRun(MasterTimer* timer, QList<Universe *> universes);
 };
 
 /** @} */

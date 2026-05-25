@@ -24,7 +24,6 @@ import "."
 
 Rectangle
 {
-    id: trackRoot
     width: 100
     height: UISettings.mediumItemHeight
     clip: true
@@ -32,9 +31,8 @@ Rectangle
     color: isSelected ? UISettings.highlight : "#313F4A"
 
     property Track trackRef: null
+    property int trackIndex
     property bool isSelected: false
-
-    signal trackSelected()
 
     CustomTextInput
     {
@@ -48,8 +46,7 @@ Rectangle
         onTextConfirmed:
             function(text)
             {
-                if (trackRef)
-                    trackRef.name = text
+                if (trackRef) trackRef.name = text
             }
     }
 
@@ -74,7 +71,7 @@ Rectangle
         imgSource: ""
         checkable: true
         tooltip: qsTr("Solo this track")
-        onToggled: showManager.setTrackSolo(trackRef.id, checked)
+        onToggled: showManager.setTrackSolo(trackIndex, checked)
 
         RobotoText
         {
@@ -120,8 +117,7 @@ Rectangle
         propagateComposedEvents: true
         onClicked: (mouse) =>
         {
-            showManager.selectedTrackId = trackRef.id
-            trackRoot.trackSelected()
+            showManager.selectedTrackIndex = trackIndex
             mouse.accepted = false
         }
     }

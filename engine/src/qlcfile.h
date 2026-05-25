@@ -67,7 +67,7 @@ class QString;
 #define KXMLQLCTrue  QStringLiteral("True")
 #define KXMLQLCFalse QStringLiteral("False")
 
-class QLCFile final
+class QLCFile
 {
 public:
     /**

@@ -36,8 +36,6 @@ Item
     property QLCPalette palette: null
     property int paletteType: QLCPalette.Undefined
 
-    signal positionTypeChanged()
-
     onVisibleChanged:
     {
         if (isEditing)
@@ -95,10 +93,11 @@ Item
             break
             case QLCPalette.Dimmer:
                 valueSpin.value = palette.fanningValue
-            break
+            break;
+
             case QLCPalette.Color:
                 colorPreview.color = palette.fanningValue
-            break
+            break;
         }
     }
 
@@ -197,7 +196,7 @@ Item
                     ]
 
                     currValue: boxRoot.palette ? boxRoot.palette.fanningType : QLCPalette.Flat
-                    onValueChanged: (value) =>
+                    onValueChanged:
                     {
                         if (boxRoot.palette)
                         {
@@ -233,13 +232,13 @@ Item
                     model: [
                         { mLabel: qsTr("X Ascending"), mIcon: "qrc:/layout-ltr.svg", mValue: QLCPalette.XAscending },
                         { mLabel: qsTr("X Descending"), mIcon: "qrc:/layout-rtl.svg", mValue: QLCPalette.XDescending },
-                        { mLabel: qsTr("X Centered"), mIcon: "qrc:/layout-xcenter.svg", mValue: QLCPalette.XCentered },
+                        // { mLabel: qsTr("X Centered"), mIcon: "qrc:/layout-center.svg", mValue: QLCPalette.XCentered },
                         { mLabel: qsTr("Y Ascending"), mIcon: "qrc:/layout-btt.svg", mValue: QLCPalette.YAscending },
                         { mLabel: qsTr("Y Descending"), mIcon: "qrc:/layout-ttb.svg", mValue: QLCPalette.YDescending },
-                        { mLabel: qsTr("Y Centered"), mIcon: "qrc:/layout-ycenter.svg", mValue: QLCPalette.YCentered },
+                        // { mLabel: qsTr("Y Centered"), mIcon: "qrc:/layout-center.svg", mValue: QLCPalette.YCentered },
                         { mLabel: qsTr("Z Ascending"), mIcon: "qrc:/layout-ftb.svg", mValue: QLCPalette.ZAscending },
                         { mLabel: qsTr("Z Descending"), mIcon: "qrc:/layout-btf.svg", mValue: QLCPalette.ZDescending },
-                        { mLabel: qsTr("Z Centered"), mIcon: "qrc:/layout-zcenter.svg", mValue: QLCPalette.ZCentered }
+                        // { mLabel: qsTr("Z Centered"), mIcon: "qrc:/layout-center.svg"; mValue: QLCPalette.ZCentered }
                     ]
 
                     currValue: boxRoot.palette ? boxRoot.palette.fanningLayout : QLCPalette.XAscending
@@ -306,9 +305,6 @@ Item
 
                         if (isEditing == false)
                             boxRoot.palette = paletteManager.getEditingPalette(boxRoot.paletteType)
-
-                        boxRoot.positionTypeChanged()
-
                         updatePreview()
                     }
                 }
@@ -332,9 +328,6 @@ Item
 
                         if (isEditing == false)
                             boxRoot.palette = paletteManager.getEditingPalette(boxRoot.paletteType)
-
-                        boxRoot.positionTypeChanged()
-
                         updatePreview()
                     }
                 }

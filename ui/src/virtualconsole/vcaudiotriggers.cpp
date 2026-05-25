@@ -165,13 +165,11 @@ void VCAudioTriggers::enableWidgetUI(bool enable)
     m_volumeSlider->setEnabled(enable);
 }
 
-void VCAudioTriggers::notifyFunctionStarting(quint32 fid, qreal intensity, bool excludeMonitored)
+void VCAudioTriggers::notifyFunctionStarting(quint32 fid, qreal intensity)
 {
     // Stop on any other function started
-    Q_UNUSED(fid)
-    Q_UNUSED(intensity)
-    Q_UNUSED(excludeMonitored)
-
+    Q_UNUSED(fid);
+    Q_UNUSED(intensity);
     if (m_button->isChecked() == true)
         enableCapture(false);
 }
@@ -407,7 +405,7 @@ void VCAudioTriggers::slotInputValueChanged(quint32 universe, quint32 channel, u
  * Clipboard
  *********************************************************************/
 
-VCWidget *VCAudioTriggers::createCopy(VCWidget *parent) const
+VCWidget *VCAudioTriggers::createCopy(VCWidget *parent)
 {
     Q_ASSERT(parent != NULL);
 

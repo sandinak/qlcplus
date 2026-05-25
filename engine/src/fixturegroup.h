@@ -40,7 +40,7 @@ class Doc;
 #define KXMLQLCFixtureGroup     QStringLiteral("FixtureGroup")
 #define KXMLQLCFixtureGroupID   QStringLiteral("ID")
 
-class FixtureGroup final : public QObject
+class FixtureGroup : public QObject
 {
     Q_OBJECT
 

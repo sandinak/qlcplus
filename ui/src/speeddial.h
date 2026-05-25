@@ -44,7 +44,7 @@ class QDial;
  * This is a normal QSpinBox that is able to tell, thru a signal, when it
  * gains the input focus (i.e. when it is clicked or tab-focused).
  */
-class FocusSpinBox final : public QSpinBox
+class FocusSpinBox : public QSpinBox
 {
     Q_OBJECT
 
@@ -55,14 +55,14 @@ signals:
     void focusGained();
 
 protected:
-    void focusInEvent(QFocusEvent* event) override;
+    void focusInEvent(QFocusEvent* event);
 };
 
 /****************************************************************************
  * SpeedDial
  ****************************************************************************/
 
-class SpeedDial final : public QGroupBox
+class SpeedDial : public QGroupBox
 {
     Q_OBJECT
     Q_DISABLE_COPY(SpeedDial)
@@ -96,13 +96,13 @@ public:
     int value() const;
 
     /** Produce a tap programmatically */
-    void tap() const;
+    void tap();
 
-    void toggleInfinite() const;
+    void toggleInfinite();
 
     void stopTimers(bool stopTime = true, bool stopTapTimer = true);
 
-    bool isTapTick() const;
+    bool isTapTick();
 
 signals:
     void valueChanged(int ms);
@@ -118,7 +118,7 @@ private:
     int spinValues() const;
 
     /** Calculate the value to add/subtract when a dial has been moved */
-    int dialDiff(int value, int previous, int step) const;
+    int dialDiff(int value, int previous, int step);
 
 private slots:
     void slotPlusMinus();

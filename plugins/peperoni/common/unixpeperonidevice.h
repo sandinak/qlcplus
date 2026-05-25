@@ -27,7 +27,7 @@ struct libusb_device_descriptor;
 struct libusb_device_handle;
 struct libusb_device;
 
-class UnixPeperoniDevice final : public OutputDevice
+class UnixPeperoniDevice : public OutputDevice
 {
     Q_OBJECT
 
@@ -42,19 +42,19 @@ public:
     virtual ~UnixPeperoniDevice();
 
     /** @reimp */
-    void open() override;
+    void open();
 
     /** @reimp */
-    void close() override;
+    void close();
 
     /** @reimp */
-    bool isOpen() const override;
+    bool isOpen() const;
 
     /** @reimp */
-    void writeChannel(ushort channel, uchar value) override;
+    void writeChannel(ushort channel, uchar value);
 
     /** @reimp */
-    void writeUniverse(const QByteArray& universe) override;
+    void writeUniverse(const QByteArray& universe);
 
 private:
     struct libusb_device* m_device;

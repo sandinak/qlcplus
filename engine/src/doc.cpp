@@ -272,7 +272,7 @@ MasterTimer* Doc::masterTimer() const
     return m_masterTimer;
 }
 
-QSharedPointer<AudioCapture> Doc::audioInputCapture() const
+QSharedPointer<AudioCapture> Doc::audioInputCapture()
 {
     if (!m_inputCapture)
     {

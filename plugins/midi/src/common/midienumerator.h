@@ -27,7 +27,7 @@ class MidiEnumeratorPrivate;
 class MidiOutputDevice;
 class MidiInputDevice;
 
-class MidiEnumerator final : public QObject
+class MidiEnumerator : public QObject
 {
     Q_OBJECT
 

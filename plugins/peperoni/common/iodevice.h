@@ -23,7 +23,7 @@
 #include <QVariant>
 #include <QObject>
 
-class IODevice final : public QObject
+class IODevice : public QObject
 {
     Q_OBJECT
 

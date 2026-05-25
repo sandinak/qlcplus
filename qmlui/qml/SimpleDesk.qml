@@ -192,17 +192,12 @@ Rectangle
                                 tooltip: fixtureObj ? fixtureManager.channelName(fixtureObj.id, model.chIndex) : ""
                                 imgSource: fixtureObj ? fixtureManager.channelIcon(fixtureObj.id, model.chIndex) : ""
                                 visible: fixtureObj ? true : false
-                                focusPolicy: Qt.ClickFocus
+                                focusPolicy: Qt.NoFocus
 
                                 onClicked:
                                 {
                                     if (fixtureObj)
                                         channelToolLoader.loadChannelTool(this, fixtureObj.id, model.chIndex, model.chValue)
-                                }
-
-                                Keys.onPressed: (event) => {
-                                    if (event.key === Qt.Key_Escape)
-                                        channelToolLoader.visible = false
                                 }
                             }
 

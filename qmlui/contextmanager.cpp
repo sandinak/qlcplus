@@ -30,7 +30,6 @@
 #include "qlcfixturemode.h"
 #include "qlccapability.h"
 #include "fixtureutils.h"
-#include "showmanager.h"
 #include "mainviewdmx.h"
 #include "mainview2d.h"
 #include "mainview3d.h"
@@ -49,13 +48,10 @@ ContextManager::ContextManager(QQuickView *view, Doc *doc,
     , m_monProps(doc->monitorProperties())
     , m_fixtureManager(fxMgr)
     , m_functionManager(funcMgr)
-    , m_currentSubContext("2D")
     , m_multipleSelection(false)
     , m_positionPicking(false)
-    , m_lastClickedType(App::NoDragItem)
     , m_universeFilter(Universe::invalid())
     , m_editingEnabled(false)
-    , m_selectedDimmersCount(0)
     , m_dumpChannelMask(0)
 {
     m_view->rootContext()->setContextProperty("contextManager", this);
@@ -94,11 +90,9 @@ ContextManager::ContextManager(QQuickView *view, Doc *doc,
 
     connect(m_fixtureManager, &FixtureManager::channelValueChanged, this, &ContextManager::slotChannelValueChanged);
     connect(m_fixtureManager, &FixtureManager::presetChanged, this, &ContextManager::slotPresetChanged);
-    connect(m_fixtureManager, &FixtureManager::itemClicked, this, &ContextManager::setLastClickedType);
 
     connect(m_doc->inputOutputMap(), SIGNAL(universeWritten(quint32,QByteArray)), this, SLOT(slotUniverseWritten(quint32,QByteArray)));
     connect(m_functionManager, &FunctionManager::isEditingChanged, this, &ContextManager::slotFunctionEditingChanged);
-    connect(m_functionManager, &FunctionManager::itemClicked, this, &ContextManager::setLastClickedType);
 }
 
 ContextManager::~ContextManager()
@@ -156,11 +150,6 @@ void ContextManager::enableContext(QString name, bool enable, QQuickItem *item)
         m_3DView->updateFixtureSelection(m_selectedFixtures);
 
     emit currentContextChanged();
-}
-
-PreviewContext *ContextManager::contextByName(QString ctxName)
-{
-    return m_contextsMap.value(ctxName, nullptr);
 }
 
 void ContextManager::detachContext(QString name)
@@ -235,20 +224,6 @@ QString ContextManager::currentContext() const
     return m_view->rootObject()->property("currentContext").toString();
 }
 
-QString ContextManager::currentSubContext() const
-{
-    return m_currentSubContext;
-}
-
-void ContextManager::setCurrentSubContext(QString ctx)
-{
-    if (ctx == m_currentSubContext)
-        return;
-
-    m_currentSubContext = ctx;
-    emit currentSubContextChanged();
-}
-
 MainView2D *ContextManager::get2DView()
 {
     return m_2DView;
@@ -303,8 +278,6 @@ void ContextManager::setMultipleSelection(bool multipleSelection)
     m_multipleSelection = multipleSelection;
     emit multipleSelectionChanged();
 }
-
-
 
 bool ContextManager::positionPicking() const
 {
@@ -443,16 +416,6 @@ void ContextManager::setPositionPickPoint(QVector3D point)
     setPositionPicking(false);
 }
 
-int ContextManager::lastClickedType() const
-{
-    return m_lastClickedType;
-}
-
-void ContextManager::setLastClickedType(const int &newLastClickedType)
-{
-    m_lastClickedType = newLastClickedType;
-}
-
 void ContextManager::resetContexts()
 {
     m_channelsMap.clear();
@@ -513,55 +476,6 @@ void ContextManager::handleKeyPress(QKeyEvent *e)
             default:
             break;
         }
-    }
-
-    // 'Delete' key has its own handling
-    if (e->key() == Qt::Key_Delete)
-    {
-        switch (m_lastClickedType)
-        {
-            case App::FixtureDragItem:
-                m_fixtureManager->deleteFixtures(selectedItemIDVariantList());
-            break;
-            case App::FixtureGroupDragItem:
-                //m_fixtureManager->deleteFixtureGroups(); // TODO
-            break;
-            case App::FunctionDragItem:
-                m_functionManager->deleteFunctions(m_functionManager->selectedFunctionsID());
-            break;
-            case App::FolderDragItem:
-                m_functionManager->deleteSelectedFolders();
-            break;
-            case App::ShowDragItem:
-            {
-                PreviewContext *ctx = contextByName("SHOWMGR");
-                if (ctx != nullptr)
-                {
-                    ShowManager *showMgr = qobject_cast<ShowManager *>(ctx);
-                    if (showMgr != nullptr)
-                        showMgr->deleteShowItems(showMgr->selectedItemRefs());
-                }
-            }
-            break;
-            case App::TrackDragItem:
-            {
-                PreviewContext *ctx = contextByName("SHOWMGR");
-                if (ctx != nullptr)
-                {
-                    ShowManager *showMgr = qobject_cast<ShowManager *>(ctx);
-                    if (showMgr != nullptr)
-                        showMgr->deleteSelectedTrack();
-                }
-            }
-            break;
-            case App::PaletteDragItem:
-            break;
-            case App::WidgetDragItem:
-            break;
-        }
-
-        // Don't let it go through
-        return;
     }
 
     for (PreviewContext *context : m_contextsMap.values()) // C++11
@@ -633,7 +547,6 @@ void ContextManager::setItemSelection(quint32 itemID, bool enable, int keyModifi
     {
         setFixtureSelection(itemID, -1, enable);
     }
-    setLastClickedType(App::FixtureDragItem);
 }
 
 void ContextManager::setFixtureSelection(quint32 itemID, int headIndex, bool enable)
@@ -645,23 +558,12 @@ void ContextManager::setFixtureSelection(quint32 itemID, int headIndex, bool ena
     if (enable)
         qDebug() << "Selected itemID" << itemID << ", fixture ID" << fixtureID << ", head from item" << headIdx << "head passed" << headIndex;
 
-    Fixture *fixture = m_doc->fixture(fixtureID);
-    if (fixture == nullptr)
-        return;
-
-    QLCFixtureDef::FixtureType type = fixture->type();
-
     if (m_selectedFixtures.contains(itemID))
     {
         if (enable == false)
             m_selectedFixtures.removeAll(itemID);
         else
             return;
-        if (type == QLCFixtureDef::Dimmer && m_selectedDimmersCount > 0)
-        {
-            m_selectedDimmersCount--;
-            emit selectedDimmersCountChanged();
-        }
     }
     else
     {
@@ -674,19 +576,16 @@ void ContextManager::setFixtureSelection(quint32 itemID, int headIndex, bool ena
                 return;
 
             m_selectedFixtures.append(itemID);
-            setLastClickedType(App::FixtureDragItem);
-
-            if (type == QLCFixtureDef::Dimmer)
-            {
-                m_selectedDimmersCount++;
-                emit selectedDimmersCountChanged();
-            }
         }
         else
             return;
     }
 
     emit dumpValuesCountChanged();
+
+    Fixture *fixture = m_doc->fixture(fixtureID);
+    if (fixture == nullptr)
+        return;
 
     if (headIndex == -1)
         m_fixtureManager->setItemRoleData(itemID, enable ? 2 : 0, TreeModel::IsSelectedRole);
@@ -726,9 +625,6 @@ void ContextManager::setFixtureSelection(quint32 itemID, int headIndex, bool ena
 
 void ContextManager::setFixtureIDSelection(quint32 fixtureID, bool enable)
 {
-    if (fixtureID == Fixture::invalidId())
-        return;
-
     for (quint32 &subID : m_monProps->fixtureIDList(fixtureID))
     {
         quint16 headIndex = m_monProps->fixtureHeadIndex(subID);
@@ -839,23 +735,9 @@ QVariantList ContextManager::selectedFixtureIDVariantList()
     return list;
 }
 
-QVariantList ContextManager::selectedItemIDVariantList()
-{
-    QVariantList list;
-    for (quint32 &itemID : m_selectedFixtures)
-        list.append(itemID);
-
-    return list;
-}
-
 int ContextManager::selectedFixturesCount()
 {
     return m_selectedFixtures.count();
-}
-
-int ContextManager::selectedDimmersCount()
-{
-    return m_selectedDimmersCount;
 }
 
 bool ContextManager::isFixtureSelected(quint32 itemID)
@@ -896,10 +778,10 @@ void ContextManager::setFixturesOffset(qreal x, qreal y)
                 newPos = QVector3D(currPos.x() + x, currPos.y(), currPos.z() + y);
             break;
             case MonitorProperties::RightSideView:
-                newPos = QVector3D(currPos.x(),  currPos.y() + (m_monProps->gridSize().y() - y), currPos.z() - x);
+                newPos = QVector3D(currPos.x(), currPos.y() + y, currPos.z() - x);
             break;
             case MonitorProperties::LeftSideView:
-                newPos = QVector3D(currPos.x(), currPos.y() + (m_monProps->gridSize().y() - y), currPos.z() + x);
+                newPos = QVector3D(currPos.x(), currPos.y() + y, currPos.z() + x);
             break;
             default:
                 newPos = QVector3D(currPos.x() + x, currPos.y() - y, currPos.z());
@@ -986,25 +868,6 @@ void ContextManager::setFixturesGelColor(QColor color)
             m_3DView->updateFixtureItem(fixture, headIndex, linkedIndex, ba);
     }
     m_doc->setModified();
-}
-
-void ContextManager::setFixedZoom(int degrees)
-{
-    QByteArray ba;
-    for (quint32 &itemID : m_selectedFixtures)
-    {
-        quint32 fxID = FixtureUtils::itemFixtureID(itemID);
-        quint16 headIndex = FixtureUtils::itemHeadIndex(itemID);
-        quint16 linkedIndex = FixtureUtils::itemLinkedIndex(itemID);
-        Fixture *fixture = m_doc->fixture(fxID);
-
-        if (fixture->type() != QLCFixtureDef::Dimmer)
-            continue;
-
-        m_monProps->setFixtureFixedZoom(fxID, headIndex, linkedIndex, degrees);
-        if (m_3DView->isEnabled())
-            m_3DView->updateFixtureItem(fixture, headIndex, linkedIndex, ba);
-    }
 }
 
 void ContextManager::setFixturesAlignment(int alignment)
@@ -1654,7 +1517,7 @@ void ContextManager::highlightFixtureSelection()
     setChannelValueByType((int)QLCChannel::Red, UCHAR_MAX);
     setChannelValueByType((int)QLCChannel::Green, UCHAR_MAX);
     setChannelValueByType((int)QLCChannel::Blue, UCHAR_MAX);
-    //setChannelValueByType((int)QLCChannel::White, UCHAR_MAX);
+    setChannelValueByType((int)QLCChannel::White, UCHAR_MAX);
 
     setChannelValueByType((int)QLCChannel::Intensity, UCHAR_MAX);
 

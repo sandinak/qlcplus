@@ -26,7 +26,7 @@
 
 class Doc;
 
-class ContextQuickView final : public QQuickView
+class ContextQuickView : public QQuickView
 {
     Q_OBJECT
 
@@ -35,8 +35,8 @@ public:
     ~ContextQuickView() { }
 
 protected:
-    void keyPressEvent(QKeyEvent *e) override;
-    void keyReleaseEvent(QKeyEvent *e) override;
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
 
 public slots:
     void slotScreenChanged(QScreen *screen);
@@ -51,7 +51,6 @@ class PreviewContext : public QObject
     Q_OBJECT
 
     Q_PROPERTY(quint32 universeFilter READ universeFilter WRITE setUniverseFilter NOTIFY universeFilterChanged)
-    Q_PROPERTY(bool detached READ detached WRITE setDetached NOTIFY detachedChanged)
 
 public:
     explicit PreviewContext(QQuickView *view, Doc *doc, QString name, QObject *parent = 0);
@@ -91,9 +90,6 @@ public:
     bool detached() const;
     void setDetached(bool detached);
 
-    /** Return the number of pixels in 1mm */
-    virtual qreal pixelDensity() const;
-
     /** Virtual method to handle a key press event.
      *  Subclasses should reimplement this if interested in key events */
     virtual void handleKeyEvent(QKeyEvent *e, bool pressed);
@@ -106,8 +102,6 @@ protected slots:
 
 signals:
     void universeFilterChanged(quint32 universeFilter);
-    void itemClicked(int itemType);
-    void detachedChanged();
     void keyPressed(QKeyEvent *e);
     void keyReleased(QKeyEvent *e);
 
@@ -136,9 +130,6 @@ protected:
 
     /** A string with the QML resource URL representing the context */
     QString m_resource;
-
-    /** The number of pixels in one millimeter */
-    qreal m_pixelDensity;
 
     /** Flag that holds the enable status of the view.
      *  Enabled means visible on the screen */

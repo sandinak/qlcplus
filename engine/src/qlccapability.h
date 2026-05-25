@@ -69,7 +69,7 @@ typedef struct
  * values can be represented by setting the same value to both, for example:
  * min == 15 and max == 15.
  */
-class QLCCapability final : public QObject
+class QLCCapability: public QObject
 {
     Q_OBJECT
 

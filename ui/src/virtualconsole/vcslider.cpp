@@ -237,7 +237,7 @@ void VCSlider::setID(quint32 id)
  * Clipboard
  *****************************************************************************/
 
-VCWidget* VCSlider::createCopy(VCWidget* parent) const
+VCWidget* VCSlider::createCopy(VCWidget* parent)
 {
     Q_ASSERT(parent != NULL);
 
@@ -1008,10 +1008,8 @@ uchar VCSlider::playbackValue() const
     return m_playbackValue;
 }
 
-void VCSlider::notifyFunctionStarting(quint32 fid, qreal functionIntensity, bool excludeMonitored)
+void VCSlider::notifyFunctionStarting(quint32 fid, qreal functionIntensity)
 {
-    Q_UNUSED(excludeMonitored)
-
     if (mode() == Doc::Design || sliderMode() != Playback)
         return;
 

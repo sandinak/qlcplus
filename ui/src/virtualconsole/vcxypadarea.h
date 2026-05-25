@@ -35,7 +35,7 @@ class QMouseEvent;
  * @{
  */
 
-class VCXYPadArea final : public QFrame
+class VCXYPadArea : public QFrame
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCXYPadArea)
@@ -154,25 +154,25 @@ private:
      *************************************************************************/
 protected:
     /** @reimp */
-    void paintEvent(QPaintEvent* e) override;
+    void paintEvent(QPaintEvent* e);
 
     /** @reimp */
-    void resizeEvent(QResizeEvent *e) override;
+    void resizeEvent(QResizeEvent *e);
 
     /** @reimp */
-    void mousePressEvent(QMouseEvent* e) override;
+    void mousePressEvent(QMouseEvent* e);
 
     /** @reimp */
-    void mouseReleaseEvent(QMouseEvent* e) override;
+    void mouseReleaseEvent(QMouseEvent* e);
 
     /** @reimp */
-    void mouseMoveEvent(QMouseEvent* e) override;
+    void mouseMoveEvent(QMouseEvent* e);
 
     /** @reimp */
-    void keyPressEvent(QKeyEvent *e) override;
+    void keyPressEvent(QKeyEvent *e);
 
     /** @reimp */
-    void keyReleaseEvent (QKeyEvent * e) override;
+    void keyReleaseEvent (QKeyEvent * e);
 };
 
 /** @} */

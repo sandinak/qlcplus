@@ -25,7 +25,6 @@
 #include <QString>
 #include <QList>
 #include <QFile>
-#include <QTimer>
 
 #include "dmxdumpfactoryproperties.h"
 #include "qlcfixturedefcache.h"
@@ -37,7 +36,6 @@ class QMessageBox;
 class QToolButton;
 class QFileDialog;
 class QTabWidget;
-class QStatusBar;
 class WebAccess;
 class QToolBar;
 class QPixmap;
@@ -51,7 +49,7 @@ class App;
 
 #define KXMLQLCWorkspace QStringLiteral("Workspace")
 
-class DetachedContext final : public QMainWindow
+class DetachedContext : public QMainWindow
 {
     Q_OBJECT
 
@@ -59,7 +57,7 @@ public:
     DetachedContext(QWidget *parent) : QMainWindow(parent) {}
 
 protected slots:
-    void closeEvent(QCloseEvent *ev) override
+    void closeEvent(QCloseEvent *ev)
     {
         emit closing();
         // avoid the real context to be destroyed !
@@ -71,7 +69,7 @@ signals:
     void closing();
 };
 
-class App final : public QMainWindow
+class App : public QMainWindow
 {
     Q_OBJECT
     Q_DISABLE_COPY(App)
@@ -88,7 +86,7 @@ public:
 
 private:
     void init();
-    void closeEvent(QCloseEvent*) override;
+    void closeEvent(QCloseEvent*);
     void setActiveWindow(const QString& name);
 
 #if defined(WIN32) || defined(Q_OS_WIN)
@@ -183,8 +181,6 @@ public slots:
 
     void slotRecentFileClicked(QAction *recent);
 
-    void slotAppSettings();
-
 private:
     QAction* m_fileNewAction;
     QAction* m_fileOpenAction;
@@ -200,7 +196,6 @@ private:
     QAction* m_dumpDmxAction;
     QAction* m_liveEditAction;
     QAction* m_liveEditVirtualConsoleAction;
-    QAction* m_appSettingsAction;
 
     QAction* m_helpIndexAction;
     QAction* m_helpAboutAction;
@@ -274,67 +269,6 @@ public slots:
 
 private:
     QString m_fileName;
-
-    /*********************************************************************
-     * Autosave
-     *********************************************************************/
-public:
-    /** Check if autosave is enabled */
-    bool isAutosaveEnabled() const;
-
-    /** Enable or disable autosave */
-    void setAutosaveEnabled(bool enable);
-
-    /** Get autosave interval in minutes */
-    int autosaveInterval() const;
-
-    /** Set autosave interval in minutes */
-    void setAutosaveInterval(int minutes);
-
-    /** Get the autosave file path for the current document */
-    QString autosaveFilePath() const;
-
-private slots:
-    /** Slot called by autosave timer to perform autosave */
-    void slotAutosave();
-
-private:
-    /** Initialize autosave system */
-    void initAutosave();
-
-    /** Check for autosave recovery file and offer to restore */
-    void checkAutosaveRecovery();
-
-    /** Remove autosave file for current document */
-    void removeAutosaveFile();
-
-private:
-    QTimer *m_autosaveTimer;
-    bool m_autosaveEnabled;
-    int m_autosaveInterval;  // in minutes
-    QString m_lastAutosaveTime;
-
-    /*********************************************************************
-     * Status Bar
-     *********************************************************************/
-public:
-    /** Set the mode message shown in the status bar */
-    void setStatusMessage(const QString& message);
-
-    /** Clear the mode message from the status bar */
-    void clearStatusMessage();
-
-private:
-    /** Initialize the status bar */
-    void initStatusBar();
-
-    /** Update the status bar display */
-    void updateStatusBar();
-
-private:
-    QLabel* m_statusModeLabel;
-    QLabel* m_statusAutosaveLabel;
-    QString m_statusMessage;
 };
 
 /** @} */

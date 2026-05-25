@@ -62,7 +62,7 @@ void Peperoni::init()
     }
 }
 
-QString Peperoni::name() const
+QString Peperoni::name()
 {
     return QString("Peperoni");
 }
@@ -109,7 +109,7 @@ QStringList Peperoni::outputs()
     return list;
 }
 
-QString Peperoni::pluginInfo() const
+QString Peperoni::pluginInfo()
 {
     QString str;
 
@@ -224,7 +224,7 @@ void Peperoni::configure()
         rescanDevices();
 }
 
-bool Peperoni::canConfigure() const
+bool Peperoni::canConfigure()
 {
     return true;
 }

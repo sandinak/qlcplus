@@ -23,3 +23,4 @@ AudioRendererNull::AudioRendererNull(QObject * parent)
     : AudioRenderer(parent)
 {
 }
+

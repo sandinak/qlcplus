@@ -70,7 +70,7 @@ class QLCChannel;
  * itself. QLCFixtureModes do not delete their channels because they might be
  * shared between multiple modes.
  */
-class QLCFixtureDef final
+class QLCFixtureDef
 {
 public:
     /** Default constructor */
@@ -133,7 +133,7 @@ public:
     void setType(const FixtureType type);
 
     /** Get the fixture's type */
-    FixtureType type() const;
+    FixtureType type();
 
     /** Convert a fixture type to string */
     static QString typeToString(FixtureType type);
@@ -145,7 +145,7 @@ public:
     void setAuthor(const QString& author);
 
     /** Get the definition's author */
-    QString author() const;
+    QString author();
 
     /** Check if the full definition has been loaded */
     void checkLoaded(QString mapPath);

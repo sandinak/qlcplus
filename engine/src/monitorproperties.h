@@ -46,7 +46,6 @@ typedef struct
     QString m_name;             ///< Fixture/Item Custom name
     QString m_resource;         ///< Generic: source file
     QColor m_color;             ///< Generic: item color, Fixture: gel color
-    int m_zoom;                 ///< Fixture: fixed zoom in degrees
     quint32 m_flags;            ///< Item flags as specified in the ItemsFlags enum
 } PreviewItem;
 
@@ -56,7 +55,7 @@ typedef struct
     QMap<quint32, PreviewItem> m_subItems;  ///< Map of the heads/linked fixtures
 } FixturePreviewItem;
 
-class MonitorProperties final : public QObject
+class MonitorProperties : public QObject
 {
     Q_OBJECT
 
@@ -179,10 +178,6 @@ public:
     /** Get/Set the color of a gel used to render a Fixture with with the given $fid, $head and $linked index */
     void setFixtureGelColor(quint32 fid, quint16 head, quint16 linked, QColor col);
     QColor fixtureGelColor(quint32 fid, quint16 head, quint16 linked) const;
-
-    /** Get/Set the fixed zoom degrees used to render a Fixture with with the given $fid, $head and $linked index */
-    void setFixtureFixedZoom(quint32 fid, quint16 head, quint16 linked, int degrees);
-    int fixtureFixedZoom(quint32 fid, quint16 head, quint16 linked) const;
 
     /** Get/Set the name of a Fixture with with the given $fid, $head and $linked index */
     void setFixtureName(quint32 fid, quint16 head, quint16 linked, QString name);

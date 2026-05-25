@@ -40,7 +40,7 @@ extern "C"
  * @{
  */
 
-class AudioDecoderSndFile final : public AudioDecoder
+class AudioDecoderSndFile : public AudioDecoder
 {
     Q_OBJECT
     Q_INTERFACES(AudioDecoder)
@@ -50,28 +50,28 @@ public:
     virtual ~AudioDecoderSndFile();
 
     /** @reimpl */
-    AudioDecoder *createCopy() override;
+    AudioDecoder *createCopy();
 
     /** @reimp */
-    int priority() const override;
+    int priority() const;
 
     /** @reimp */
-    bool initialize(const QString &path) override;
+    bool initialize(const QString &path);
 
     /** @reimp */
-    qint64 totalTime() override;
+    qint64 totalTime();
 
     /** @reimp */
-    int bitrate() override;
+    int bitrate();
 
     /** @reimp */
-    qint64 read(char *audio, qint64 maxSize) override;
+    qint64 read(char *audio, qint64 maxSize);
 
     /** @reimp */
-    void seek(qint64 time) override;
+    void seek(qint64 time);
 
     /** @reimp */
-    QStringList supportedFormats() override;
+    QStringList supportedFormats();
 
 private:
     SNDFILE *m_sndfile;

@@ -37,26 +37,26 @@ public:
     virtual ~VCLabel();
 
     /** @reimp */
-    QString defaultCaption() const override;
+    QString defaultCaption();
 
     /** @reimp */
-    void setupLookAndFeel(qreal pixelDensity, int page) override;
+    void setupLookAndFeel(qreal pixelDensity, int page);
 
     /** @reimp */
-    void render(QQuickView *view, QQuickItem *parent) override;
+    void render(QQuickView *view, QQuickItem *parent);
 
     /** @reimp */
-    VCWidget *createCopy(VCWidget *parent) const override;
+    VCWidget *createCopy(VCWidget *parent);
 
     /*********************************************************************
      * Load & Save
      *********************************************************************/
 public:
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 #endif

@@ -32,7 +32,7 @@ typedef struct
 
 class Doc;
 
-class UiManager final : public QObject
+class UiManager : public QObject
 {
     Q_OBJECT
 

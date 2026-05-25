@@ -32,15 +32,6 @@ Rectangle
     property int manufacturerIndex: fixtureBrowser.manufacturerIndex
     property string selectedModel
 
-    CustomPopupDialog
-    {
-        id: errorPopup
-        standardButtons: Dialog.Ok
-        title: qsTr("Error")
-        message: qsTr("Address overlapping detected.\nPlease set another DMX address.")
-        onAccepted: close()
-    }
-
     RowLayout
     {
         id: toolBar
@@ -83,7 +74,7 @@ Rectangle
                 selectionColor: UISettings.highlightPressed
                 selectByMouse: true
 
-                onTextEdited: fixtureBrowser.searchFilter = text
+                onTextChanged: fixtureBrowser.searchFilter = text
             }
         }
 
@@ -251,7 +242,7 @@ Rectangle
 
                     onMouseEvent: (type, iID, iType, qItem, mouseMods) =>
                     {
-                        if (type === App.Clicked)
+                        if (type == App.Clicked)
                         {
                             modelsList.currentIndex = index
                             fixtureBrowser.selectedModel = modelData
@@ -268,7 +259,6 @@ Rectangle
                             editButton.enabled = true
                         }
                     }
-                    onOverlappingEvent: errorPopup.open()
                 }
             ScrollBar.vertical: CustomScrollBar { id: modelsScroll }
         }
@@ -331,7 +321,6 @@ Rectangle
                                         fixtureBrowser.selectedManufacturer = qItem.manufacturer
                                         fixtureBrowser.selectedModel = qItem.textLabel
                                         fxPropsRect.visible = true
-                                        editButton.enabled = true
                                     }
                                 }
                             }

@@ -25,7 +25,7 @@
 
 #include "midioutputdevice.h"
 
-class Win32MidiOutputDevice final : public MidiOutputDevice
+class Win32MidiOutputDevice : public MidiOutputDevice
 {
     Q_OBJECT
 

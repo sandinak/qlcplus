@@ -53,7 +53,7 @@ class Cue;
 
 #define KXMLQLCSimpleDesk QStringLiteral("SimpleDesk")
 
-class SimpleDesk final : public QWidget
+class SimpleDesk : public QWidget
 {
     Q_OBJECT
 
@@ -83,13 +83,13 @@ private:
 
 protected:
     /** @reimp */
-    void showEvent(QShowEvent* ev) override;
+    void showEvent(QShowEvent* ev);
 
     /** @reimp */
-    void hideEvent(QHideEvent* ev) override;
+    void hideEvent(QHideEvent* ev);
 
     /** @reimp */
-    void resizeEvent(QResizeEvent *ev) override;
+    void resizeEvent(QResizeEvent *ev);
 
 protected slots:
     void slotDocChanged();
@@ -109,7 +109,6 @@ public:
     int getCurrentUniverseIndex();
     int getCurrentPage();
     uchar getAbsoluteChannelValue(uint address);
-    bool isChannelOverridden(uint address);
     void setAbsoluteChannelValue(uint address, uchar value);
     void resetChannel(quint32 address);
     void resetUniverse();

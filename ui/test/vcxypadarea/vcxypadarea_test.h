@@ -23,7 +23,7 @@
 #include <QObject>
 #include "qlcfixturedefcache.h"
 
-class VCXYPadArea_Test final : public QObject
+class VCXYPadArea_Test : public QObject
 {
     Q_OBJECT
 

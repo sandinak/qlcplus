@@ -24,7 +24,7 @@
 
 class GrandMaster;
 
-class GrandMaster_Test final : public QObject
+class GrandMaster_Test : public QObject
 {
     Q_OBJECT
 

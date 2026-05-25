@@ -28,7 +28,7 @@
 class Doc;
 class Fixture;
 
-class MainViewDMX final : public PreviewContext
+class MainViewDMX : public PreviewContext
 {
     Q_OBJECT
 
@@ -40,10 +40,10 @@ public:
     ~MainViewDMX();
 
     /** @reimp */
-    void enableContext(bool enable) override;
+    void enableContext(bool enable);
 
     /** @reimp */
-    void setUniverseFilter(quint32 universeFilter) override;
+    void setUniverseFilter(quint32 universeFilter);
 
     void reset();
 
@@ -74,7 +74,7 @@ signals:
 
 public slots:
     /** @reimp */
-    void slotRefreshView() override;
+    void slotRefreshView();
 
 protected slots:
     void slotAliasChanged();

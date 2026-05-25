@@ -34,7 +34,7 @@ typedef struct
     QColor m_wauv;  // White / Amber / UV values
 } ColorInfo;
 
-class ColorFilters final : public QObject
+class ColorFilters : public QObject
 {
     Q_OBJECT
 

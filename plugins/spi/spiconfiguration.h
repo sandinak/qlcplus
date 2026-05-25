@@ -24,7 +24,7 @@
 
 class SPIPlugin;
 
-class SPIConfiguration final : public QDialog, public Ui_SPIConfiguration
+class SPIConfiguration : public QDialog, public Ui_SPIConfiguration
 {
     Q_OBJECT
 
@@ -36,12 +36,12 @@ public:
     virtual ~SPIConfiguration();
 
     /** @reimp */
-    void accept() override;
+    void accept();
 
     quint32 frequency();
 
 public slots:
-    int exec() override;
+    int exec();
 
 private:
     SPIPlugin* m_plugin;

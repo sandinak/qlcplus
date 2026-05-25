@@ -37,7 +37,7 @@
 /// Maps status codes to string reason phrases
 extern QHash<int, QString> STATUS_CODES;
 
-class CustomTcpServer final : public QTcpServer
+class CustomTcpServer : public QTcpServer
 {
     Q_OBJECT
 
@@ -45,7 +45,7 @@ public:
     CustomTcpServer(QObject *parent);
 
 protected:
-    void incomingConnection(qintptr handle) override;
+    void incomingConnection(qintptr handle);
 
 Q_SIGNALS:
     void newRequest(QHttpRequest *request, QHttpResponse *response);
@@ -70,7 +70,7 @@ Q_SIGNALS:
 
     helloworld.h
     @include helloworld/helloworld.h */
-class QHttpServer final : public QObject
+class QHttpServer : public QObject
 {
     Q_OBJECT
 

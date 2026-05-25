@@ -26,8 +26,6 @@
 
 #if defined(WIN32) || defined(Q_OS_WIN)
   #include <windows.h>
-#else
-  #include <unistd.h>
 #endif
 
 #include "functionliveeditdialog.h"
@@ -42,7 +40,6 @@
 #include "mastertimer.h"
 #include "addresstool.h"
 #include "simpledesk.h"
-#include "appsettings.h"
 #include "aboutbox.h"
 #include "monitor.h"
 #include "vcframe.h"
@@ -89,12 +86,9 @@ typedef BOOL (WINAPI *SetProcessInformationType)(
 #define SETTINGS_GEOMETRY      QStringLiteral("workspace/geometry")
 #define SETTINGS_WORKINGPATH   QStringLiteral("workspace/workingpath")
 #define SETTINGS_RECENTFILE    QStringLiteral("workspace/recent")
-#define SETTINGS_AUTOSAVE_ENABLED QStringLiteral("workspace/autosave/enabled")
-#define SETTINGS_AUTOSAVE_INTERVAL QStringLiteral("workspace/autosave/interval")
 #define KXMLQLCWorkspaceWindow QStringLiteral("CurrentWindow")
 
 #define MAX_RECENT_FILES    10
-#define DEFAULT_AUTOSAVE_INTERVAL 5  // 5 minutes
 
 #define KModeTextOperate QObject::tr("Operate")
 #define KModeTextDesign QObject::tr("Design")
@@ -137,34 +131,15 @@ App::App()
 
     , m_dumpProperties(NULL)
     , m_videoProvider(NULL)
-
-    , m_autosaveTimer(NULL)
-    , m_autosaveEnabled(true)
-    , m_autosaveInterval(DEFAULT_AUTOSAVE_INTERVAL)
-
-    , m_statusModeLabel(NULL)
-    , m_statusAutosaveLabel(NULL)
 {
     QCoreApplication::setOrganizationName("qlcplus");
-    QCoreApplication::setOrganizationDomain("qlcplus.org");
+    QCoreApplication::setOrganizationDomain("sf.net");
     QCoreApplication::setApplicationName(APPNAME);
 }
 
 App::~App()
 {
     QSettings settings;
-
-    // Stop autosave timer
-    if (m_autosaveTimer != NULL)
-    {
-        m_autosaveTimer->stop();
-        delete m_autosaveTimer;
-        m_autosaveTimer = NULL;
-    }
-
-    // Remove autosave file on clean exit (document was saved or discarded)
-    if (m_doc != NULL && m_doc->isModified() == false)
-        removeAutosaveFile();
 
     // Don't save kiosk-mode window geometry because that will screw things up
     if (m_doc->isKiosk() == false && QLCFile::hasWindowManager())
@@ -351,12 +326,6 @@ void App::init()
     this->setStyleSheet(AppUtil::getStyleSheet("MAIN"));
 
     m_videoProvider = new VideoProvider(m_doc, this);
-
-    // Initialize status bar
-    initStatusBar();
-
-    // Initialize autosave
-    initAutosave();
 }
 
 void App::setActiveWindow(const QString& name)
@@ -711,15 +680,15 @@ void App::initActions()
 {
     /* File actions */
     m_fileNewAction = new QAction(QIcon(":/filenew.png"), tr("&New"), this);
-    m_fileNewAction->setShortcut(QKeySequence("CTRL+N"));
+    m_fileNewAction->setShortcut(QKeySequence(tr("CTRL+N", "File|New")));
     connect(m_fileNewAction, SIGNAL(triggered(bool)), this, SLOT(slotFileNew()));
 
     m_fileOpenAction = new QAction(QIcon(":/fileopen.png"), tr("&Open"), this);
-    m_fileOpenAction->setShortcut(QKeySequence("CTRL+O"));
+    m_fileOpenAction->setShortcut(QKeySequence(tr("CTRL+O", "File|Open")));
     connect(m_fileOpenAction, SIGNAL(triggered(bool)), this, SLOT(slotFileOpen()));
 
     m_fileSaveAction = new QAction(QIcon(":/filesave.png"), tr("&Save"), this);
-    m_fileSaveAction->setShortcut(QKeySequence("CTRL+S"));
+    m_fileSaveAction->setShortcut(QKeySequence(tr("CTRL+S", "File|Save")));
     connect(m_fileSaveAction, SIGNAL(triggered(bool)), this, SLOT(slotFileSave()));
 
     m_fileSaveAsAction = new QAction(QIcon(":/filesaveas.png"), tr("Save &As..."), this);
@@ -728,11 +697,11 @@ void App::initActions()
     /* Control actions */
     m_modeToggleAction = new QAction(QIcon(":/operate.png"), tr("&Operate"), this);
     m_modeToggleAction->setToolTip(tr("Switch to operate mode"));
-    m_modeToggleAction->setShortcut(QKeySequence("CTRL+F12"));
+    m_modeToggleAction->setShortcut(QKeySequence(tr("CTRL+F12", "Control|Toggle operate/design mode")));
     connect(m_modeToggleAction, SIGNAL(triggered(bool)), this, SLOT(slotModeToggle()));
 
     m_controlMonitorAction = new QAction(QIcon(":/monitor.png"), tr("&Monitor"), this);
-    m_controlMonitorAction->setShortcut(QKeySequence("CTRL+M"));
+    m_controlMonitorAction->setShortcut(QKeySequence(tr("CTRL+M", "Control|Monitor")));
     connect(m_controlMonitorAction, SIGNAL(triggered(bool)), this, SLOT(slotControlMonitor()));
 
     m_addressToolAction = new QAction(QIcon(":/diptool.png"), tr("Address Tool"), this);
@@ -753,7 +722,7 @@ void App::initActions()
     m_liveEditVirtualConsoleAction->setEnabled(false);
 
     m_dumpDmxAction = new QAction(QIcon(":/add_dump.png"), tr("Dump DMX values to a function"), this);
-    m_dumpDmxAction->setShortcut(QKeySequence("CTRL+D"));
+    m_dumpDmxAction->setShortcut(QKeySequence(tr("CTRL+D", "Control|Dump DMX")));
     connect(m_dumpDmxAction, SIGNAL(triggered()), this, SLOT(slotDumpDmxIntoFunction()));
 
     m_controlPanicAction = new QAction(QIcon(":/panic.png"), tr("Stop ALL functions!"), this);
@@ -785,21 +754,16 @@ void App::initActions()
 
     m_controlFullScreenAction = new QAction(QIcon(":/fullscreen.png"), tr("Toggle Full Screen"), this);
     m_controlFullScreenAction->setCheckable(true);
-    m_controlFullScreenAction->setShortcut(QKeySequence("CTRL+F11"));
+    m_controlFullScreenAction->setShortcut(QKeySequence(tr("CTRL+F11", "Control|Toggle Full Screen")));
     connect(m_controlFullScreenAction, SIGNAL(triggered(bool)), this, SLOT(slotControlFullScreen()));
 
     /* Help actions */
     m_helpIndexAction = new QAction(QIcon(":/help.png"), tr("&Index"), this);
-    m_helpIndexAction->setShortcut(QKeySequence("SHIFT+F1"));
+    m_helpIndexAction->setShortcut(QKeySequence(tr("SHIFT+F1", "Help|Index")));
     connect(m_helpIndexAction, SIGNAL(triggered(bool)), this, SLOT(slotHelpIndex()));
 
     m_helpAboutAction = new QAction(QIcon(":/qlcplus.png"), tr("&About QLC+"), this);
     connect(m_helpAboutAction, SIGNAL(triggered(bool)), this, SLOT(slotHelpAbout()));
-
-    /* Settings action */
-    m_appSettingsAction = new QAction(QIcon(":/configure.png"), tr("&Settings"), this);
-    m_appSettingsAction->setShortcut(QKeySequence(tr("CTRL+,", "Settings")));
-    connect(m_appSettingsAction, SIGNAL(triggered(bool)), this, SLOT(slotAppSettings()));
 
     if (QLCFile::hasWindowManager() == false)
     {
@@ -826,7 +790,6 @@ void App::initToolBar()
     m_toolbar->addAction(m_addressToolAction);
     m_toolbar->addSeparator();
     m_toolbar->addAction(m_controlFullScreenAction);
-    m_toolbar->addAction(m_appSettingsAction);
     m_toolbar->addAction(m_helpIndexAction);
     m_toolbar->addAction(m_helpAboutAction);
     if (QLCFile::hasWindowManager() == false)
@@ -1095,8 +1058,9 @@ QFile::FileError App::slotFileSave()
 
     if (handleFileError(error))
     {
-        // Remove autosave file on successful save
-        removeAutosaveFile();
+        QFile asFile(asfName);
+        if (asFile.exists())
+            asFile.remove();
     }
     return error;
 }
@@ -1318,12 +1282,6 @@ void App::slotHelpAbout()
 {
     AboutBox ab(this);
     ab.exec();
-}
-
-void App::slotAppSettings()
-{
-    AppSettings settings(this, this);
-    settings.exec();
 }
 
 void App::slotRecentFileClicked(QAction *recent)
@@ -1662,307 +1620,4 @@ void App::slotSaveAutostart(QString fileName)
     /* Save the document and set workspace name */
     QFile::FileError error = saveXML(fileName);
     handleFileError(error);
-}
-
-/*****************************************************************************
- * Autosave
- *****************************************************************************/
-
-void App::initAutosave()
-{
-    QSettings settings;
-
-    // Load autosave settings
-    m_autosaveEnabled = settings.value(SETTINGS_AUTOSAVE_ENABLED, true).toBool();
-    m_autosaveInterval = settings.value(SETTINGS_AUTOSAVE_INTERVAL, DEFAULT_AUTOSAVE_INTERVAL).toInt();
-
-    // Create autosave timer
-    m_autosaveTimer = new QTimer(this);
-    connect(m_autosaveTimer, SIGNAL(timeout()), this, SLOT(slotAutosave()));
-
-    // Start timer if enabled
-    if (m_autosaveEnabled && m_autosaveInterval > 0)
-    {
-        m_autosaveTimer->start(m_autosaveInterval * 60 * 1000);  // Convert minutes to ms
-        qDebug() << "[Autosave] Enabled with interval of" << m_autosaveInterval << "minutes";
-    }
-
-    // Check for recovery file
-    checkAutosaveRecovery();
-}
-
-bool App::isAutosaveEnabled() const
-{
-    return m_autosaveEnabled;
-}
-
-void App::setAutosaveEnabled(bool enable)
-{
-    m_autosaveEnabled = enable;
-
-    QSettings settings;
-    settings.setValue(SETTINGS_AUTOSAVE_ENABLED, enable);
-
-    if (enable && m_autosaveInterval > 0)
-    {
-        m_autosaveTimer->start(m_autosaveInterval * 60 * 1000);
-        qDebug() << "[Autosave] Enabled with interval of" << m_autosaveInterval << "minutes";
-    }
-    else
-    {
-        m_autosaveTimer->stop();
-        m_lastAutosaveTime.clear();
-        qDebug() << "[Autosave] Disabled";
-    }
-
-    updateStatusBar();
-}
-
-int App::autosaveInterval() const
-{
-    return m_autosaveInterval;
-}
-
-void App::setAutosaveInterval(int minutes)
-{
-    if (minutes < 1)
-        minutes = 1;  // Minimum 1 minute
-
-    m_autosaveInterval = minutes;
-
-    QSettings settings;
-    settings.setValue(SETTINGS_AUTOSAVE_INTERVAL, minutes);
-
-    // Restart timer with new interval if enabled
-    if (m_autosaveEnabled)
-    {
-        m_autosaveTimer->start(m_autosaveInterval * 60 * 1000);
-        qDebug() << "[Autosave] Interval changed to" << minutes << "minutes";
-    }
-}
-
-QString App::autosaveFilePath() const
-{
-    if (m_fileName.isEmpty())
-    {
-        // For unsaved documents, use a default location
-        QString userDir;
-#if defined(WIN32) || defined(Q_OS_WIN)
-        LPTSTR home = (LPTSTR) malloc(256 * sizeof(TCHAR));
-        GetEnvironmentVariable(TEXT("UserProfile"), home, 256);
-        userDir = QString("%1/%2").arg(QString::fromUtf16(reinterpret_cast<char16_t*>(home)))
-                                  .arg(USERQLCPLUSDIR);
-        free(home);
-#else
-        userDir = QString("%1/%2").arg(getenv("HOME")).arg(USERQLCPLUSDIR);
-#endif
-        return userDir + QDir::separator() + "untitled.qxw.autosave";
-    }
-
-    return m_fileName + ".autosave";
-}
-
-void App::slotAutosave()
-{
-    // Only autosave if document has been modified
-    if (m_doc == NULL || m_doc->isModified() == false)
-        return;
-
-    QString autosavePath = autosaveFilePath();
-
-    // Ensure directory exists
-    QFileInfo fi(autosavePath);
-    QDir dir = fi.absoluteDir();
-    if (!dir.exists())
-        dir.mkpath(".");
-
-    qDebug() << "[Autosave] Saving to" << autosavePath;
-
-    // Save to autosave file (similar to saveXML but without changing m_fileName)
-    QString tempFileName = autosavePath + ".temp";
-    QFile file(tempFileName);
-    if (file.open(QIODevice::WriteOnly) == false)
-    {
-        qWarning() << "[Autosave] Failed to open file for writing:" << tempFileName;
-        return;
-    }
-
-    QXmlStreamWriter doc(&file);
-    doc.setAutoFormatting(true);
-    doc.setAutoFormattingIndent(1);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    doc.setCodec("UTF-8");
-#endif
-    doc.writeStartDocument();
-    doc.writeDTD(QString("<!DOCTYPE %1>").arg(KXMLQLCWorkspace));
-
-    doc.writeStartElement(KXMLQLCWorkspace);
-    doc.writeAttribute("xmlns", QString("%1%2").arg(KXMLQLCplusNamespace).arg(KXMLQLCWorkspace));
-
-    doc.writeStartElement(KXMLQLCCreator);
-    doc.writeTextElement(KXMLQLCCreatorName, APPNAME);
-    doc.writeTextElement(KXMLQLCCreatorVersion, APPVERSION);
-    doc.writeTextElement(KXMLQLCCreatorAuthor, QLCFile::currentUserName());
-    doc.writeEndElement();
-
-    m_doc->saveXML(&doc);
-    VirtualConsole::instance()->saveXML(&doc);
-    SimpleDesk::instance()->saveXML(&doc);
-
-    doc.writeEndElement();
-    doc.writeEndDocument();
-    file.close();
-
-#ifdef Q_OS_UNIX
-    sync();
-#endif
-
-    // Move temp file to actual autosave file
-    QFile autosaveFile(autosavePath);
-    if (autosaveFile.exists() && !autosaveFile.remove())
-    {
-        qWarning() << "[Autosave] Could not remove old autosave file:" << autosavePath;
-        return;
-    }
-    if (!file.rename(autosavePath))
-    {
-        qWarning() << "[Autosave] Could not rename temp file to:" << autosavePath;
-        return;
-    }
-
-    // Update last autosave time and status bar
-    m_lastAutosaveTime = QTime::currentTime().toString("hh:mm:ss");
-    updateStatusBar();
-
-    qDebug() << "[Autosave] Successfully saved to" << autosavePath;
-}
-
-void App::checkAutosaveRecovery()
-{
-    // Check for autosave file for untitled documents
-    QString userDir;
-#if defined(WIN32) || defined(Q_OS_WIN)
-    LPTSTR home = (LPTSTR) malloc(256 * sizeof(TCHAR));
-    GetEnvironmentVariable(TEXT("UserProfile"), home, 256);
-    userDir = QString("%1/%2").arg(QString::fromUtf16(reinterpret_cast<char16_t*>(home)))
-                              .arg(USERQLCPLUSDIR);
-    free(home);
-#else
-    userDir = QString("%1/%2").arg(getenv("HOME")).arg(USERQLCPLUSDIR);
-#endif
-
-    QString untitledAutosave = userDir + QDir::separator() + "untitled.qxw.autosave";
-    QFile autosaveFile(untitledAutosave);
-
-    if (autosaveFile.exists())
-    {
-        QFileInfo fi(untitledAutosave);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-        QString lastModified = QLocale().toString(fi.lastModified(), QLocale::LongFormat);
-#else
-        QString lastModified = fi.lastModified().toString(Qt::DefaultLocaleLongDate);
-#endif
-
-        int result = QMessageBox::question(this,
-            tr("Autosave Recovery"),
-            tr("An autosave file was found from a previous session.\n"
-               "Last modified: %1\n\n"
-               "Do you want to recover the unsaved work?").arg(lastModified),
-            QMessageBox::Yes | QMessageBox::No,
-            QMessageBox::Yes);
-
-        if (result == QMessageBox::Yes)
-        {
-            // Load the autosave file
-            QFile::FileError error = loadXML(untitledAutosave);
-            if (error == QFile::NoError)
-            {
-                // Clear the filename so user must "Save As"
-                setFileName(QString());
-                m_doc->setModified();
-                qDebug() << "[Autosave] Recovered from" << untitledAutosave;
-            }
-        }
-        else
-        {
-            // Remove the autosave file if user doesn't want it
-            autosaveFile.remove();
-            qDebug() << "[Autosave] Recovery declined, removed" << untitledAutosave;
-        }
-    }
-}
-
-void App::removeAutosaveFile()
-{
-    QString autosavePath = autosaveFilePath();
-    QFile autosaveFile(autosavePath);
-
-    if (autosaveFile.exists())
-    {
-        if (autosaveFile.remove())
-            qDebug() << "[Autosave] Removed autosave file:" << autosavePath;
-        else
-            qWarning() << "[Autosave] Failed to remove autosave file:" << autosavePath;
-    }
-}
-
-/*****************************************************************************
- * Status Bar
- *****************************************************************************/
-
-void App::initStatusBar()
-{
-    QStatusBar* sb = statusBar();
-
-    // Create mode label (left side)
-    m_statusModeLabel = new QLabel(this);
-    m_statusModeLabel->setMinimumWidth(300);
-    sb->addWidget(m_statusModeLabel, 1);
-
-    // Create autosave label (right side)
-    m_statusAutosaveLabel = new QLabel(this);
-    m_statusAutosaveLabel->setAlignment(Qt::AlignRight);
-    sb->addPermanentWidget(m_statusAutosaveLabel);
-
-    updateStatusBar();
-}
-
-void App::updateStatusBar()
-{
-    // Update mode message
-    if (m_statusModeLabel != NULL)
-    {
-        if (m_statusMessage.isEmpty())
-            m_statusModeLabel->setText(tr("Ready"));
-        else
-            m_statusModeLabel->setText(m_statusMessage);
-    }
-
-    // Update autosave status
-    if (m_statusAutosaveLabel != NULL)
-    {
-        if (m_autosaveEnabled)
-        {
-            if (m_lastAutosaveTime.isEmpty())
-                m_statusAutosaveLabel->setText(tr("Autosave: Enabled"));
-            else
-                m_statusAutosaveLabel->setText(tr("Last autosave: %1").arg(m_lastAutosaveTime));
-        }
-        else
-        {
-            m_statusAutosaveLabel->setText(tr("Autosave: Disabled"));
-        }
-    }
-}
-
-void App::setStatusMessage(const QString& message)
-{
-    m_statusMessage = message;
-    updateStatusBar();
-}
-
-void App::clearStatusMessage()
-{
-    m_statusMessage.clear();
-    updateStatusBar();
 }

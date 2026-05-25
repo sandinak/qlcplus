@@ -49,10 +49,11 @@
         <translation>&amp;Nieuw</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="246"/>
         <source>CTRL+N</source>
         <comment>File|New</comment>
         <translatorcomment>Bestand|Nieuw</translatorcomment>
-        <translation type="vanished">CTRL+N</translation>
+        <translation>CTRL+N</translation>
     </message>
     <message>
         <location filename="app.cpp" line="251"/>
@@ -60,10 +61,11 @@
         <translation>&amp;Open</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="252"/>
         <source>CTRL+O</source>
         <comment>File|Open</comment>
         <translatorcomment>Bestand|Openen</translatorcomment>
-        <translation type="vanished">CTRL+O</translation>
+        <translation>CTRL+O</translation>
     </message>
     <message>
         <location filename="app.cpp" line="257"/>
@@ -71,10 +73,11 @@
         <translation>Op&amp;slaan</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="258"/>
         <source>CTRL+S</source>
         <comment>File|Save</comment>
         <translatorcomment>Bestand|Opslaan</translatorcomment>
-        <translation type="vanished">CTRL+S</translation>
+        <translation>CTRL+S</translation>
     </message>
     <message>
         <location filename="app.cpp" line="263"/>
@@ -82,10 +85,11 @@
         <translation>Opslaan &amp;Als...</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="264"/>
         <source>CTRL+SHIFT+S</source>
         <comment>File|Save As...</comment>
         <translatorcomment>Bestand|Opslaan als...</translatorcomment>
-        <translation type="vanished">CTRL+SHIFT+S</translation>
+        <translation>CTRL+SHIFT+S</translation>
     </message>
     <message>
         <location filename="app.cpp" line="269"/>
@@ -93,10 +97,11 @@
         <translation>S&amp;luiten</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="270"/>
         <source>CTRL+Q</source>
         <comment>File|Quit</comment>
         <translatorcomment>Bestand|Sluiten</translatorcomment>
-        <translation type="vanished">CTRL+L</translation>
+        <translation>CTRL+L</translation>
     </message>
     <message>
         <location filename="app.cpp" line="276"/>
@@ -104,10 +109,11 @@
         <translation>Index</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="277"/>
         <source>SHIFT+F1</source>
         <comment>Help|Index</comment>
         <translatorcomment>Help|Index</translatorcomment>
-        <translation type="vanished">SHIFT+F1</translation>
+        <translation>SHIFT+F1</translation>
     </message>
     <message>
         <location filename="app.cpp" line="282"/>

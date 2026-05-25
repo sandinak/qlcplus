@@ -72,7 +72,7 @@ void ArtNetPlugin::init()
     std::sort(m_IOmapping.begin(), m_IOmapping.end(), addressCompare);
 }
 
-QString ArtNetPlugin::name() const
+QString ArtNetPlugin::name()
 {
     return QString("ArtNet");
 }
@@ -82,7 +82,7 @@ int ArtNetPlugin::capabilities() const
     return QLCIOPlugin::Output | QLCIOPlugin::Input | QLCIOPlugin::Infinite | QLCIOPlugin::RDM;
 }
 
-QString ArtNetPlugin::pluginInfo() const
+QString ArtNetPlugin::pluginInfo()
 {
     QString str;
 
@@ -325,7 +325,7 @@ void ArtNetPlugin::configure()
     conf.exec();
 }
 
-bool ArtNetPlugin::canConfigure() const
+bool ArtNetPlugin::canConfigure()
 {
     return true;
 }
@@ -375,7 +375,7 @@ void ArtNetPlugin::setParameter(quint32 universe, quint32 line, Capability type,
         QLCIOPlugin::setParameter(universe, line, type, name, value);
 }
 
-QList<ArtNetIO> ArtNetPlugin::getIOMapping() const
+QList<ArtNetIO> ArtNetPlugin::getIOMapping()
 {
     return m_IOmapping;
 }

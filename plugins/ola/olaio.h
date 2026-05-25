@@ -31,7 +31,7 @@
 
 class ConfigureOlaIO;
 
-class OlaIO final : public QLCIOPlugin
+class OlaIO : public QLCIOPlugin
 {
     Q_OBJECT
     Q_INTERFACES(QLCIOPlugin)
@@ -47,16 +47,16 @@ public:
     ~OlaIO();
 
     /** @reimp */
-    void init() override;
+    void init();
 
     /** @reimp */
-    QString name() const override;
+    QString name();
 
     /** @reimp */
-    int capabilities() const override;
+    int capabilities() const;
 
     /** @reimp */
-    QString pluginInfo() const override;
+    QString pluginInfo();
 
 private:
     /** Is the plugin currently running as a stand alone daemon. */
@@ -70,19 +70,19 @@ private:
      ************************************************************************/
 public:
     /** @reimp */
-    bool openOutput(quint32 output, quint32 universe) override;
+    bool openOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    void closeOutput(quint32 output, quint32 universe) override;
+    void closeOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    QStringList outputs() override;
+    QStringList outputs();
 
     /** @reimp */
-    QString outputInfo(quint32 output) override;
+    QString outputInfo(quint32 output);
 
     /** @reimp */
-    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged) override;
+    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged);
 
 private:
     /** Return the output: universe mapping */
@@ -100,13 +100,13 @@ private:
      ************************************************************************/
 public:
     /** @reimp */
-    void configure() override;
+    void configure();
 
     /** @reimp */
-    bool canConfigure() const override;
+    bool canConfigure();
 
     /** @reimp */
-    void setParameter(quint32 universe, quint32 line, Capability type, QString name, QVariant value) override;
+    void setParameter(quint32 universe, quint32 line, Capability type, QString name, QVariant value);
 
 private:
     QString m_configDir;

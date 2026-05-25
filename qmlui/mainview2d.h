@@ -30,7 +30,7 @@ class Fixture;
 class QLCFixtureMode;
 class MonitorProperties;
 
-class MainView2D final : public PreviewContext
+class MainView2D : public PreviewContext
 {
     Q_OBJECT
 
@@ -47,10 +47,10 @@ public:
     ~MainView2D();
 
     /** @reimp */
-    void enableContext(bool enable) override;
+    void enableContext(bool enable);
 
     /** @reimp */
-    void setUniverseFilter(quint32 universeFilter) override;
+    void setUniverseFilter(quint32 universeFilter);
 
     void resetItems();
 
@@ -137,7 +137,7 @@ signals:
 
 public slots:
     /** @reimp */
-    void slotRefreshView() override;
+    void slotRefreshView();
 
 private:
     /** References to the 2D grid item for positioning */

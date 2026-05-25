@@ -72,9 +72,10 @@
         <translation>&amp;Neu</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="246"/>
         <source>CTRL+N</source>
         <comment>File|New</comment>
-        <translation type="vanished">CTRL+N</translation>
+        <translation>CTRL+N</translation>
     </message>
     <message>
         <location filename="app.cpp" line="251"/>
@@ -82,9 +83,10 @@
         <translation>&amp;Öffnen</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="252"/>
         <source>CTRL+O</source>
         <comment>File|Open</comment>
-        <translation type="vanished">CTRL+O</translation>
+        <translation>CTRL+O</translation>
     </message>
     <message>
         <location filename="app.cpp" line="257"/>
@@ -92,9 +94,10 @@
         <translation>&amp;Speichern</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="258"/>
         <source>CTRL+S</source>
         <comment>File|Save</comment>
-        <translation type="vanished">CTRL+S</translation>
+        <translation>CTRL+S</translation>
     </message>
     <message>
         <location filename="app.cpp" line="263"/>
@@ -103,9 +106,10 @@
         <translation>Speichern &amp;unter…</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="264"/>
         <source>CTRL+SHIFT+S</source>
         <comment>File|Save As...</comment>
-        <translation type="vanished">CTRL+SHIFT+S</translation>
+        <translation>CTRL+SHIFT+S</translation>
     </message>
     <message>
         <location filename="app.cpp" line="269"/>
@@ -113,9 +117,10 @@
         <translation>&amp;Beenden</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="270"/>
         <source>CTRL+Q</source>
         <comment>File|Quit</comment>
-        <translation type="vanished">CTRL+Q</translation>
+        <translation>CTRL+Q</translation>
     </message>
     <message>
         <location filename="app.cpp" line="276"/>
@@ -123,9 +128,10 @@
         <translation>Handbuch</translation>
     </message>
     <message>
+        <location filename="app.cpp" line="277"/>
         <source>SHIFT+F1</source>
         <comment>Help|Index</comment>
-        <translation type="vanished">F1</translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="app.cpp" line="282"/>

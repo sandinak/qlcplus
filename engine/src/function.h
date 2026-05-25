@@ -63,7 +63,6 @@ class FunctionUiState;
 
 #define KXMLQLCFunctionDirection QStringLiteral("Direction")
 #define KXMLQLCFunctionRunOrder  QStringLiteral("RunOrder")
-#define KXMLQLCFunctionTempoType QStringLiteral("Tempo")
 
 #define KXMLQLCFunctionEnabled   QStringLiteral("Enabled")
 
@@ -458,13 +457,6 @@ public:
     /** Set the override speed type (done by a Chaser) */
     void setOverrideTempoType(TempoType type);
 
-protected:
-    /** Save function's tempo type in $doc */
-    bool saveXMLTempoType(QXmlStreamWriter *doc) const;
-
-    /** Load function's tempo type from $root */
-    bool loadXMLTempoType(QXmlStreamReader &root);
-
 signals:
     void tempoTypeChanged();
 
@@ -600,7 +592,7 @@ public:
      *
      * @param doc The XML document to save to
      */
-    virtual bool saveXML(QXmlStreamWriter *doc) const;
+    virtual bool saveXML(QXmlStreamWriter *doc);
 
     /**
      * Read this function's contents from an XML document
@@ -631,13 +623,13 @@ public:
      * Check if a Function ID is included/controlled by this Function.
      * Subclasses should reimplement this.
      */
-    virtual bool contains(quint32 functionId) const;
+    virtual bool contains(quint32 functionId);
 
     /**
      * Return a list of components such as Functions/Fixtures with unique IDs.
      * Subclasses should reimplement this.
      */
-    virtual QList<quint32> components() const;
+    virtual QList<quint32> components();
 
     /*********************************************************************
      * Flash

@@ -33,8 +33,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QDateTime>
 #include <QCryptographicHash>
 
-#include "utils.h"
-
 SimpleCrypt::SimpleCrypt():
     m_key(0),
     m_compressionMode(CompressionAuto),
@@ -106,7 +104,12 @@ QByteArray SimpleCrypt::encryptToByteArray(QByteArray plaintext)
     if (m_protectionMode == ProtectionChecksum) {
         flags |= CryptoFlagChecksum;
         QDataStream s(&integrityProtection, QIODevice::WriteOnly);
-        s << Utils::getChecksum(ba.constData());
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        s << qChecksum(ba.constData(), ba.length());
+#else
+        QByteArrayView bav(ba.constData(), ba.length());
+        s << qChecksum(bav);
+#endif
     } else if (m_protectionMode == ProtectionHash) {
         flags |= CryptoFlagHash;
         QCryptographicHash hash(QCryptographicHash::Sha1);
@@ -228,7 +231,12 @@ QByteArray SimpleCrypt::decryptToByteArray(QByteArray cypher)
             s >> storedChecksum;
         }
         ba = ba.mid(2);
-        quint16 checksum = Utils::getChecksum(ba.constData());
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        quint16 checksum = qChecksum(ba.constData(), ba.length());
+#else
+        QByteArrayView bav(ba.constData(), ba.length());
+        quint16 checksum = qChecksum(bav);
+#endif
         integrityOk = (checksum == storedChecksum);
     } else if (flags.testFlag(CryptoFlagHash)) {
         if (ba.length() < 20) {

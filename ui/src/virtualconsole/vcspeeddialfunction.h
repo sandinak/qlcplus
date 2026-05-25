@@ -29,7 +29,7 @@ class QXmlStreamWriter;
  * @{
  */
 
-class VCSpeedDialFunction final
+class VCSpeedDialFunction
 {
     /************************************************************************
      * Speed Multiplier Definition

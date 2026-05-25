@@ -37,7 +37,7 @@ class Doc;
 
 #define KXMLQLCVCClock QStringLiteral("Clock")
 
-class VCClockSchedule final
+class VCClockSchedule
 {
 public:
     VCClockSchedule() { }
@@ -52,14 +52,14 @@ public:
 
     /** Load & Save */
     bool loadXML(QXmlStreamReader &root);
-    bool saveXML(QXmlStreamWriter *doc) const;
+    bool saveXML(QXmlStreamWriter *doc);
 
 private:
     quint32 m_id;
     QDateTime m_time;
 };
 
-class VCClock final : public VCWidget
+class VCClock : public VCWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCClock)
@@ -75,7 +75,7 @@ public:
      * QLC+ Mode
      *********************************************************************/
 public slots:
-    void slotModeChanged(Doc::Mode mode) override;
+    void slotModeChanged(Doc::Mode mode);
 
     /*********************************************************************
      * Type
@@ -120,10 +120,10 @@ public:
     void setCountdown(int h, int m, int s);
     void playPauseTimer();
     void resetTimer();
-    long currentTime() const { return m_currentTime; }
-    int getHours() const { return m_hh; }
-    int getMinutes() const { return m_mm; }
-    int getSeconds() const { return m_ss; }
+    long currentTime() { return m_currentTime; }
+    int getHours() { return m_hh; }
+    int getMinutes() { return m_mm; }
+    int getSeconds() { return m_ss; }
 
 signals:
     void timeChanged(quint32 time);
@@ -162,16 +162,16 @@ private:
     QKeySequence m_resetKeySequence;
 
 protected slots:
-    void slotKeyPressed(const QKeySequence& keySequence) override;
+    void slotKeyPressed(const QKeySequence& keySequence);
 
     /*************************************************************************
      * External Input
      *************************************************************************/
 public:
-    void updateFeedback() override;
+    void updateFeedback();
 
 protected slots:
-    void slotInputValueChanged(quint32 universe, quint32 channel, uchar value) override;
+    void slotInputValueChanged(quint32 universe, quint32 channel, uchar value);
 
 private:
     quint32 m_playLatestValue;
@@ -181,28 +181,28 @@ private:
      * Clipboard
      *********************************************************************/
 public:
-    VCWidget* createCopy(VCWidget* parent) const override;
-    bool copyFrom(const VCWidget *widget) override;
+    VCWidget* createCopy(VCWidget* parent);
+    bool copyFrom(const VCWidget *widget);
 
     /*********************************************************************
      * Properties
      *********************************************************************/
 public:
-    void editProperties() override;
+    void editProperties();
 
     /*********************************************************************
      * Load & Save
      *********************************************************************/
 public:
-    bool loadXML(QXmlStreamReader &root) override;
-    bool saveXML(QXmlStreamWriter *doc) override;
+    bool loadXML(QXmlStreamReader &root);
+    bool saveXML(QXmlStreamWriter *doc);
 
     /*********************************************************************
      * Painting
      *********************************************************************/
 protected:
-    void paintEvent(QPaintEvent* e) override;
-    void mousePressEvent(QMouseEvent* e) override;
+    void paintEvent(QPaintEvent* e);
+    void mousePressEvent(QMouseEvent* e);
 };
 
 /** @} */

@@ -60,7 +60,7 @@ Q_DECLARE_METATYPE(StringDoublePair)
 typedef QPair<QString, QString> StringStringPair;
 Q_DECLARE_METATYPE(StringStringPair)
 
-class Tardis final : public QThread
+class Tardis : public QThread
 {
     Q_OBJECT
 
@@ -189,7 +189,6 @@ public:
         VCWidgetForegroundColor,
         VCWidgetFont,
         VCWidgetPage,
-        VCWidgetZIndex,
 
         VCButtonSetActionType,
         VCButtonSetFunctionID,
@@ -254,7 +253,7 @@ public:
     void forwardActionToNetwork(int code, TardisAction &action);
 
     /** @reimp */
-    void run() override; // thread run function
+    void run(); // thread run function
 
 protected:
     QString actionToString(int action);

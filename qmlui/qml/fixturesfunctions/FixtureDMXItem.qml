@@ -229,11 +229,6 @@ Rectangle
                 //dmxItemRoot.requestTool(item, fixtureID, chIndex, value)
                 dmxItemRoot.parent.loadTool(item, fixtureID, chIndex, value)
             }
-
-            function onCloseTool()
-            {
-                dmxItemRoot.parent.closeTool()
-            }
         }
     }
 

@@ -196,7 +196,7 @@ VCWidgetItem
             playbackIndex: cueListObj ? cueListObj.playbackIndex : -1
             nextIndex: sideFaderMode === VCCueList.Crossfade ? sideFaderLayout.nextStepIndex : -1
             //tempoType: chaserEditor.tempoType
-            isRunning: playbackStatus === VCCueList.Playing ? true : false
+            //isRunning: chaserEditor.previewEnabled
 
             onIndexChanged: if (cueListObj) cueListObj.playbackIndex = index
             //onStepValueChanged: chaserEditor.setStepSpeed(index, value, type)

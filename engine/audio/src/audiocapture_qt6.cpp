@@ -106,7 +106,7 @@ void AudioCaptureQt6::uninitialize()
     m_audioSource = NULL;
 }
 
-qint64 AudioCaptureQt6::latency() const
+qint64 AudioCaptureQt6::latency()
 {
     return 0; // TODO
 }

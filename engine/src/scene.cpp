@@ -203,11 +203,11 @@ QList <SceneValue> Scene::values() const
     return m_values.keys();
 }
 
-QList<quint32> Scene::components() const
+QList<quint32> Scene::components()
 {
     QList<quint32> ids;
 
-    QMap <SceneValue, uchar>::const_iterator it = m_values.begin();
+    QMap <SceneValue, uchar>::iterator it = m_values.begin();
     for (; it != m_values.end(); it++)
     {
         const SceneValue& scv = it.key();
@@ -421,7 +421,7 @@ QList<quint32> Scene::palettes() const
  * Load & Save
  *****************************************************************************/
 
-bool Scene::saveXML(QXmlStreamWriter *doc) const
+bool Scene::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 
@@ -430,9 +430,6 @@ bool Scene::saveXML(QXmlStreamWriter *doc) const
 
     /* Common attributes */
     saveXMLCommon(doc);
-
-    /* Tempo type */
-    saveXMLTempoType(doc);
 
     /* Speed */
     saveXMLSpeed(doc);
@@ -542,10 +539,6 @@ bool Scene::loadXML(QXmlStreamReader &root)
         else if (root.name() == KXMLQLCFunctionSpeed)
         {
             loadXMLSpeed(root);
-        }
-        else if (root.name() == KXMLQLCFunctionTempoType)
-        {
-            loadXMLTempoType(root);
         }
         else if (root.name() == KXMLQLCSceneChannelGroups)
         {
@@ -765,7 +758,7 @@ void Scene::processValue(MasterTimer *timer, QList<Universe*> ua, uint fadeIn, S
     }
     else
     {
-        //qDebug() << "Scene" << name() << "add channel" << scv.channel << "from" << fc->current(chIndex) << "to" << scv.value;
+        qDebug() << "Scene" << name() << "add channel" << scv.channel << "from" << fc->current(chIndex) << "to" << scv.value;
     }
 
     fc->setStart(fc->current(chIndex), chIndex);

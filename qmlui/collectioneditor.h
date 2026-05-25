@@ -25,7 +25,7 @@
 class Collection;
 class ListModel;
 
-class CollectionEditor final : public FunctionEditor
+class CollectionEditor : public FunctionEditor
 {
     Q_OBJECT
 
@@ -35,7 +35,7 @@ public:
     CollectionEditor(QQuickView *view, Doc *doc, QObject *parent = 0);
 
     /** Set the ID of the Collection being edited */
-    void setFunctionID(quint32 ID) override;
+    void setFunctionID(quint32 ID);
 
     QVariant functionsList() const;
 
@@ -44,7 +44,7 @@ public:
     Q_INVOKABLE bool moveFunction(quint32 fid, int newIndex);
 
     /** @reimp */
-    void deleteItems(QVariantList list) override;
+    void deleteItems(QVariantList list);
 
 signals:
     void functionsListChanged();

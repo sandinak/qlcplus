@@ -53,24 +53,25 @@ void LibFTDIInterface::setBusLocation(quint8 location)
     m_busLocation = location;
 }
 
-quint8 LibFTDIInterface::busLocation() const
+quint8 LibFTDIInterface::busLocation()
 {
     return m_busLocation;
 }
 
-DMXInterface::Type LibFTDIInterface::type() const
+DMXInterface::Type LibFTDIInterface::type()
 {
     return DMXInterface::libFTDI;
 }
 
-QString LibFTDIInterface::typeString() const
+QString LibFTDIInterface::typeString()
 {
     return "libFTDI";
 }
 
 QList<DMXInterface *> LibFTDIInterface::interfaces(QList<DMXInterface *> discoveredList)
 {
-    QList<DMXInterface *> interfacesList;
+    QList <DMXInterface*> interfacesList;
+    int id = 0;
 
     struct ftdi_context ftdi;
 
@@ -80,7 +81,6 @@ QList<DMXInterface *> LibFTDIInterface::interfaces(QList<DMXInterface *> discove
     libusb_device *dev;
     libusb_device **devs;
     struct libusb_device_descriptor dev_descriptor;
-    struct libusb_config_descriptor *config_descriptor;
     int i = 0;
 
     if (libusb_get_device_list(ftdi.usb_ctx, &devs) < 0)
@@ -112,9 +112,9 @@ QList<DMXInterface *> LibFTDIInterface::interfaces(QList<DMXInterface *> discove
 
     for (bus = usb_get_busses(); bus; bus = bus->next)
     {
-        for (dev = bus->devices; dev; dev = dev->next)
-        {
-            dev_descriptor = dev->descriptor;
+      for (dev = bus->devices; dev; dev = dev->next)
+      {
+        dev_descriptor = dev->descriptor;
 #endif
         Q_ASSERT(dev != NULL);
 
@@ -151,39 +151,20 @@ QList<DMXInterface *> LibFTDIInterface::interfaces(QList<DMXInterface *> discove
         }
         if (found == false)
         {
-#ifdef LIBFTDI1
-            uint8_t interfacesNumber = 1;
-
-            // Detect number of output
-            if (libusb_get_active_config_descriptor(dev, &config_descriptor) == 0)
-            {
-                interfacesNumber = config_descriptor->bNumInterfaces;
-                qDebug() << Q_FUNC_INFO << "Interfaces number: " << QString::number(interfacesNumber, 8);
-                libusb_free_config_descriptor(config_descriptor);
-            }
-
-            // Add each output
-            for (int o = 0; o < interfacesNumber; o++)
-            {
-                // Instanciate LibFTDIInterface with id as output number
-                LibFTDIInterface *iface = new LibFTDIInterface(serial, name, vendor, dev_descriptor.idVendor, dev_descriptor.idProduct, o);
-                iface->setBusLocation(libusb_get_port_number(dev));
-
-                // Append to the global list
-                interfacesList << iface;
-            }
-#else
             LibFTDIInterface *iface = new LibFTDIInterface(serial, name, vendor, dev_descriptor.idVendor,
-                                                           dev_descriptor.idProduct, -1);
+                                                           dev_descriptor.idProduct, id++);
+#ifdef LIBFTDI1
+            iface->setBusLocation(libusb_get_port_number(dev));
+#else
             iface->setBusLocation(dev->bus->location);
-            interfacesList << iface;
 #endif
+            interfacesList << iface;
         }
 
 #ifndef LIBFTDI1
-    }
+      }
 #endif
-}
+    }
 
 #ifdef LIBFTDI1
     libusb_free_device_list(devs, 1);
@@ -203,13 +184,6 @@ bool LibFTDIInterface::open()
     const char *ser = NULL;
     if (serial().isEmpty() == false)
         ser = (const char *)sba.data();
-
-    // Choose output based on id
-    if (ftdi_set_interface(&m_handle, get_ftdi_interface()) < 0)
-    {
-        qWarning() << Q_FUNC_INFO << name() << ftdi_get_error_string(&m_handle);
-        return false;
-    }
 
     if (ftdi_usb_open_desc(&m_handle, vendorID(), productID(),
                            name().toLatin1(), ser) < 0)
@@ -429,16 +403,4 @@ uchar LibFTDIInterface::readByte(bool* ok)
     }
 
     return 0;
-}
-
-enum ftdi_interface LibFTDIInterface::get_ftdi_interface()
-{
-    switch (id())
-    {
-        case 0:  return INTERFACE_A;
-        case 1:  return INTERFACE_B;
-        case 2:  return INTERFACE_C;
-        case 3:  return INTERFACE_D;
-        default: return INTERFACE_ANY; // fallback
-    }
 }

@@ -37,7 +37,7 @@ class JSThread;
 
 #define KXMLQLCRGBScript QStringLiteral("Script")
 
-class RGBScript final : public RGBAlgorithm
+class RGBScript : public RGBAlgorithm
 {
     /************************************************************************
      * Initialization
@@ -53,7 +53,7 @@ public:
     bool operator==(const RGBScript& s) const;
 
     /** @reimp */
-    RGBAlgorithm* clone() const override;
+    RGBAlgorithm* clone() const;
 
     /************************************************************************
      * Load & Evaluation
@@ -85,37 +85,37 @@ private:
      ************************************************************************/
 public:
     /** @reimp */
-    int rgbMapStepCount(const QSize& size) override;
+    int rgbMapStepCount(const QSize& size);
 
     /** @reimp */
-    void rgbMapSetColors(const QVector<uint> &colors) override;
+    void rgbMapSetColors(const QVector<uint> &colors);
 
     /** @reimp */
-    QVector<uint> rgbMapGetColors() override;
+    QVector<uint> rgbMapGetColors();
 
     /** @reimp */
-    void rgbMap(const QSize& size, uint rgb, int step, RGBMap &map) override;
+    void rgbMap(const QSize& size, uint rgb, int step, RGBMap &map);
 
     /** @reimp */
-    QString name() const override;
+    QString name() const;
 
     /** @reimp */
-    QString author() const override;
+    QString author() const;
 
     /** @reimp */
-    int apiVersion() const override;
+    int apiVersion() const;
 
     /** @reimp */
-    RGBAlgorithm::Type type() const override;
+    RGBAlgorithm::Type type() const;
 
     /** @reimp */
-    int acceptColors() const override;
+    int acceptColors() const;
 
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc) const;
 
 private:
     int m_apiVersion;           //! The API version that the script uses

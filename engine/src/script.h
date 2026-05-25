@@ -35,7 +35,7 @@ class Doc;
  * @{
  */
 
-class Script final : public Function
+class Script : public Function
 {
     Q_OBJECT
 
@@ -70,20 +70,20 @@ public:
     virtual ~Script();
 
     /** @reimp */
-    QIcon getIcon() const override;
+    QIcon getIcon() const;
 
     /** @reimp */
-    quint32 totalDuration() override;
+    quint32 totalDuration();
 
     /************************************************************************
      * Copying
      ************************************************************************/
 public:
     /** @reimp */
-    Function* createCopy(Doc* doc, bool addToDoc = true) override;
+    Function* createCopy(Doc* doc, bool addToDoc = true);
 
     /** @reimp */
-    bool copyFrom(const Function* function) override;
+    bool copyFrom(const Function* function);
 
     /************************************************************************
      * Script data
@@ -124,23 +124,23 @@ private:
      ************************************************************************/
 public:
     /** @reimp */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /** @reimp */
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool saveXML(QXmlStreamWriter *doc);
 
     /************************************************************************
      * Running
      ************************************************************************/
 public:
     /** @reimp */
-    void preRun(MasterTimer *timer) override;
+    void preRun(MasterTimer *timer);
 
     /** @reimp */
-    void write(MasterTimer *timer, QList<Universe*> universes) override;
+    void write(MasterTimer *timer, QList<Universe*> universes);
 
     /** @reimp */
-    void postRun(MasterTimer *timer, QList<Universe*> universes) override;
+    void postRun(MasterTimer *timer, QList<Universe*> universes);
 
 private:
     /**

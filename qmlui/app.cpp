@@ -20,7 +20,6 @@
 #include <QQuickItemGrabResult>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
-#include <QCoreApplication>
 #include <QtCore/qbuffer.h>
 #include <QFontDatabase>
 #include <QOpenGLContext>
@@ -34,7 +33,6 @@
 #include <QPrinter>
 #include <QPainter>
 #include <QScreen>
-#include <QFileInfo>
 #include <unistd.h>
 
 #include "app.h"
@@ -73,8 +71,6 @@
 
 App::App()
     : QQuickView()
-    , m_forceQuit(false)
-    , m_accessMask(defaultMask())
     , m_translator(nullptr)
     , m_fixtureBrowser(nullptr)
     , m_fixtureManager(nullptr)
@@ -100,10 +96,11 @@ App::App()
     if (dir.isValid())
         m_workingPath = dir.toString();
 
+    setAccessMask(defaultMask());
+
     connect(this, &App::screenChanged, this, &App::slotScreenChanged);
     connect(this, SIGNAL(closing(QQuickCloseEvent*)), this, SLOT(slotClosing()));
     connect(this, &App::sceneGraphInitialized, this, &App::slotSceneGraphInitialized);
-    qApp->installEventFilter(this);
 }
 
 App::~App()
@@ -165,8 +162,6 @@ void App::startup()
 
     m_virtualConsole = new VirtualConsole(this, m_doc, m_contextManager);
     m_showManager = new ShowManager(this, m_doc);
-    connect(m_showManager, &ShowManager::itemClicked, m_contextManager, &ContextManager::setLastClickedType);
-
     m_networkManager = new NetworkManager(this, m_doc);
     rootContext()->setContextProperty("networkManager", m_networkManager);
 
@@ -281,7 +276,17 @@ int App::accessMask() const
 
 bool App::is3DSupported() const
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    if (openglContext() == nullptr)
+        return false;
+
+    int glVersion = (openglContext()->format().majorVersion() * 10) + openglContext()->format().minorVersion();
+    return glVersion < 33 ? false : true;
+#else
+    // TODO: Qt6
+
     return true;
+#endif
 }
 
 void App::aboutQt()
@@ -289,9 +294,9 @@ void App::aboutQt()
     qApp->aboutQt();
 }
 
-void App::exit(bool force)
+void App::exit()
 {
-    m_forceQuit = force;
+    //destroy();
     QApplication::quit();
 }
 
@@ -330,7 +335,7 @@ bool App::event(QEvent *event)
 {
     if (event->type() == QEvent::Close)
     {
-        if (m_doc->isModified() && m_forceQuit == false)
+        if (m_doc->isModified())
         {
             QMetaObject::invokeMethod(rootObject(), "saveBeforeExit");
             event->ignore();
@@ -340,24 +345,16 @@ bool App::event(QEvent *event)
     return QQuickView::event(event);
 }
 
-bool App::eventFilter(QObject *obj, QEvent *event)
-{
-    if (event->type() == QEvent::Quit)
-    {
-        if (m_doc && m_doc->isModified() && rootObject() && m_forceQuit == false)
-        {
-            QMetaObject::invokeMethod(rootObject(), "saveBeforeExit");
-            event->ignore();
-            return true;
-        }
-    }
-
-    return QQuickView::eventFilter(obj, event);
-}
-
 void App::slotSceneGraphInitialized()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    if (openglContext() == nullptr)
+        return;
+
+    qDebug() << "OpenGL version: " << openglContext()->format().majorVersion() << openglContext()->format().minorVersion();
+#else
     // TODO: Qt6
+#endif
 }
 
 void App::slotScreenChanged(QScreen *screen)
@@ -399,28 +396,9 @@ Doc *App::doc()
     return m_doc;
 }
 
-VirtualConsole *App::virtualConsole() const
-{
-    return m_virtualConsole;
-}
-
-SimpleDesk *App::simpleDesk() const
-{
-    return m_simpleDesk;
-}
-
 bool App::docLoaded()
 {
     return m_docLoaded;
-}
-
-void App::setDocLoaded(bool loaded)
-{
-    if (m_docLoaded == loaded)
-        return;
-
-    m_docLoaded = loaded;
-    emit docLoadedChanged();
 }
 
 bool App::docModified() const
@@ -457,7 +435,7 @@ void App::initDoc()
 
     /* Load plugins */
 #if defined Q_OS_ANDROID
-    QString pluginsPath = QCoreApplication::applicationDirPath();
+    QString pluginsPath = QString("%1/../lib").arg(QDir::currentPath());
     m_doc->ioPluginCache()->load(QDir(pluginsPath));
 #else
     m_doc->ioPluginCache()->load(IOPluginCache::systemPluginDirectory());
@@ -691,7 +669,8 @@ bool App::loadWorkspace(const QString &fileName)
 
     /* Clear existing document data */
     clearDocument();
-    setDocLoaded(false);
+    m_docLoaded = false;
+    emit docLoadedChanged();
 
     QString localFilename =  fileName;
     if (localFilename.startsWith("file:"))
@@ -701,8 +680,9 @@ bool App::loadWorkspace(const QString &fileName)
     {
         setTitle(QString("%1 - %2").arg(APPNAME).arg(localFilename));
         setFileName(localFilename);
+        m_docLoaded = true;
         updateRecentFilesList(localFilename);
-        setDocLoaded(true);
+        emit docLoadedChanged();
         m_doc->resetModified();
         m_videoProvider = new VideoProvider(this, m_doc);
         m_contextManager->resetContexts();
@@ -737,7 +717,6 @@ void App::slotLoadDocFromMemory(QByteArray &xmlData)
 
     /* Clear existing document data */
     clearDocument();
-    setDocLoaded(false);
 
     QBuffer databuf;
     databuf.setData(xmlData);
@@ -764,21 +743,9 @@ void App::slotLoadDocFromMemory(QByteArray &xmlData)
     }
 
     if (doc.dtdName() == KXMLQLCWorkspace)
-    {
         loadXML(doc, true, true);
-        setDocLoaded(true);
-        m_doc->resetModified();
-    }
     else
         qDebug() << "XML doesn't have a Workspace tag";
-}
-
-void App::slotSaveAutostart(QString fileName)
-{
-    m_doc->setWorkspacePath(QFileInfo(fileName).absolutePath());
-    QFile::FileError error = saveXML(fileName);
-    if (error != QFile::NoError)
-        qWarning() << Q_FUNC_INFO << "Unable to save autostart project" << fileName << error;
 }
 
 bool App::saveWorkspace(const QString &fileName)
@@ -942,7 +909,9 @@ QFile::FileError App::saveXML(const QString& fileName, bool autosave)
     QXmlStreamWriter doc(&file);
     doc.setAutoFormatting(true);
     doc.setAutoFormattingIndent(1);
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    doc.setCodec("UTF-8");
+#endif
     doc.writeStartDocument();
     doc.writeDTD(QString("<!DOCTYPE %1>").arg(KXMLQLCWorkspace));
 
@@ -1099,3 +1068,4 @@ void App::closeFixtureEditor()
                               Q_ARG(QVariant, "FIXANDFUNC"),
                               Q_ARG(QVariant, "qrc:/FixturesAndFunctions.qml"));
 }
+

@@ -124,8 +124,6 @@ ColumnLayout
         channelList.selectedChannelNumber = -1
     }
 
-    Component.onDestruction: ioManager.finishInputProfile()
-
     CustomPopupDialog
     {
         id: messagePopup
@@ -189,7 +187,7 @@ ColumnLayout
             {
                 Layout.fillWidth: true
                 text: peContainer.visible ? profileEditor.manufacturer : ""
-                onTextEdited: profileEditor.manufacturer = text
+                onTextChanged: profileEditor.manufacturer = text
             }
             RobotoText
             {
@@ -200,7 +198,7 @@ ColumnLayout
             {
                 Layout.fillWidth: true
                 text: peContainer.visible ? profileEditor.model : ""
-                onTextEdited: profileEditor.model = text
+                onTextChanged: profileEditor.model = text
             }
             RobotoText
             {
@@ -334,7 +332,7 @@ ColumnLayout
                     {
                         Layout.fillWidth: true
                         height: UISettings.listItemHeight
-                        label: channel ? channel.name : ""
+                        label: channel.name
                     }
                     Rectangle { width: 1; height: UISettings.listItemHeight; color: UISettings.fgMedium }
 
@@ -342,8 +340,8 @@ ColumnLayout
                     {
                         width: UISettings.bigItemHeight * 1.5
                         height: UISettings.listItemHeight
-                        tLabel: channel ? channel.typeString : ""
-                        iSrc: channel ? channel.iconResource(channel.type, true) : ""
+                        tLabel: channel.typeString
+                        iSrc: channel.iconResource(channel.type, true)
                     }
                 }
 

@@ -24,7 +24,7 @@
 
 class ArtNetPlugin;
 
-class ConfigureArtNet final : public QDialog, public Ui_ConfigureArtNet
+class ConfigureArtNet : public QDialog, public Ui_ConfigureArtNet
 {
     Q_OBJECT
 
@@ -36,10 +36,10 @@ public:
     virtual ~ConfigureArtNet();
 
     /** @reimp */
-    void accept() override;
+    void accept();
 
 public slots:
-    int exec() override;
+    int exec();
 
 private:
     void fillNodesTree();

@@ -24,7 +24,7 @@
 
 class Doc;
 
-class Fixture_Test final : public QObject
+class Fixture_Test : public QObject
 {
     Q_OBJECT
 
@@ -53,7 +53,7 @@ private slots:
     void loadWrongID();
     void loader();
     void save();
-    //void status();
+    void status();
 
 private:
     Doc* m_doc;

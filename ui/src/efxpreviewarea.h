@@ -37,7 +37,7 @@ class QPaintEvent;
  * The area that is used to draw a preview of
  * the EFX function currently being edited.
  */
-class EFXPreviewArea final : public QWidget
+class EFXPreviewArea : public QWidget
 {
     Q_OBJECT
 
@@ -82,10 +82,10 @@ public:
 
 protected:
     /** @reimp */
-    void resizeEvent(QResizeEvent* e) override;
+    void resizeEvent(QResizeEvent* e);
 
     /** @reimp */
-    void paintEvent(QPaintEvent* e) override;
+    void paintEvent(QPaintEvent* e);
 
 private slots:
     /** Animation timeout */

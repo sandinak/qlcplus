@@ -42,7 +42,7 @@ class FadeChannel;
  *  any lookup
  */
 
-class GenericFader final : public QObject
+class GenericFader : public QObject
 {
     Q_OBJECT
 

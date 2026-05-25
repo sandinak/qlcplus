@@ -21,7 +21,6 @@
 #define CHANNELSGROUP_H
 
 #include <QObject>
-#include <QSharedPointer>
 
 #include "qlcinputsource.h"
 #include "scenevalue.h"
@@ -35,7 +34,7 @@ class Doc;
 
 #define KXMLQLCChannelsGroup QStringLiteral("ChannelsGroup")
 
-class ChannelsGroup final : public QObject
+class ChannelsGroup : public QObject
 {
     Q_OBJECT
 
@@ -111,6 +110,17 @@ public:
 
     /** Returns the current list of channels of this group */
     QList <SceneValue> getChannels() const;
+
+    /*********************************************************************
+     * Status
+     *********************************************************************/
+public:
+    /**
+     * Get the channels group instance's status info for Fixture Manager
+     *
+     * @return A sort-of HTML-RTF-gibberish for Fixture Manager
+     */
+    QString status(Doc *doc) const;
 
     /*********************************************************************
      * External input

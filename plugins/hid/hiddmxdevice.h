@@ -46,7 +46,7 @@ class HIDPlugin;
  * HIDEventDevice
  *****************************************************************************/
 
-class HIDDMXDevice final : public HIDDevice
+class HIDDMXDevice : public HIDDevice
 {
     Q_OBJECT
 
@@ -59,13 +59,13 @@ protected:
     void init();
 
     /** @reimp */
-    bool hasInput() const override { return true; }
+    bool hasInput() { return true; }
 
     /** @reimp */
-    bool hasOutput() const override { return true; }
+    bool hasOutput() { return true; }
 
     /** @reimp */
-    bool hasMergerMode() const override { return true; /*DE, FX5, and Nodle have a merger mode*/ }
+    bool hasMergerMode() { return true; /*DE, FX5, and Nodle have a merger mode*/ }
 
     /*********************************************************************
      * File operations
@@ -73,50 +73,50 @@ protected:
 public:
 
     /** @reimp */
-    bool isMergerModeEnabled() const override;
+    bool isMergerModeEnabled();
 
     /** @reimp */
-    void enableMergerMode(bool mergerModeEnabled) override;
+    void enableMergerMode(bool mergerModeEnabled);
 
     /** @reimp */
-    bool openInput() override;
+    bool openInput();
 
     /** @reimp */
-    void closeInput() override;
+    void closeInput();
 
     /** @reimp */
-    bool openOutput() override;
+    bool openOutput();
 
     /** @reimp */
-    void closeOutput() override;
+    void closeOutput();
 
     /** @reimp */
-    bool readEvent() override;
+    bool readEvent();
 
     /*********************************************************************
      * Device info
      *********************************************************************/
 public:
     /** @reimp */
-    QString infoText() const override;
+    QString infoText();
 
     /*********************************************************************
      * Input data
      *********************************************************************/
 public:
     /** @reimp */
-    void feedBack(quint32 channel, uchar value) override;
+    void feedBack(quint32 channel, uchar value);
 
 private:
     /** @reimp */
-    void run() override;
+    void run();
 
     /*********************************************************************
      * Output data
      *********************************************************************/
 public:
     /** @reimp */
-    void outputDMX(const QByteArray &data, bool forceWrite = false) override;
+    void outputDMX(const QByteArray &data, bool forceWrite = false);
 
      /*********************************************************************
      * FX5 - specific functions and device handle

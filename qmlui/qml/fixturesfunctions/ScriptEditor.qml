@@ -310,7 +310,6 @@ Rectangle
         {
             scriptEdit.insert(scriptEdit.cursorPosition, str + "\n")
             scriptEdit.cursorPosition -= 3
-            updateTimer.restart()
             addMethodMenu.close()
         }
 

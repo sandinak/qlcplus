@@ -71,7 +71,7 @@ void OSCPlugin::init()
     std::sort(m_IOmapping.begin(), m_IOmapping.end(), addressCompare);
 }
 
-QString OSCPlugin::name() const
+QString OSCPlugin::name()
 {
     return QString("OSC");
 }
@@ -81,7 +81,7 @@ int OSCPlugin::capabilities() const
     return QLCIOPlugin::Output | QLCIOPlugin::Input | QLCIOPlugin::Feedback | QLCIOPlugin::Infinite;
 }
 
-QString OSCPlugin::pluginInfo() const
+QString OSCPlugin::pluginInfo()
 {
     QString str;
 
@@ -312,7 +312,7 @@ void OSCPlugin::configure()
     conf.exec();
 }
 
-bool OSCPlugin::canConfigure() const
+bool OSCPlugin::canConfigure()
 {
     return true;
 }
@@ -353,7 +353,7 @@ void OSCPlugin::setParameter(quint32 universe, quint32 line, Capability type,
         QLCIOPlugin::setParameter(universe, line, type, name, value);
 }
 
-QList<OSCIO> OSCPlugin::getIOMapping() const
+QList<OSCIO> OSCPlugin::getIOMapping()
 {
     return m_IOmapping;
 }

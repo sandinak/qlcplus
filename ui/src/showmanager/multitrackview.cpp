@@ -403,7 +403,7 @@ void MultiTrackView::activateTrack(Track *track)
     }
 }
 
-ShowItem *MultiTrackView::getSelectedItem() const
+ShowItem *MultiTrackView::getSelectedItem()
 {
     foreach (ShowItem *item, m_items)
         if (item->isSelected())
@@ -412,7 +412,7 @@ ShowItem *MultiTrackView::getSelectedItem() const
     return NULL;
 }
 
-quint32 MultiTrackView::getTimeFromCursor() const
+quint32 MultiTrackView::getTimeFromCursor()
 {
     quint32 s_time = (double)(m_cursor->x() - TRACK_WIDTH) *
                      (m_header->getTimeScale() * 1000) /
@@ -420,14 +420,14 @@ quint32 MultiTrackView::getTimeFromCursor() const
     return s_time;
 }
 
-quint32 MultiTrackView::getTimeFromPosition(qreal pos) const
+quint32 MultiTrackView::getTimeFromPosition(qreal pos)
 {
     return ((double)(pos - TRACK_WIDTH) *
             (double)(m_header->getTimeScale() * 1000) /
             (double)(m_header->getHalfSecondWidth() * 2));
 }
 
-quint32 MultiTrackView::getPositionFromTime(quint32 time) const
+quint32 MultiTrackView::getPositionFromTime(quint32 time)
 {
     if (time == 0)
         return TRACK_WIDTH;
@@ -437,7 +437,7 @@ quint32 MultiTrackView::getPositionFromTime(quint32 time) const
     return TRACK_WIDTH + xPos;
 }
 
-int MultiTrackView::getTrackIndex(Track *trk) const
+int MultiTrackView::getTrackIndex(Track *trk)
 {
     for (int idx = 0; idx < m_tracks.count(); idx++)
     {
@@ -454,7 +454,7 @@ void MultiTrackView::setHeaderType(Show::TimeDivision type)
     m_header->setTimeDivisionType(type);
 }
 
-Show::TimeDivision MultiTrackView::getHeaderType() const
+Show::TimeDivision MultiTrackView::getHeaderType()
 {
     return m_header->getTimeDivisionType();
 }

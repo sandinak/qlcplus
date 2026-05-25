@@ -32,7 +32,7 @@ class QLCFixtureMode;
  * @{
  */
 
-class EditHead final : public QDialog, public Ui_EditHead
+class EditHead : public QDialog, public Ui_EditHead
 {
     Q_OBJECT
 

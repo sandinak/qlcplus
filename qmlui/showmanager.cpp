@@ -19,7 +19,6 @@
 
 #include <QQmlContext>
 
-#include "waveformimageprovider.h"
 #include "showmanager.h"
 #include "sequence.h"
 #include "tardis.h"
@@ -36,19 +35,13 @@ ShowManager::ShowManager(QQuickView *view, Doc *doc, QObject *parent)
     , m_gridEnabled(false)
     , m_timeScale(5.0)
     , m_currentTime(0)
-    , m_selectedTrackId(-1)
+    , m_selectedTrackIndex(-1)
     , m_itemsColor(Qt::gray)
-    , m_multipleSelection(false)
 {
     view->rootContext()->setContextProperty("showManager", this);
     qmlRegisterUncreatableType<Show>("org.qlcplus.classes", 1, 0, "Show", "Can't create a Show");
     qmlRegisterType<Track>("org.qlcplus.classes", 1, 0, "Track");
     qmlRegisterUncreatableType<ShowFunction>("org.qlcplus.classes", 1, 0, "ShowFunction", "Can't create a ShowFunction");
-
-    /* Create and register a Waveform image provider */
-    m_waveformProvider = new WaveformImageProvider(doc);
-    view->engine()->addImageProvider(QLatin1String("waveform"), m_waveformProvider);
-    view->rootContext()->setContextProperty("waveformProvider", m_waveformProvider);
 
     setContextResource("qrc:/ShowManager.qml");
     setContextTitle(tr("Show Manager"));
@@ -58,9 +51,6 @@ void ShowManager::initialize()
 {
     App *app = qobject_cast<App *>(m_view);
     m_tickSize = app->pixelDensity() * 18;
-
-    if (m_waveformProvider)
-        m_waveformProvider->setPixelDensity(app->pixelDensity());
 
     siComponent = new QQmlComponent(m_view->engine(), QUrl("qrc:/ShowItem.qml"));
     if (siComponent->isError())
@@ -80,7 +70,7 @@ Show *ShowManager::currentShow() const
     return m_currentShow;
 }
 
-bool ShowManager::isEditing() const
+bool ShowManager::isEditing()
 {
     return m_currentShow == nullptr ? false : true;
 }
@@ -163,7 +153,7 @@ void ShowManager::setGridEnabled(bool gridEnabled)
  * Time
  ********************************************************************/
 
-Show::TimeDivision ShowManager::timeDivision() const
+Show::TimeDivision ShowManager::timeDivision()
 {
     if (m_currentShow == nullptr)
         return Show::Time;
@@ -196,7 +186,7 @@ void ShowManager::setTimeDivision(Show::TimeDivision division)
         emit beatsDivisionChanged(m_currentShow->beatsDivision());
 }
 
-int ShowManager::beatsDivision() const
+int ShowManager::beatsDivision()
 {
     if (m_currentShow == nullptr)
         return 0;
@@ -217,15 +207,8 @@ void ShowManager::setTimeScale(float timeScale)
     m_timeScale = timeScale;
     float tickScale = timeDivision() == Show::Time ? 1.0 : timeScale;
 
-    if (m_detached)
-    {
-        m_tickSize = pixelDensity() * (18 * tickScale);
-    }
-    else
-    {
-        App *app = qobject_cast<App *>(m_view);
-        m_tickSize = app->pixelDensity() * (18 * tickScale);
-    }
+    App *app = qobject_cast<App *>(m_view);
+    m_tickSize = app->pixelDensity() * (18 * tickScale);
 
     emit tickSizeChanged(m_tickSize);
     emit timeScaleChanged(timeScale);
@@ -254,27 +237,27 @@ void ShowManager::setCurrentTime(int currentTime)
  * Tracks
  ********************************************************************/
 
-QVariant ShowManager::tracks() const
+QVariant ShowManager::tracks()
 {
+    m_tracksList.clear();
     if (m_currentShow)
-        return QVariant::fromValue(m_currentShow->tracks());
+        m_tracksList = m_currentShow->tracks();
 
-    return QVariant();
+    return QVariant::fromValue(m_tracksList);
 }
 
-int ShowManager::selectedTrackId() const
+int ShowManager::selectedTrackIndex() const
 {
-    return m_selectedTrackId;
+    return m_selectedTrackIndex;
 }
 
-void ShowManager::setSelectedTrackId(int id)
+void ShowManager::setSelectedTrackIndex(int index)
 {
-    if (m_selectedTrackId == id)
+    if (m_selectedTrackIndex == index)
         return;
 
-    m_selectedTrackId = id;
-    emit selectedTrackIdChanged(id);
-    emit itemClicked(App::TrackDragItem);
+    m_selectedTrackIndex = index;
+    emit selectedTrackIndexChanged(index);
 }
 
 void ShowManager::setTrackSolo(int index, bool solo)
@@ -302,33 +285,6 @@ void ShowManager::moveTrack(int index, int direction)
 
     m_currentShow->moveTrack(tracks.at(index), direction);
     m_doc->setModified();
-
-    emit tracksChanged();
-}
-
-void ShowManager::deleteSelectedTrack()
-{
-    if (m_currentShow == nullptr)
-        return;
-
-    Track *track = m_currentShow->track(selectedTrackId());
-    if (track == nullptr)
-        return;
-
-    qDebug() << "Deleting track" << track->id();
-
-    QList <ShowFunction *> sfList = track->showFunctions();
-    for (ShowFunction *sf : sfList)
-    {
-        QQuickItem *item = m_itemsMap.take(sf->id());
-        delete item;
-    }
-
-    m_currentShow->removeTrack(selectedTrackId());
-    m_doc->setModified();
-
-    QQuickItem *itemsArea = qobject_cast<QQuickItem*>(m_view->rootObject()->findChild<QObject *>("showItemsArea"));
-    renderView(itemsArea);
 
     emit tracksChanged();
 }
@@ -597,13 +553,9 @@ void ShowManager::resetContents()
 {
     resetView();
     m_currentTime = 0;
+    m_selectedTrackIndex = -1;
     emit currentTimeChanged(m_currentTime);
-
-    m_selectedTrackId = -1;
     m_currentShow = nullptr;
-
-    emit tracksChanged();
-    emit isEditingChanged();
 }
 
 void ShowManager::resetView()
@@ -711,62 +663,15 @@ int ShowManager::selectedItemsCount() const
     return m_selectedItems.count();
 }
 
-bool ShowManager::multipleSelection() const
+void ShowManager::setItemSelection(int trackIdx, ShowFunction *sf, QQuickItem *item, bool selected)
 {
-    return m_multipleSelection;
-}
-
-void ShowManager::setMultipleSelection(bool multipleSelection)
-{
-    if (m_multipleSelection == multipleSelection)
-        return;
-
-    m_multipleSelection = multipleSelection;
-    emit multipleSelectionChanged();
-}
-
-void ShowManager::setItemSelection(int trackIdx, ShowFunction *sf, QQuickItem *item, bool selected, int keyModifiers)
-{
-    bool allowMulti = m_multipleSelection
-            || (keyModifiers & Qt::ControlModifier)
-            || (keyModifiers & Qt::ShiftModifier);
-    bool changed = false;
-
     if (selected == true)
     {
-        if (!allowMulti)
-        {
-            for (int i = m_selectedItems.count() - 1; i >= 0; --i)
-            {
-                SelectedShowItem si = m_selectedItems.at(i);
-                if (si.m_showFunc == sf)
-                    continue;
-                if (si.m_item != nullptr)
-                    si.m_item->setProperty("isSelected", false);
-                m_selectedItems.removeAt(i);
-                changed = true;
-            }
-        }
-
-        bool alreadySelected = false;
-        foreach (SelectedShowItem si, m_selectedItems)
-        {
-            if (si.m_showFunc == sf)
-            {
-                alreadySelected = true;
-                break;
-            }
-        }
-
-        if (!alreadySelected)
-        {
-            SelectedShowItem selection;
-            selection.m_trackIndex = trackIdx;
-            selection.m_showFunc = sf;
-            selection.m_item = item;
-            m_selectedItems.append(selection);
-            changed = true;
-        }
+        SelectedShowItem selection;
+        selection.m_trackIndex = trackIdx;
+        selection.m_showFunc = sf;
+        selection.m_item = item;
+        m_selectedItems.append(selection);
     }
     else
     {
@@ -776,14 +681,11 @@ void ShowManager::setItemSelection(int trackIdx, ShowFunction *sf, QQuickItem *i
             if (si.m_showFunc == sf)
             {
                 m_selectedItems.removeAt(i);
-                changed = true;
                 break;
             }
         }
     }
-    if (changed)
-        emit selectedItemsCountChanged(m_selectedItems.count());
-    emit itemClicked(App::ShowDragItem);
+    emit selectedItemsCountChanged(m_selectedItems.count());
 }
 
 void ShowManager::resetItemsSelection()
@@ -794,21 +696,21 @@ void ShowManager::resetItemsSelection()
             ssi.m_item->setProperty("isSelected", false);
     }
     m_selectedItems.clear();
-    emit selectedItemsCountChanged(m_selectedItems.count());
 }
 
-QVariantList ShowManager::selectedItemRefs() const
+QVariantList ShowManager::selectedItemRefs()
 {
     QVariantList list;
-    foreach (SelectedShowItem si, m_selectedItems)
+    /*
+    for (int i = 0; i < m_selectedItems.count(); i++)
     {
-        if (si.m_showFunc != nullptr)
-            list.append(QVariant::fromValue(si.m_showFunc));
+        list.append(QVariant::fromValue(m_selectedItems.at(i)));
     }
+    */
     return list;
 }
 
-QStringList ShowManager::selectedItemNames() const
+QStringList ShowManager::selectedItemNames()
 {
     QStringList names;
     foreach (SelectedShowItem si, m_selectedItems)
@@ -821,7 +723,7 @@ QStringList ShowManager::selectedItemNames() const
     return names;
 }
 
-bool ShowManager::selectedItemsLocked() const
+bool ShowManager::selectedItemsLocked()
 {
     foreach (SelectedShowItem si, m_selectedItems)
     {
@@ -847,7 +749,7 @@ void ShowManager::slotTimeChanged(quint32 msec_time)
 }
 
 bool ShowManager::checkOverlapping(Track *track, ShowFunction *sourceFunc,
-                                   quint32 startTime, quint32 duration) const
+                                   quint32 startTime, quint32 duration)
 {
     if (track == nullptr)
         return false;
@@ -959,8 +861,8 @@ void ShowManager::pasteFromClipboard()
             lowerTime = item.m_showFunc->startTime();
     }
 
-    // now add the ShowFunctions on the proper tracks
-    // while keeping the delta time of the original items
+    // now clone and add Functions and ShowFunctions on the proper tracks
+    // and keeping the delta time of the original items
     for (SelectedShowItem item : m_clipboard)
     {
         Track *track = m_currentShow->tracks().at(item.m_trackIndex);
@@ -972,19 +874,37 @@ void ShowManager::pasteFromClipboard()
         if (func == nullptr)
             continue;
 
-        if (func->type() == Function::SequenceType)
+        Function *copyFunc = func->createCopy(m_doc);
+        if (copyFunc == nullptr)
+            continue;
+
+        copyFunc->setName(QString("%1 %2").arg(copyFunc->name()).arg(tr("(Copy)")));
+
+        if (copyFunc->type() == Function::SequenceType)
         {
-            Sequence *sequence = qobject_cast<Sequence*>(func);
+            Sequence *sequence = qobject_cast<Sequence*>(copyFunc);
             Scene *scene = qobject_cast<Scene*>(m_doc->function(sequence->boundSceneID()));
             if (scene == nullptr)
                 continue;
 
-            sequence->setBoundSceneID(scene->id());
+            Scene *copyScene = static_cast<Scene*>(scene->createCopy(m_doc, true));
+            if (copyScene == nullptr)
+                continue;
+
+            copyScene->setName(QString("%1 %2").arg(copyScene->name()).arg(tr("(Copy)")));
+
+            m_doc->addFunction(copyScene);
+            sequence->setBoundSceneID(copyScene->id());
         }
+
+        m_doc->addFunction(copyFunc);
 
         addItems(contextItem(), item.m_trackIndex,
                  m_currentTime + item.m_showFunc->startTime() - lowerTime,
-                 QVariantList() << func->id());
+                 QVariantList() << copyFunc->id());
     }
 }
+
+
+
 

@@ -51,7 +51,6 @@ Column
     signal pathChanged(string oldPath, string newPath)
     signal itemsDropped(string path)
 
-
     function getItemAtPos(x, y)
     {
         var child = nodeChildrenView.itemAt(x, y)
@@ -106,7 +105,7 @@ Column
                 text: cRef ? cRef.name : textLabel
                 originalText: text
 
-                onTextConfirmed: (text) => nodeContainer.pathChanged(nodePath, text)
+                onTextConfirmed: nodeContainer.pathChanged(nodePath, text)
             }
         } // Row
 
@@ -135,8 +134,7 @@ Column
                 nodeContainer.mouseEvent(App.Clicked, cRef ? cRef.id : -1, nodeContainer.itemType,
                                          nodeContainer, mouse.modifiers)
             }
-            onDoubleClicked: (mouse) => nodeContainer.mouseEvent(App.DoubleClicked, cRef ? cRef.id : -1,
-                                                                 nodeContainer.itemType, nodeContainer, mouse.modifiers)
+            onDoubleClicked: isExpanded = !isExpanded
         }
 
         DropArea
@@ -203,7 +201,7 @@ Column
                         if (hasChildren)
                         {
                             item.nodePath = Qt.binding(function() { return nodePath + '`' + path })
-                            item.isExpanded = Qt.binding(function() { return isExpanded })
+                            item.isExpanded = isExpanded
                             item.nodeChildren = childrenModel
                             if (item.hasOwnProperty('dropKeys'))
                                 item.dropKeys = nodeContainer.dropKeys
@@ -218,6 +216,7 @@ Column
                         target: item
                         function onMouseEvent(type, iID, iType, qItem, mouseMods)
                         {
+                            console.log("Got generic tree node mouse event")
                             switch (type)
                             {
                                 case App.Clicked:
@@ -239,10 +238,6 @@ Column
                                         // invalidate the modifiers to force a single selection
                                         mouseMods = -1
                                     }
-                                break;
-                                case App.DoubleClicked:
-                                    if (qItem === item && model.hasChildren)
-                                        model.isExpanded = !model.isExpanded
                                 break;
                             }
 

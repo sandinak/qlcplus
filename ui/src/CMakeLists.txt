@@ -30,7 +30,6 @@ add_library(${module_name}
     addresstool.cpp addresstool.h addresstool.ui
     addrgbpanel.cpp addrgbpanel.h addrgbpanel.ui
     app.cpp app.h
-    appsettings.cpp appsettings.h
     apputil.cpp apputil.h
     assignhotkey.cpp assignhotkey.h assignhotkey.ui
     audiobar.cpp audiobar.h
@@ -159,8 +158,6 @@ target_include_directories(${module_name} PUBLIC
     virtualconsole
 )
 
-target_include_directories(${module_name} PUBLIC ${FFTW3_INCLUDE_DIRS})
-
 target_link_libraries(${module_name} PUBLIC
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::Gui
@@ -172,17 +169,22 @@ target_link_libraries(${module_name} PUBLIC
 
 # Add resources and RGB Script deps
 if(QT_VERSION_MAJOR GREATER 5)
-    target_link_libraries(${module_name} PUBLIC Qt${QT_MAJOR_VERSION}::Qml)
+    target_link_libraries(${module_name} PUBLIC
+        Qt${QT_MAJOR_VERSION}::Qml)
+
     qt_add_resources(qlcplusui_resource_files "qlcui.qrc")
 else()
-    target_link_libraries(${module_name} PUBLIC Qt${QT_MAJOR_VERSION}::Script)
+    target_link_libraries(${module_name} PUBLIC
+        Qt${QT_MAJOR_VERSION}::Script)
+
     qt5_add_resources(qlcplusui_resource_files "qlcui.qrc")
 endif()
-
-target_sources(${module_name} PRIVATE ${qlcplusui_resource_files})
+target_sources(${module_name} PRIVATE
+    ${qlcplusui_resource_files})
 
 if(WIN32)
-    target_include_directories(${module_name} PUBLIC ../../hotplugmonitor/src)
+    target_include_directories(${module_name} PUBLIC
+        ../../hotplugmonitor/src)
 endif()
 
 install(TARGETS ${module_name}

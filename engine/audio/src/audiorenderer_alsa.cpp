@@ -209,7 +209,7 @@ bool AudioRendererAlsa::initialize(quint32 freq, int chan, AudioFormat format)
     return true;
 }
 
-qint64 AudioRendererAlsa::latency() const
+qint64 AudioRendererAlsa::latency()
 {
     //return m_prebuf_fill * 1000 / sampleRate() / channels() / sampleSize();
     return 0;

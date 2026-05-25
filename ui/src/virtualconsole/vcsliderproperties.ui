@@ -34,7 +34,7 @@
   </property>
   <layout class="QVBoxLayout">
    <item>
-    <widget class="QTabWidget" name="m_tab">
+    <widget class="QTabWidget" name="tabWidget">
      <property name="toolTip">
       <string/>
      </property>
@@ -49,10 +49,10 @@
        <item row="5" column="0" colspan="2">
         <widget class="QFrame" name="frame">
          <property name="frameShape">
-          <enum>QFrame::Shape::NoFrame</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
+          <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_14">
           <property name="leftMargin">
@@ -85,7 +85,7 @@
              <string>Slider</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../build/Desktop_Qt_6_9_3-Debug/fixtureeditor/.qt/rcc/qlcui.qrc">
+             <iconset resource="../qlcui.qrc">
               <normaloff>:/slider.png</normaloff>:/slider.png</iconset>
             </property>
             <property name="iconSize">
@@ -102,7 +102,7 @@
              <string>Knob</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../build/Desktop_Qt_6_9_3-Debug/fixtureeditor/.qt/rcc/qlcui.qrc">
+             <iconset resource="../qlcui.qrc">
               <normaloff>:/knob.png</normaloff>:/knob.png</iconset>
             </property>
             <property name="iconSize">
@@ -202,7 +202,7 @@
        <item row="6" column="0" colspan="2">
         <spacer>
          <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
+          <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -265,7 +265,7 @@
           <item>
            <spacer>
             <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -303,7 +303,7 @@
           <bool>true</bool>
          </property>
          <property name="selectionMode">
-          <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+          <enum>QAbstractItemView::SingleSelection</enum>
          </property>
          <property name="sortingEnabled">
           <bool>true</bool>
@@ -363,7 +363,7 @@
          <item>
           <spacer>
            <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -490,7 +490,7 @@
              <string notr="true">...</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../build/Desktop_Qt_6_9_3-Debug/fixtureeditor/.qt/rcc/qlcui.qrc">
+             <iconset resource="../qlcui.qrc">
               <normaloff>:/attach.png</normaloff>:/attach.png</iconset>
             </property>
             <property name="iconSize">
@@ -510,7 +510,7 @@
              <string notr="true">...</string>
             </property>
             <property name="icon">
-             <iconset resource="../../../build/Desktop_Qt_6_9_3-Debug/fixtureeditor/.qt/rcc/qlcui.qrc">
+             <iconset resource="../qlcui.qrc">
               <normaloff>:/detach.png</normaloff>:/detach.png</iconset>
             </property>
             <property name="iconSize">
@@ -537,7 +537,7 @@
        <item>
         <spacer name="m_playbackSpacer">
          <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
+          <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -570,14 +570,14 @@
           <string>Slider submaster mode is active</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
        <item>
         <spacer name="m_submasterSpacer">
          <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
+          <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -604,17 +604,17 @@
    <item>
     <widget class="QDialogButtonBox" name="m_buttonBox">
      <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <resources>
-  <include location="../../../build/Desktop_Qt_6_9_3-Debug/fixtureeditor/.qt/rcc/qlcui.qrc"/>
+  <include location="../qlcui.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -649,24 +649,5 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>m_tab</sender>
-   <signal>currentChanged(int)</signal>
-   <receiver>VCSliderProperties</receiver>
-   <slot>slotTabChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>274</x>
-     <y>281</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>274</x>
-     <y>296</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
- <slots>
-  <slot>slotTabChanged()</slot>
- </slots>
 </ui>

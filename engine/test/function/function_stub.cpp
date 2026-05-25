@@ -54,7 +54,7 @@ Function* Function_Stub::createCopy(Doc* doc, bool addToDoc)
     return copy;
 }
 
-bool Function_Stub::saveXML(QXmlStreamWriter *doc) const
+bool Function_Stub::saveXML(QXmlStreamWriter *doc)
 {
     Q_UNUSED(doc);
 

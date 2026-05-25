@@ -51,7 +51,7 @@ class Doc;
  *  ------------------------------------------- --------------------------------
  */
 
-class FunctionsTreeWidget final : public QTreeWidget
+class FunctionsTreeWidget : public QTreeWidget
 {
     Q_OBJECT
 
@@ -107,28 +107,13 @@ private:
     /*********************************************************************
      * Drag & Drop events
      *********************************************************************/
-public:
-    /** MIME type for function drag/drop to external widgets (e.g., CollectionEditor) */
-    static const char* functionDragMimeType();
-
-    /** Enable external drag mode - drags will always use external MIME type without modifier key */
-    void setExternalDragMode(bool enable);
-
 protected:
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void dropEvent(QDropEvent *event) override;
+    void mousePressEvent(QMouseEvent *event);
 
-    /** Override mimeData to provide function IDs for Qt's built-in drag */
-    QMimeData* mimeData(const QList<QTreeWidgetItem*> &items) const override;
+    void dropEvent(QDropEvent *event);
 
 private:
-    /** Start an external drag operation with the selected functions */
-    void startExternalDrag();
-
     QList<QTreeWidgetItem *>m_draggedItems;
-    QPoint m_dragStartPosition;
-    bool m_externalDragMode;
 };
 
 /** @} */

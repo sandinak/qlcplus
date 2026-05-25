@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class AboutBox_Test final : public QObject
+class AboutBox_Test : public QObject
 {
     Q_OBJECT
 

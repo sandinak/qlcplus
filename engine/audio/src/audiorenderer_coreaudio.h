@@ -34,7 +34,7 @@
 #define AUDIO_BUFFER_SIZE   8192
 #define AUDIO_BUFFERS_NUM   4
 
-class AudioRendererCoreAudio final : public AudioRenderer
+class AudioRendererCoreAudio : public AudioRenderer
 {
     Q_OBJECT
 public:
@@ -42,26 +42,26 @@ public:
     ~AudioRendererCoreAudio();
 
     /** @reimpl */
-    bool initialize(quint32, int, AudioFormat format) override;
+    bool initialize(quint32, int, AudioFormat format);
 
     /** @reimpl */
-    qint64 latency() const override;
+    qint64 latency();
 
 protected:
     /** @reimpl */
-    qint64 writeAudio(unsigned char *data, qint64 maxSize) override;
+    qint64 writeAudio(unsigned char *data, qint64 maxSize);
 
     /** @reimpl */
-    void drain() override;
+    void drain();
 
     /** @reimpl */
-    void reset() override;
+    void reset();
 
     /** @reimpl */
-    void suspend() override;
+    void suspend();
 
     /** @reimpl */
-    void resume() override;
+    void resume();
 
 private:
     static void inCallback (void *inUserData, AudioQueueRef queue, AudioQueueBufferRef buf_ref);

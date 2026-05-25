@@ -44,12 +44,12 @@
  * names for each of the buses, while Bus itself handles signal emission and
  * set/get methods.
  */
-class BusEntry final
+class BusEntry
 {
 public:
     BusEntry()
-        : value(0)
     {
+        value = 0;
     }
 
     ~BusEntry()
@@ -57,9 +57,9 @@ public:
     }
 
     BusEntry(const BusEntry& entry)
-        : name(entry.name)
-        , value(entry.value)
     {
+        name = entry.name;
+        value = entry.value;
     }
 
     QString name;

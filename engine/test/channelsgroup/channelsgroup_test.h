@@ -24,7 +24,7 @@
 
 class Doc;
 
-class ChannelsGroup_Test final : public QObject
+class ChannelsGroup_Test : public QObject
 {
     Q_OBJECT
 

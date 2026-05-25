@@ -37,7 +37,7 @@
 #define KXMLQLCChannelModOriginalDMX    QStringLiteral("Original")
 #define KXMLQLCChannelModModifiedDMX    QStringLiteral("Modified")
 
-class ChannelModifier final
+class ChannelModifier
 {
 public:
     ChannelModifier();
@@ -59,14 +59,14 @@ public:
 
     QList< QPair<uchar, uchar> > modifierMap() const;
 
-    uchar getValue(uchar dmxValue) const;
+    uchar getValue(uchar dmxValue);
 
     /*********************************************************************
      * Load & Save
      *********************************************************************/
 public:
     /** Save the modifier into an XML file */
-    QFile::FileError saveXML(const QString& fileName) const;
+    QFile::FileError saveXML(const QString& fileName);
 
     /** Load this modifier's content from the given file */
     QFile::FileError loadXML(const QString& fileName, Type type);

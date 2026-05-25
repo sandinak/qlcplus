@@ -275,30 +275,18 @@ Rectangle
 
             RobotoText
             {
-                id: fiTimeLabel
-                x: 3
-                height: parent.height
-                label: TimeUtils.timeToQlcString(audioEditor.fadeInSpeed, QLCFunction.Time)
-            }
-            MouseArea
-            {
                 anchors.fill: parent
-                onDoubleClicked:
-                {
-                    timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y,
-                                      fiLabel.label, fiTimeLabel.label, QLCFunction.FadeIn)
-                }
-            }
+                label: TimeUtils.timeToQlcString(audioEditor.fadeInSpeed, QLCFunction.Time)
 
-            IconButton
-            {
-                x: parent.width - width
-                width: height
-                height: UISettings.listItemHeight
-                faSource: FontAwesome.fa_clock
-                faColor: UISettings.fgMain
-                onClicked: timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y,
-                                             fiLabel.label, fiTimeLabel.label, QLCFunction.FadeIn)
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onDoubleClicked:
+                    {
+                        timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y,
+                                          fiLabel.label, parent.label, QLCFunction.FadeIn)
+                    }
+                }
             }
         }
 
@@ -318,29 +306,18 @@ Rectangle
 
             RobotoText
             {
-                id: foTimeLabel
-                x: 3
-                height: parent.height
-                label: TimeUtils.timeToQlcString(audioEditor.fadeOutSpeed, QLCFunction.Time)
-            }
-            MouseArea
-            {
                 anchors.fill: parent
-                onDoubleClicked:
+                label: TimeUtils.timeToQlcString(audioEditor.fadeOutSpeed, QLCFunction.Time)
+
+                MouseArea
                 {
-                    timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y,
-                                      foLabel.label, foTimeLabel.label, QLCFunction.FadeOut)
+                    anchors.fill: parent
+                    onDoubleClicked:
+                    {
+                        timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y,
+                                          foLabel.label, parent.label, QLCFunction.FadeOut)
+                    }
                 }
-            }
-            IconButton
-            {
-                x: parent.width - width
-                width: height
-                height: UISettings.listItemHeight
-                faSource: FontAwesome.fa_clock
-                faColor: UISettings.fgMain
-                onClicked: timeEditTool.show(-1, this.mapToItem(mainView, 0, 0).y,
-                                             foLabel.label, foTimeLabel.label, QLCFunction.FadeOut)
             }
         }
     }

@@ -40,7 +40,7 @@
  *
  */
 
-class ShowHeaderItem final : public QObject, public QGraphicsItem
+class ShowHeaderItem :  public QObject, public QGraphicsItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -48,18 +48,18 @@ class ShowHeaderItem final : public QObject, public QGraphicsItem
 public:
     ShowHeaderItem(int width);
 
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     void setTimeScale(int val);
-    int getTimeScale() const;
+    int getTimeScale();
 
     void setTimeDivisionType(Show::TimeDivision type);
-    Show::TimeDivision getTimeDivisionType() const;
+    Show::TimeDivision getTimeDivisionType();
     void setBPMValue(int value);
 
-    int getHalfSecondWidth() const;
-    float getTimeDivisionStep() const;
+    int getHalfSecondWidth();
+    float getTimeDivisionStep();
 
     void setWidth(int);
     void setHeight(int);
@@ -68,7 +68,7 @@ signals:
     void itemClicked(QGraphicsSceneMouseEvent *);
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     /** Total width of the item */
@@ -92,18 +92,18 @@ private:
  * Show Manager Cursor class. Cursor which marks the time position in a scene
  *
  */
-class ShowCursorItem final : public QGraphicsItem
+class ShowCursorItem : public QGraphicsItem
 {
 public:
     ShowCursorItem(int h);
 
     void setHeight(int height);
 
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     void setTime(quint32 t);
-    quint32 getTime() const;
+    quint32 getTime();
 private:
     int m_height;
     quint32 m_time;

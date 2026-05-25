@@ -289,7 +289,7 @@ bool Script::loadXML(QXmlStreamReader &root)
     return true;
 }
 
-bool Script::saveXML(QXmlStreamWriter *doc) const
+bool Script::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 
@@ -482,7 +482,7 @@ QString Script::convertLine(const QString& str, bool *ok)
             else
             {
                 // Value found
-                value = line.mid(left, right - left).replace("\"", "\\\"");
+                value = line.mid(left, right - left);
                 left = right + 1;
             }
         }

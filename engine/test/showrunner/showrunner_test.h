@@ -27,7 +27,7 @@ class Show;
 class Track;
 class Scene;
 
-class ShowRunner_Test final : public QObject
+class ShowRunner_Test : public QObject
 {
     Q_OBJECT
 

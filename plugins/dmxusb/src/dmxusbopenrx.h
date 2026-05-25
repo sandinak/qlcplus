@@ -26,7 +26,7 @@
 
 #include "dmxusbwidget.h"
 
-class DMXUSBOpenRx final : public QThread, public DMXUSBWidget
+class DMXUSBOpenRx : public QThread, public DMXUSBWidget
 {
     Q_OBJECT
 
@@ -46,31 +46,31 @@ public:
     virtual ~DMXUSBOpenRx();
 
     /** @reimp */
-    DMXUSBWidget::Type type() const override;
+    DMXUSBWidget::Type type() const;
 
     /************************************************************************
      * Open & Close
      ************************************************************************/
 public:
     /** @reimp */
-    bool open(quint32 line = 0, bool input = false) override;
+    bool open(quint32 line = 0, bool input = false);
 
     /** @reimp */
-    bool close(quint32 line = 0, bool input = false) override;
+    bool close(quint32 line = 0, bool input = false);
 
     /************************************************************************
      * Name & Serial
      ************************************************************************/
 public:
     /** @reimp */
-    QString additionalInfo() const override;
+    QString additionalInfo() const;
 
     /************************************************************************
      * Thread
      ************************************************************************/
 public:
     /** @reimp */
-    bool writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged) override;
+    bool writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged);
 
 protected:
     enum TimerGranularity { Unknown, Good, Bad };
@@ -80,7 +80,7 @@ protected:
     void stop();
 
     /** DMX writer thread worker method */
-    void run() override;
+    void run();
 
     /** Compare frame and only emit differences */
     void compareAndEmit(const QByteArray& last_payload, const QByteArray& current_payload);

@@ -30,7 +30,7 @@ class QTreeWidget;
 class QComboBox;
 class QSpinBox;
 
-class DMXUSBConfig final : public QDialog
+class DMXUSBConfig : public QDialog
 {
     Q_OBJECT
 

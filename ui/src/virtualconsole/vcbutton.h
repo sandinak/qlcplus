@@ -63,7 +63,7 @@ class QEvent;
 #define KXMLQLCVCButtonIntensity        QStringLiteral("Intensity")
 #define KXMLQLCVCButtonIntensityAdjust  QStringLiteral("Adjust")
 
-class VCButton final : public VCWidget
+class VCButton : public VCWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCButton)
@@ -84,32 +84,32 @@ public:
      *********************************************************************/
 public:
     /** @reimpl */
-    void setID(quint32 id) override;
+    void setID(quint32 id);
 
     /*********************************************************************
      * Clipboard
      *********************************************************************/
 public:
     /** Create a copy of this widget to the given parent */
-    VCWidget* createCopy(VCWidget* parent) const override;
+    VCWidget* createCopy(VCWidget* parent);
 
 protected:
     /** Copy the contents for this widget from another widget */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
     /*********************************************************************
      * Properties
      *********************************************************************/
 public:
     /** Edit this widget's properties */
-    void editProperties() override;
+    void editProperties();
 
     /*********************************************************************
      * Background image
      *********************************************************************/
 public:
     /** Set the button's background image */
-    void setBackgroundImage(const QString& path) override;
+    void setBackgroundImage(const QString& path);
 
 protected:
     QPixmap m_bgPixmap;
@@ -119,26 +119,26 @@ protected:
      *********************************************************************/
 public:
     /** Set the button's background color */
-    void setBackgroundColor(const QColor& color) override;
+    void setBackgroundColor(const QColor& color);
 
     /** Get the button's background color */
-    QColor backgroundColor() const override;
+    QColor backgroundColor() const;
 
     /** Reset the button's background color to whatever the platform uses */
-    void resetBackgroundColor() override;
+    void resetBackgroundColor();
 
     /*********************************************************************
      * Foreground color
      *********************************************************************/
 public:
     /** Set the button's foreground color */
-    void setForegroundColor(const QColor& color) override;
+    void setForegroundColor(const QColor& color);
 
     /** Get the button's foreground color */
-    QColor foregroundColor() const override;
+    QColor foregroundColor() const;
 
     /** Reset the button's foreground color to whatever the platform uses */
-    virtual void resetForegroundColor() override;
+    virtual void resetForegroundColor();
 
     /*********************************************************************
      * Button icon
@@ -190,10 +190,10 @@ public:
     quint32 function() const;
 
     /** @reimp */
-    void adjustFunctionIntensity(Function *f, qreal value) override;
+    void adjustFunctionIntensity(Function *f, qreal value);
 
     /** @reimp */
-    virtual void notifyFunctionStarting(quint32 fid, qreal intensity, bool excludeMonitored) override;
+    virtual void notifyFunctionStarting(quint32 fid, qreal intensity);
 
 protected slots:
     /** Invalidates the button's function if the function is destroyed */
@@ -234,8 +234,8 @@ public:
     QKeySequence keySequence() const;
 
 protected slots:
-    void slotKeyPressed(const QKeySequence& keySequence) override;
-    void slotKeyReleased(const QKeySequence& keySequence) override;
+    void slotKeyPressed(const QKeySequence& keySequence);
+    void slotKeyReleased(const QKeySequence& keySequence);
 
 protected:
     QKeySequence m_keySequence;
@@ -244,10 +244,10 @@ protected:
      * External input
      *********************************************************************/
 public:
-    void updateFeedback() override;
+    void updateFeedback();
 
 protected slots:
-    void slotInputValueChanged(quint32 universe, quint32 channel, uchar value) override;
+    void slotInputValueChanged(quint32 universe, quint32 channel, uchar value);
 
     /*********************************************************************
      * Button action
@@ -369,14 +369,14 @@ protected:
     *********************************************************************/
 public:
     /** Get a custom menu specific to this widget. Must be deleted. */
-    QMenu* customMenu(QMenu* parentMenu) const override;
+    QMenu* customMenu(QMenu* parentMenu);
 
     /*********************************************************************
      * Intensity
      *********************************************************************/
 public:
     /** @reimp */
-    void adjustIntensity(qreal val) override;
+    void adjustIntensity(qreal val);
 
     /*********************************************************************
      * Load & Save
@@ -389,7 +389,7 @@ public:
      * @param btn_root A VCButton XML root node containing button properties
      * @return true if successful; otherwise false
      */
-    bool loadXML(QXmlStreamReader &root) override;
+    bool loadXML(QXmlStreamReader &root);
 
     /**
      * Save a VCButton's properties to an XML document node
@@ -397,16 +397,16 @@ public:
      * @param doc The master XML document to save to
      * @param frame_root The button's VCFrame XML parent node to save to
      */
-    bool saveXML(QXmlStreamWriter *doc) override;
+    bool saveXML(QXmlStreamWriter *doc);
 
     /*********************************************************************
      * Event Handlers
      *********************************************************************/
 protected:
-    void paintEvent(QPaintEvent* e) override;
+    void paintEvent(QPaintEvent* e);
 
-    void mousePressEvent(QMouseEvent* e) override;
-    void mouseReleaseEvent(QMouseEvent* e) override;
+    void mousePressEvent(QMouseEvent* e);
+    void mouseReleaseEvent(QMouseEvent* e);
 };
 
 /** @} */

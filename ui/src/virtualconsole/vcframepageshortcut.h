@@ -37,7 +37,7 @@ class QXmlStreamWriter;
 #define KXMLQLCVCFramePageShortcutPage   QStringLiteral("Page")
 #define KXMLQLCVCFramePageShortcutName   QStringLiteral("Name")
 
-class VCFramePageShortcut final
+class VCFramePageShortcut
 {
 public:
     explicit VCFramePageShortcut(int pageIndex, quint8 inputID);

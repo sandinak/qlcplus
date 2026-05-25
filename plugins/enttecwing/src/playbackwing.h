@@ -32,7 +32,7 @@
  * PlaybackWing
  ****************************************************************************/
 
-class QLC_DECLSPEC PlaybackWing final : public Wing
+class QLC_DECLSPEC PlaybackWing : public Wing
 {
     Q_OBJECT
 
@@ -57,14 +57,14 @@ public:
     ~PlaybackWing();
 
     /** @reimp */
-    QString name() const override;
+    QString name() const;
 
     /********************************************************************
      * Input data
      ********************************************************************/
 public:
     /** @reimp */
-    void parseData(const QByteArray& data) override;
+    void parseData(const QByteArray& data);
 
     /** Check if extra buttons were pressed and act accordingly */
     void applyExtraButtons(const QByteArray& data);
@@ -73,7 +73,7 @@ public:
     void sendPageData();
 
     /*** receive feedback to sync wing with widget ***/
-    void feedBack(quint32 channel, uchar value) override;
+    void feedBack(quint32 channel, uchar value);
 
 protected:
     /**

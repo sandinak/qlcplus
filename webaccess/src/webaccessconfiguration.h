@@ -26,7 +26,7 @@
 class Doc;
 class WebAccessAuth;
 
-class WebAccessConfiguration final : public QObject
+class WebAccessConfiguration : public QObject
 {
     Q_OBJECT
 public:

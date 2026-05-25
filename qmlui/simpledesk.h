@@ -32,7 +32,7 @@ class KeyPadParser;
 class FadeChannel;
 class ListModel;
 
-class SimpleDesk final : public PreviewContext, public DMXSource
+class SimpleDesk : public PreviewContext, public DMXSource
 {
     Q_OBJECT
 
@@ -51,7 +51,7 @@ public:
     QVariant universesListModel() const;
 
     /** @reimp */
-    void setUniverseFilter(quint32 universeFilter) override;
+    void setUniverseFilter(quint32 universeFilter);
 
     /** Return the actual list of channels for
      *  the currently selected universe */
@@ -107,15 +107,6 @@ public:
     /** Reset the value of the specified channel */
     Q_INVOKABLE void resetChannel(uint channel);
 
-    /** Web access helpers (absolute address based) */
-    int getSlidersNumber() const;
-    int getCurrentUniverseIndex() const;
-    int getCurrentPage() const;
-    uchar getAbsoluteChannelValue(uint address) const;
-    bool isChannelOverridden(uint address);
-    void setAbsoluteChannelValue(uint address, uchar value);
-    void resetAbsoluteChannel(uint address);
-
 protected slots:
     /** Invoked by the QLC+ engine to inform the UI that the
      *  Universe at $idx has changed */
@@ -154,7 +145,7 @@ public:
     /** Return the current DMX dump channel type mask */
     int dumpChannelMask() const;
 
-    Q_INVOKABLE void dumpDmxChannels(QString name, quint32 mask, int sceneID, bool nonZeroOnly);
+    Q_INVOKABLE void dumpDmxChannels(QString name, quint32 mask);
 
 signals:
     void dumpValuesCountChanged();
@@ -190,7 +181,7 @@ private:
      ************************************************************************/
 public:
     /** @reimpl */
-    void writeDMX(MasterTimer* timer, QList<Universe*> ua) override;
+    void writeDMX(MasterTimer* timer, QList<Universe*> ua);
 
 private:
     FadeChannel *getFader(QList<Universe *> universes, quint32 universeID,

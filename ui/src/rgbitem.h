@@ -27,7 +27,7 @@
  * @{
  */
 
-class RGBItem final
+class RGBItem
 {
 public:
     RGBItem(QAbstractGraphicsShapeItem* graphicsItem);

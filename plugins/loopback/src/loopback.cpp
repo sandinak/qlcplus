@@ -51,7 +51,7 @@ void Loopback::init()
 {
 }
 
-QString Loopback::name() const
+QString Loopback::name()
 {
     return QString("Loopback");
 }
@@ -118,7 +118,7 @@ QStringList Loopback::inputs()
     return list;
 }
 
-QString Loopback::pluginInfo() const
+QString Loopback::pluginInfo()
 {
     QString str;
 

@@ -21,9 +21,7 @@
 #ifndef DMXUSBWIDGET_H
 #define DMXUSBWIDGET_H
 
-#include <QByteArray>
 #include <QElapsedTimer>
-#include <QVector>
 
 #if defined(FTD2XX)
   #include "ftd2xx-interface.h"
@@ -65,8 +63,7 @@ public:
         UltraPro,   //! DMXKing Ultra Pro widget using 2 TX and 1RX ports
         DMX4ALL,    //! DMX4ALL widget (only TX)
         VinceTX,    //! Vince USB-DMX512 widget using the TX side of the dongle
-        Eurolite,   //! Eurolite USB DMX512 Pro widget
-        USBDMXLegacy //! usbdmx.com legacy interface
+        Eurolite    //! Eurolite USB DMX512 Pro widget
     };
 
     /** The possible features of a line */

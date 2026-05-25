@@ -138,7 +138,7 @@ void VCButton::setID(quint32 id)
  * Clipboard
  *****************************************************************************/
 
-VCWidget* VCButton::createCopy(VCWidget* parent) const
+VCWidget* VCButton::createCopy(VCWidget* parent)
 {
     Q_ASSERT(parent != NULL);
 
@@ -408,7 +408,7 @@ void VCButton::adjustFunctionIntensity(Function *f, qreal value)
     VCWidget::adjustFunctionIntensity(f, finalValue);
 }
 
-void VCButton::notifyFunctionStarting(quint32 fid, qreal intensity, bool excludeMonitored)
+void VCButton::notifyFunctionStarting(quint32 fid, qreal intensity)
 {
     Q_UNUSED(intensity);
 
@@ -418,13 +418,10 @@ void VCButton::notifyFunctionStarting(quint32 fid, qreal intensity, bool exclude
     if (fid == m_function || m_function == Function::invalidId())
         return;
 
-    if (excludeMonitored)
-    {
-        // stop the controlled Function only if actively started
-        // by this Button or if monitoring the startup Function
-        if (m_state != Active && m_function != m_doc->startupFunction())
-            return;
-    }
+    // stop the controlled Function only if actively started
+    // by this Button or if monitoring the startup Function
+    if (m_state != Active && m_function != m_doc->startupFunction())
+        return;
 
     if (action() == VCButton::Toggle)
     {
@@ -880,7 +877,7 @@ bool VCButton::isChildOfSoloFrame() const
  * Custom menu
  *****************************************************************************/
 
-QMenu* VCButton::customMenu(QMenu* parentMenu) const
+QMenu* VCButton::customMenu(QMenu* parentMenu)
 {
     QMenu* menu = new QMenu(parentMenu);
     menu->setTitle(tr("Icon"));

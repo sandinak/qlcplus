@@ -37,7 +37,7 @@
  * Audio Item. Clickable and draggable object identifying an Audio object
  *
  */
-class AudioItem final : public ShowItem
+class AudioItem : public ShowItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -46,23 +46,23 @@ public:
     AudioItem(Audio *aud, ShowFunction *func);
 
     /** @reimp */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     /** @reimp */
-    void setTimeScale(int val) override;
+    void setTimeScale(int val);
 
     /** @reimp */
-    void setDuration(quint32 msec, bool stretch) override;
+    void setDuration(quint32 msec, bool stretch);
 
     /** @reimp */
-    QString functionName() const override;
+    QString functionName();
 
     /** Return a pointer to a Audio Function associated to this item */
-    Audio *getAudio() const;
+    Audio *getAudio();
 
 protected:
     /** @reimp */
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 protected slots:
     void slotAudioChanged(quint32);
@@ -91,15 +91,15 @@ public:
     QPixmap *m_preview;
 };
 
-class PreviewThread final : public QThread
+class PreviewThread : public QThread
 {
 public:
     void setAudioItem(AudioItem *item);
 
 private:
     /** Retrieve a sample value from an audio buffer, given the sample size */
-    qint32 getSample(unsigned char *data, quint32 idx, int sampleSize) const;
-    void run() override;
+    qint32 getSample(unsigned char *data, quint32 idx, int sampleSize);
+    void run();
 
     AudioItem *m_item;
 };

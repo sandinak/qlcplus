@@ -26,7 +26,7 @@
  * @{
  */
 
-class KnobWidget final : public QDial
+class KnobWidget : public QDial
 {
     Q_OBJECT
 public:
@@ -44,9 +44,9 @@ protected:
     void prepareCursor();
     void prepareBody();
 
-    void resizeEvent(QResizeEvent *e) override;
-    void paintEvent(QPaintEvent* e) override;
-    void wheelEvent(QWheelEvent *e) override;
+    void resizeEvent(QResizeEvent *e);
+    void paintEvent(QPaintEvent* e);
+    void wheelEvent(QWheelEvent *e);
 
 private:
     QPixmap rotatePix(QPixmap *p_pix, float p_deg);

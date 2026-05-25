@@ -85,6 +85,7 @@ ChaserEditor::ChaserEditor(QWidget* parent, Chaser* chaser, Doc* doc, bool liveM
 
     /* Name edit */
     m_nameEdit->setText(m_chaser->name());
+    m_nameEdit->setSelection(0, m_nameEdit->text().length());
 
     /* Fade In Mode */
     switch (m_chaser->fadeInMode())
@@ -230,6 +231,9 @@ ChaserEditor::ChaserEditor(QWidget* parent, Chaser* chaser, Doc* doc, bool liveM
     updateSpeedDials();
 
     slotModeChanged(m_doc->mode());
+
+    // Set focus to the editor
+    m_nameEdit->setFocus();
 
     m_testPreviousButton->setEnabled(false);
     m_testNextButton->setEnabled(false);
@@ -526,7 +530,7 @@ void ChaserEditor::slotShuffleClicked()
     }
 
     QList <QTreeWidgetItem*> selectedItems(m_tree->selectedItems());
-    std::vector<int> indicesToShuffle(selectedCount);
+    int indicesToShuffle[selectedCount];
 
     // save the selected scenes and their indices into a sorted array
     QListIterator <QTreeWidgetItem*> it(selectedItems);
@@ -535,7 +539,7 @@ void ChaserEditor::slotShuffleClicked()
         QTreeWidgetItem* item = it.next();
         indicesToShuffle[i] = m_tree->indexOfTopLevelItem(item);
     }
-    std::sort(indicesToShuffle.begin(), indicesToShuffle.end());
+    std::sort(indicesToShuffle, indicesToShuffle + selectedCount);
 
     // shuffle the selected scenes using the Fisher-Yates algorithm
     // see https://bost.ocks.org/mike/shuffle/ for information on the algorithm
@@ -785,7 +789,7 @@ void ChaserEditor::slotPasteClicked()
     updateStepNumbers();
     updateClipboardButtons();
 
-    // this is done here cause of a mysterious performance issue
+    // this is done here cause of a misterious performance issue
     foreach (QTreeWidgetItem *item, selectionList)
         item->setSelected(true);
 }

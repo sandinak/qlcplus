@@ -27,10 +27,6 @@
 #include <QMutex>
 #include <QMap>
 
-#ifdef HAS_FFTW3
-#include "fftw3.h"
-#endif
-
 #define SETTINGS_AUDIO_INPUT_DEVICE   "audio/input"
 #define SETTINGS_AUDIO_INPUT_SRATE    "audio/samplerate"
 #define SETTINGS_AUDIO_INPUT_CHANNELS "audio/channels"
@@ -42,8 +38,6 @@
 #define FREQ_SUBBANDS_MAX_NUMBER        32
 #define FREQ_SUBBANDS_DEFAULT_NUMBER    16
 #define SPECTRUM_MAX_FREQUENCY          5000
-
-class BeatTracker;
 
 /** @addtogroup engine_audio Audio
  * @{
@@ -60,14 +54,14 @@ class AudioCapture : public QThread
     Q_OBJECT
 public:
     /*!
-     * Object constructor.
+     * Object contsructor.
      * @param parent Parent object.
      */
     AudioCapture(QObject* parent = 0);
 
     ~AudioCapture();
 
-    int defaultBarsNumber() const;
+    int defaultBarsNumber();
 
     /**
      * Request the given number of frequency bands to the
@@ -79,15 +73,11 @@ public:
      * Cancel a previous request of bars
      */
     void unregisterBandsNumber(int number);
+    //int bandsNumber();
 
     static int maxFrequency() { return SPECTRUM_MAX_FREQUENCY; }
 
-    /*!
-     *  Adjusts the audio output volume
-     */
-    virtual void setVolume(qreal volume) = 0;
-
-protected:
+    protected:
     /*!
      * Prepares object for usage and setups required audio parameters.
      * Subclass should reimplement this function.
@@ -100,6 +90,17 @@ protected:
 
     virtual void uninitialize() = 0;
 
+public:
+    /*!
+     * Returns input interface latency in milliseconds.
+     */
+    virtual qint64 latency() = 0;
+
+    /*!
+     *  Adjusts the audio output volume
+     */
+    virtual void setVolume(qreal volume) = 0;
+
     /*!
      * Stops processing audio data, preserving buffered audio data.
      */
@@ -110,28 +111,16 @@ protected:
      */
     virtual void resume() = 0;
 
-    /*!
-     * Returns input interface latency in milliseconds.
-     */
-    virtual qint64 latency() const = 0;
-
     /*********************************************************************
      * Thread functions
      *********************************************************************/
-public:
     /** @reimpl */
-    void run() override;
+    void run(); //thread run function
 
 protected:
     void stop();
 
-    /*!
-     * Reads up to \b maxSize uint16 from \b the input interface device.
-     * Returns an array of the bytes read, or an empty array if an error occurred.
-     * Subclass should reimplement this function.
-     */
-    virtual bool readAudio(int maxSize) = 0;
-
+private:
     /** This is called at every processData to fill a single BandsData structure */
     double fillBandsData(int number);
 
@@ -142,16 +131,23 @@ protected:
      */
     void processData();
 
+    bool m_userStop, m_pause;
+
 signals:
     void dataProcessed(double *spectrumBands, int size, double maxMagnitude, quint32 power);
     void volumeChanged(int volume);
-    void beatDetected();
 
 protected:
+    /*!
+     * Reads up to \b maxSize uint16 from \b the input interface device.
+     * Returns an array of the bytes read, or an empty array if an error occurred.
+     * Subclass should reimplement this function.
+     */
+    virtual bool readAudio(int maxSize) = 0;
+
     QMutex m_mutex;
 
-    bool m_userStop, m_pause;
-    unsigned int m_bufferSize, m_captureSize, m_sampleRate, m_channels;
+    unsigned int bufferSize, m_captureSize, m_sampleRate, m_channels;
 
     /** Data buffer for audio data coming from the sound card */
     int16_t *m_audioBuffer;
@@ -162,15 +158,9 @@ protected:
     /** **************** FFT variables ********************** */
     double *m_fftInputBuffer;
     void *m_fftOutputBuffer;
-#ifdef HAS_FFTW3
-    fftw_plan m_plan_forward;
-#endif
 
     /** Map of the registered clients (key is the number of bands) */
     QMap <int, BandsData> m_fftMagnitudeMap;
-
-    /** Reference to the beat tracking processor */
-    BeatTracker *m_beatTracker;
 };
 
 /** @} */

@@ -53,7 +53,6 @@ void QLCPalette_Test::type()
     QVERIFY(QLCPalette::typeToString(QLCPalette::PanTilt) == QString("PanTilt"));
     QVERIFY(QLCPalette::typeToString(QLCPalette::Shutter) == QString("Shutter"));
     QVERIFY(QLCPalette::typeToString(QLCPalette::Gobo) == QString("Gobo"));
-    QVERIFY(QLCPalette::typeToString(QLCPalette::Zoom) == QString("Zoom"));
 
     QVERIFY(QLCPalette::stringToType("Foo") == QLCPalette::Undefined);
     QVERIFY(QLCPalette::stringToType("Dimmer") == QLCPalette::Dimmer);
@@ -63,7 +62,6 @@ void QLCPalette_Test::type()
     QVERIFY(QLCPalette::stringToType("PanTilt") == QLCPalette::PanTilt);
     QVERIFY(QLCPalette::stringToType("Shutter") == QLCPalette::Shutter);
     QVERIFY(QLCPalette::stringToType("Gobo") == QLCPalette::Gobo);
-    QVERIFY(QLCPalette::stringToType("Zoom") == QLCPalette::Zoom);
 }
 
 void QLCPalette_Test::icon()
@@ -82,8 +80,6 @@ void QLCPalette_Test::icon()
     QCOMPARE(p6.iconResource(), QString(":/shutter.png"));
     QLCPalette p7(QLCPalette::Gobo);
     QCOMPARE(p7.iconResource(), QString(":/gobo.png"));
-    QLCPalette p8(QLCPalette::Zoom);
-    QCOMPARE(p8.iconResource(), QString(":/beam.png"));
 }
 
 void QLCPalette_Test::value()

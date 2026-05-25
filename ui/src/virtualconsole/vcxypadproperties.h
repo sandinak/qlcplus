@@ -37,7 +37,7 @@ class Doc;
  * @{
  */
 
-class VCXYPadProperties final : public QDialog, public Ui_VCXYPadProperties, public DMXSource
+class VCXYPadProperties : public QDialog, public Ui_VCXYPadProperties, public DMXSource
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCXYPadProperties)
@@ -101,7 +101,7 @@ private slots:
      ********************************************************************/
 public:
     /** @reimp */
-    void writeDMX(MasterTimer *timer, QList<Universe*> universes) override;
+    void writeDMX(MasterTimer *timer, QList<Universe*> universes);
 
 private:
     void updatePresetsTree();
@@ -144,7 +144,7 @@ private:
      * OK/Cancel
      ********************************************************************/
 public slots:
-    void accept() override;
+    void accept();
 };
 
 /** @} */

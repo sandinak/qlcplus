@@ -44,7 +44,7 @@ class Doc;
  * @{
  */
 
-class ShowManager final : public QWidget
+class ShowManager : public QWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY(ShowManager)
@@ -68,10 +68,10 @@ signals:
 
 protected:
     /** @reimp */
-    void showEvent(QShowEvent* ev) override;
+    void showEvent(QShowEvent* ev);
 
     /** @reimp */
-    void hideEvent(QHideEvent* ev) override;
+    void hideEvent(QHideEvent* ev);
 
 protected:
     static ShowManager *s_instance;

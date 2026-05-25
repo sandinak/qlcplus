@@ -44,7 +44,7 @@ class Doc;
  * @{
  */
 
-class Monitor final : public QWidget
+class Monitor : public QWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY(Monitor)

@@ -53,7 +53,6 @@
 #define KXMLQLCWindowStateY         QStringLiteral("Y")
 #define KXMLQLCWindowStateWidth     QStringLiteral("Width")
 #define KXMLQLCWindowStateHeight    QStringLiteral("Height")
-#define KXMLQLCWindowStateZ         QStringLiteral("Z")
 
 #define KXMLQLCVCWidgetKey                  QStringLiteral("Key")
 #define KXMLQLCVCWidgetInput                QStringLiteral("Input")
@@ -84,7 +83,6 @@ class VCWidget : public QObject
     Q_PROPERTY(QString propertiesResource READ propertiesResource CONSTANT)
     Q_PROPERTY(bool isEditing READ isEditing WRITE setIsEditing NOTIFY isEditingChanged)
     Q_PROPERTY(QRectF geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
-    Q_PROPERTY(int zIndex READ zIndex WRITE setZIndex NOTIFY zIndexChanged)
     Q_PROPERTY(bool allowResize READ allowResize WRITE setAllowResize NOTIFY allowResizeChanged)
     Q_PROPERTY(bool isDisabled READ isDisabled WRITE setDisabled NOTIFY disabledStateChanged)
     Q_PROPERTY(bool isVisible READ isVisible WRITE setVisible NOTIFY isVisibleChanged)
@@ -94,8 +92,6 @@ class VCWidget : public QObject
     Q_PROPERTY(QColor foregroundColor READ foregroundColor WRITE setForegroundColor NOTIFY foregroundColorChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(int page READ page WRITE setPage NOTIFY pageChanged)
-    Q_PROPERTY(bool supportsPresets READ supportsPresets CONSTANT)
-    Q_PROPERTY(QString presetsResource READ presetsResource CONSTANT)
 
     Q_PROPERTY(int externalControlsCount READ externalControlsCount CONSTANT)
     Q_PROPERTY(QVariant externalControlsList READ externalControlsList CONSTANT)
@@ -120,13 +116,7 @@ public:
 
     /** Create a copy of this widget into the given parent and return it
       * Pure virtual method: subclasses must reimplement this */
-    virtual VCWidget *createCopy(VCWidget *parent) const;
-
-    /** Return true if this widget supports presets */
-    virtual bool supportsPresets() const;
-
-    /** Return a QML resource for preset properties */
-    virtual QString presetsResource() const;
+    virtual VCWidget *createCopy(VCWidget *parent);
 
 protected:
     /** Copy the contents for this widget from the given widget */
@@ -190,7 +180,7 @@ public:
     void setType(int type);
 
     /** Get the widget's type */
-    int type() const;
+    int type();
 
     /** Convert a widget's type to a string */
     static QString typeToString(int type);
@@ -225,19 +215,6 @@ protected:
     qreal m_scaleFactor;
 
     /*********************************************************************
-     * Z-Index
-     *********************************************************************/
-public:
-    int zIndex() const;
-    void setZIndex(int zIndex);
-
-signals:
-    void zIndexChanged(int zIndex);
-
-protected:
-    int m_zIndex;
-
-    /*********************************************************************
      * Allow resize
      *********************************************************************/
 public:
@@ -262,7 +239,7 @@ protected:
      */
 public:
     /** Get the widget's disable state */
-    bool isDisabled() const;
+    bool isDisabled();
 
     /** Set the widget's disable state flag */
     virtual void setDisabled(bool disable);
@@ -291,7 +268,7 @@ protected:
      *********************************************************************/
 public:
     /** Virtual method to retrieve the widget default name which is "Widget ID" */
-    virtual QString defaultCaption() const;
+    virtual QString defaultCaption();
 
     /** Get this widget's caption text */
     QString caption() const;
@@ -401,7 +378,7 @@ protected:
      *********************************************************************/
 public:
     void setPage(int pNum);
-    int page() const;
+    int page();
 
 signals:
     void pageChanged(int page);
@@ -414,14 +391,14 @@ protected:
      *********************************************************************/
 public:
     /** Return true if the widget's parent is a Solo Frame */
-    bool hasSoloParent() const;
+    bool hasSoloParent();
 
     /** This is a virtual method for VCWidgets attached to a Function.
      *  At the moment only Buttons, Sliders (in playback mode), Cue Lists
      *  and Audio Triggers can benefit from this.
      *  Basically when placed in a Solo frame, with this method it is
      *  possible to stop the currently running Function */
-    virtual void notifyFunctionStarting(VCWidget *widget, quint32 fid, qreal fIntensity, bool excludeMonitored);
+    virtual void notifyFunctionStarting(VCWidget *widget, quint32 fid, qreal fIntensity);
 
     virtual void adjustFunctionIntensity(Function *f, qreal value);
 
@@ -612,7 +589,7 @@ protected:
      *********************************************************************/
 public:
     virtual bool loadXML(QXmlStreamReader &root);
-    virtual bool saveXML(QXmlStreamWriter *doc) const;
+    virtual bool saveXML(QXmlStreamWriter *doc);
 
 protected:
     bool loadXMLCommon(QXmlStreamReader &root);
@@ -651,26 +628,17 @@ protected:
     bool loadXMLSources(QXmlStreamReader &root, const quint8& id);
 
     /** Write the widget common properties */
-    bool saveXMLCommon(QXmlStreamWriter *doc) const;
+    bool saveXMLCommon(QXmlStreamWriter *doc);
 
     /** Write the widget appearance, if customized */
-    bool saveXMLAppearance(QXmlStreamWriter *doc) const;
+    bool saveXMLAppearance(QXmlStreamWriter *doc);
 
     /** Write this widget's geometry and visibility to an XML document */
-    bool saveXMLWindowState(QXmlStreamWriter *doc) const;
+    bool saveXMLWindowState(QXmlStreamWriter *doc);
 
-    /** Save all the input sources and key combination with the given
-     *  $controlId in a tag with the given $tagName
-     *  When $unified is set to true, an input control will look like this
-     *
-     *  <Input ID="1" Universe="0" Channel="68" Key="G"/>
-     *
-     *  When false, it will look like this
-     *
-     *  <Input ID="1" Universe="0" Channel="68"/>
-     *  <Key>G</Key>
-     */
-    bool saveXMLInputControl(QXmlStreamWriter *doc, quint8 controlId, bool unified = true, QString tagName = QString()) const;
+    /** Save all the input sources and key combination with the given $controlId
+     *  in a tag with the given $tagName */
+    bool saveXMLInputControl(QXmlStreamWriter *doc, quint8 controlId, bool unified = true, QString tagName = QString());
 };
 
 #endif

@@ -31,7 +31,7 @@ class Doc;
  * @{
  */
 
-class AudioRendererQt5 final : public AudioRenderer
+class AudioRendererQt5 : public AudioRenderer
 {
     Q_OBJECT
 public:
@@ -39,35 +39,35 @@ public:
     ~AudioRendererQt5();
 
     /** @reimpl */
-    bool initialize(quint32, int, AudioFormat format) override;
+    bool initialize(quint32, int, AudioFormat format);
 
     /** @reimpl */
-    qint64 latency() const override;
+    qint64 latency();
 
     static QList<AudioDeviceInfo> getDevicesInfo();
 
 protected:
     /** @reimpl */
-    qint64 writeAudio(unsigned char *data, qint64 maxSize) override;
+    qint64 writeAudio(unsigned char *data, qint64 maxSize);
 
     /** @reimpl */
-    void drain() override;
+    void drain();
 
     /** @reimpl */
-    void reset() override;
+    void reset();
 
     /** @reimpl */
-    void suspend() override;
+    void suspend();
 
     /** @reimpl */
-    void resume() override;
+    void resume();
 
     /*********************************************************************
      * Thread functions
      *********************************************************************/
 public:
     /** @reimpl */
-    void run() override;
+    void run();
 
 private:
     QAudioOutput *m_audioOutput;

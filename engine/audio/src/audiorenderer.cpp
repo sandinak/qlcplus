@@ -99,18 +99,12 @@ void AudioRenderer::setFadeOut(uint fadeTime)
 
 void AudioRenderer::stop()
 {
-    setUserStop(true);
+    m_userStop = true;
     while (this->isRunning())
         usleep(10000);
     m_intensity = 1.0;
     m_currentIntensity = 1.0;
 }
-
-void AudioRenderer::setUserStop(bool stop)
-{
-    m_userStop = stop;
-}
-
 
 /*********************************************************************
  * Thread functions
@@ -119,6 +113,7 @@ void AudioRenderer::setUserStop(bool stop)
 void AudioRenderer::run()
 {
     qint64 audioDataWritten;
+    m_userStop = false;
     audioDataRead = 0;
 
     int sampleSize = m_adec->audioParameters().sampleSize();
@@ -200,7 +195,7 @@ void AudioRenderer::run()
                     usleep(15000);
                 }
                 if (m_currentIntensity <= 0)
-                    setUserStop(true);
+                    m_userStop = true;
             }
             else
             {

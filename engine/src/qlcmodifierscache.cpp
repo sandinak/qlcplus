@@ -43,12 +43,12 @@ bool QLCModifiersCache::addModifier(ChannelModifier *modifier)
     return true;
 }
 
-QList<QString> QLCModifiersCache::templateNames() const
+QList<QString> QLCModifiersCache::templateNames()
 {
     return m_modifiers.keys();
 }
 
-ChannelModifier *QLCModifiersCache::modifier(QString name) const
+ChannelModifier *QLCModifiersCache::modifier(QString name)
 {
     return m_modifiers.value(name, NULL);
 }

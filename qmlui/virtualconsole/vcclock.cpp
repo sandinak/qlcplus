@@ -26,8 +26,6 @@
 #include "vcclock.h"
 #include "doc.h"
 
-/** ************** XML Tags and Attributes ************** */
-
 #define KXMLQLCVCClockEnabled   QStringLiteral("Enable")
 #define KXMLQLCVCClockType      QStringLiteral("Type")
 #define KXMLQLCVCClockTime      QStringLiteral("Time")
@@ -72,7 +70,7 @@ VCClock::~VCClock()
         delete m_item;
 }
 
-QString VCClock::defaultCaption() const
+QString VCClock::defaultCaption()
 {
     return tr("Clock %1").arg(id() + 1);
 }
@@ -110,7 +108,7 @@ QString VCClock::propertiesResource() const
     return QString("qrc:/VCClockProperties.qml");
 }
 
-VCWidget *VCClock::createCopy(VCWidget *parent) const
+VCWidget *VCClock::createCopy(VCWidget *parent)
 {
     Q_ASSERT(parent != nullptr);
 
@@ -178,7 +176,7 @@ VCClock::ClockType VCClock::clockType() const
     return m_clocktype;
 }
 
-QString VCClock::typeToString(VCClock::ClockType type) const
+QString VCClock::typeToString(VCClock::ClockType type)
 {
     if (type == Stopwatch)
         return "Stopwatch";
@@ -188,7 +186,7 @@ QString VCClock::typeToString(VCClock::ClockType type) const
         return "Clock";
 }
 
-VCClock::ClockType VCClock::stringToType(QString str) const
+VCClock::ClockType VCClock::stringToType(QString str)
 {
     if (str == "Stopwatch")
         return Stopwatch;
@@ -478,7 +476,7 @@ bool VCClock::loadXML(QXmlStreamReader &root)
     return true;
 }
 
-bool VCClock::saveXML(QXmlStreamWriter *doc) const
+bool VCClock::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != nullptr);
 
@@ -524,7 +522,7 @@ bool VCClock::saveXML(QXmlStreamWriter *doc) const
  * VCClockSchedule Class methods
  *********************************************************************/
 
-bool VCClockSchedule::operator<(const VCClockSchedule &sch) const
+bool VCClockSchedule::operator <(const VCClockSchedule &sch) const
 {
     if (sch.startTime() < startTime())
         return false;
@@ -581,7 +579,7 @@ bool VCClockSchedule::loadXML(QXmlStreamReader &root)
     return true;
 }
 
-bool VCClockSchedule::saveXML(QXmlStreamWriter *doc) const
+bool VCClockSchedule::saveXML(QXmlStreamWriter *doc)
 {
     /* Schedule tag */
     doc->writeStartElement(KXMLQLCVCClockSchedule);

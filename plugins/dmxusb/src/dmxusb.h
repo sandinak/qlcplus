@@ -25,7 +25,7 @@
 
 class DMXUSBWidget;
 
-class DMXUSB final : public QLCIOPlugin
+class DMXUSB : public QLCIOPlugin
 {
     Q_OBJECT
     Q_INTERFACES(QLCIOPlugin)
@@ -39,16 +39,16 @@ public:
     virtual ~DMXUSB();
 
     /** @reimp */
-    void init() override;
+    void init();
 
     /** @reimp */
-    QString name() const override;
+    QString name();
 
     /** @reimp */
-    int capabilities() const override;
+    int capabilities() const;
 
     /** @reimp */
-    QString pluginInfo() const override;
+    QString pluginInfo();
 
     /** Find out what kinds of widgets there are currently connected */
     bool rescanWidgets();
@@ -65,19 +65,19 @@ private:
      ************************************************************************/
 public:
     /** @reimp */
-    bool openOutput(quint32 output, quint32 universe) override;
+    bool openOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    void closeOutput(quint32 output, quint32 universe) override;
+    void closeOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    QStringList outputs() override;
+    QStringList outputs();
 
     /** @reimp */
-    QString outputInfo(quint32 output) override;
+    QString outputInfo(quint32 output);
 
     /** @reimp */
-    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged) override;
+    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged);
 
 private:
     /**
@@ -92,16 +92,16 @@ private:
      *************************************************************************/
 public:
     /** @reimp */
-    bool openInput(quint32 input, quint32 universe) override;
+    bool openInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    void closeInput(quint32 input, quint32 universe) override;
+    void closeInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    QStringList inputs() override;
+    QStringList inputs();
 
     /** @reimp */
-    QString inputInfo(quint32 input) override;
+    QString inputInfo(quint32 input);
 
 private:
     /**
@@ -116,17 +116,17 @@ private:
      ********************************************************************/
 public:
     /** @reimp */
-    void configure() override;
+    void configure();
 
     /** @reimp */
-    bool canConfigure() const override;
+    bool canConfigure();
 
     /********************************************************************
      * RDM
      ********************************************************************/
 public:
     /** @reimp */
-    bool sendRDMCommand(quint32 universe, quint32 line, uchar command, QVariantList params) override;
+    bool sendRDMCommand(quint32 universe, quint32 line, uchar command, QVariantList params);
 
 signals:
     void rdmValueChanged(quint32 universe, quint32 line, QVariantMap data);

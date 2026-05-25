@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-class AudioTriggerWidget_Test final : public QObject
+class AudioTriggerWidget_Test : public QObject
 {
     Q_OBJECT
 

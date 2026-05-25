@@ -25,7 +25,7 @@
 class HotPlugMonitor;
 class QListWidget;
 
-class HPMTest final : public QWidget
+class HPMTest : public QWidget
 {
     Q_OBJECT
 

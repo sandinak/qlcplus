@@ -257,7 +257,7 @@ Rectangle
               selectionColor: UISettings.highlightPressed
               selectByMouse: true
 
-              onTextEdited: functionManager.searchFilter = text
+              onTextChanged: functionManager.searchFilter = text
           }
       }
 
@@ -268,10 +268,10 @@ Rectangle
           height: fmContainer.height - topBar.height - (searchBox.visible ? searchBox.height : 0)
           z: 4
           boundsBehavior: Flickable.StopAtBounds
-          cacheBuffer: contentHeight
           Layout.fillHeight: true
 
           Component.onCompleted: contentY = functionManager.viewPosition
+
           property bool dragActive: false
 
           model: functionManager.functionsList
@@ -296,8 +296,9 @@ Rectangle
                           }
                           else
                           {
+                              console.log("Item path: " + path + ",label: " + label)
                               item.nodePath = Qt.binding(function() { return path })
-                              item.isExpanded = Qt.binding(function() { return isExpanded })
+                              item.isExpanded = isExpanded
                               item.nodeChildren = childrenModel
                               item.dropKeys = "function"
                           }
@@ -330,9 +331,7 @@ Rectangle
                                         functionManager.selectFolder(qItem.nodePath, mouseMods & Qt.ControlModifier)
                                 break;
                                 case App.DoubleClicked:
-                                    if (qItem === item && model.hasChildren)
-                                        model.isExpanded = !model.isExpanded
-                                    else if (allowEditing)
+                                    if (allowEditing)
                                         loadFunctionEditor(iID, iType)
                                     else
                                         fmContainer.doubleClicked(iID, iType)
@@ -431,7 +430,7 @@ Rectangle
                       }
                   }
               }
-      } // ListView
+        } // ListView
 
     } // ColumnLayout
 }

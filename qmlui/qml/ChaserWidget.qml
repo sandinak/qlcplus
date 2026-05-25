@@ -53,11 +53,7 @@ Column
     signal dragExited(var item)
     signal enterPressed(int index)
 
-    onPlaybackIndexChanged:
-    {
-        ceSelector.selectItem(playbackIndex, cStepsList.model, false)
-        cStepsList.currentIndex = playbackIndex
-    }
+    onPlaybackIndexChanged: ceSelector.selectItem(playbackIndex, cStepsList.model, false)
 
     function editStepTime(stepIndex, stepItem, type)
     {
@@ -105,11 +101,6 @@ Column
     function selectStep(stepIndex, multiSelect)
     {
         ceSelector.selectItem(stepIndex, cStepsList.model, multiSelect)
-    }
-
-    function resetStepSelection()
-    {
-        ceSelector.resetSelection(cStepsList.model)
     }
 
     ModelSelector
@@ -394,9 +385,6 @@ Column
         height: widgetRoot.height - chListHeader.height
         boundsBehavior: Flickable.StopAtBounds
         clip: true
-        preferredHighlightBegin: 0
-        preferredHighlightEnd: height / 2
-        highlightRangeMode: isRunning ? ListView.ApplyRange : ListView.NoHighlightRange
 
         property bool dragActive: false
         property int dragInsertIndex: -1
@@ -447,7 +435,7 @@ Column
 
                 property alias itemDelegate: csDelegate
 
-                Keys.onPressed: (event) =>
+                Keys.onPressed:
                 {
                     if (event.key === Qt.Key_Return ||
                         event.key === Qt.Key_Enter)
@@ -479,7 +467,7 @@ Column
                         if (model.isSelected)
                             return
 
-                        ceSelector.selectItem(index, cStepsList.model, mouse.modifiers)
+                        ceSelector.selectItem(index, cStepsList.model, mouse.modifiers & Qt.ControlModifier)
                         if (mouse.modifiers === 0)
                         {
                             widgetRoot.indexChanged(index)
@@ -593,7 +581,7 @@ Column
             }
             onPositionChanged: (drag) =>
             {
-                var idx = cStepsList.indexAt(drag.x, drag.y + cStepsList.contentY)
+                var idx = cStepsList.indexAt(drag.x, drag.y)
                 var item = cStepsList.itemAt(drag.x, drag.y)
                 var itemY = item.mapToItem(cStepsList, 0, 0).y
                 //console.log("Item index:" + idx)

@@ -2,24 +2,37 @@ project(scripts)
 
 set(SCRIPT_FILES
     alternate.js
+    aurora.js
     balls.js
     blinder.js
     circles.js
     circular.js
+    confetti.js
+    connectdots.js
     evenodd.js
+    eyes.js
     fill.js
     fillfromcenter.js
     fillunfill.js
     fillunfillfromcenter.js
     fillunfillsquaresfromcenter.js
+    fire.js
     fireworks.js
     flyingobjects.js
+    fractal.js
     gradient.js
+
+    juggle.js
     lines.js
+    lightning.js
+
     marquee.js
+    meteor.js
     noise.js
     onebyone.js
     opposite.js
+    ortholines.js
+    pacifica.js
     plasma.js
     randomcolumn.js
     randomfillcolumn.js
@@ -29,14 +42,23 @@ set(SCRIPT_FILES
     randompixelperrowmulticolor.js
     randomrow.js
     randomsingle.js
+    ribbons.js
+
+    ripple.js
+    shapes.js
+
+    sinelon.js
     sinewave.js
     snowbubbles.js
+    spark.js
+
     squares.js
     squaresfromcenter.js
     starfield.js
     stripes.js
     stripesfromcenter.js
     strobe.js
+    twinklefox.js
     verticalfall.js
     waves.js
 )
@@ -44,7 +66,7 @@ set(SCRIPT_FILES
 # Only perform the copy if we're building for Android
 if(ANDROID)
     # Define the destination directory for the script files within the Android package
-    set(SCRIPTS_ASSETS_DIR "${QT_ANDROID_PACKAGE_SOURCE_DIR}/${INSTALLROOT}/${RGBSCRIPTDIR}")
+    set(SCRIPTS_ASSETS_DIR "${ANDROID_PACKAGE_SOURCE_DIR}/${INSTALLROOT}/${RGBSCRIPTDIR}")
 
     # Create the scripts assets directory if it doesn't exist
     file(MAKE_DIRECTORY ${SCRIPTS_ASSETS_DIR})

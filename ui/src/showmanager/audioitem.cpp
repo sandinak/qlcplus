@@ -23,8 +23,6 @@
 #include <QDebug>
 #include <QMenu>
 
-#include <vector>
-
 #include "audioitem.h"
 #include "trackitem.h"
 #include "audiodecoder.h"
@@ -127,14 +125,14 @@ void AudioItem::setDuration(quint32 msec, bool stretch)
     // nothing to do
 }
 
-QString AudioItem::functionName() const
+QString AudioItem::functionName()
 {
     if (m_audio)
         return m_audio->name();
     return QString();
 }
 
-Audio *AudioItem::getAudio() const
+Audio *AudioItem::getAudio()
 {
     return m_audio;
 }
@@ -212,7 +210,7 @@ void PreviewThread::setAudioItem(AudioItem *item)
     m_item = item;
 }
 
-qint32 PreviewThread::getSample(unsigned char *data, quint32 idx, int sampleSize) const
+qint32 PreviewThread::getSample(unsigned char *data, quint32 idx, int sampleSize)
 {
     qint32 value = 0;
     if (sampleSize == 1)
@@ -264,7 +262,7 @@ void PreviewThread::run()
 
         // 2- decode the whole file and fill a QPixmap with a sample block RMS value for each pixel
         qint64 dataRead = 1;
-        std::vector<unsigned char> audioData(onePixelReadLen * 4);
+        unsigned char audioData[onePixelReadLen * 4];
         quint32 audioDataOffset = 0;
         QPixmap *preview = new QPixmap((50 * m_item->m_audio->totalDuration()) / 1000, 76);
         preview->fill(Qt::transparent);
@@ -286,7 +284,7 @@ void PreviewThread::run()
             quint32 tmpExceedData = 0;
             if (audioDataOffset < onePixelReadLen)
             {
-                dataRead = ad->read((char *)audioData.data() + audioDataOffset, onePixelReadLen * 2);
+                dataRead = ad->read((char *)audioData + audioDataOffset, onePixelReadLen * 2);
                 if (dataRead > 0)
                 {
                     if ((quint32)dataRead + audioDataOffset >= onePixelReadLen)
@@ -319,7 +317,7 @@ void PreviewThread::run()
                 {
                     if (left)
                     {
-                        qint32 sampleVal = getSample(audioData.data(), i, sampleSize);
+                        qint32 sampleVal = getSample(audioData, i, sampleSize);
                         rmsLeft += (sampleVal * sampleVal);
                     }
                     i += sampleSize;
@@ -328,7 +326,7 @@ void PreviewThread::run()
                     {
                         if (right)
                         {
-                            qint32 sampleVal = getSample(audioData.data(), i, sampleSize);
+                            qint32 sampleVal = getSample(audioData, i, sampleSize);
                             rmsRight += (sampleVal * sampleVal);
                         }
                         i += sampleSize;
@@ -382,7 +380,7 @@ void PreviewThread::run()
                 if (tmpExceedData > 0)
                 {
                     //qDebug() << "Exceed data found: " << tmpExceedData;
-                    memmove(audioData.data(), audioData.data() + onePixelReadLen, tmpExceedData);
+                    memmove(audioData, audioData + onePixelReadLen, tmpExceedData);
                     audioDataOffset = tmpExceedData;
                 }
                 else

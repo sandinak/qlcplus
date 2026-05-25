@@ -73,7 +73,7 @@ void OlaIO::init()
     setServerEmbedded(es);
 }
 
-QString OlaIO::name() const
+QString OlaIO::name()
 {
     return QString("OLA");
 }
@@ -148,7 +148,7 @@ QStringList OlaIO::outputs()
     return list;
 }
 
-QString OlaIO::pluginInfo() const
+QString OlaIO::pluginInfo()
 {
     QString str;
 
@@ -217,7 +217,7 @@ void OlaIO::configure()
     emit configurationChanged();
 }
 
-bool OlaIO::canConfigure() const
+bool OlaIO::canConfigure()
 {
     return true;
 }

@@ -34,7 +34,7 @@
  *  If the need arises, Universe::slotGMValueChanged() needs to be fixed (recompute
  *  all channels, for the case when mode is changed from AllChannels to Intensity)
  */
-class GrandMaster final : public QObject
+class GrandMaster: public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(GrandMaster)

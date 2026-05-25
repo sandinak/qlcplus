@@ -411,7 +411,11 @@ QByteArray Tardis::actionToByteArray(int code, quint32 objID, QVariant data)
 
 bool Tardis::processBufferedAction(int action, quint32 objID, QVariant &value)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    if (value.type() != QVariant::ByteArray)
+#else
     if (value.metaType().id() != QMetaType::QByteArray)
+#endif
     {
         qWarning("Action 0x%02X is not buffered!", action);
         return false;
@@ -1276,12 +1280,6 @@ int Tardis::processAction(TardisAction &action, bool undo)
             member(qobject_cast<VCWidget *>(m_virtualConsole->widget(action.m_objID)), value->value<QFont>());
         }
         break;
-        case VCWidgetZIndex:
-        {
-            auto member = std::mem_fn(&VCWidget::setZIndex);
-            member(qobject_cast<VCWidget *>(m_virtualConsole->widget(action.m_objID)), value->toInt());
-        }
-        break;
 
         case VCButtonSetActionType:
         {
@@ -1380,4 +1378,5 @@ int Tardis::processAction(TardisAction &action, bool undo)
 
     return action.m_action;
 }
+
 

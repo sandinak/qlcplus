@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class EFXPreviewArea_Test final : public QObject
+class EFXPreviewArea_Test : public QObject
 {
     Q_OBJECT
 

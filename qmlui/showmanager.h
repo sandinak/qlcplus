@@ -30,7 +30,6 @@ class Doc;
 class Track;
 class Function;
 class ShowFunction;
-class WaveformImageProvider;
 
 typedef struct
 {
@@ -39,7 +38,7 @@ typedef struct
     QQuickItem *m_item;
 } SelectedShowItem;
 
-class ShowManager final : public PreviewContext
+class ShowManager : public PreviewContext
 {
     Q_OBJECT
 
@@ -60,9 +59,8 @@ class ShowManager final : public PreviewContext
     Q_PROPERTY(int currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
 
     Q_PROPERTY(QVariant tracks READ tracks NOTIFY tracksChanged)
-    Q_PROPERTY(int selectedTrackId READ selectedTrackId WRITE setSelectedTrackId NOTIFY selectedTrackIdChanged)
+    Q_PROPERTY(int selectedTrackIndex READ selectedTrackIndex WRITE setSelectedTrackIndex NOTIFY selectedTrackIndexChanged)
     Q_PROPERTY(int selectedItemsCount READ selectedItemsCount NOTIFY selectedItemsCountChanged)
-    Q_PROPERTY(bool multipleSelection READ multipleSelection WRITE setMultipleSelection NOTIFY multipleSelectionChanged)
 
 public:
     explicit ShowManager(QQuickView *view, Doc *doc, QObject *parent = 0);
@@ -76,7 +74,7 @@ public:
     Show *currentShow() const;
 
     /** Flag to indicate if a Show is currently being edited */
-    bool isEditing() const;
+    bool isEditing();
 
     /** Set the ID of the Show Function to edit */
     void setCurrentShowID(int currentShowID);
@@ -88,7 +86,7 @@ public:
     void setShowName(QString showName);
 
     /** Reset the Show Manager contents to an initial state */
-    Q_INVOKABLE void resetContents();
+    void resetContents();
 
     /** Clear all the current items in the ShowManager view */
     Q_INVOKABLE void resetView();
@@ -144,9 +142,9 @@ private:
       ********************************************************************/
 public:
     /** Get/Set the Show time division */
-    Show::TimeDivision timeDivision() const;
+    Show::TimeDivision timeDivision();
     void setTimeDivision(Show::TimeDivision division);
-    int beatsDivision() const;
+    int beatsDivision();
 
     /** Get/Set the current time scale of the Show Manager timeline */
     float timeScale() const;
@@ -181,27 +179,27 @@ private:
       ********************************************************************/
 public:
     /** Return a list of Track objects suitable for QML */
-    QVariant tracks() const;
+    QVariant tracks();
 
-    /** Get/Set the selected track id */
-    int selectedTrackId() const;
-    void setSelectedTrackId(int id);
+    /** Get/Set the selected track index */
+    int selectedTrackIndex() const;
+    void setSelectedTrackIndex(int index);
 
     Q_INVOKABLE void setTrackSolo(int index, bool solo);
 
     /** Move the track with the provided index in the provided direction */
     Q_INVOKABLE void moveTrack(int index, int direction);
 
-    /** Delete the currently selected Show Track */
-    Q_INVOKABLE void deleteSelectedTrack();
-
 signals:
     void tracksChanged();
-    void selectedTrackIdChanged(int id);
+    void selectedTrackIndexChanged(int index);
 
 private:
+    /** A list of references to the selected Show Tracks */
+    QList <Track*> m_tracksList;
+
     /** The index of the currently selected track */
-    int m_selectedTrackId;
+    int m_selectedTrackIndex;
 
     /*********************************************************************
       * Show Items
@@ -263,21 +261,17 @@ public:
     /** Returns the number of the currently selected Show items */
     int selectedItemsCount() const;
 
-    /** Get/Set multi selection mode for Show items */
-    bool multipleSelection() const;
-    void setMultipleSelection(bool multipleSelection);
-
     /** Add an item to the selection tracking list */
-    Q_INVOKABLE void setItemSelection(int trackIdx, ShowFunction *sf, QQuickItem *item, bool selected, int keyModifiers);
+    Q_INVOKABLE void setItemSelection(int trackIdx, ShowFunction *sf, QQuickItem *item, bool selected);
 
     /** Deselect all the selected items at once */
     Q_INVOKABLE void resetItemsSelection();
 
-    Q_INVOKABLE QVariantList selectedItemRefs() const;
-    Q_INVOKABLE QStringList selectedItemNames() const;
+    Q_INVOKABLE QVariantList selectedItemRefs();
+    Q_INVOKABLE QStringList selectedItemNames();
 
     /** Returns true if at least one of the selected items is locked */
-    Q_INVOKABLE bool selectedItemsLocked() const;
+    Q_INVOKABLE bool selectedItemsLocked();
 
     /** Lock/Unlock all the currently selected items */
     Q_INVOKABLE void setSelectedItemsLock(bool lock);
@@ -299,12 +293,11 @@ private:
      *  start time and duration. Returns true if overlapping is
      *  detected, otherwise false */
     bool checkOverlapping(Track *track, ShowFunction *sourceFunc,
-                          quint32 startTime, quint32 duration) const;
+                          quint32 startTime, quint32 duration);
 
 signals:
     void itemsColorChanged(QColor itemsColor);
     void selectedItemsCountChanged(int count);
-    void multipleSelectionChanged();
 
 private:
     /** The background color for Show Items */
@@ -316,13 +309,8 @@ private:
     /** Holds the currently selected Show items */
     QList<SelectedShowItem> m_selectedItems;
 
-    /** Flag to enable multi selection in Show items */
-    bool m_multipleSelection;
-
     /** Holds the item currently ready for pasting */
     QList<SelectedShowItem> m_clipboard;
-
-    WaveformImageProvider *m_waveformProvider;
 };
 
 #endif // SHOWMANAGER_H

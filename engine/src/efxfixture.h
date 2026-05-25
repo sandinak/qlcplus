@@ -49,7 +49,7 @@ class QImage;
 #define KXMLQLCEFXFixtureModeDimmer     QStringLiteral("Dimmer")
 #define KXMLQLCEFXFixtureModeRGB        QStringLiteral("RGB")
 
-class EFXFixture final
+class EFXFixture
 {
     friend class EFX;
 

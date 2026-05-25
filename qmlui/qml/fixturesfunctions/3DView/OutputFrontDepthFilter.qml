@@ -31,6 +31,12 @@ TechniqueFilter
     {
         // Render cone
         renderStates: [
+            BlendEquation { blendFunction: BlendEquation.Add },
+            BlendEquationArguments
+            {
+                sourceRgb: BlendEquationArguments.One
+                destinationRgb: BlendEquationArguments.One
+            },
             CullFace { mode: CullFace.Back }
         ]
         LayerFilter

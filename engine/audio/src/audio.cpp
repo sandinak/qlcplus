@@ -246,7 +246,7 @@ void Audio::slotFunctionRemoved(quint32 fid)
  * Save & Load
  *********************************************************************/
 
-bool Audio::saveXML(QXmlStreamWriter *doc) const
+bool Audio::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 
@@ -371,7 +371,6 @@ void Audio::preRun(MasterTimer* timer)
         m_audio_out->adjustIntensity(m_volume * getAttributeValue(Intensity));
         m_audio_out->setFadeIn(elapsed() ? 0 : fadeIn);
         m_audio_out->setLooped(runOrder() == Audio::Loop);
-        m_audio_out->setUserStop(false);
         m_audio_out->start();
     }
 

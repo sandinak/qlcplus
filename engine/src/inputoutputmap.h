@@ -32,7 +32,6 @@ class QXmlStreamReader;
 class QXmlStreamWriter;
 class QElapsedTimer;
 class QLCInputSource;
-class AudioCapture;
 class QLCIOPlugin;
 class OutputPatch;
 class InputPatch;
@@ -48,7 +47,7 @@ class Doc;
 #define KXMLIOBeatType          QStringLiteral("BeatType")
 #define KXMLIOBeatsPerMinute    QStringLiteral("BPM")
 
-class InputOutputMap final : public QObject
+class InputOutputMap : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(InputOutputMap)
@@ -601,7 +600,7 @@ public:
 protected slots:
     void slotMasterTimerBeat();
     void slotPluginBeat(quint32 universe, quint32 channel, uchar value, const QString &key);
-    void slotProcessBeat();
+    void slotAudioSpectrum(double *spectrumBands, int size, double maxMagnitude, quint32 power);
 
 signals:
     void beatGeneratorTypeChanged();
@@ -612,7 +611,6 @@ private:
     BeatGeneratorType m_beatGeneratorType;
     int m_currentBPM;
     QElapsedTimer *m_beatTime;
-    AudioCapture *m_inputCapture;
 
     /*********************************************************************
      * Defaults

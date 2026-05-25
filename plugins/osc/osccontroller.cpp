@@ -17,12 +17,11 @@
   limitations under the License.
 */
 
+#include "osccontroller.h"
+
 #include <QMutexLocker>
 #include <QByteArray>
 #include <QDebug>
-
-#include "osccontroller.h"
-#include "utils.h"
 
 OSCController::OSCController(QString ipaddr, Type type, quint32 line, QObject *parent)
     : QObject(parent)
@@ -231,7 +230,12 @@ quint16 OSCController::getHash(QString path)
     else
     {
         /** No existing hash found. Add a new key to the table */
-        hash = Utils::getChecksum(path.toUtf8());
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        hash = qChecksum(path.toUtf8().data(), path.length());
+#else
+        QByteArrayView bav(path.toUtf8().data(), path.length());
+        hash = qChecksum(bav);
+#endif
         m_hashMap[path] = hash;
     }
 

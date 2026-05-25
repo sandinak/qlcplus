@@ -43,12 +43,6 @@
 #define KXMLQLCVCFrameShortcutPage  QStringLiteral("Page")
 #define KXMLQLCVCFrameShortcutName  QStringLiteral("Name")
 
-#define INPUT_NEXT_PAGE_ID      0
-#define INPUT_PREVIOUS_PAGE_ID  1
-#define INPUT_ENABLE_ID         2
-#define INPUT_COLLAPSE_ID       3
-#define INPUT_SHORTCUT_BASE_ID  20
-
 class VirtualConsole;
 
 class VCFrame : public VCWidget
@@ -75,23 +69,23 @@ public:
     virtual void initializeProperties();
 
     /** @reimp */
-    virtual QString defaultCaption() const override;
+    virtual QString defaultCaption();
 
     /** @reimp */
-    void setupLookAndFeel(qreal pixelDensity, int page) override;
+    void setupLookAndFeel(qreal pixelDensity, int page);
 
     /** @reimp */
-    virtual void render(QQuickView *view, QQuickItem *parent) override;
+    virtual void render(QQuickView *view, QQuickItem *parent);
 
     /** @reimp */
-    QString propertiesResource() const override;
+    QString propertiesResource() const;
 
     /** @reimp */
-    VCWidget *createCopy(VCWidget *parent) const override;
+    VCWidget *createCopy(VCWidget *parent);
 
 protected:
     /** @reimp */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
 protected:
     /** Reference to the Virtual Console, used to add new widgets */
@@ -106,11 +100,11 @@ public:
 
     /** Returns a list of the children widgets with the specified
      *  $recursive method */
-    QList<VCWidget *>children(bool recursive = false) const;
+    QList<VCWidget *>children(bool recursive = false);
 
     /** Add a new widget of type $wType at position $pos to this frame.
      *  $parent is used only to render the new widget */
-    Q_INVOKABLE VCWidget *addWidget(QQuickItem *parent, QString wType, QPoint pos);
+    Q_INVOKABLE void addWidget(QQuickItem *parent, QString wType, QPoint pos);
 
     /** Add an existing widget at position $pos to this frame.
      *  $parent is used only to render the new widget */
@@ -163,7 +157,7 @@ protected:
      *********************************************************************/
 public:
     /** @reimp */
-    void setDisabled(bool disable) override;
+    void setDisabled(bool disable);
 
     /*********************************************************************
      * Header
@@ -298,11 +292,11 @@ protected slots:
      *********************************************************************/
 public:
     /** @reimp */
-    void updateFeedback() override;
+    void updateFeedback();
 
 public slots:
     /** @reimp */
-    void slotInputValueChanged(quint8 id, uchar value) override;
+    void slotInputValueChanged(quint8 id, uchar value);
 
     /*********************************************************************
      * Load & Save
@@ -310,8 +304,8 @@ public slots:
 
 public:
     bool loadWidgetXML(QXmlStreamReader &root, bool render = false);
-    bool loadXML(QXmlStreamReader &root) override;
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool loadXML(QXmlStreamReader &root);
+    bool saveXML(QXmlStreamWriter *doc);
 
 protected:
     /** Can be overridden by subclasses */

@@ -404,11 +404,6 @@ uchar SimpleDesk::getAbsoluteChannelValue(uint address)
     }
 }
 
-bool SimpleDesk::isChannelOverridden(uint address)
-{
-    return m_engine->hasChannel(address);
-}
-
 void SimpleDesk::setAbsoluteChannelValue(uint address, uchar value)
 {
     if (address >= ((uint)m_doc->inputOutputMap()->universesCount() * 512))
@@ -1813,3 +1808,4 @@ bool SimpleDesk::saveXML(QXmlStreamWriter *doc) const
 
     return true;
 }
+

@@ -29,7 +29,7 @@
 class Doc;
 class VideoContent;
 
-class VideoProvider final : public QObject
+class VideoProvider: public QObject
 {
     Q_OBJECT
 public:
@@ -59,7 +59,7 @@ private:
     QQuickView *m_fullscreenContext;
 };
 
-class VideoContent final : public QObject
+class VideoContent: public QObject
 {
     Q_OBJECT
 
@@ -83,8 +83,12 @@ public slots:
     void slotAttributeChanged(int attrIndex, qreal value);
 
 protected slots:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    void slotMetaDataChanged(const QString &key, const QVariant &value);
+#else
     void slotDurationChanged(qint64 duration);
     void slotMetaDataChanged();
+#endif
     void slotWindowClosing();
 
 protected:

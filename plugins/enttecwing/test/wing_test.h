@@ -23,18 +23,18 @@
 #include <QObject>
 #include "wing.h"
 
-class WingStub final : public Wing
+class WingStub : public Wing
 {
     Q_OBJECT
 public:
     WingStub(QObject* parent, const QHostAddress& host, const QByteArray& ba);
     ~WingStub();
 
-    QString name() const override;
-    void parseData(const QByteArray& ba) override;
+    QString name() const;
+    void parseData(const QByteArray& ba);
 };
 
-class Wing_Test final : public QObject
+class Wing_Test : public QObject
 {
     Q_OBJECT
 

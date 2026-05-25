@@ -58,19 +58,19 @@ public:
     virtual ~VCAnimation();
 
     /** @reimp */
-    QString defaultCaption() const override;
+    QString defaultCaption();
 
     /** @reimp */
-    void setupLookAndFeel(qreal pixelDensity, int page) override;
+    void setupLookAndFeel(qreal pixelDensity, int page);
 
     /** @reimp */
-    void render(QQuickView *view, QQuickItem *parent) override;
+    void render(QQuickView *view, QQuickItem *parent);
 
     /** @reimp */
-    QString propertiesResource() const override;
+    QString propertiesResource() const;
 
     /** @reimp */
-    VCWidget *createCopy(VCWidget *parent) const override;
+    VCWidget *createCopy(VCWidget *parent);
 
     enum Visibility
     {
@@ -88,7 +88,7 @@ public:
 
 protected:
     /** @reimp */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
 private:
     FunctionParent functionParent() const;
@@ -97,7 +97,7 @@ private:
      * UI elements visibility
      *********************************************************************/
 public:
-    quint32 defaultVisibilityMask() const;
+    quint32 defaultVisibilityMask();
 
     /** Get/Set the widget's elements visibility bitmask */
     quint32 visibilityMask() const;
@@ -181,19 +181,19 @@ signals:
 
 public:
     /** @reimp */
-    void updateFeedback() override;
+    void updateFeedback();
 
 public slots:
     /** @reimp */
-    void slotInputValueChanged(quint8 id, uchar value) override;
+    void slotInputValueChanged(quint8 id, uchar value);
 
     /*********************************************************************
      * Load & Save
      *********************************************************************/
 
 public:
-    bool loadXML(QXmlStreamReader &root) override;
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool loadXML(QXmlStreamReader &root);
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 #endif

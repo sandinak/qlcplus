@@ -68,12 +68,12 @@ TrackItem::TrackItem(Track *track, int number)
             this, SLOT(slotDeleteTrackClicked()));
 }
 
-Track *TrackItem::getTrack() const
+Track *TrackItem::getTrack()
 {
     return m_track;
 }
 
-int TrackItem::getTrackNumber() const
+int TrackItem::getTrackNumber()
 {
     return m_number;
 }
@@ -91,7 +91,7 @@ void TrackItem::setActive(bool flag)
     update();
 }
 
-bool TrackItem::isActive() const
+bool TrackItem::isActive()
 {
     return m_isActive;
 }
@@ -103,7 +103,7 @@ void TrackItem::setFlags(bool solo, bool mute)
     update();
 }
 
-bool TrackItem::isMute() const
+bool TrackItem::isMute()
 {
     return m_isMute;
 }

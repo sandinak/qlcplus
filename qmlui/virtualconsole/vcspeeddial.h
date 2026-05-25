@@ -53,7 +53,6 @@ class VCSpeedDial : public VCWidget
     Q_PROPERTY(SpeedMultiplier currentFactor READ currentFactor WRITE setCurrentFactor NOTIFY currentFactorChanged FINAL)
 
     Q_PROPERTY(QVariant functionsList READ functionsList NOTIFY functionsListChanged)
-    Q_PROPERTY(QVariantList presetsList READ presetsList NOTIFY presetsListChanged)
 
     /*********************************************************************
      * Initialization
@@ -63,21 +62,19 @@ public:
     virtual ~VCSpeedDial();
 
     /** @reimp */
-    QString defaultCaption() const override;
+    QString defaultCaption();
 
     /** @reimp */
-    void setupLookAndFeel(qreal pixelDensity, int page) override;
+    void setupLookAndFeel(qreal pixelDensity, int page);
 
     /** @reimp */
-    void render(QQuickView *view, QQuickItem *parent) override;
+    void render(QQuickView *view, QQuickItem *parent);
 
     /** @reimp */
-    QString propertiesResource() const override;
-    QString presetsResource() const override;
-    bool supportsPresets() const override;
+    QString propertiesResource() const;
 
     /** @reimp */
-    VCWidget *createCopy(VCWidget *parent) const override;
+    VCWidget *createCopy(VCWidget *parent);
 
     enum Visibility
     {
@@ -122,7 +119,7 @@ public:
 
 protected:
     /** @reimp */
-    bool copyFrom(const VCWidget* widget) override;
+    bool copyFrom(const VCWidget* widget);
 
 private:
     void cacheMultipliers();
@@ -224,35 +221,9 @@ public:
 
 signals:
     void functionsListChanged();
-    void presetsListChanged();
 
 private:
     QMap<quint32, VCSpeedDialFunction> m_functions;
-
-    /*********************************************************************
-     * Presets
-     *********************************************************************/
-public:
-    /** Return a list suitable for the QML UI */
-    QVariantList presetsList();
-
-    /** Add a preset and return its assigned ID */
-    Q_INVOKABLE int addPreset(QString name, int value);
-    Q_INVOKABLE void removePreset(quint8 presetId);
-    Q_INVOKABLE void setPresetName(quint8 presetId, QString name);
-    Q_INVOKABLE void setPresetValue(quint8 presetId, int value);
-
-protected:
-    QList<class VCSpeedDialPreset*> presets() const;
-    void clearPresets();
-    class VCSpeedDialPreset *findPreset(quint8 presetId) const;
-
-private:
-    void addPresetInternal(class VCSpeedDialPreset *preset);
-
-private:
-    quint8 m_lastAssignedPresetId;
-    QList<class VCSpeedDialPreset*> m_presets;
 
     /*********************************************************************
      * External input
@@ -260,19 +231,19 @@ private:
 
 public:
     /** @reimp */
-    void updateFeedback() override;
+    void updateFeedback();
 
 public slots:
     /** @reimp */
-    void slotInputValueChanged(quint8 id, uchar value) override;
+    void slotInputValueChanged(quint8 id, uchar value);
 
     /*********************************************************************
      * Load & Save
      *********************************************************************/
 
 public:
-    bool loadXML(QXmlStreamReader &root) override;
-    bool saveXML(QXmlStreamWriter *doc) const override;
+    bool loadXML(QXmlStreamReader &root);
+    bool saveXML(QXmlStreamWriter *doc);
 };
 
 #endif

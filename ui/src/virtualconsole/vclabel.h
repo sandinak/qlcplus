@@ -35,7 +35,7 @@ class Doc;
 
 #define KXMLQLCVCLabel QStringLiteral("Label")
 
-class VCLabel final : public VCWidget
+class VCLabel : public VCWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY(VCLabel)
@@ -51,32 +51,32 @@ public:
      * Clipboard
      *********************************************************************/
 public:
-    VCWidget* createCopy(VCWidget* parent) const override;
+    VCWidget* createCopy(VCWidget* parent);
 
     /*********************************************************************
      * Properties
      *********************************************************************/
 public:
-    void editProperties() override;
+    void editProperties();
 
     /*****************************************************************************
      * External input
      *****************************************************************************/
     /** @reimp */
-    void updateFeedback() override { }
+    void updateFeedback() { }
 
     /*********************************************************************
      * Load & Save
      *********************************************************************/
 public:
-    bool loadXML(QXmlStreamReader &root) override;
-    bool saveXML(QXmlStreamWriter *doc) override;
+    bool loadXML(QXmlStreamReader &root);
+    bool saveXML(QXmlStreamWriter *doc);
 
     /*********************************************************************
      * Painting
      *********************************************************************/
 protected:
-    void paintEvent(QPaintEvent* e) override;
+    void paintEvent(QPaintEvent* e);
 };
 
 /** @} */

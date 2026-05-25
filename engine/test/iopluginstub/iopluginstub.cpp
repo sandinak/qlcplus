@@ -35,7 +35,7 @@ void IOPluginStub::init()
     m_universe = QByteArray(int(4 * 512), char(0));
 }
 
-QString IOPluginStub::name() const
+QString IOPluginStub::name()
 {
     return QString("I/O Plugin Stub");
 }
@@ -75,7 +75,7 @@ QStringList IOPluginStub::outputs()
 }
 
 
-QString IOPluginStub::pluginInfo() const
+QString IOPluginStub::pluginInfo()
 {
     return QString("This is a plugin stub for testing.");
 }
@@ -140,7 +140,7 @@ void IOPluginStub::configure()
     emit configurationChanged();
 }
 
-bool IOPluginStub::canConfigure() const
+bool IOPluginStub::canConfigure()
 {
     return m_canConfigure;
 }

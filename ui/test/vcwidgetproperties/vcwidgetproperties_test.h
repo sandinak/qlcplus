@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class VCWidgetProperties_Test final : public QObject
+class VCWidgetProperties_Test : public QObject
 {
     Q_OBJECT
 

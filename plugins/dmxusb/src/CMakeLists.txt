@@ -114,7 +114,6 @@ target_sources(${module_name} PRIVATE
     enttecdmxusbpro.cpp enttecdmxusbpro.h
     stageprofi.cpp stageprofi.h
     vinceusbdmx512.cpp vinceusbdmx512.h
-    usbdmxlegacy.cpp usbdmxlegacy.h
 )
 
 target_include_directories(${module_name} PRIVATE

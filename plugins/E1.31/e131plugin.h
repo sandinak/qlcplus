@@ -48,7 +48,7 @@ typedef struct _eio
 
 #define SETTINGS_IFACE_WAIT_TIME "E131Plugin/ifacewait"
 
-class E131Plugin final : public QLCIOPlugin
+class E131Plugin : public QLCIOPlugin
 {
     Q_OBJECT
     Q_INTERFACES(QLCIOPlugin)
@@ -62,16 +62,17 @@ public:
     virtual ~E131Plugin();
 
     /** @reimp */
-    void init() override;
+    void init();
 
     /** @reimp */
-    QString name() const override;
+    QString name();
 
     /** @reimp */
-    int capabilities() const override;
+    int capabilities() const;
 
     /** @reimp */
-    QString pluginInfo() const override;
+    QString pluginInfo();
+
 
 private:
     bool requestLine(quint32 line);
@@ -81,51 +82,51 @@ private:
      *********************************************************************/
 public:
     /** @reimp */
-    bool openOutput(quint32 output, quint32 universe) override;
+    bool openOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    void closeOutput(quint32 output, quint32 universe) override;
+    void closeOutput(quint32 output, quint32 universe);
 
     /** @reimp */
-    QStringList outputs() override;
+    QStringList outputs();
 
     /** @reimp */
-    QString outputInfo(quint32 output) override;
+    QString outputInfo(quint32 output);
 
     /** @reimp */
-    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged) override;
+    void writeUniverse(quint32 universe, quint32 output, const QByteArray& data, bool dataChanged);
 
     /*************************************************************************
      * Inputs
      *************************************************************************/
 public:
     /** @reimp */
-    bool openInput(quint32 input, quint32 universe) override;
+    bool openInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    void closeInput(quint32 input, quint32 universe) override;
+    void closeInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    QStringList inputs() override;
+    QStringList inputs();
 
     /** @reimp */
-    QString inputInfo(quint32 input) override;
+    QString inputInfo(quint32 input);
 
     /*********************************************************************
      * Configuration
      *********************************************************************/
 public:
     /** @reimp */
-    void configure() override;
+    void configure();
 
     /** @reimp */
-    bool canConfigure() const override;
+    bool canConfigure();
 
     /** @reimp */
-    void setParameter(quint32 universe, quint32 line, Capability type, QString name, QVariant value) override;
+    void setParameter(quint32 universe, quint32 line, Capability type, QString name, QVariant value);
 
     /** Get a list of the available Input/Output lines */
-    QList<E131IO> getIOMapping() const;
+    QList<E131IO> getIOMapping();
 
 private:
     /** Map of the E131 plugin Input/Output lines */

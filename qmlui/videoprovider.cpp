@@ -18,9 +18,11 @@
 */
 
 #include <QGuiApplication>
-#include <QMediaMetaData>
 #include <QQmlContext>
 #include <QScreen>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QMediaMetaData>
+#endif
 
 #include "videoprovider.h"
 #include "doc.h"
@@ -64,9 +66,6 @@ void VideoProvider::slotFunctionAdded(quint32 id)
 {
     Function *func = m_doc->function(id);
     if (func == nullptr || func->type() != Function::VideoType)
-        return;
-
-    if (m_videoMap.contains(id))
         return;
 
     Video *video = qobject_cast<Video *>(func);
@@ -158,10 +157,6 @@ void VideoContent::playContent()
     if (m_video->fullscreen())
         m_viewContext = m_provider->fullscreenContext();
 
-    QList<QScreen *> screens = QGuiApplication::screens();
-    if (m_video->screen() < screens.count())
-        vScreen = screens.at(m_video->screen());
-
     if (m_video->isPicture())
     {
         m_geometry.setSize(m_video->resolution());
@@ -175,6 +170,11 @@ void VideoContent::playContent()
 
     if (m_viewContext == nullptr)
     {
+        QList<QScreen *> screens = QGuiApplication::screens();
+
+        if (m_video->screen() < screens.count())
+            vScreen = screens.at(m_video->screen());
+
         m_viewContext = new QQuickView(QUrl("qrc:/VideoContext.qml"));
         m_viewContext->rootContext()->setContextProperty("videoContent", this);
 
@@ -195,10 +195,6 @@ void VideoContent::playContent()
 
         connect(m_viewContext, SIGNAL(closing(QQuickCloseEvent*)), this, SLOT(slotWindowClosing()));
     }
-    else
-    {
-        m_viewContext->rootContext()->setContextProperty("videoContent", this);
-    }
 
     if (m_video->isPicture())
     {
@@ -213,11 +209,9 @@ void VideoContent::playContent()
 
     m_viewContext->setFlags(m_viewContext->flags() | Qt::WindowStaysOnTopHint);
 
-    if (m_video->fullscreen())
+    if (vScreen && m_video->fullscreen())
     {
         m_provider->setFullscreenContext(m_viewContext);
-        if (vScreen)
-            m_viewContext->setScreen(vScreen);
         m_viewContext->showFullScreen();
     }
     else
@@ -251,8 +245,18 @@ void VideoContent::slotDetectResolution()
     {
         m_mediaPlayer = new QMediaPlayer();
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        connect(m_mediaPlayer, SIGNAL(metaDataChanged(QString,QVariant)),
+                    this, SLOT(slotMetaDataChanged(QString,QVariant)));
+
+        if (sourceURL.contains("://"))
+            m_mediaPlayer->setMedia(QUrl(sourceURL));
+        else
+            m_mediaPlayer->setMedia(QUrl::fromLocalFile(sourceURL));
+#else
         connect(m_mediaPlayer, SIGNAL(durationChanged(qint64)),
                 this, SLOT(slotDurationChanged(qint64)));
+
         connect(m_mediaPlayer, SIGNAL(metaDataChanged()),
                 this, SLOT(slotMetaDataChanged()));
 
@@ -260,6 +264,7 @@ void VideoContent::slotDetectResolution()
             m_mediaPlayer->setSource(QUrl(sourceURL));
         else
             m_mediaPlayer->setSource(QUrl::fromLocalFile(sourceURL));
+#endif
     }
 }
 
@@ -352,6 +357,20 @@ void VideoContent::slotAttributeChanged(int attrIndex, qreal value)
     }
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+void VideoContent::slotMetaDataChanged(const QString &key, const QVariant &value)
+{
+    if (key == "Resolution")
+    {
+        m_geometry.setSize(value.toSize());
+
+        disconnect(m_mediaPlayer, SIGNAL(metaDataChanged(QString,QVariant)),
+                    this, SLOT(slotMetaDataChanged(QString,QVariant)));
+        m_mediaPlayer->deleteLater();
+        m_mediaPlayer = nullptr;
+    }
+}
+#else
 void VideoContent::slotDurationChanged(qint64 duration)
 {
     m_video->setTotalDuration(duration);
@@ -373,6 +392,7 @@ void VideoContent::slotMetaDataChanged()
         }
     }
 }
+#endif
 
 void VideoContent::slotWindowClosing()
 {

@@ -27,7 +27,7 @@
 
 #define E131_PRIORITY_DEFAULT 100
 
-class E131Packetizer final
+class E131Packetizer
 {
     /*********************************************************************
      * Initialization

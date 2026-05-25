@@ -30,23 +30,18 @@ VCSoloFrameProperties::VCSoloFrameProperties(QWidget* parent, VCSoloFrame *frame
     setupSoloframeUi();
 
     // Setup state
-    m_sliderMixingCheckBox->setChecked(m_soloframe->soloframeMixing());
-    m_excludeMonitoredCheckBox->setChecked(m_soloframe->excludeMonitoredFunctions());
+    m_soloframeMixingCb->setChecked(m_soloframe->soloframeMixing());
 }
 
 void VCSoloFrameProperties::setupSoloframeUi()
 {
-    QGroupBox *groupBox = new QGroupBox(tab);
+    QGroupBox* groupBox = new QGroupBox(tab);
     new QVBoxLayout(groupBox);
     groupBox->setTitle(tr("Solo Frame properties"));
 
-    m_sliderMixingCheckBox = new QCheckBox(groupBox);
-    m_sliderMixingCheckBox->setText(tr("Mix sliders in playback mode"));
-    groupBox->layout()->addWidget(m_sliderMixingCheckBox);
-
-    m_excludeMonitoredCheckBox = new QCheckBox(groupBox);
-    m_excludeMonitoredCheckBox->setText(tr("Exclude Monitored Functions"));
-    groupBox->layout()->addWidget(m_excludeMonitoredCheckBox);
+    m_soloframeMixingCb = new QCheckBox(groupBox);
+    m_soloframeMixingCb->setText(tr("Mix sliders in playback mode"));
+    groupBox->layout()->addWidget(m_soloframeMixingCb);
 
     // insert groupBox before the vertical spacer
     tabLayout->insertWidget(tabLayout->count() - 1, groupBox);
@@ -58,8 +53,7 @@ VCSoloFrameProperties::~VCSoloFrameProperties()
 
 void VCSoloFrameProperties::accept()
 {
-    m_soloframe->setSoloframeMixing(m_sliderMixingCheckBox->isChecked());
-    m_soloframe->setExcludeMonitoredFunctions(m_excludeMonitoredCheckBox->isChecked());
+    m_soloframe->setSoloframeMixing(m_soloframeMixingCb->isChecked());
 
     VCFrameProperties::accept();
 }

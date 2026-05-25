@@ -29,7 +29,7 @@ class ChannelModifier;
  * @{
  */
 
-class QLCModifiersCache final
+class QLCModifiersCache
 {
 public:
     QLCModifiersCache();
@@ -47,14 +47,14 @@ public:
      * Return a list of strings containing the cached modifiers
      * template names.
      */
-    QList<QString> templateNames() const;
+    QList<QString> templateNames();
 
     /**
      * Get a modifier instance by name
      * @param name The modifier name
      * @return a pointer to the requested modifier or NULL if not found
      */
-    ChannelModifier* modifier(QString name) const;
+    ChannelModifier* modifier(QString name);
 
     /**
      * Get the default system channels modifiers directory that contains

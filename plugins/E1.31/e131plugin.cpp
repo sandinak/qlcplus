@@ -72,7 +72,7 @@ void E131Plugin::init()
     std::sort(m_IOmapping.begin(), m_IOmapping.end(), addressCompare);
 }
 
-QString E131Plugin::name() const
+QString E131Plugin::name()
 {
     return QString("E1.31");
 }
@@ -82,7 +82,7 @@ int E131Plugin::capabilities() const
     return QLCIOPlugin::Output | QLCIOPlugin::Input | QLCIOPlugin::Infinite;
 }
 
-QString E131Plugin::pluginInfo() const
+QString E131Plugin::pluginInfo()
 {
     QString str;
 
@@ -308,7 +308,7 @@ void E131Plugin::configure()
     conf.exec();
 }
 
-bool E131Plugin::canConfigure() const
+bool E131Plugin::canConfigure()
 {
     return true;
 }
@@ -366,7 +366,7 @@ void E131Plugin::setParameter(quint32 universe, quint32 line, Capability type,
     QLCIOPlugin::setParameter(universe, line, type, name, value);
 }
 
-QList<E131IO> E131Plugin::getIOMapping() const
+QList<E131IO> E131Plugin::getIOMapping()
 {
     return m_IOmapping;
 }

@@ -56,7 +56,7 @@ class Doc;
  * Properties
  *****************************************************************************/
 
-class VCProperties final
+class VCProperties
 {
 public:
     VCProperties();

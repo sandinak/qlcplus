@@ -67,7 +67,7 @@ quint32 DMXInterface::id() const
     return m_id;
 }
 
-quint8 DMXInterface::busLocation() const
+quint8 DMXInterface::busLocation()
 {
     return 0;
 }
@@ -82,7 +82,6 @@ bool DMXInterface::validInterface(quint16 vendor, quint16 product)
 
     if (product != DMXInterface::FTDIPID &&
         product != DMXInterface::FTDI2PID &&
-        product != DMXInterface::FTDI4PID &&
         product != DMXInterface::DMX4ALLPID &&
         product != DMXInterface::NANODMXPID &&
         product != DMXInterface::EUROLITEPID &&
@@ -93,7 +92,7 @@ bool DMXInterface::validInterface(quint16 vendor, quint16 product)
     return true;
 }
 
-bool DMXInterface::checkInfo(QString &serial, QString &name, QString &vendor) const
+bool DMXInterface::checkInfo(QString &serial, QString &name, QString &vendor)
 {
     if (m_serial == serial && m_name == name && m_vendor == vendor)
         return true;

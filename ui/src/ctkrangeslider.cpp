@@ -31,7 +31,7 @@
 // CTK includes
 #include "ctkrangeslider.h"
 
-class ctkRangeSliderPrivate final
+class ctkRangeSliderPrivate
 {
     Q_DECLARE_PUBLIC(ctkRangeSlider);
 protected:

@@ -469,22 +469,6 @@ Rectangle
             Layout.columnSpan: 4
             Layout.fillWidth: true
             paletteType: QLCPalette.PanTilt
-
-            onPositionTypeChanged:
-            {
-                switch (paletteType)
-                {
-                    case QLCPalette.Pan:
-                        updateValue(panDegrees / panPow)
-                    break
-                    case QLCPalette.Tilt:
-                        updateValue(tiltDegrees / tiltPow)
-                    break
-                    case QLCPalette.PanTilt:
-                        updateValues(panDegrees / panPow, tiltDegrees / tiltPow)
-                    break
-                }
-            }
         }
     } // GridLayout
 }

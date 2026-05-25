@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class AssignHotKey_Test final : public QObject
+class AssignHotKey_Test : public QObject
 {
     Q_OBJECT
 

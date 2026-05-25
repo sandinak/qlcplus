@@ -61,7 +61,7 @@ Rectangle
                 font.bold: true
                 selectByMouse: true
                 text: fixtureGroupEditor.groupName
-                onTextEdited: fixtureGroupEditor.groupName = text
+                onTextChanged: fixtureGroupEditor.groupName = text
             }
 
             Rectangle { color: "transparent"; Layout.fillWidth: true; }

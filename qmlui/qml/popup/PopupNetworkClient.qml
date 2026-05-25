@@ -94,7 +94,7 @@ CustomPopupDialog
 
                 Layout.fillWidth: true
                 text: hostname
-                onTextEdited: networkManager.hostName = text
+                onTextChanged: networkManager.hostName = text
             }
 
             // row 2
@@ -197,7 +197,7 @@ CustomPopupDialog
                 Layout.fillWidth: true
                 enabled: manualServerCheck.checked
                 text: popupRoot.serverAddress
-                onTextEdited: popupRoot.serverAddress = text
+                onTextChanged: popupRoot.serverAddress = text
             }
 
             Row

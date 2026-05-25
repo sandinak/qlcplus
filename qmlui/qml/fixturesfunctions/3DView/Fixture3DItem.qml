@@ -42,18 +42,18 @@ Entity
 
     property int meshType: MainView3D.NoMeshType
 
-    /* **************** Pan properties **************** */
+    /* **************** Pan/Tilt properties **************** */
     property real panMaxDegrees: 360
-    property bool invertedPan: false
-    property real panSpeed: 4000 // in milliseconds
-    property real panRotation: 0
-    property Transform panTransform
-
-    /* **************** Tilt properties **************** */
     property real tiltMaxDegrees: 270
+    property bool invertedPan: false
     property bool invertedTilt: false
+    property real panSpeed: 4000 // in milliseconds
     property real tiltSpeed: 4000 // in milliseconds
+
+    property real panRotation: 0
     property real tiltRotation: 0
+
+    property Transform panTransform
     property Transform tiltTransform
 
     /* **************** Focus properties **************** */
@@ -91,7 +91,6 @@ Entity
             case MainView3D.NoMeshType: return 0;
             case MainView3D.ParMeshType: return 0.389005 * transform.scale3D.x
             case MainView3D.MovingHeadMeshType: return 0.63663 * transform.scale3D.x
-            case MainView3D.ScannerMeshType: return 0.1 * transform.scale3D.x
         }
         console.log("UNSUPPORTED MESH TYPE " + meshType)
         return 0.5 * transform.scale3D.x
@@ -110,7 +109,10 @@ Entity
     /* ********************** Light matrices ********************** */
     property matrix4x4 lightMatrix
     property matrix4x4 lightViewMatrix:
-        Math3D.getLightViewMatrix(lightMatrix, panRotation, tiltRotation, lightPos)
+        Math3D.getLightViewMatrix(lightMatrix,
+                                  invertedPan ? panMaxDegrees - panRotation : panRotation,
+                                  invertedTilt ? tiltMaxDegrees - tiltRotation : tiltRotation,
+                                  lightPos)
     property matrix4x4 lightProjectionMatrix:
         Math3D.getLightProjectionMatrix(distCutoff, coneBottomRadius, coneTopRadius, headLength, cutoffAngle)
     property matrix4x4 lightViewProjectionMatrix: lightProjectionMatrix.times(lightViewMatrix)
@@ -128,13 +130,8 @@ Entity
         console.log("Binding pan ----")
         fixtureEntity.panTransform = t
         fixtureEntity.panMaxDegrees = maxDegrees
-        if (meshType == MainView3D.ScannerMeshType)
-        {
-            panRotation = 180 - (panMaxDegrees / 2)
-            coneTopRadius = 0.01 * transform.scale3D.x
-        }
         t.rotationY = Qt.binding(function() {
-            return panRotation
+            return invertedPan ? panMaxDegrees - panRotation : panRotation
         })
     }
 
@@ -145,7 +142,7 @@ Entity
         fixtureEntity.tiltMaxDegrees = maxDegrees
         tiltRotation = maxDegrees / 2
         t.rotationX = Qt.binding(function() {
-            return tiltRotation
+            return invertedTilt ? tiltMaxDegrees - tiltRotation : tiltRotation
         })
     }
 
@@ -174,28 +171,20 @@ Entity
     {
         if (panMaxDegrees)
         {
-            var basePanPos = (meshType == MainView3D.ScannerMeshType) ? (180 - (panMaxDegrees / 2)) : 0
-            var panDeg = (panMaxDegrees / 0xFFFF) * pan
-            var panTgtDeg = invertedPan ? basePanPos + panMaxDegrees - panDeg : basePanPos + panDeg
             panAnim.stop()
             panAnim.from = panRotation
-            panAnim.to = panTgtDeg
+            panAnim.to = (panMaxDegrees / 0xFFFF) * pan
             panAnim.duration = Math.max((panSpeed / panMaxDegrees) * Math.abs(panAnim.to - panAnim.from), 300)
             panAnim.start()
         }
 
         if (tiltMaxDegrees)
         {
-            var baseTiltPos = (meshType == MainView3D.ScannerMeshType) ? (90 - (tiltMaxDegrees / 2)) : tiltMaxDegrees / 2
-            var tiltDeg = (tiltMaxDegrees / 0xFFFF) * tilt
-            var tiltTgtDeg
-            if (meshType == MainView3D.ScannerMeshType)
-                tiltTgtDeg = invertedTilt ? baseTiltPos + tiltMaxDegrees - tiltDeg : baseTiltPos + tiltDeg
-            else
-                tiltTgtDeg = invertedTilt ? -baseTiltPos + tiltDeg : baseTiltPos - tiltDeg
             tiltAnim.stop()
             tiltAnim.from = tiltRotation
-            tiltAnim.to = tiltTgtDeg
+            var degTo = parseInt(((tiltMaxDegrees / 0xFFFF) * tilt) - (tiltMaxDegrees / 2))
+            //console.log("Tilt to " + degTo + ", max: " + tiltMaxDegrees)
+            tiltAnim.to = -degTo
             tiltAnim.duration = Math.max((tiltSpeed / tiltMaxDegrees) * Math.abs(tiltAnim.to - tiltAnim.from), 300)
             tiltAnim.start()
         }
@@ -214,12 +203,9 @@ Entity
         sAnimator.setShutter(type, low, high)
     }
 
-    function setZoom(value, degrees)
+    function setZoom(value)
     {
-        if (degrees)
-            cutoffAngle = (value / 2) * (Math.PI / 180.0)
-        else
-            cutoffAngle = (((((focusMaxDegrees - focusMinDegrees) / 255.0) * value) + focusMinDegrees) / 2.0) * (Math.PI / 180.0)
+        cutoffAngle = (((((focusMaxDegrees - focusMinDegrees) / 255.0) * value) + focusMinDegrees) / 2.0) * (Math.PI / 180.0)
     }
 
     function setupScattering(sceneEntity)
@@ -238,16 +224,6 @@ Entity
         outDepthCone.coneEffect = sceneEntity.outputFrontDepthEffect
         outDepthCone.parent = sceneEntity
         outDepthCone.spotlightConeMesh = sceneEntity.coneMesh
-    }
-
-    function cleanupScattering()
-    {
-        if (shadingCone)
-            shadingCone.destroy()
-        if (scatteringCone)
-            scatteringCone.destroy()
-        if (outDepthCone)
-            outDepthCone.destroy()
     }
 
     ShutterAnimator { id: sAnimator }
@@ -273,8 +249,8 @@ Entity
             height: 1024
             format: Texture.D32F
             generateMipMaps: false
-            magnificationFilter: Texture.Nearest
-            minificationFilter: Texture.Nearest
+            magnificationFilter: Texture.Linear
+            minificationFilter: Texture.Linear
             wrapMode
             {
                 x: WrapMode.ClampToEdge
@@ -359,4 +335,5 @@ Entity
 
     components: [ eSceneLoader, transform ]
 }
+
 

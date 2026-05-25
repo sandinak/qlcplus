@@ -35,7 +35,7 @@ class QXmlStreamWriter;
 #define KXMLQLCFixtureHead          QStringLiteral("Head")
 #define KXMLQLCFixtureHeadChannel   QStringLiteral("Channel")
 
-class QLCFixtureHead final
+class QLCFixtureHead
 {
 public:
     QLCFixtureHead();

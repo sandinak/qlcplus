@@ -26,46 +26,39 @@ import "."
 Slider
 {
     id: control
-
-    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            implicitHandleWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitHandleHeight + topPadding + bottomPadding)
-
+    orientation: Qt.Horizontal
     from: 0
     to: 100
 
     background:
         Rectangle
         {
-            x: control.leftPadding + (control.horizontal ? 0 : (control.availableWidth - width) / 2)
-            y: control.topPadding + (control.horizontal ? (control.availableHeight - height) / 2 : 0)
-            implicitWidth: control.horizontal ? 200 : UISettings.listItemHeight * 0.15
-            implicitHeight: control.horizontal ? UISettings.listItemHeight * 0.15 : 200
-            width: control.horizontal ? control.availableWidth : implicitWidth
-            height: control.horizontal ? implicitHeight : control.availableHeight
-            radius: control.horizontal ? height / 2 : width / 2
+            x: control.leftPadding
+            y: control.topPadding + control.availableHeight / 2 - height / 2
+            implicitWidth: 200
+            implicitHeight: UISettings.listItemHeight * 0.15
+            width: control.availableWidth
+            height: implicitHeight
+            radius: height / 2
             color: UISettings.bgLight
 
             Rectangle
             {
-                y: control.horizontal ? 0 : control.visualPosition * parent.height
-                width: control.horizontal ? control.position * parent.width : UISettings.listItemHeight * 0.15
-                height: control.horizontal ? UISettings.listItemHeight * 0.15 : control.position * parent.height
+                width: control.visualPosition * parent.width
+                height: parent.height
                 color: UISettings.highlight
-                radius: control.horizontal ? height / 2 : width / 2
+                radius: height / 2
             }
         }
 
     handle:
         Rectangle
         {
-            x: control.leftPadding + (control.horizontal ? control.visualPosition * (control.availableWidth - width) : (control.availableWidth - width) / 2)
-            y: control.topPadding + (control.horizontal ? (control.availableHeight - height) / 2 : control.visualPosition * (control.availableHeight - height))
+            x: control.leftPadding + control.visualPosition * (control.availableWidth - width)
+            y: control.topPadding + control.availableHeight / 2 - height / 2
             implicitWidth: UISettings.listItemHeight * 0.8
             implicitHeight: UISettings.listItemHeight * 0.8
             radius: implicitWidth / 5
-            color: UISettings.fgMain
         }
 
     Rectangle

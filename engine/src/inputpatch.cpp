@@ -45,6 +45,7 @@ InputPatch::InputPatch(QObject *parent)
     , m_prevPageCh(USHRT_MAX)
     , m_pageSetCh(USHRT_MAX)
 {
+
 }
 
 InputPatch::InputPatch(quint32 inputUniverse, QObject* parent)
@@ -57,6 +58,7 @@ InputPatch::InputPatch(quint32 inputUniverse, QObject* parent)
     , m_prevPageCh(USHRT_MAX)
     , m_pageSetCh(USHRT_MAX)
 {
+
 }
 
 InputPatch::~InputPatch()

@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class Cue_Test final : public QObject
+class Cue_Test : public QObject
 {
     Q_OBJECT
 

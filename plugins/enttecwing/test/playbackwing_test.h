@@ -24,7 +24,7 @@
 #include <QObject>
 
 class PlaybackWing;
-class PlaybackWing_Test final : public QObject
+class PlaybackWing_Test : public QObject
 {
     Q_OBJECT
 

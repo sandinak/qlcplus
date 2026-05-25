@@ -332,7 +332,7 @@ Chaser::SpeedMode Chaser::stringToSpeedMode(const QString& str)
  * Save & Load
  *****************************************************************************/
 
-bool Chaser::saveXML(QXmlStreamWriter *doc) const
+bool Chaser::saveXML(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != NULL);
 
@@ -341,9 +341,6 @@ bool Chaser::saveXML(QXmlStreamWriter *doc) const
 
     /* Common attributes */
     saveXMLCommon(doc);
-
-    /* Save Tempo type */
-    saveXMLTempoType(doc);
 
     /* Speed */
     saveXMLSpeed(doc);
@@ -423,10 +420,6 @@ bool Chaser::loadXML(QXmlStreamReader &root)
         {
             loadXMLRunOrder(root);
         }
-        else if (root.name() == KXMLQLCFunctionTempoType)
-        {
-            loadXMLTempoType(root);
-        }
         else if (root.name() == KXMLQLCChaserSpeedModes)
         {
             loadXMLSpeedModes(root);
@@ -448,7 +441,7 @@ bool Chaser::loadXML(QXmlStreamReader &root)
         else if (root.name() == KXMLQLCChaserLegacySequence)
         {
             doc()->appendToErrorLog(QString("<b>Unsupported sequences found</b>. Please convert your project "
-                                            "at <a href=https://www.qlcplus.org/sequence_migration.php>https://www.qlcplus.org/sequence_migration.php</a>"));
+                                            "at <a href=http://www.qlcplus.org/sequence_migration.php>http://www.qlcplus.org/sequence_migration.php</a>"));
             root.skipCurrentElement();
         }
         else
@@ -580,7 +573,7 @@ ChaserRunnerStep Chaser::currentRunningStep() const
     return ret;
 }
 
-bool Chaser::contains(quint32 functionId) const
+bool Chaser::contains(quint32 functionId)
 {
     Doc *doc = this->doc();
     Q_ASSERT(doc != NULL);
@@ -601,7 +594,7 @@ bool Chaser::contains(quint32 functionId) const
     return false;
 }
 
-QList<quint32> Chaser::components() const
+QList<quint32> Chaser::components()
 {
     QList<quint32> ids;
 

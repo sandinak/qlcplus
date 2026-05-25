@@ -40,7 +40,6 @@ Item
     property Item dragItem
 
     signal mouseEvent(int type, int iID, int iType, var qItem, int mouseMods)
-    signal overlappingEvent()
 
     Rectangle
     {
@@ -120,6 +119,7 @@ Item
         {
             fxDraggableItem.mouseEvent(App.Clicked, 0, 0, fxDraggableItem, mouse.modifiers)
         }
+
         onPressed: (mouse) =>
         {
             if (fxDraggableItem.isManufacturer == false)
@@ -131,14 +131,13 @@ Item
         }
         onPositionChanged: (mouse) =>
         {
-            if (fxDraggableItem.isManufacturer == false && drag.active === true)
+            if (fxDraggableItem.isManufacturer == false && drag.active == true)
                 FxDragJS.handleDrag(mouse)
         }
         onReleased: (mouse) =>
         {
-            if (fxDraggableItem.isManufacturer == false && drag.active === true)
-                if (FxDragJS.endDrag(mouse) === false)
-                    fxDraggableItem.overlappingEvent()
+            if (fxDraggableItem.isManufacturer == false && drag.active == true)
+                FxDragJS.endDrag(mouse)
         }
     }
 }

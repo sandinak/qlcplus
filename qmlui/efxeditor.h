@@ -28,7 +28,7 @@ class EFX;
 class ListModel;
 class FixtureGroup;
 
-class EFXEditor final : public FunctionEditor
+class EFXEditor : public FunctionEditor
 {
     Q_OBJECT
 
@@ -63,7 +63,7 @@ public:
     ~EFXEditor();
 
     /** Set the ID of the EFX to edit */
-    void setFunctionID(quint32 id) override;
+    void setFunctionID(quint32 id);
 
 protected slots:
     void slotAttributeChanged(int attrIndex, qreal fraction);

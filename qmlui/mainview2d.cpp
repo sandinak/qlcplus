@@ -73,19 +73,11 @@ void MainView2D::setUniverseFilter(quint32 universeFilter)
         it.next();
         quint32 itemID = it.key();
         QQuickItem *fxItem = it.value();
-        quint32 fixtureID = FixtureUtils::itemFixtureID(itemID);
+        quint32 fxID = FixtureUtils::itemFixtureID(itemID);
 
-        Fixture *fixture = m_doc->fixture(fixtureID);
+        Fixture *fixture = m_doc->fixture(fxID);
         if (fixture == nullptr)
             return;
-
-        int linkedIndex = FixtureUtils::itemLinkedIndex(itemID);
-        int headIdx = FixtureUtils::itemHeadIndex(itemID);
-        quint32 flags = m_monProps->fixtureFlags(fixtureID, headIdx, linkedIndex);
-
-        // skip hidden items
-        if (flags & MonitorProperties::HiddenFlag)
-            continue;
 
         if (universeFilter == Universe::invalid() || fixture->universe() == universeFilter)
             fxItem->setProperty("visible", "true");
@@ -411,9 +403,13 @@ void MainView2D::updateFixtureItem(Fixture *fixture, quint16 headIndex, quint16 
 
         //qDebug() << "Head" << headIdx << "dimmer channel:" << headDimmerChannel;
         qreal intensityValue = 1.0;
+        bool hasDimmer = false;
 
         if (headDimmerChannel != QLCChannel::invalid())
+        {
             intensityValue = (qreal)fixture->channelValueAt(headDimmerChannel) / 255;
+            hasDimmer = true;
+        }
 
         if (headDimmerChannel != masterDimmerChannel)
             intensityValue *= masterDimmerValue;
@@ -422,7 +418,7 @@ void MainView2D::updateFixtureItem(Fixture *fixture, quint16 headIndex, quint16 
                 Q_ARG(QVariant, headIdx),
                 Q_ARG(QVariant, intensityValue));
 
-        color = FixtureUtils::headColor(fixture, headIdx);
+        color = FixtureUtils::headColor(fixture, hasDimmer, headIdx);
 
         QMetaObject::invokeMethod(fxItem, "setHeadRGBColor",
                                   Q_ARG(QVariant, headIdx),
@@ -620,8 +616,6 @@ void MainView2D::updateFixtureRotation(quint32 itemID, QVector3D degrees)
             fxItem->setProperty("rotation", degrees.z());
         break;
         case MonitorProperties::LeftSideView:
-            fxItem->setProperty("rotation", -degrees.x());
-        break;
         case MonitorProperties::RightSideView:
             fxItem->setProperty("rotation", degrees.x());
         break;

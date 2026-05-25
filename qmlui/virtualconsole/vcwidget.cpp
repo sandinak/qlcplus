@@ -34,7 +34,6 @@ VCWidget::VCWidget(Doc *doc, QObject *parent)
     , m_type(UnknownWidget)
     , m_geometry(QRect(0,0,0,0))
     , m_scaleFactor(1.0)
-    , m_zIndex(0)
     , m_allowResize(true)
     , m_isDisabled(false)
     , m_isVisible(true)
@@ -51,16 +50,6 @@ VCWidget::VCWidget(Doc *doc, QObject *parent)
     , m_isEditing(false)
 {
     m_font = QFont("Roboto Condensed");
-}
-
-bool VCWidget::supportsPresets() const
-{
-    return false;
-}
-
-QString VCWidget::presetsResource() const
-{
-    return QString();
 }
 
 VCWidget::~VCWidget()
@@ -97,7 +86,7 @@ void VCWidget::enqueueTardisAction(int code, QVariant oldVal, QVariant newVal)
     tardis->enqueueAction(code, id(), oldVal, newVal);
 }
 
-VCWidget *VCWidget::createCopy(VCWidget *parent) const
+VCWidget *VCWidget::createCopy(VCWidget *parent)
 {
     Q_UNUSED(parent)
     return nullptr;
@@ -124,7 +113,6 @@ bool VCWidget::copyFrom(const VCWidget* widget)
 
     setGeometry(widget->geometry());
     setCaption(widget->caption());
-    setZIndex(widget->zIndex());
 
     m_allowResize = widget->m_allowResize;
 
@@ -189,7 +177,7 @@ void VCWidget::setType(int type)
     m_type = type;
 }
 
-int VCWidget::type() const
+int VCWidget::type()
 {
     return m_type;
 }
@@ -281,22 +269,6 @@ void VCWidget::setGeometry(QRectF rect)
     emit geometryChanged();
 }
 
-int VCWidget::zIndex() const
-{
-    return m_zIndex;
-}
-
-void VCWidget::setZIndex(int zIndex)
-{
-    if (m_zIndex == zIndex)
-        return;
-
-    enqueueTardisAction(Tardis::VCWidgetZIndex, QVariant(m_zIndex), QVariant(zIndex));
-
-    m_zIndex = zIndex;
-    emit zIndexChanged(zIndex);
-}
-
 qreal VCWidget::scaleFactor() const
 {
     return m_scaleFactor;
@@ -334,7 +306,7 @@ void VCWidget::setAllowResize(bool allowResize)
  * Disable state
  *********************************************************************/
 
-bool VCWidget::isDisabled() const
+bool VCWidget::isDisabled()
 {
     return m_isDisabled;
 }
@@ -371,7 +343,7 @@ bool VCWidget::isVisible() const
  * Caption
  *****************************************************************************/
 
-QString VCWidget::defaultCaption() const
+QString VCWidget::defaultCaption()
 {
     return QString();
 }
@@ -536,7 +508,7 @@ void VCWidget::setPage(int pNum)
     emit pageChanged(pNum);
 }
 
-int VCWidget::page() const
+int VCWidget::page()
 {
     return m_page;
 }
@@ -545,7 +517,7 @@ int VCWidget::page() const
  * Widget Function
  *********************************************************************/
 
-bool VCWidget::hasSoloParent() const
+bool VCWidget::hasSoloParent()
 {
     VCWidget *wParent = qobject_cast<VCWidget*>(parent());
 
@@ -561,13 +533,11 @@ bool VCWidget::hasSoloParent() const
     return false;
 }
 
-void VCWidget::notifyFunctionStarting(VCWidget *widget, quint32 fid,
-                                      qreal fIntensity, bool excludeMonitored)
+void VCWidget::notifyFunctionStarting(VCWidget *widget, quint32 fid, qreal fIntensity)
 {
     Q_UNUSED(widget)
-    Q_UNUSED(fid)
-    Q_UNUSED(fIntensity)
-    Q_UNUSED(excludeMonitored)
+    Q_UNUSED(fid);
+    Q_UNUSED(fIntensity);
 }
 
 /*********************************************************************
@@ -617,10 +587,6 @@ void VCWidget::setIsEditing(bool edit)
         return;
 
     m_isEditing = edit;
-
-    if (edit == false)
-        updateFeedback();
-
     emit isEditingChanged();
 }
 
@@ -962,7 +928,7 @@ QVariantList VCWidget::inputSourcesList()
         InputPatch *ip = m_doc->inputOutputMap()->inputPatch(source->universe());
         if (ip != nullptr && ip->profile() != nullptr)
         {
-            QLCInputChannel *ich = ip->profile()->channel(source->channel() & 0xFFFF);
+            QLCInputChannel *ich = ip->profile()->channel(source->channel());
             if (ich != nullptr && ich->type() == QLCInputChannel::Button)
                 supportCustomFeedback = true;
         }
@@ -1126,7 +1092,7 @@ bool VCWidget::loadXML(QXmlStreamReader &root)
     return false;
 }
 
-bool VCWidget::saveXML(QXmlStreamWriter *doc) const
+bool VCWidget::saveXML(QXmlStreamWriter *doc)
 {
     Q_UNUSED(doc)
     return false;
@@ -1227,8 +1193,6 @@ bool VCWidget::loadXMLWindowState(QXmlStreamReader &root, int* x, int* y,
         *y = attrs.value(KXMLQLCWindowStateY).toInt();
         *w = attrs.value(KXMLQLCWindowStateWidth).toInt();
         *h = attrs.value(KXMLQLCWindowStateHeight).toInt();
-        if (attrs.hasAttribute(KXMLQLCWindowStateZ))
-            setZIndex(attrs.value(KXMLQLCWindowStateZ).toInt());
 
         if (attrs.value(KXMLQLCWindowStateVisible).toString() == KXMLQLCTrue)
             *visible = true;
@@ -1351,7 +1315,7 @@ bool VCWidget::loadXMLSources(QXmlStreamReader &root, const quint8 &id)
     return true;
 }
 
-bool VCWidget::saveXMLCommon(QXmlStreamWriter *doc) const
+bool VCWidget::saveXMLCommon(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != nullptr);
 
@@ -1369,7 +1333,7 @@ bool VCWidget::saveXMLCommon(QXmlStreamWriter *doc) const
     return true;
 }
 
-bool VCWidget::saveXMLAppearance(QXmlStreamWriter *doc) const
+bool VCWidget::saveXMLAppearance(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != nullptr);
 
@@ -1424,7 +1388,7 @@ bool VCWidget::saveXMLAppearance(QXmlStreamWriter *doc) const
     return true;
 }
 
-bool VCWidget::saveXMLWindowState(QXmlStreamWriter *doc) const
+bool VCWidget::saveXMLWindowState(QXmlStreamWriter *doc)
 {
     Q_ASSERT(doc != nullptr);
 
@@ -1443,112 +1407,96 @@ bool VCWidget::saveXMLWindowState(QXmlStreamWriter *doc) const
     doc->writeAttribute(KXMLQLCWindowStateY, QString::number((int)r.y()));
     doc->writeAttribute(KXMLQLCWindowStateWidth, QString::number((int)r.width()));
     doc->writeAttribute(KXMLQLCWindowStateHeight, QString::number((int)r.height()));
-    if (zIndex() != 0)
-        doc->writeAttribute(KXMLQLCWindowStateZ, QString::number(zIndex()));
 
     doc->writeEndElement();
 
     return true;
 }
 
-bool VCWidget::saveXMLInputControl(QXmlStreamWriter *doc, quint8 controlId, bool unified, QString tagName) const
+bool VCWidget::saveXMLInputControl(QXmlStreamWriter *doc, quint8 controlId, bool unified, QString tagName)
 {
     Q_ASSERT(doc != nullptr);
 
-    // 1) Collect sources for this controlId
-    QVector<QSharedPointer<QLCInputSource>> sources;
-    sources.reserve(m_inputSources.size());
-    for (const QSharedPointer<QLCInputSource> &src : m_inputSources)
-    {
-        if (src && src->id() == controlId)
-            sources.append(src);
-    }
-
-    // 2) Collect keys for this controlId
-    QVector<QKeySequence> keys;
-    keys.reserve(m_keySequenceMap.size());
-    for (auto it = m_keySequenceMap.constBegin(); it != m_keySequenceMap.constEnd(); ++it)
-    {
-        if (it.value() == controlId)
-            keys.append(it.key());
-    }
-
-    if (sources.isEmpty() && keys.isEmpty())
-        return true;
-
     bool controlTagWritten = false;
-    if (!tagName.isEmpty())
-    {
-        doc->writeStartElement(tagName);
-        controlTagWritten = true;
-    }
+    bool inputTagWritten = false;
 
-    auto writeSourceAttrs = [&](const QSharedPointer<QLCInputSource> &source)
+    for (QSharedPointer<QLCInputSource> &source : m_inputSources) // C++11
     {
-        doc->writeAttribute(KXMLQLCVCWidgetInputUniverse, QString::number(source->universe()));
-        doc->writeAttribute(KXMLQLCVCWidgetInputChannel,  QString::number(source->channel()));
+        if (source->id() != controlId)
+            continue;
+
+        if (controlTagWritten == false && tagName.isEmpty() == false)
+        {
+            doc->writeStartElement(tagName);
+            controlTagWritten = true;
+        }
+
+        if (unified == false || (unified == true && inputTagWritten == false))
+        {
+            doc->writeStartElement(KXMLQLCVCWidgetInput);
+            doc->writeAttribute(KXMLQLCVCWidgetInputId, QString::number(controlId));
+            inputTagWritten = true;
+        }
+
+        doc->writeAttribute(KXMLQLCVCWidgetInputUniverse, QString("%1").arg(source->universe()));
+        doc->writeAttribute(KXMLQLCVCWidgetInputChannel, QString("%1").arg(source->channel()));
 
         if (source->feedbackValue(QLCInputFeedback::LowerValue) != 0)
-            doc->writeAttribute(KXMLQLCVCWidgetInputLowerValue,
-                                QString::number(source->feedbackValue(QLCInputFeedback::LowerValue)));
+            doc->writeAttribute(KXMLQLCVCWidgetInputLowerValue, QString::number(source->feedbackValue(QLCInputFeedback::LowerValue)));
         if (source->feedbackValue(QLCInputFeedback::UpperValue) != UCHAR_MAX)
-            doc->writeAttribute(KXMLQLCVCWidgetInputUpperValue,
-                                QString::number(source->feedbackValue(QLCInputFeedback::UpperValue)));
+            doc->writeAttribute(KXMLQLCVCWidgetInputUpperValue, QString::number(source->feedbackValue(QLCInputFeedback::UpperValue)));
         if (source->feedbackValue(QLCInputFeedback::MonitorValue) != UCHAR_MAX)
-            doc->writeAttribute(KXMLQLCVCWidgetInputMonitorValue,
-                                QString::number(source->feedbackValue(QLCInputFeedback::MonitorValue)));
+            doc->writeAttribute(KXMLQLCVCWidgetInputMonitorValue, QString::number(source->feedbackValue(QLCInputFeedback::MonitorValue)));
 
+        // save feedback extra params
         QVariant extraParams = source->feedbackExtraParams(QLCInputFeedback::LowerValue);
+
         if (extraParams.isValid() && extraParams.userType() == QMetaType::Int && extraParams.toInt() != -1)
             doc->writeAttribute(KXMLQLCVCWidgetInputLowerParams, QString::number(extraParams.toInt()));
 
         extraParams = source->feedbackExtraParams(QLCInputFeedback::UpperValue);
+
         if (extraParams.isValid() && extraParams.userType() == QMetaType::Int && extraParams.toInt() != -1)
             doc->writeAttribute(KXMLQLCVCWidgetInputUpperParams, QString::number(extraParams.toInt()));
 
         extraParams = source->feedbackExtraParams(QLCInputFeedback::MonitorValue);
+
         if (extraParams.isValid() && extraParams.userType() == QMetaType::Int && extraParams.toInt() != -1)
             doc->writeAttribute(KXMLQLCVCWidgetInputMonitorParams, QString::number(extraParams.toInt()));
-    };
+    }
 
-    if (unified == false)
+    auto i = m_keySequenceMap.constBegin();
+    while (i != m_keySequenceMap.constEnd())
     {
-        // Non-unified schema:
-        // <Input .../>
-        // <Key>...</Key>
+        if (i.value() != controlId)
+        {
+            ++i;
+            continue;
+        }
 
-        // Save input sources
-        for (const auto &src : sources)
+        if (controlTagWritten == false && tagName.isEmpty() == false)
+        {
+            doc->writeStartElement(tagName);
+            controlTagWritten = true;
+        }
+
+        if (unified == true && inputTagWritten == false)
         {
             doc->writeStartElement(KXMLQLCVCWidgetInput);
             doc->writeAttribute(KXMLQLCVCWidgetInputId, QString::number(controlId));
-            writeSourceAttrs(src);
-            doc->writeEndElement();
+            inputTagWritten = true;
         }
 
-        // Save key sequences
-        for (const auto &seq : keys)
-            doc->writeTextElement(KXMLQLCVCWidgetKey, seq.toString());
+        if (unified == false)
+            doc->writeTextElement(KXMLQLCVCWidgetKey, i.key().toString());
+        else
+            doc->writeAttribute(KXMLQLCVCWidgetKey, i.key().toString());
+
+        ++i;
     }
-    else
-    {
-        // Unified schema:
-        // <Input ... Key="..."/>
-        const int n = qMax(sources.size(), keys.size());
-        for (int i = 0; i < n; ++i)
-        {
-            doc->writeStartElement(KXMLQLCVCWidgetInput);
-            doc->writeAttribute(KXMLQLCVCWidgetInputId, QString::number(controlId));
 
-            if (i < sources.size())
-                writeSourceAttrs(sources[i]);
-
-            if (i < keys.size())
-                doc->writeAttribute(KXMLQLCVCWidgetKey, keys[i].toString());
-
-            doc->writeEndElement();
-        }
-    }
+    if (inputTagWritten)
+        doc->writeEndElement();
 
     if (controlTagWritten)
         doc->writeEndElement();

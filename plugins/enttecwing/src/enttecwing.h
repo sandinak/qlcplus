@@ -33,7 +33,7 @@ class QUdpSocket;
  * EWingInput
  *****************************************************************************/
 
-class EnttecWing final : public QLCIOPlugin
+class EnttecWing : public QLCIOPlugin
 {
     Q_OBJECT
     Q_INTERFACES(QLCIOPlugin)
@@ -44,19 +44,19 @@ class EnttecWing final : public QLCIOPlugin
      *************************************************************************/
 public:
     /** @reimp */
-    void init() override;
+    void init();
 
     /** @reimp */
     virtual ~EnttecWing();
 
     /** @reimp */
-    QString name() const override;
+    QString name();
 
     /** @reimp */
-    int capabilities() const override;
+    int capabilities() const;
 
     /** @reimp */
-    QString pluginInfo() const override;
+    QString pluginInfo();
 
     /** Attempt to bind the socket to listen to EWing::UDPPort */
     bool reBindSocket();
@@ -66,38 +66,39 @@ public:
      *************************************************************************/
 public:
     /** @reimp */
-    bool openInput(quint32 input, quint32 universe) override;
+    bool openInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    void closeInput(quint32 input, quint32 universe) override;
+    void closeInput(quint32 input, quint32 universe);
 
     /** @reimp */
-    QStringList inputs() override;
+    QStringList inputs();
 
     /** @reimp */
-    QString inputInfo(quint32 input) override;
+    QString inputInfo(quint32 input);
 
     /** @reimp */
-    void sendFeedBack(quint32 universe, quint32 input, quint32 channel, uchar value, const QVariant &params) override;
+    void sendFeedBack(quint32 universe, quint32 input, quint32 channel, uchar value, const QVariant &params);
 
     /*************************************************************************
      * Outputs
      *************************************************************************/
 public:
     /** @reimp */
-    QStringList outputs() override;
+    QStringList outputs();
 
     /*************************************************************************
      * Configuration
      *************************************************************************/
 public:
     /** @reimp */
-    void configure() override;
+    void configure();
 
     /** @reimp */
-    bool canConfigure() const override;
+    bool canConfigure();
 
 signals:
+    /** @reimp */
     void configurationChanged();
 
     /*************************************************************************
@@ -119,10 +120,10 @@ protected:
                             const QByteArray& data);
 
     /** Find a specific device by its host address and type */
-    Wing* device(const QHostAddress& address, Wing::Type type) const;
+    Wing* device(const QHostAddress& address, Wing::Type type);
 
     /** Find a device by its index (input line) */
-    Wing* device(quint32 index) const;
+    Wing* device(quint32 index);
 
     /** Add a newly-created device to the plugin's list of devices */
     void addDevice(Wing* device);

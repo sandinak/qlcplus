@@ -39,7 +39,7 @@
     being received by the application.
 
     The class is <b>read-only</b>. */
-class QHttpRequest final : public QObject
+class QHttpRequest : public QObject
 {
     Q_OBJECT
 
