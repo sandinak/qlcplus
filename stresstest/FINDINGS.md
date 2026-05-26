@@ -129,14 +129,15 @@ blackout-flap, channel-spray; 97 rounds):
   freed by  Doc::deleteFunction (doc.cpp:1093  delete func)      [edit thread]
   read by   MasterTimer::timerTickFunctions (mastertimer.cpp:353) [timer thread]
   ```
-  `stopAllFunctions()` before the delete is **not** sufficient (the runningâ‰¤count
-  check and the delete aren't atomic with the tick loop), and deleted objects
-  also leave dangling references in Collections/Chasers/Shows/FixtureGroups.
-  Safe deletion needs the timer **stopped** *and* referential cleanup — which
-  the app performs at the UI/design-mode layer, but the engine API is not
-  defensive. Relevant for anything driving runtime edits (web API, OSC,
-  scripts). Reproduce with `qlcstress engine --mode chaos --chaos-aggressive`.
-  (Not fixed: hardening this is an engine-concurrency change for upstream.)
+  `stopAllFunctions()` before the delete is **not** sufficient (the
+  `runningFunctions()==0` check and the delete aren't atomic with the tick
+  loop), and deleted objects also leave dangling references in
+  Collections/Chasers/Shows/FixtureGroups. Relevant for anything driving runtime
+  edits (web API, OSC, scripts). Reproduce with
+  `qlcstress engine --mode chaos --chaos-aggressive`.
+  **FIXED on branch `fix/runtime-deletion-uaf`** (recursive function-list lock
+  held across the tick + `MasterTimer::removeFunction()`, delete on the Doc
+  thread; `Scene` value-map locking; `Collection` running-children cleanup).
 
 ## Bugs / obstacles surfaced
 
